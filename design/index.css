@@ -1,0 +1,69 @@
+/* ROOT */
+
+:root {
+    /* Colors */
+    --header-color: #ffffff;
+    --main-color: #d0fdd7;
+    --footer-color: #2a8c4a;
+
+    --primary-color: #64c27b;
+    --secondary-color: #9bfab0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* overflow: hidden; */
+}
+
+.body {
+    display: block;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* ROOT */
+
+
+/* HEADER */
+
+.haeder {
+    background-color: var(--header-color);
+    width: 100%;
+    height: 8%;
+}
+
+/* HEADER */
+
+
+/* MAIN */
+
+.main {
+    background-color: var(--main-color);
+    width: 100%;
+    height: 86%;
+}
+
+/* HEADER */
+
+
+/* FOOTER */
+
+.footer {
+    display: flex;
+    background-color: var(--footer-color);
+    width: 100%;
+    height: 6%;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer__p {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--header-color);
+}
+
+/* FOOTER */
