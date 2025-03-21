@@ -4,9 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VetApp</title>
-    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="../index.css">
+    <link rel="stylesheet" href="../cross-components/header/header.css">
+    <link rel="stylesheet" href="../cross-components/footer/footer.css">
+    <script src="https://kit.fontawesome.com/33c5bb1d43.js" crossorigin="anonymous"></script>
+    <script src="../cross-components/header/header.js"></script>
 </head>
 <body class="body">
-    <h1>Hello World</h1>
+    <header class="haeder">
+        <figure class="logo">
+            <img class="logo__image" src="../../src/assets/logo-huella-hoja.jpg" alt="VetApp">
+            <label class="logo__label">VetApp</label>
+        </figure>
+        <button class="fa-solid fa-circle-user header__button--menu" onclick="menuOpenHandler('Mascotas')"></button>
+        <nav id="nav" class="nav">
+            <div class="nav__button">
+                <button class="fa-solid fa-xmark nav__button--close" onclick="menuCloseHandler()"></button>
+            </div>
+            <ul class="nav__ul">
+                <a class="nav__ul--link" href="">Perfil</a>
+                <a class="nav__ul--link" id="link-page" href="">Xxxxxx</a>
+                <a class="nav__ul--link" href="">Turnos</a>
+                <button class="fa-solid fa-right-from-bracket nav__ul--logout nav__ul--link"></button>
+            </ul>
+        </nav>
+    </header>
+    <main class="main">
+        <h1 class="main__title">Turnos</h1>
+        <div class="main__content">
+            <div class="main__content--filter">
+                <h2>Filtros</h2>
+                <div class="filter">
+
+                </div>
+            </div>
+            <div class="main__content--data">
+                <p>content</p>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <p class="footer__p">VetApp - derechos reservados</p>
+    </footer>
 </body>
 </html>
