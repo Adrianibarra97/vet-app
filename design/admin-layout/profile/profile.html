@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="../../index.css">
     <link rel="stylesheet" href="../../cross-components/header/header.css">
     <link rel="stylesheet" href="../../cross-components/footer/footer.css">
+    <link rel="stylesheet" href="../../cross-components/main-component/main-component.css">
+    <link rel="stylesheet" href="../../cross-components/turn-filter/turn-filter.css">
+    <link rel="stylesheet" href="../../cross-components/grid-component/grid-component.css">
     <script src="https://kit.fontawesome.com/33c5bb1d43.js" crossorigin="anonymous"></script>
     <script src="../../cross-components/header/header.js"></script>
 </head>
@@ -16,31 +19,26 @@
             <img class="logo__image" src="../../../src/assets/logo-huella-hoja.jpg" alt="VetApp">
             <label class="logo__label">VetApp</label>
         </figure>
-        <button class="fa-solid fa-circle-user header__button--menu" onclick="menuOpenHandler('Mascotas')"></button>
+        <button class="fa-solid fa-circle-user header__button--menu" onclick="menuOpenHandler('Pacientes')"></button>
         <nav id="nav" class="nav">
             <div class="nav__button">
                 <button class="fa-solid fa-xmark nav__button--close" onclick="menuCloseHandler()"></button>
             </div>
             <ul class="nav__ul">
-                <a class="nav__ul--link" href="">Perfil</a>
-                <a class="nav__ul--link" id="link-page" href="">Xxxxxx</a>
-                <a class="nav__ul--link" href="">Turnos</a>
+                <a class="nav__ul--link" href="../profile/profile.html">Perfil</a>
+                <a class="nav__ul--link" id="link-page" href="../patients/patients.html">Xxxxxx</a>
+                <a class="nav__ul--link" href="../turn/turn.html">Turnos</a>
                 <button class="fa-solid fa-right-from-bracket nav__ul--logout nav__ul--link"></button>
             </ul>
         </nav>
     </header>
     <main class="main">
-        <h1 class="main__title">Turnos</h1>
+        <h1 class="main__title">Perfil</h1>
         <div class="main__content">
             <div class="main__content--filter">
-                <h2>Filtros</h2>
-                <div class="filter">
-
-                </div>
+                <h2>Datos del Usuario</h2>
             </div>
-            <div class="main__content--data">
-                <p>content</p>
-            </div>
+            <div class="main__content--data"></div>
         </div>
     </main>
     <footer class="footer">
