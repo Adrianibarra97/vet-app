@@ -1,10 +1,22 @@
 :root {
     /* Colors */
-    --header-color: #ffffff;
+    /* --header-color: #ffffff;
     --main-color: #d0fdd7;
     --footer-color: #2a8c4a;
     --primary-color: #64c27b;
-    --secondary-color: #9bfab0;
+    --secondary-color: #9bfab0; */
+
+    /* --header-color: #ffffff;
+    --main-color: #FBFFE4;
+    --footer-color: #3D8D7A;
+    --primary-color: #A3D1C6;
+    --secondary-color: #B3D8A8; */
+
+    --header-color: #ffffff;
+    --main-color: #F1F8E8;
+    --footer-color: #55AD9B;
+    --primary-color: #95D2B3;
+    --secondary-color: #D8EFD3;
 }
 
 * {
