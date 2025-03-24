@@ -21,11 +21,10 @@
 .logo__image {
     display: flex;
     width: 30%;
-    height: 100%;
+    height: auto;
     font-size: 2.7em;
     color: var(--main-color);
     justify-content: center;
-    align-items: center;
 }
 
 .logo__label {
