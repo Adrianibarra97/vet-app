@@ -63,6 +63,7 @@
     left: 0;
     background-color: var(--footer-color);
     align-items: center;
+    z-index: 900;
 }
 
 .nav__button {
