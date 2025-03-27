@@ -13,7 +13,7 @@
     <script src="https://kit.fontawesome.com/33c5bb1d43.js" crossorigin="anonymous"></script>
     <script src="../../cross-components/header/header.js"></script>
 </head>
-<body class="body">
+<body class="body scroll--style">
     <header class="haeder">
         <figure class="logo">
             <i class="fa-solid fa-paw logo__image"></i>
@@ -36,19 +36,21 @@
         <h1 class="main__title">Mis Mascotas</h1>
         <div class="main__content">
             <div class="main__content--filter">
-                <h2>Filtros</h2>
-                <div class="filter">
-                    <div class="filter__item">
-                        <label class="filter__item--size filter__item--font">Nombre</label>
-                        <input class="filter__item--background" type="text">
-                    </div>
-                    <div class="filter__item">
-                        <label class="filter__item--size filter__item--font">Con turno</label>
-                        <input class="filter__item--color" type="checkbox">
-                    </div>
-                    <div class="filter__item">
-                        <label class="filter__item--size filter__item--font">Vac. Pendiente</label>
-                        <input class="filter__item--color" type="checkbox">
+                <div class="content__filter">
+                    <h2>Filtros</h2>
+                    <div class="filter">
+                        <div class="filter__item">
+                            <label class="filter__item--size filter__item--font">Nombre</label>
+                            <input class="filter__item--background" type="date">
+                        </div>
+                        <div class="filter__item">
+                            <label class="filter__item--size filter__item--font">Con turno</label>
+                            <input class="filter__item--color" type="checkbox">
+                        </div>
+                        <div class="filter__item">
+                            <label class="filter__item--size filter__item--font">Vac. Pendiente</label>
+                            <input class="filter__item--color" type="checkbox">
+                        </div>
                     </div>
                 </div>
             </div>
