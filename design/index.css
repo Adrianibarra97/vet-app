@@ -19,6 +19,7 @@
     display: block;
     height: 100vh;
     width: 100vw;
+    overflow-y: scroll;
 }
 
 .scroll--style {

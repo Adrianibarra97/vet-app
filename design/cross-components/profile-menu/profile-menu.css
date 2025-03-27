@@ -1,0 +1,7 @@
+.menu {
+    display: block;
+    
+    width: 90%;
+    height: 80%;
+    border: 1px solid red;
+}

@@ -7,7 +7,6 @@
     gap: 1em;
     place-items: center;
     align-items: start;
-    overflow-y: scroll;
 }
 
 .data__section {

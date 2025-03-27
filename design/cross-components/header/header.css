@@ -125,11 +125,18 @@
 
 @media screen and (min-width: 1024px) {
     .nav {
-        left: 85%;
-        width: 15%;
+        left: 75%;
+        width: 25%;
     }
 
     .nav__ul--link {
         font-size: 1.8em;
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    .nav {
+        left: 80%;
+        width: 20%;
     }
 }
