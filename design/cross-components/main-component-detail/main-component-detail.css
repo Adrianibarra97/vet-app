@@ -1,0 +1,249 @@
+.main-detail {
+    display: flex;
+    flex-direction: column;
+    background-image: url("../../../src/assets/background-pet-detail.png");
+    background-size: 100% 100%;
+    background-repeat: repeat;
+    background-position: center center;
+    width: 100%;
+    min-height: 86%;
+    align-items: center;
+}
+
+.detail--title {
+    display: flex;
+    width: 100%;
+    height: 8vh;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.title__item {
+    font-size: 2em;
+    font-weight: bolder;
+}
+
+.detail-content {
+    display: flex;
+    flex-direction: column; 
+    width: 100%;
+    min-height: 78vh;
+}
+
+.content__data {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 64vh;
+    padding: 0.2em 0;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.content__data2 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--footer-color);
+    border-radius: 0.7em;
+    background-color: var(--header-color);
+}
+
+.data__image {
+    display: flex;  
+    width: 90%;
+    height: 30vh;
+    border: 1.5px solid var(--footer-color);
+    box-shadow: 2px 1px 10px var(--footer-color);
+    border-radius: 1em;
+}
+
+.data_image--size {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.data__detail {
+    display: block;
+    width: 95%;
+    height: auto;
+    border: 1px solid var(--footer-color);
+    border-radius: 0.5em;
+    background-color: var(--main-color);
+}
+
+.detail--data {
+    display: flex;
+    width: 100%;
+    height: 8vh;
+}
+
+.data__item, .data__item--title {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    font-size: 1.2em;
+    font-weight: bolder;
+    justify-content: center;
+    align-items: center;
+}
+
+.data__item--title {
+    width: 100%;
+    font-size: 1.6em;
+}
+
+.content__data2--title {
+    display: flex;
+    font-size: 2.2em;
+    background-color: var(--main-color);
+    justify-content: center;
+    align-items: center;
+    color: var(--footer-color);
+    -webkit-text-stroke-width: 0.75px;
+    -webkit-text-stroke-color: black;
+}
+
+.content__data2--section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.content--title {
+    display: flex;
+    width: 100%;
+    height: 7vh;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--main-color);
+}
+
+.content--selection {
+    width: 11em;
+    height: 2em;
+    font-size: 1.1em;
+    border-radius: 0.4em;
+    border: 1px solid var(--footer-color);
+    outline: none;
+}
+
+.conten--data {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    height: 70vh;
+    padding: 1em 0;
+    gap: 1em;
+    place-items: center;
+    overflow-y: scroll;
+}
+
+.scroll__detail--style::-webkit-scrollbar {
+	width: 0.3rem;
+}
+  
+.scroll__detail--style::-webkit-scrollbar-thumb {
+	background-color: var(--footer-color);
+    border-radius: 0.5em;
+}
+
+.content__data--item {
+    display: block;
+    width: 90%;
+    height: 17em;
+    background-color: var(--header-color);
+    border: 1px solid var(--footer-color);
+    border-radius: 0.5em;
+    box-shadow: 0.5px 0.5px 2px var(--footer-color);
+}
+
+@media screen and (min-width: 768px) {
+    .detail-content {
+        padding: 0.5em;
+    }
+
+    .content__data {
+        flex-direction: row;
+        padding: 0em;
+        width: 100%;
+        height: 40vh;
+
+    }
+    
+    .content__data2 {
+        width: 100%;
+        min-height: 70vh;
+    }
+
+    .conten--data {
+        grid-template-columns: repeat(2, 1fr);
+        height: 62vh;
+    }
+
+    .data__image {
+        width: 45%;
+    }
+
+    .data__detail {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .detail-content {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .content__data {
+        flex-direction: column;
+        width: 40%;
+        height: 76vh;
+    }
+    
+    .content__data2 {
+        width: 60%;
+        min-height: 76vh;
+    }
+
+    .data__image {
+        height: 40vh;
+        width: 90%;
+    }
+
+    .data__detail {
+        width: 90%;
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    .data__image {
+        height: 40vh;
+        width: 70%;
+    }
+
+    .data__item {
+        font-size: 1.6em;
+    }
+
+    .data__item--title {
+        font-size: 2.1em;
+    }
+
+    .content--selection {
+        font-size: 1.3em;
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    .conten--data {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

@@ -1,0 +1,35 @@
+:root {
+    --header-color: #ffffff;
+    --main-color: #F1F8E8;
+    --footer-color: #55AD9B;
+    --primary-color: #95D2B3;
+    --secondary-color: #D8EFD3;
+    --font-color: #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+}
+
+.body {
+    display: block;
+    height: 100vh;
+    width: 100vw;
+    overflow-y: scroll;
+}
+
+.scroll--style {
+	background-color: var(--primary-color);
+}
+
+.scroll--style::-webkit-scrollbar {
+	width: 0.1rem;
+}
+  
+.scroll--style::-webkit-scrollbar-thumb {
+	background-color: var(--footer-color);
+}
