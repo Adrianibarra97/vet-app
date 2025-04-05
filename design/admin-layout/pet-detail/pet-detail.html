@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetApp</title>
+    <link rel="stylesheet" href="../../index.css">
+    <link rel="stylesheet" href="../../cross-components/header/header.css">
+    <link rel="stylesheet" href="../../cross-components/footer/footer.css">
+    <link rel="stylesheet" href="../../cross-components/main-component-detail/main-component-detail.css">
+    <script src="https://kit.fontawesome.com/33c5bb1d43.js" crossorigin="anonymous"></script>
+    <script src="../../cross-components/header/header.js"></script>
+</head>
+<body class="body scroll--style">
+    <header class="haeder">
+        <figure class="logo">
+            <i class="fa-solid fa-paw logo__image"></i>
+            <label class="logo__label">VetApp</label>
+        </figure>
+        <button class="fa-solid fa-circle-user header__button--menu" onclick="menuOpenHandler('Pacientes')"></button>
+        <nav id="nav" class="nav">
+            <div class="nav__button">
+                <button class="fa-solid fa-xmark nav__button--close" onclick="menuCloseHandler()"></button>
+            </div>
+            <ul class="nav__ul">
+                <a class="nav__ul--link" href="../profile/profile.html">Perfil</a>
+                <a class="nav__ul--link" id="link-page" href="../patients/patients.html">Xxxxxx</a>
+                <a class="nav__ul--link" href="../turn/turn.html">Turnos</a>
+                <button class="fa-solid fa-right-from-bracket nav__ul--logout nav__ul--link"></button>
+            </ul>
+        </nav>
+    </header>
+    <main class="main-detail">
+        <div class="detail--title">
+            <p class="title__item">Tobby</p>
+            <p class="title__item">10 Años</p>
+        </div>
+        <div class="detail-content">
+            <div class="content__data">
+                <figure class="data__image">
+                    <img class="data_image--size" src="../../../src/assets/logo-huella-hoja.jpg" alt="">
+                </figure>
+                <div class="data__detail">
+                    <div class="detail--data">
+                        <p class="data__item">Tobby</p>
+                        <p class="data__item">10 Años</p>
+                    </div>
+                    <div class="detail--data">
+                        <p class="data__item">Tobby</p>
+                        <p class="data__item">10 Años</p>
+                    </div>
+                    <div class="detail--data">
+                        <p class="data__item">Tobby</p>
+                        <p class="data__item">10 Años</p>
+                    </div>
+                </div>
+            </div>
+            <div class="content__data2">
+                <h2 class="content__data2--title">Medical History</h2>
+                <div class="content__data2--section">
+                    <div class="content--title">
+                        <select class="content--selection" default = "one">
+                            <option value="one">one</option>
+                            <option value="two">two</option>
+                            <option value="three">three</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <p class="footer__p">VetApp - derechos reservados</p>
+    </footer>
+</body>
+</html>

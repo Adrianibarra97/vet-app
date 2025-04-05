@@ -1,0 +1,144 @@
+.main-detail {
+    display: flex;
+    flex-direction: column;
+    background-image: url("../../../src/assets/background-pet-detail.png");
+    background-size: 100% 100%;
+    background-repeat: repeat;
+    background-position: center center;
+    width: 100%;
+    min-height: 86%;
+    align-items: center;
+}
+
+.detail--title {
+    display: flex;
+    width: 100%;
+    height: 8vh;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.title__item {
+    font-size: 2em;
+    font-weight: bolder;
+}
+
+.detail-content {
+    display: flex;
+    flex-direction: column; 
+    width: 100%;
+    min-height: 78vh;
+}
+
+.content__data {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 60vh;
+    /* border: 2px solid red; */
+    align-items: center;
+    justify-content: center;
+}
+
+.content__data2 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 80vh;
+    /* border: 2px solid blue; */
+}
+
+.data__image {
+    display: flex;  
+    width: 90%;
+    height: 30vh;
+    border: 1.5px solid var(--footer-color);
+    box-shadow: 2px 1px 10px var(--footer-color);
+    border-radius: 1em;
+}
+
+.data_image--size {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.data__detail {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.detail--data {
+    display: flex;
+    width: 100%;
+    height: 8vh;
+}
+
+.data__item {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    font-size: 1.4em;
+    font-weight: bolder;
+    justify-content: center;
+    align-items: center;
+}
+
+.content__data2--title {
+    display: flex;
+
+    font-size: 2em;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid black; */
+}
+
+
+@media screen and (min-width: 768px) {
+    .content__data {
+        flex-direction: row;
+        padding: 1em;
+        width: 100%;
+        height: 50vh;
+    }
+    
+    .content__data2 {
+        width: 100%;
+        height: 80vh;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .detail-content {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .content__data {
+        flex-direction: column;
+        width: 40%;
+        height: 78vh;
+    }
+    
+    .content__data2 {
+        width: 60%;
+        height: 78vh;
+    }
+
+    .data__image {
+        height: 40vh;
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    .data__image {
+        height: 45vh;
+        width: 80%;
+    }
+
+    .data__item {
+        font-size: 1.7em;
+    }
+}
