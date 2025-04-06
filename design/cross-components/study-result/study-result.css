@@ -1,0 +1,12 @@
+.study__result--container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.study__result--label {
+    font-weight: bolder;
+    padding: 0.2em;
+}
