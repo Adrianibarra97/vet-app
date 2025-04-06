@@ -2,12 +2,16 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: 85%;
+    padding: 0 0.5em;
 }
 
-.vaccine__data--container {
-    height: 40%;
+.vaccine__data {
+    display: flex;
     width: 100%;
+    height: 20%;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .vaccine__description--container {
@@ -17,16 +21,25 @@
 
 .vaccine__item {
     display: flex;
-    justify-content: space-between;
-    padding: 0.1em;
-}
-
-.vaccine--label {
-    font-weight: bolder;
-}
-
-.vaccine__description--label {
-    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 50%;
     justify-content: center;
-    padding: 0.2em;
+    align-items: flex-start;
+}
+
+.vaccine__item--description {
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: justify;
+}
+
+.vaccine__item--label {
+    font-size: 1.1em;
+    font-weight: bolder
+}
+
+.vaccine__item--p {
+    font-size: 0.9em;
 }

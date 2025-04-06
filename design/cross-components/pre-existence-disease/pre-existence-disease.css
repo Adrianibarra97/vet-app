@@ -2,28 +2,33 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: 85%;
+    padding: 0 0.5em;
 }
 
-.disease__item--name {
+.disease__item {
     display: flex;
     flex-direction: column;
-    height: 25%;
     width: 100%;
-    align-items: center;
     justify-content: center;
 }
 
+.disease__item--name {
+    height: 20%;
+}
+
 .disease__item-description {
-    display: flex;
-    flex-direction: column;
-    height: 75%;
-    width: 100%;
+    height: 80%;
     align-items: center;
     justify-content: flex-start;
-    padding: 0.2em;
+    text-align: justify;
 }
 
 .disease__item--label {
-    font-weight: bolder;
+    font-size: 1.1em;
+    font-weight: bolder
+}
+
+.disease__item--p {
+    font-size: 0.9em;
 }

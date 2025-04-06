@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     background-image: url("../../../src/assets/background-pet-detail.png");
-    background-size: 100% 100%;
+    background-size: 101% 101%;
     background-repeat: repeat;
     background-position: center center;
     width: 100%;
@@ -104,7 +104,7 @@
     align-items: center;
     color: var(--footer-color);
     -webkit-text-stroke-width: 0.75px;
-    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-color: var(--font-color);
 }
 
 .content__data2--section {
@@ -134,7 +134,7 @@
     outline: none;
 }
 
-.conten--data {
+.content--data {
     display: grid;
     grid-template-columns: 1fr;
     width: 100%;
@@ -164,6 +164,37 @@
     box-shadow: 0.5px 0.5px 2px var(--footer-color);
 }
 
+.recipe__item--title {
+    display: flex;
+    width: 100%;
+    height: 15%;
+    padding: 0 1em;
+    align-items: center;
+    background-color: var(--main-color);
+    color: var(--footer-color);
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: var(--font-color);
+}
+
+.recipe--title {
+    display: flex;
+    width: 80%;
+    height: 100%;
+    font-size: 1.5em;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.recipe--logo {
+    display: flex !important;
+    width: 20% !important;
+    height: 100% !important;
+    font-size: 1.7em !important;
+    color: var(--footer-color) !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+}
+
 @media screen and (min-width: 768px) {
     .detail-content {
         padding: 0.5em;
@@ -182,7 +213,7 @@
         min-height: 70vh;
     }
 
-    .conten--data {
+    .content--data {
         grid-template-columns: repeat(2, 1fr);
         height: 62vh;
     }
@@ -243,7 +274,7 @@
 }
 
 @media screen and (min-width: 1500px) {
-    .conten--data {
+    .content--data {
         grid-template-columns: repeat(3, 1fr);
     }
 }
