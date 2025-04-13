@@ -41,10 +41,10 @@ interface CustomTextFieldProps {
           '&.Mui-focused fieldset': {
             borderColor: 'var(--primary-color)',
           },
-          backgroundColor: disabled ? '#f0f0f0' : 'white',
+          backgroundColor: disabled ? '#f0f0f0' : 'var(--main-color)',
         },
         '& input': {
-          color: 'black',
+          color: 'var(--font-color)',
           padding: '0.8em',
           fontSize: '1em',
         },

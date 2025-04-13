@@ -27,7 +27,7 @@ export const FormSection = ({
   onSave,
   onCancel,
 }: FormSectionProps) => (
-  <Box sx={{ mb: '2em', backgroundColor: 'white', p: '2em', borderRadius: '0.5em' }}>
+  <Box sx={{ mb: '2em', backgroundColor: 'var(--main-color)', p: '2em', borderRadius: '0.5em' }}>
 <Box
   sx={{
     display: 'flex',

@@ -18,9 +18,7 @@ export const UserFormComponent = () => {
     emailProfesional: '',
     telefonoLaboral: '',
     direccionLaboral: '',
-    horarioAtencion: '',
-    campoExtra1: '',
-    campoExtra2: '',
+    horarioAtencion: ''
   };
 
   const [data, setData] = useState(initialData);
@@ -53,9 +51,7 @@ export const UserFormComponent = () => {
       'emailProfesional',
       'telefonoLaboral',
       'direccionLaboral',
-      'horarioAtencion',
-      'campoExtra1',
-      'campoExtra2',
+      'horarioAtencion'
     ] as const;
     if (validateFields([...profKeys])) {
       setEditableProfesional(false);
@@ -87,7 +83,7 @@ export const UserFormComponent = () => {
   return (
     <Grid container spacing={2} sx={{ px: 3 }}>
       <Grid item xs={0} md={3} />
-      <Grid item xs={12} md={9}>
+      <Grid item xs={12} md={13}>
         <Box component="form" noValidate autoComplete="off">
           <FormSection
             title="Información Personal"
@@ -106,9 +102,7 @@ export const UserFormComponent = () => {
               'emailProfesional',
               'telefonoLaboral',
               'direccionLaboral',
-              'horarioAtencion',
-              'campoExtra1',
-              'campoExtra2',
+              'horarioAtencion'
             ])}
             editable={editableProfesional}
             onToggleEdit={() => setEditableProfesional(true)}
