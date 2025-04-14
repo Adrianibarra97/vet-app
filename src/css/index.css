@@ -13,6 +13,7 @@
     box-sizing: border-box;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow: hidden;
+
 }
 
 .body {
@@ -20,10 +21,11 @@
     height: 100vh;
     width: 100vw;
     overflow-y: scroll;
+    background-color: var(--main-color);
 }
 
 .scroll--style {
-	background-color: var(--primary-color);
+	background-color: var(--main-color);
 }
 
 .scroll--style::-webkit-scrollbar {
