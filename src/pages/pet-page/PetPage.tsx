@@ -7,7 +7,6 @@ import { Pet } from '../../domain/Pet'
 import { Filter } from '../../domain/Filter'
 
 import './PetPage.css'
-import './Main.css'
 
 interface TitleProp {
   name: string
