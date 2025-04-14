@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 
 import { PetGrid } from '../../components/pet-grid/PetGrid'
+import { PetFilter } from '../../components/pet-filter/PetFilter'
 
 import { Pet } from '../../domain/Pet'
+import { Filter } from '../../domain/Filter'
 
 import './PetPage.css'
 import './Main.css'
-import './PetFilter.css'
-
-
 
 interface TitleProp {
   name: string
@@ -149,7 +148,14 @@ const petsDTO = [
   }
 ];
 
-
+const filterValues = new Filter(
+  'Por fecha',
+  'date',
+  'Hoy',
+  'checkbox',
+  'Esta semana',
+  'checkbox',
+)
 
 export const PetPage = (titleProp: TitleProp) => {
 
@@ -180,27 +186,7 @@ export const PetPage = (titleProp: TitleProp) => {
       <h1 className="main__title">{ titleProp.name }</h1>
       <div className="main__content">
         <div className="main__content--filter">
-          
-
-          <div className="content__filter">
-            <h2>Filtros</h2>
-            <div className="filter">
-              <div className="filter__item">
-                <label className="filter__item--size filter__item--font">Por fecha</label>
-                <input className="filter__item--color" type={ "date" } />
-              </div>
-              <div className="filter__item">
-                <label className="filter__item--size filter__item--font">Hoy</label>
-                <input className="filter__item--color" type={ "checkbox" } />
-              </div>
-              <div className="filter__item">
-                <label className="filter__item--size filter__item--font">Esta semana</label>
-                <input className="filter__item--color" type={ "checkbox" } />
-              </div>
-            </div>
-          </div>
-
-
+          <PetFilter filter={ filterValues }/>
         </div>
         <div className="main__content--data">
           <PetGrid pets={ pets } />
