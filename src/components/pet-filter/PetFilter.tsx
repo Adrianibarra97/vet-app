@@ -1,4 +1,5 @@
 import { Filter } from '../../domain/Filter'
+import { FilterItem } from '../filter-item/FilterItem'
 
 import './PetFilter.css'
 
@@ -12,18 +13,9 @@ export const PetFilter = (filterValues: PropFilterValues) => {
     <div className="content__filter">
       <h2>Filtros</h2>
       <div className="filter">
-        <div className="filter__item">
-          <label className="filter__item--size filter__item--font">{ filterValues.filter.firstLabel }</label>
-          <input className="filter__item--color" type={ filterValues.filter.firstType } />
-        </div>
-        <div className="filter__item">
-          <label className="filter__item--size filter__item--font">{ filterValues.filter.secondtLabel }</label>
-          <input className="filter__item--color" type={ filterValues.filter.secondType } />
-        </div>
-        <div className="filter__item">
-          <label className="filter__item--size filter__item--font">{ filterValues.filter.thirdLabel }</label>
-          <input className="filter__item--color" type={ filterValues.filter.thirdType } />
-        </div>
+        <FilterItem label= { filterValues.filter.firstLabel } inputType={ filterValues.filter.firstType }/>
+        <FilterItem label= { filterValues.filter.secondtLabel } inputType={ filterValues.filter.secondType }/>
+        <FilterItem label= { filterValues.filter.thirdLabel } inputType={ filterValues.filter.thirdType }/>
       </div>
     </div>
   )
