@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 
+import { PetGrid } from '../../components/pet-grid/PetGrid'
+
 import { Pet } from '../../domain/Pet'
 
 import './PetPage.css'
 import './Main.css'
-import './MedicalShift.css'
-import './Grid.css'
-import { PetCard } from '../../components/pet-card/PetCard'
+import './PetFilter.css'
+
 
 
 interface TitleProp {
@@ -148,6 +149,8 @@ const petsDTO = [
   }
 ];
 
+
+
 export const PetPage = (titleProp: TitleProp) => {
 
   const [pets, setPets] = useState(new Array<Pet>())
@@ -179,41 +182,28 @@ export const PetPage = (titleProp: TitleProp) => {
         <div className="main__content--filter">
           
 
-        <div className="content__filter">
-          <h2>Filtros</h2>
-          <div className="filter">
-            <div className="filter__item">
-              <label className="filter__item--size filter__item--font">Por fecha</label>
-              <input className="filter__item--background" type="text" />
-            </div>
-            <div className="filter__item">
-              <label className="filter__item--size filter__item--font">Hoy</label>
-              <input className="filter__item--color" type="checkbox" />
-            </div>
-            <div className="filter__item">
-              <label className="filter__item--size filter__item--font">Esta semana</label>
-              <input className="filter__item--color" type="checkbox" />
+          <div className="content__filter">
+            <h2>Filtros</h2>
+            <div className="filter">
+              <div className="filter__item">
+                <label className="filter__item--size filter__item--font">Por fecha</label>
+                <input className="filter__item--color" type={ "date" } />
+              </div>
+              <div className="filter__item">
+                <label className="filter__item--size filter__item--font">Hoy</label>
+                <input className="filter__item--color" type={ "checkbox" } />
+              </div>
+              <div className="filter__item">
+                <label className="filter__item--size filter__item--font">Esta semana</label>
+                <input className="filter__item--color" type={ "checkbox" } />
+              </div>
             </div>
           </div>
-        </div>
 
 
         </div>
         <div className="main__content--data">
-
-
-          <div id="content" className="content">
-            {
-              pets.length > 0 ?
-                pets.map((pet: Pet) => {
-                  return (<PetCard pet = { pet } />)
-                })
-              :
-              <p>No hay información para mostrar!</p>
-            }
-          </div>
-
-
+          <PetGrid pets={ pets } />
         </div>
       </div>
     </main>
