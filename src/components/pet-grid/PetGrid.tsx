@@ -16,7 +16,7 @@ export const PetGrid = (propPets: PropPets) => {
       {
         propPets.pets.length > 0 ?
           propPets.pets.map((pet: Pet) => {
-            return (<PetCard pet = { pet } />)
+            return (<PetCard key={ pet.id.toString() } pet={ pet } />)
           })
         :
         <ErrorMessage errorMessage="No hay información para mostrar!" />
