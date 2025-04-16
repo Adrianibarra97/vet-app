@@ -1,116 +1,110 @@
-import { Box, Grid } from '@mui/material';
+import {  Stack,Button, Typography, TextField, Grid, Box, IconButton} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
-import { FormSection } from './Form-section';
 
-export const UserFormComponent = () => {
-  const [editablePersonal, setEditablePersonal] = useState(false);
-  const [editableProfesional, setEditableProfesional] = useState(false);
+interface ProfileFormProps {
+  userRole: string; 
+}
 
-  const initialData = {
-    nombre: '',
-    apellido: '',
-    email: '',
-    celular: '',
-    direccion: '',
-    telefono: '',
-    matricula: '',
-    especialidad: '',
-    emailProfesional: '',
-    telefonoLaboral: '',
-    direccionLaboral: '',
-    horarioAtencion: ''
-  };
+export default function ProfileForm({ userRole }: ProfileFormProps) {
+  const isVet = userRole === 'veterinarian';
+  const [editingPersonal, setEditingPersonal] = useState(false);
+  const [editingProfessional, setEditingProfessional] = useState(false);
 
-  const [data, setData] = useState(initialData);
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const handleChange = (key: keyof typeof data) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, [key]: e.target.value });
-  };
+  const personalFields = [
+    'Nombre',
+    'Email',
+    'Apellido',
+    'Username',
+    'DNI',
+    'Celular',
+    'Dirección',
+    'Teléfono Fijo'
+  ];
 
-  const validateFields = (fields: (keyof typeof data)[]) => {
-    const newErrors: { [key: string]: string } = {};
-    fields.forEach((key) => {
-      if (!data[key].trim()) newErrors[key] = 'Este campo es obligatorio';
-    });
-    setErrors((prev) => ({ ...prev, ...newErrors }));
-    return Object.keys(newErrors).length === 0;
-  };
+  const professionalFields = [
+    'Matrícula',
+    'Teléfono Laboral',
+    'Especialidad',
+    'Dirección Laboral',
+    'Email Profesional',
+    'Horario de atención'
+  ];
 
-  const savePersonal = () => {
-    const personalKeys = ['nombre', 'apellido', 'email', 'celular', 'direccion', 'telefono'] as const;
-    if (validateFields([...personalKeys])) {
-      setEditablePersonal(false);
-    }
-  };
-
-  const saveProfesional = () => {
-    const profKeys = [
-      'matricula',
-      'especialidad',
-      'emailProfesional',
-      'telefonoLaboral',
-      'direccionLaboral',
-      'horarioAtencion'
-    ] as const;
-    if (validateFields([...profKeys])) {
-      setEditableProfesional(false);
-    }
-  };
-
-  const cancelEditPersonal = () => {
-    setEditablePersonal(false);
-    setErrors({});
-  };
-
-  const cancelEditProfesional = () => {
-    setEditableProfesional(false);
-    setErrors({});
-  };
-
-  const createFields = (keys: (keyof typeof data)[]) =>
-    keys.map((key) => ({
-      name: key,
-      label: key
-        .replace(/([A-Z])/g, ' $1')
-        .replace(/^./, (str) => str.toUpperCase())
-        .replace('Profesional', ' profesional'),
-      value: data[key],
-      onChange: handleChange(key),
-      error: errors[key],
-    }));
-
-  return (
-    <Grid container spacing={2} sx={{ px: 3 }}>
-      <Grid item xs={0} md={3} />
-      <Grid item xs={12} md={13}>
-        <Box component="form" noValidate autoComplete="off">
-          <FormSection
-            title="Información Personal"
-            fields={createFields(['nombre', 'apellido', 'email', 'celular', 'direccion', 'telefono'])}
-            editable={editablePersonal}
-            onToggleEdit={() => setEditablePersonal(true)}
-            onSave={savePersonal}
-            onCancel={cancelEditPersonal}
-          />
-
-          <FormSection
-            title="Información Profesional"
-            fields={createFields([
-              'matricula',
-              'especialidad',
-              'emailProfesional',
-              'telefonoLaboral',
-              'direccionLaboral',
-              'horarioAtencion'
-            ])}
-            editable={editableProfesional}
-            onToggleEdit={() => setEditableProfesional(true)}
-            onSave={saveProfesional}
-            onCancel={cancelEditProfesional}
-          />
-        </Box>
-      </Grid>
+  const renderFields = (fields: string[]) => (
+    <Grid container spacing={2}>
+      {fields.map((label) => (
+        <Grid item xs={12} sm={6} >
+          <TextField label={label}  fullWidth variant="standard"  />
+        </Grid>
+      ))}
     </Grid>
   );
-};
+  const renderActions = (editing: boolean, onSave: () => void, onCancel: () => void) =>
+    editing && (
+      <Stack direction="row" spacing={2} justifyContent="flex-end" mt={2}>
+        <Button variant="outlined" color="secondary" onClick={onCancel} sx={{
+            color: 'var(--footer-color)',
+            borderColor: 'var(--footer-color)',
+            '&:hover': {
+              backgroundColor: '#c5e7dc'
+            }}}>
+          CANCELAR
+        </Button>
+        <Button variant="contained" color="primary" onClick={onSave} sx={{
+            backgroundColor: 'var(--footer-color)',
+            color: 'var(--main-color)',
+            '&:hover': {
+              backgroundColor: '#459a88'
+            }
+          }}>
+          GUARDAR
+        </Button>
+      </Stack>
+    );
+
+  return (
+    <Box    sx={{
+      backgroundColor: 'var(--main-color)',
+      color: 'var(--font-color)',
+      padding: '1em',
+      borderRadius: '8px'
+    }}>
+        <Box sx={{ mt: 2, color: 'var(--font-color)', padding: "1em"}}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography  variant="subtitle1" fontWeight="bold" padding={"1em"} fontSize={"1.2em"}>
+               Informacion Personal 
+          </Typography >
+          <IconButton onClick={() => setEditingPersonal(true)}>
+          <EditIcon />
+          </IconButton>
+        </Box>
+        <Box>{renderFields(personalFields)}
+          {renderActions(editingPersonal, () => setEditingPersonal(false), () => setEditingPersonal(false))}
+        </Box>
+        </Box>
+
+      {isVet && (
+        <Box sx={{ mt: 2, color: 'var(--font-color)', padding: "1em"}}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant="subtitle1" fontWeight="bold" padding={"1em"} fontSize={"1.2em"}>
+                 Informacion Profesional          
+                   </Typography>
+                   <IconButton onClick={() => setEditingProfessional(true)}>
+              <EditIcon />
+            </IconButton>
+          </Box>
+          <Box>{renderFields(professionalFields)}
+            {renderFields(professionalFields)}
+            {renderActions(
+              editingProfessional,
+              () => setEditingProfessional(false),
+              () => setEditingProfessional(false)
+            )}
+          </Box>
+        </Box>
+      )}
+    </Box>
+  );
+}
