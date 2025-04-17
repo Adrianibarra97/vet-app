@@ -36,7 +36,17 @@ export default function ProfileForm({ userRole }: ProfileFormProps) {
     <Grid container spacing={2}>
       {fields.map((label) => (
         <Grid item xs={12} sm={6} >
-          <TextField label={label}  fullWidth variant="standard"  />
+          <TextField label={label}  fullWidth variant="standard"   sx={{
+    '& .MuiInput-underline:before': {
+      borderBottomColor: 'var(--footer-color)',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: 'var(--footer-color)',
+    },
+    '& .MuiInputLabel-root.Mui-focused': {
+      color: 'var(--footer-color)',
+    },
+  }} />
         </Grid>
       ))}
     </Grid>
@@ -96,7 +106,6 @@ export default function ProfileForm({ userRole }: ProfileFormProps) {
             </IconButton>
           </Box>
           <Box>{renderFields(professionalFields)}
-            {renderFields(professionalFields)}
             {renderActions(
               editingProfessional,
               () => setEditingProfessional(false),
