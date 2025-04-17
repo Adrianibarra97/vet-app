@@ -148,11 +148,11 @@ const petsDTO = [
 ];
 
 const filterValues = new Filter(
-  'Por fecha',
-  'date',
-  'Hoy',
+  'Por Nombre',
+  'text',
+  'Con turno',
   'checkbox',
-  'Esta semana',
+  'Vac. Pen',
   'checkbox',
 )
 
