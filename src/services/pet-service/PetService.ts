@@ -1,4 +1,9 @@
-export class PetService {
+import { PetServiceInter } from "./PetServiceInter"
+import { Pet } from "../../domain/Pet"
 
-	constructor() {}
+export class PetService implements PetServiceInter {
+
+	async getAll(): Promise<Pet[]> {
+		return []
+	}
 }
