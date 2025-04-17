@@ -8,6 +8,11 @@ import { MedicalShiftPage } from '../../pages/medical-shidt-page/MedicalShiftPag
 import { ErrorPage } from '../../pages/error-page/ErrorPage'
 
 export const PrincipalRoutes = () => {
+
+    const titleToTypeUser = () => {
+      return "Pacientes"
+    }
+
     return (
       <BrowserRouter>
           <Routes>
@@ -17,11 +22,11 @@ export const PrincipalRoutes = () => {
             <Route element = { <ProtectedRoutes /> }>
               <Route path = "/" element = { <MainLayout /> } >
                 <Route path = "/profile" element = { <ProfilePage /> } />
-                <Route path = "/pets" element = { <PetPage /> } />
+                <Route path = "/pets" element = { <PetPage name={ titleToTypeUser() } /> } />
                 <Route path = "/medical-shift" element = { <MedicalShiftPage /> } />
                 <Route path = "*" element = { <ErrorPage /> } />
               </Route>
-          </Route>
+            </Route>
           </Routes>
       </BrowserRouter>
     )
