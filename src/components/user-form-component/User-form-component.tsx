@@ -1,153 +1,178 @@
 import {
-  Stack,
-  Button,
+  Box,
   Typography,
   TextField,
-  Grid,
-  Box,
   IconButton,
+  Button,
+  Stack,
 } from '@mui/material'
-import EditIcon from '@mui/icons-material/Edit'
 import { useState } from 'react'
+import { FaCaretDown, FaPen } from 'react-icons/fa'
+import './User-form-component.css'
+const personalFields = [
+  'Nombre',
+  'Apellido',
+  'DNI',
+  'Dirección',
+  'Email',
+  'Username',
+  'Celular',
+  'Teléfono fijo',
+]
 
-export default function ProfileForm() {
-  const [editingPersonal, setEditingPersonal] = useState(false)
-  const [editingProfessional, setEditingProfessional] = useState(false)
+const professionalFields = [
+  'Matrícula',
+  'Teléfono Laboral',
+  'Especialidad',
+  'Dirección Laboral',
+  'Email Profesional',
+  'Horario de atención',
+]
 
-  const personalFields = [
-    'Nombre',
-    'Email',
-    'Apellido',
-    'Username',
-    'DNI',
-    'Celular',
-    'Dirección',
-    'Teléfono Fijo',
-  ]
+const renderFields = (fields: string[], disabled: boolean) =>
+  fields.map((field, index) => (
+    <div className="data__item" key={index}>
+      <label className="data__item--label">{field}</label>
+      <TextField
+        fullWidth
+        variant="outlined"
+        size="small"
+        className="data__item--input"
+        InputLabelProps={{ shrink: true }}
+        disabled={disabled}
+      />
+    </div>
+  ))
 
-  const professionalFields = [
-    'Matrícula',
-    'Teléfono Laboral',
-    'Especialidad',
-    'Dirección Laboral',
-    'Email Profesional',
-    'Horario de atención',
-  ]
+export const ProfileForm = () => {
+  const [editPersonal, setEditPersonal] = useState(false)
+  const [editProfessional, setEditProfessional] = useState(false)
 
-  const renderFields = (fields: string[]) => (
-    <Grid container spacing={2}>
-      {fields.map((label) => (
-        <Grid item xs={12} sm={6} >
-          <TextField
-            label={label}
-            fullWidth
-            variant="standard"
-            sx={{
-              '& .MuiInput-underline:before': {
-                borderBottomColor: 'var(--footer-color)',
-              },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: 'var(--footer-color)',
-              },
-              '& .MuiInputLabel-root.Mui-focused': {
-                color: 'var(--footer-color)',
-              },
-            }}
-          />
-        </Grid>
-      ))}
-    </Grid>
-  )
-  const renderActions = (
-    editing: boolean,
-    onSave: () => void,
-    onCancel: () => void,
-  ) =>
-    editing && (
-      <Stack direction="row" spacing={2} justifyContent="flex-end" mt={2}>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={onCancel}
-          sx={{
-            color: 'var(--footer-color)',
-            borderColor: 'var(--footer-color)',
-            '&:hover': {
-              backgroundColor: '#c5e7dc',
-            },
-          }}
-        >
-          CANCELAR
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={onSave}
-          sx={{
-            backgroundColor: 'var(--footer-color)',
-            color: 'var(--main-color)',
-            '&:hover': {
-              backgroundColor: '#459a88',
-            },
-          }}
-        >
-          GUARDAR
-        </Button>
-      </Stack>
-    )
+  const cancelEdit = (section: 'personal' | 'professional') => {
+    if (section === 'personal') setEditPersonal(false)
+    else setEditProfessional(false)
+  }
 
   return (
-    <Box className="body">
-      <Box className="main">
-        <div className="main__title"> Perfil</div>
-          <div className="main__content--filter"></div>
-          <div className="main__content--data">
-          <Box
-  className="data"
+    <form className="data">
+      <Box className="data__section" id="section__2"sx={{ height: { md: '30em' } }}
+ >
+        <Box className="section__header">
+          
 
->
-       <Box className="data__section">
-                <Box className="section__header" sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography
-                    className="section__header--title" sx={{ fontSize: '1.5em' }}>
-                    Informacion Personal
-                  </Typography>
-                  <IconButton onClick={() => setEditingPersonal(true)}>
-                    <EditIcon />
-                  </IconButton>
-                </Box>
-                <Box>
-                  {renderFields(personalFields)}
-                  {renderActions(
-                    editingPersonal,
-                    () => setEditingPersonal(false),
-                    () => setEditingPersonal(false),
-                  )}
-                </Box>
-              </Box>
+          <Stack direction="row" alignItems="center">
+            <Typography
+              className="section__header--title"
+              sx={{ fontWeight: 'bold' }}
+            >
+              Información personal
+            </Typography>
+            <IconButton onClick={() => setEditPersonal(!editPersonal)}>
+              <FaPen />
+            </IconButton>
+          </Stack>
+        </Box>
 
-              <Box className="data__section">
-                <Box className="section__header" sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography
-                    className="section__header--title" sx={{ fontSize: '1.5em' }}>
-                    Informacion Profesional
-                  </Typography>
-                  <IconButton onClick={() => setEditingProfessional(true)}>
-                    <EditIcon />
-                  </IconButton>
-                </Box>
-                <Box>
-                  {renderFields(professionalFields)}
-                  {renderActions(
-                    editingProfessional,
-                    () => setEditingProfessional(false),
-                    () => setEditingProfessional(false),
-                  )}
-                </Box>
-              </Box>
+        <>
+          <Box className="section__content" 
+          >
+            <Box className="section__items">
+              {renderFields(personalFields.slice(0, 4), !editPersonal)}
             </Box>
-          </div>
+            <Box className="section__items">
+              {renderFields(personalFields.slice(4), !editPersonal)}
+            </Box>
+          </Box>
+
+          {editPersonal && (
+            <Stack
+              direction="row"
+              spacing={2}
+              sx={{ justifyContent: 'flex-end', px: 4, pb: 2, mt: 1.4 }}
+            >
+              <Button
+                variant="outlined"
+                sx={{
+                  color: 'var(--font-color)',
+                  borderColor: 'var(--footer-color)',
+                  '&:hover': { borderColor: 'var(--primary-color)' },
+                }}
+                onClick={() => cancelEdit('personal')}
+              >
+                Cancelar
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: 'var(--primary-color)',
+                  color: 'var(--font-color)',
+                  '&:hover': { backgroundColor: 'var(--footer-color)' },
+                }}
+              >
+                Guardar
+              </Button>
+            </Stack>
+          )}
+        </>
       </Box>
-    </Box>
+
+      <Box className="data__section" id="section__2"sx={{ height: { md: '25em' } }}>
+        <Box className="section__header">
+         
+          <Stack direction="row" alignItems="center">
+            <Typography
+              className="section__header--title"
+              sx={{ fontWeight: 'bold' }}
+            >
+              Información profesional
+            </Typography>
+            <IconButton onClick={() => setEditProfessional(!editProfessional)}>
+              <FaPen />
+            </IconButton>
+          </Stack>
+        </Box>
+
+        <>
+          <Box className="section__content">
+            <Box className="section__items">
+              {renderFields(professionalFields.slice(0, 3), !editProfessional)}
+            </Box>
+            <Box className="section__items">
+              {renderFields(professionalFields.slice(3), !editProfessional)}
+            </Box>
+          </Box>
+
+          {editProfessional && (
+            <Stack
+              direction="row"
+              spacing={2}
+              sx={{ justifyContent: 'flex-end', px: 4, pb: 2, mt: 2}}
+            >
+              <Button
+                variant="outlined"
+                sx={{
+                  color: 'var(--font-color)',
+                  borderColor: 'var(--footer-color)',
+                  '&:hover': { borderColor: 'var(--primary-color)' },
+                }}
+                onClick={() => cancelEdit('professional')}
+              >
+                Cancelar
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: 'var(--primary-color)',
+                  color: 'var(--font-color)',
+                  '&:hover': { backgroundColor: 'var(--footer-color)' },
+                }}
+              >
+                Guardar
+              </Button>
+            </Stack>
+          )}
+        </>
+      </Box>
+    </form>
   )
 }

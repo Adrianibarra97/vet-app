@@ -1,7 +1,6 @@
 import { ProfileMenu } from '../../components/profile-menu/Profile-menu'
 import { Box, Grid } from '@mui/material'
-import ProfileForm from '../../components/user-form-component/User-form-component'
-
+import { ProfileForm } from '../../components/user-form-component/User-form-component'
 export const ProfilePage = () => {
   return (
     <Box className="body"> 
