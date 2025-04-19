@@ -39,6 +39,7 @@
         width: 90%;
         height: 15%;
         margin: 0;
+        font-size: 0.7em;
     }
 
     .filter__item--size {
@@ -47,6 +48,12 @@
 }
 
 @media screen and (min-width: 1350px) {
+    .filter__item {
+        font-size: 1em;
+    }
+}
+
+@media screen and (min-width: 1600px) {
     .filter__item {
         font-size: 1.3em;
     }
