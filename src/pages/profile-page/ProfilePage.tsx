@@ -4,13 +4,14 @@ import ProfileForm from '../../components/user-form-component/User-form-componen
 
 export const ProfilePage = () => {
   return (
-    <Box sx={{ backgroundColor: 'var(--main-color)' }}>
+    <Box className="body"> 
+            <div className="main__title"> Perfil</div>
       <Grid container spacing={2}>
         <Grid item xs={14} md={3}>
           <ProfileMenu />
         </Grid>
         <Grid item xs={12} md={9}>
-          <ProfileForm userRole="veterinarian" />
+          <ProfileForm  />
         </Grid>
       </Grid>
     </Box>

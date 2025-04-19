@@ -1,16 +1,18 @@
-import {  Stack,Button, Typography, TextField, Grid, Box, IconButton} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import { useState } from 'react';
+import {
+  Stack,
+  Button,
+  Typography,
+  TextField,
+  Grid,
+  Box,
+  IconButton,
+} from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
+import { useState } from 'react'
 
-interface ProfileFormProps {
-  userRole: string; 
-}
-
-export default function ProfileForm({ userRole }: ProfileFormProps) {
-  const isVet = userRole === 'veterinarian';
-  const [editingPersonal, setEditingPersonal] = useState(false);
-  const [editingProfessional, setEditingProfessional] = useState(false);
-
+export default function ProfileForm() {
+  const [editingPersonal, setEditingPersonal] = useState(false)
+  const [editingProfessional, setEditingProfessional] = useState(false)
 
   const personalFields = [
     'Nombre',
@@ -20,8 +22,8 @@ export default function ProfileForm({ userRole }: ProfileFormProps) {
     'DNI',
     'Celular',
     'Dirección',
-    'Teléfono Fijo'
-  ];
+    'Teléfono Fijo',
+  ]
 
   const professionalFields = [
     'Matrícula',
@@ -29,91 +31,123 @@ export default function ProfileForm({ userRole }: ProfileFormProps) {
     'Especialidad',
     'Dirección Laboral',
     'Email Profesional',
-    'Horario de atención'
-  ];
+    'Horario de atención',
+  ]
 
   const renderFields = (fields: string[]) => (
     <Grid container spacing={2}>
       {fields.map((label) => (
         <Grid item xs={12} sm={6} >
-          <TextField label={label}  fullWidth variant="standard"   sx={{
-    '& .MuiInput-underline:before': {
-      borderBottomColor: 'var(--footer-color)',
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: 'var(--footer-color)',
-    },
-    '& .MuiInputLabel-root.Mui-focused': {
-      color: 'var(--footer-color)',
-    },
-  }} />
+          <TextField
+            label={label}
+            fullWidth
+            variant="standard"
+            sx={{
+              '& .MuiInput-underline:before': {
+                borderBottomColor: 'var(--footer-color)',
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: 'var(--footer-color)',
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: 'var(--footer-color)',
+              },
+            }}
+          />
         </Grid>
       ))}
     </Grid>
-  );
-  const renderActions = (editing: boolean, onSave: () => void, onCancel: () => void) =>
+  )
+  const renderActions = (
+    editing: boolean,
+    onSave: () => void,
+    onCancel: () => void,
+  ) =>
     editing && (
       <Stack direction="row" spacing={2} justifyContent="flex-end" mt={2}>
-        <Button variant="outlined" color="secondary" onClick={onCancel} sx={{
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={onCancel}
+          sx={{
             color: 'var(--footer-color)',
             borderColor: 'var(--footer-color)',
             '&:hover': {
-              backgroundColor: '#c5e7dc'
-            }}}>
+              backgroundColor: '#c5e7dc',
+            },
+          }}
+        >
           CANCELAR
         </Button>
-        <Button variant="contained" color="primary" onClick={onSave} sx={{
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={onSave}
+          sx={{
             backgroundColor: 'var(--footer-color)',
             color: 'var(--main-color)',
             '&:hover': {
-              backgroundColor: '#459a88'
-            }
-          }}>
+              backgroundColor: '#459a88',
+            },
+          }}
+        >
           GUARDAR
         </Button>
       </Stack>
-    );
+    )
 
   return (
-    <Box    sx={{
-      backgroundColor: 'var(--main-color)',
-      color: 'var(--font-color)',
-      padding: '1em',
-      borderRadius: '8px'
-    }}>
-        <Box sx={{ mt: 2, color: 'var(--font-color)', padding: "1em"}}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography  variant="subtitle1" fontWeight="bold" padding={"1em"} fontSize={"1.2em"}>
-               Informacion Personal 
-          </Typography >
-          <IconButton onClick={() => setEditingPersonal(true)}>
-          <EditIcon />
-          </IconButton>
-        </Box>
-        <Box>{renderFields(personalFields)}
-          {renderActions(editingPersonal, () => setEditingPersonal(false), () => setEditingPersonal(false))}
-        </Box>
-        </Box>
+    <Box className="body">
+      <Box className="main">
+        <div className="main__title"> Perfil</div>
+          <div className="main__content--filter"></div>
+          <div className="main__content--data">
+          <Box
+  className="data"
 
-      {isVet && (
-        <Box sx={{ mt: 2, color: 'var(--font-color)', padding: "1em"}}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="subtitle1" fontWeight="bold" padding={"1em"} fontSize={"1.2em"}>
-                 Informacion Profesional          
-                   </Typography>
-                   <IconButton onClick={() => setEditingProfessional(true)}>
-              <EditIcon />
-            </IconButton>
-          </Box>
-          <Box>{renderFields(professionalFields)}
-            {renderActions(
-              editingProfessional,
-              () => setEditingProfessional(false),
-              () => setEditingProfessional(false)
-            )}
-          </Box>
-        </Box>
-      )}
+>
+       <Box className="data__section">
+                <Box className="section__header" sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography
+                    className="section__header--title" sx={{ fontSize: '1.5em' }}>
+                    Informacion Personal
+                  </Typography>
+                  <IconButton onClick={() => setEditingPersonal(true)}>
+                    <EditIcon />
+                  </IconButton>
+                </Box>
+                <Box>
+                  {renderFields(personalFields)}
+                  {renderActions(
+                    editingPersonal,
+                    () => setEditingPersonal(false),
+                    () => setEditingPersonal(false),
+                  )}
+                </Box>
+              </Box>
+
+              <Box className="data__section">
+                <Box className="section__header" sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography
+                    className="section__header--title" sx={{ fontSize: '1.5em' }}>
+                    Informacion Profesional
+                  </Typography>
+                  <IconButton onClick={() => setEditingProfessional(true)}>
+                    <EditIcon />
+                  </IconButton>
+                </Box>
+                <Box>
+                  {renderFields(professionalFields)}
+                  {renderActions(
+                    editingProfessional,
+                    () => setEditingProfessional(false),
+                    () => setEditingProfessional(false),
+                  )}
+                </Box>
+              </Box>
+            </Box>
+          </div>
+      </Box>
     </Box>
-  );
+  )
 }

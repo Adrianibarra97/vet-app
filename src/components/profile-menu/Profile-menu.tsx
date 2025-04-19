@@ -1,36 +1,36 @@
-import {Box,Avatar,Typography,List,ListItemButton,ListItemText,} from '@mui/material'
-
-const menuItems = [
-  { label: 'Perfil', link: '/profile' },
-  { label: 'Mis pacientes', link: '/patients' },
-  { label: 'Turnos', link: '/turns' },
-]
+import { Box, Typography, Avatar, Stack } from '@mui/material';
+import { Link } from 'react-router-dom';
+import '../profile-menu/Profile-menu.css';
 
 export const ProfileMenu = () => {
   return (
-    <Box
-      sx={{width: '100%',backgroundColor: 'var(--footer-color)',borderRadius: '1em', padding: '2em 1em', color: 'var(--main-color)', textAlign: 'center' }}
-    >
-      <Typography variant="h5" fontWeight="bold" sx={{ mb: 2 }}>
-        Menú
-      </Typography>
+ <Box className="main">
+   
+    <Box className="content__menu">
+      <Typography variant="h6" className="menu__title">Menú</Typography>
 
-      <Avatar
-        alt="Foto de perfil"
-        sx={{ width: { xs: 140, sm: 160, md: 200 },height: { xs: 140, sm: 160, md: 200 },  mb: 3, }}
-      />
+      <nav className="menu">
+        <Box className="menu--image">
+          <Avatar
+            alt="Foto de perfil"
+            sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '50%',
+            }}
+          />
+        </Box>
 
-      <List
-        sx={{ display: 'flex', flexDirection: { xs: 'row', sm: 'row', md: 'column' }, justifyContent: 'center', alignItems: 'center', gap: { xs: '0.5em', md: 0 }, }}
-      >
-        {menuItems.map((item) => (
-          <ListItemButton key={item.label} href={item.link}>
-            <ListItemText primary={item.label} />
-          </ListItemButton>
-        ))}
-      </List>
+        <Stack component="ul" className="menu__ul">
+          <Link className="menu__ul--link" to="/profile">Perfil</Link>
+          <Link className="menu__ul--link" to="/patients">Mis pacientes</Link>
+          <Link className="menu__ul--link" to="/turns">Turnos</Link>
+        </Stack>
+      </nav>
     </Box>
-  )
-}
+  
+  </Box>
 
-export default ProfileMenu
+  );
+};
