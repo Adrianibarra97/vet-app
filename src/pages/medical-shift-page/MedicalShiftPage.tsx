@@ -1,55 +1,44 @@
-<<<<<<< HEAD
-import { MedicalShiftGrid } from '../../components/medical-shift-grid/MedicalShiftGrid'
-import { PetFilter } from '../../components/pet-filter/PetFilter'
 
-import { Filter } from '../../domain/Filter'
 
-const filterValues = new Filter(
-  'Por Fecha',
-  'date',
-  'Hoy',
-  'checkbox',
-  'Esta Sem',
-=======
-import { useState } from "react"
-import MedicalShiftCard from "../../components/medical-shift-card/MedicalShiftCard"
+
+import { useEffect, useState } from "react"
 import { Filter } from "../../domain/Filter"
 import { MedicalShift } from "../../domain/MedicalShift"
 import { MedicalShiftGrid } from "../../components/medical-shift-grid/MedicalShiftGrid"
-
-
+import { FilterTurn } from "../../domain/Filterturn"
+import UserServiceManager from "../../services/user-service/UserServiceManager"
+import { TurnFilter } from "../../components/turn-filter/TurnFilter"
 const filterValues = new Filter(
-  'Nombre',
+  'Por fecha',
   'text',
-  'Con turno',
+  'Hoy',
   'checkbox',
-  'Vac. Pen',
->>>>>>> d04bd06 (we work on the shift view)
+  'Este semana',
   'checkbox',
 )
 
 export const MedicalShiftPage = () => {
 
-<<<<<<< HEAD
-  return (
-    <main className="main">
-      <h1 className="main__title">TURNOS</h1>
-      <div className="main__content">
-        <div className="main__content--filter">
-          <PetFilter filter={ filterValues }/>
-        </div>
-        <div className="main__content--data">
-          <MedicalShiftGrid medicalShifts={ [] } />
-        </div>
-      </div>
-=======
+
    const[medicalShifts, setMedicalShifts] = useState(new Array<MedicalShift>())
-  return (
+   const [filter, setFilter] = useState<FilterTurn>(new FilterTurn('', false, false))
+
+   const handleChangesFilter = (filter: FilterTurn) => {
+    setFilter(filter)
+  }
+  const getAllMedicalShiftsByFilter = async (filter: FilterTurn) => {
+    const shifts = await UserServiceManager.getInstance().getAllByFilter(filter)
+    setMedicalShifts(shifts)
+  }
+  useEffect(() => {
+    getAllMedicalShiftsByFilter(filter)
+  }, [filter])
+   return (
     <main className="main">
       <h2 className="main__title">Turnos </h2>
       <div className="main__content">
         <div className="main__content--filter">
-          <TurnFilter filter={ filterValues } /> 
+        <TurnFilter filter={filterValues} filterFunction={handleChangesFilter} />
         </div>
         <div className="main__content--data">
                   <MedicalShiftGrid  medicalShifts={ medicalShifts } />
@@ -57,9 +46,8 @@ export const MedicalShiftPage = () => {
         </div>
 
        
-    <MedicalShiftCard />
    
->>>>>>> d04bd06 (we work on the shift view)
+
     </main>
   )
 }

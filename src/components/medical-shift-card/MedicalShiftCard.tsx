@@ -1,74 +1,46 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Typography,
-  Box,
-  Button,
-} from '@mui/material'
+import { Card, CardContent, Typography, Box, Button } from '@mui/material'
 import { MedicalShift } from '../../domain/MedicalShift'
-import dayjs from 'dayjs';
+import dayjs from 'dayjs'
 
 interface MedicalShiftCardProps {
-medicalShift: MedicalShift
+  medicalShift: MedicalShift
 }
 
-export default function MedicalShiftCard( {medicalShift}: MedicalShiftCardProps) {
-  const fecha = dayjs(medicalShift.date).format("DD/MM/YYYY");
-  const convertirHora = (fechaString: string) => { return dayjs(fechaString).format("HH:mm"); }
+export default function MedicalShiftCard({
+  medicalShift,
+}: MedicalShiftCardProps) {
+  const fecha = dayjs(medicalShift.date).format('DD/MM/YYYY')
+  const convertirHora = (fechaString: string) => {
+    return dayjs(fechaString).format('HH:mm')
+  }
   return (
-    <Card sx={{ maxWidth: '40rem', height: '20rem', margin: '2rem', borderRadius: '0.5rem', border: '1.5px solid var(--footer-color)',    boxShadow: '1.5px 1.5px 3px var(--footer-color)',
-    }}>
-      <CardHeader
+    <Card className="content__items">
+      <Typography
+        variant="h5"
         sx={{
-          backgroundColor: 'var(--secondary-color)',
-          Width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alingItems: 'center',
+          color: 'var(--footer-color)',
+          textAlign: 'center',
+          fontWeight: 'bold',
+          WebkitTextStrokeColor: 'var(--font-color)',
+          WebkitTextStrokeWidth: '0.5px',
         }}
-        title={
-          <Typography
-            variant="h5"
-            sx={{
-              color: 'var(--footer-color)',
-              textAlign: 'center',
-              fontWeight: 'bold',
-              WebkitTextStrokeColor: 'var(--font-color)',
-              WebkitTextStrokeWidth: '0.5px',
-            }}
-          >
-            CONSULTA
-          </Typography>
-        }
-      />
+      >
+        CONSULTA
+      </Typography>
 
       <CardContent>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            alignItems: ' center',
-          }}
+        <Box sx={{  display: 'flex', justifyContent: 'space-around', alignItems: ' center',  }}
         >
           <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 0.5,
-            }}
+            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5, }}
           >
             <Typography sx={{ fontWeight: 'bold', fontSize: '1.3em' }}>
               Veterinario
             </Typography>
-            <Typography sx={{ fontSize: '0.8em' }}>{ medicalShift.vetName }</Typography>
-            <Typography
-              sx={{
-                fontWeight: 'bold',
-                fontSize: '1.3em',
-                marginTop: '0.7rem',
-              }}
+            <Typography sx={{ fontSize: '0.8em' }}>
+              {medicalShift.vetName}
+            </Typography>
+            <Typography  sx={{ fontWeight: 'bold', fontSize: '1.3em', marginTop: '0.7rem', }}
             >
               Fecha
             </Typography>
@@ -76,28 +48,23 @@ export default function MedicalShiftCard( {medicalShift}: MedicalShiftCardProps)
           </Box>
 
           <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 0.5,
+            sx={{ display: 'flex',flexDirection: 'column', alignItems: 'center', gap: 0.5,
             }}
           >
             <Typography sx={{ fontWeight: 'bold', fontSize: '1.3em' }}>
               Paciente
             </Typography>
-            <Typography sx={{ fontSize: '0.8em' }}> {medicalShift.petName} </Typography>
+            <Typography sx={{ fontSize: '0.8em' }}>
+              {' '}
+              {medicalShift.petName}{' '}
+            </Typography>
             <Typography
-              sx={{
-                fontWeight: 'bold',
-                fontSize: '1.3em',
-                marginTop: '0.7rem',
-              }}
-            >
+              sx={{ fontWeight: 'bold', fontSize: '1.3em', marginTop: '0.7rem',}}>
               Hora
             </Typography>
-
-            <Typography sx={{ fontSize: '0.8em' }}>{convertirHora(medicalShift.date)}</Typography>
+            <Typography sx={{ fontSize: '0.8em' }}>
+              {convertirHora(medicalShift.date)}
+            </Typography>
           </Box>
         </Box>
         <Box
@@ -113,10 +80,11 @@ export default function MedicalShiftCard( {medicalShift}: MedicalShiftCardProps)
               color: 'var(--header-color)',
               padding: '0.8rem',
               width: '6rem',
-             height: '2.5rem',
-            ":hover": {
-              backgroundColor: 'var(--primary-color)',
-            }}}
+              height: '2.5rem',
+              ':hover': {
+                backgroundColor: 'var(--primary-color)',
+              },
+            }}
           >
             Editar
           </Button>
@@ -127,11 +95,12 @@ export default function MedicalShiftCard( {medicalShift}: MedicalShiftCardProps)
               color: 'var(--header-color)',
               padding: '0.8rem',
               width: '6rem',
-              height:' 2.5rem',
-           ":hover": {
-              backgroundColor: 'var(--primary-color)',
-            }}}
-            >
+              height: ' 2.5rem',
+              ':hover': {
+                backgroundColor: 'var(--primary-color)',
+              },
+            }}
+          >
             Cancelar
           </Button>
         </Box>
