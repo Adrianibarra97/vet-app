@@ -1,7 +1,7 @@
 import { Card, CardContent, Typography, Box, Button } from '@mui/material'
 import { MedicalShift } from '../../domain/MedicalShift'
 import dayjs from 'dayjs'
-
+import './MedicalShiftCard.css'
 interface MedicalShiftCardProps {
   medicalShift: MedicalShift
 }
@@ -15,92 +15,45 @@ export default function MedicalShiftCard({
   }
   return (
     <Card className="content__items">
-      <Typography
-        variant="h5"
-        sx={{
-          color: 'var(--footer-color)',
-          textAlign: 'center',
-          fontWeight: 'bold',
-          WebkitTextStrokeColor: 'var(--font-color)',
-          WebkitTextStrokeWidth: '0.5px',
-        }}
-      >
+      <h4 className="content__items--title" >
         CONSULTA
-      </Typography>
+      </h4>
 
-      <CardContent>
-        <Box sx={{  display: 'flex', justifyContent: 'space-around', alignItems: ' center',  }}
-        >
-          <Box
-            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5, }}
-          >
-            <Typography sx={{ fontWeight: 'bold', fontSize: '1.3em' }}>
-              Veterinario
-            </Typography>
-            <Typography sx={{ fontSize: '0.8em' }}>
+      <CardContent className="content__items--data">
+        <Box className="content__item">
+          <Box className="content__item--data">
+            <Typography className="item--label">Veterinario</Typography>
+            <Typography className="item-data">
               {medicalShift.vetName}
             </Typography>
-            <Typography  sx={{ fontWeight: 'bold', fontSize: '1.3em', marginTop: '0.7rem', }}
-            >
-              Fecha
-            </Typography>
-            <Typography sx={{ fontSize: '0.8em' }}>{fecha}</Typography>
           </Box>
+          <Box className="content__item--data">
+            <Typography className="item--label">Paciente</Typography>
+            <Typography className="item-data">
+              {medicalShift.petName}
+            </Typography>
+          </Box>
+        </Box>
 
-          <Box
-            sx={{ display: 'flex',flexDirection: 'column', alignItems: 'center', gap: 0.5,
-            }}
-          >
-            <Typography sx={{ fontWeight: 'bold', fontSize: '1.3em' }}>
-              Paciente
-            </Typography>
-            <Typography sx={{ fontSize: '0.8em' }}>
-              {' '}
-              {medicalShift.petName}{' '}
-            </Typography>
-            <Typography
-              sx={{ fontWeight: 'bold', fontSize: '1.3em', marginTop: '0.7rem',}}>
-              Hora
-            </Typography>
-            <Typography sx={{ fontSize: '0.8em' }}>
+        <Box className="content__item">
+          <Box className="content__item--data">
+            <Typography className="item--label">Fecha</Typography>
+            <Typography className="item-data">{fecha}</Typography>
+          </Box>
+          <Box className="content__item--data">
+            <Typography className="item--label">Hora</Typography>
+            <Typography className="item-data">
               {convertirHora(medicalShift.date)}
             </Typography>
           </Box>
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            mt: 3,
-          }}
-        >
-          <Button
-            sx={{
-              backgroundColor: 'var(--footer-color)',
-              color: 'var(--header-color)',
-              padding: '0.8rem',
-              width: '6rem',
-              height: '2.5rem',
-              ':hover': {
-                backgroundColor: 'var(--primary-color)',
-              },
-            }}
-          >
+
+        <Box className="content__item--button">
+          <Button className="content__button content__button--edit">
             Editar
           </Button>
 
-          <Button
-            sx={{
-              backgroundColor: 'var(--footer-color)',
-              color: 'var(--header-color)',
-              padding: '0.8rem',
-              width: '6rem',
-              height: ' 2.5rem',
-              ':hover': {
-                backgroundColor: 'var(--primary-color)',
-              },
-            }}
-          >
+          <Button className="content__button content__button--cancel">
             Cancelar
           </Button>
         </Box>

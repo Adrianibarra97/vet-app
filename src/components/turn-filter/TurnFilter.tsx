@@ -40,7 +40,7 @@ interface PropDateFilterValues {
             <input type={filter.firstType} onChange={onChangeDate} />
           </div>
           <div className="filter-item">
-            <label>{filter.secondType}</label>
+            <label>{filter.secondtLabel}</label>
             <input type={filter.secondType} onChange={onChangeToday} />
           </div>
           <div className="filter-item">
