@@ -1,11 +1,9 @@
 import { Pet } from "../../domain/Pet"
-import { PetFilter } from "../../domain/PetFilter"
+import { PetFilter } from "../../domain/PetFilterValues"
 
 export interface PetServiceInter {
 	
 	getAll(): Promise<Pet[]>
-
-	getAllByName(name: string): Promise<Pet[]>
 
 	getAllByFilter(petFilter: PetFilter): Promise<Pet[]>
 
