@@ -7,12 +7,15 @@ import {
   Button,
 } from '@mui/material'
 import { MedicalShift } from '../../domain/MedicalShift'
+import dayjs from 'dayjs';
 
-interface PropMedicalShiftCard {
-  medicalShift: MedicalShift
+interface MedicalShiftCardProps {
+medicalShift: MedicalShift
 }
 
-export default function MedicalShiftCard(propMedicalShift: PropMedicalShiftCard) {
+export default function MedicalShiftCard( {medicalShift}: MedicalShiftCardProps) {
+  const fecha = dayjs(medicalShift.date).format("DD/MM/YYYY");
+  const convertirHora = (fechaString: string) => { return dayjs(fechaString).format("HH:mm"); }
   return (
     <Card sx={{ maxWidth: '40rem', height: '20rem', margin: '2rem', borderRadius: '0.5rem', border: '1.5px solid var(--footer-color)',    boxShadow: '1.5px 1.5px 3px var(--footer-color)',
     }}>
@@ -59,7 +62,7 @@ export default function MedicalShiftCard(propMedicalShift: PropMedicalShiftCard)
             <Typography sx={{ fontWeight: 'bold', fontSize: '1.3em' }}>
               Veterinario
             </Typography>
-            <Typography sx={{ fontSize: '0.8em' }}>{ propMedicalShift.medicalShift.vetName }</Typography>
+            <Typography sx={{ fontSize: '0.8em' }}>{ medicalShift.vetName }</Typography>
             <Typography
               sx={{
                 fontWeight: 'bold',
@@ -69,7 +72,7 @@ export default function MedicalShiftCard(propMedicalShift: PropMedicalShiftCard)
             >
               Fecha
             </Typography>
-            <Typography sx={{ fontSize: '0.8em' }}>{ propMedicalShift.medicalShift.date.toString() }</Typography>
+            <Typography sx={{ fontSize: '0.8em' }}>{fecha}</Typography>
           </Box>
 
           <Box
@@ -83,7 +86,7 @@ export default function MedicalShiftCard(propMedicalShift: PropMedicalShiftCard)
             <Typography sx={{ fontWeight: 'bold', fontSize: '1.3em' }}>
               Paciente
             </Typography>
-            <Typography sx={{ fontSize: '0.8em' }}>{ propMedicalShift.medicalShift.patientName }</Typography>
+            <Typography sx={{ fontSize: '0.8em' }}> {medicalShift.petName} </Typography>
             <Typography
               sx={{
                 fontWeight: 'bold',
@@ -93,7 +96,8 @@ export default function MedicalShiftCard(propMedicalShift: PropMedicalShiftCard)
             >
               Hora
             </Typography>
-            <Typography sx={{ fontSize: '0.8em' }}>{ propMedicalShift.medicalShift.date.toString() }</Typography>
+
+            <Typography sx={{ fontSize: '0.8em' }}>{convertirHora(medicalShift.date)}</Typography>
           </Box>
         </Box>
         <Box
