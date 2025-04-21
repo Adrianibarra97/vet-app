@@ -1,4 +1,4 @@
-import { Box, Typography, Avatar, Stack } from '@mui/material';
+import {  Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import '../profile-menu/Profile-menu.css';
 

@@ -7,7 +7,7 @@ import {
   Stack,
 } from '@mui/material'
 import { useState } from 'react'
-import { FaCaretDown, FaPen } from 'react-icons/fa'
+import {  FaPen } from 'react-icons/fa'
 import './User-form-component.css'
 const personalFields = [
   'Nombre',
