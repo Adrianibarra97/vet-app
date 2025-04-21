@@ -7,27 +7,27 @@ import './TurnFilter.css'
 
 interface PropDateFilterValues {
     filter: Filter,
-    filterFunction: (values: FilterTurn) => void
+    filterFunction: (medicalShiftFilter: FilterTurn) => void
   }
   
   export const TurnFilter = ({ filter, filterFunction }: PropDateFilterValues) => {
-    const [dateFilter, setDateFilter] = useState(new FilterTurn('', false, false))
+    const [medicalShiftFilter, setMedicalShiftFilter] = useState(new FilterTurn('', false, false))
   
     const onChangeDate = (e: ChangeEvent<HTMLInputElement>) => {
-      const newFilter = new FilterTurn(e.currentTarget.value, false, false)
-      setDateFilter(newFilter)
+      const newFilter = new FilterTurn(e.currentTarget.value, medicalShiftFilter.isToday, medicalShiftFilter.isThisWeek)
+      setMedicalShiftFilter(newFilter)
       filterFunction(newFilter)
     }
   
     const onChangeToday = (e: ChangeEvent<HTMLInputElement>) => {
-      const newFilter = new FilterTurn('', e.currentTarget.checked, false)
-      setDateFilter(newFilter)
+      const newFilter = new FilterTurn(medicalShiftFilter.date, e.currentTarget.checked, medicalShiftFilter.isThisWeek)
+      setMedicalShiftFilter(newFilter)
       filterFunction(newFilter)
     }
   
     const onChangeThisWeek = (e: ChangeEvent<HTMLInputElement>) => {
-      const newFilter = new FilterTurn('', false, e.currentTarget.checked)
-      setDateFilter(newFilter)
+      const newFilter = new FilterTurn(medicalShiftFilter.date, medicalShiftFilter.isToday, e.currentTarget.checked)
+      setMedicalShiftFilter(newFilter)
       filterFunction(newFilter)
     }
   
