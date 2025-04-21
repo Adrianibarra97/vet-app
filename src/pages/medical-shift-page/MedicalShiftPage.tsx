@@ -6,11 +6,11 @@ import { Filter } from "../../domain/Filter"
 import { MedicalShift } from "../../domain/MedicalShift"
 import { MedicalShiftGrid } from "../../components/medical-shift-grid/MedicalShiftGrid"
 import { FilterTurn } from "../../domain/Filterturn"
-import UserServiceManager from "../../services/user-service/UserServiceManager"
 import { TurnFilter } from "../../components/turn-filter/TurnFilter"
+import MedicalShiftServiceManager from "../../services/medical-shift-service/MedicalShiftServiceManager"
 const filterValues = new Filter(
   'Por fecha',
-  'text',
+  'date',
   'Hoy',
   'checkbox',
   'Este semana',
@@ -27,9 +27,14 @@ export const MedicalShiftPage = () => {
     setFilter(filter)
   }
   const getAllMedicalShiftsByFilter = async (filter: FilterTurn) => {
-    const shifts = await UserServiceManager.getInstance().getAllByFilter(filter)
+    const shifts = await MedicalShiftServiceManager.getInstance().getAllByFilter(filter)
     setMedicalShifts(shifts)
   }
+const handleMedicalShiftCancel = async (idMedicalShift: number) => {
+  await MedicalShiftServiceManager.getInstance().cancelMedicalShift(idMedicalShift)
+  const shifts = await MedicalShiftServiceManager.getInstance().getAllByFilter(filter)
+  setMedicalShifts(shifts)
+}
   useEffect(() => {
     getAllMedicalShiftsByFilter(filter)
   }, [filter])
@@ -41,7 +46,7 @@ export const MedicalShiftPage = () => {
         <TurnFilter filter={filterValues} filterFunction={handleChangesFilter} />
         </div>
         <div className="main__content--data">
-                  <MedicalShiftGrid  medicalShifts={ medicalShifts } />
+                  <MedicalShiftGrid  medicalShifts={ medicalShifts }  onClickCancel={handleMedicalShiftCancel}/>
                 </div>
         </div>
 

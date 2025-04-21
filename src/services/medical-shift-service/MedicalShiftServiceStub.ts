@@ -1,3 +1,4 @@
+import { FilterTurn } from "../../domain/Filterturn";
 import {  MedicalShift, MedicalShiftJSON } from "../../domain/MedicalShift";
 import { MedicalShiftServiceInter } from "./MedicalShiftServiceInter";
 
@@ -45,6 +46,13 @@ export class MedicalShiftServiceStub  implements MedicalShiftServiceInter {
       )
 
     })}
+ async getAllByFilter(filter: FilterTurn): Promise<MedicalShift[]> {
+    const data = await this.getAll()
+    return data
+  
+  }
+  cancelMedicalShift(idMedicalShift: number): void {
+    this.objects = this.objects.filter((shift) => shift.id !== idMedicalShift)
 
-  constructor() {}
+}
 }

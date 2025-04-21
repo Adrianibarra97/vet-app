@@ -6,6 +6,7 @@ import './MedicalshiftGrid.css'
 
 interface PropMedicalShifts {
   medicalShifts: Array<MedicalShift>
+  onClickCancel: (idMedicalShift: number) => void
 }
 
 export const MedicalShiftGrid = (propMedicalShifts: PropMedicalShifts) => {
@@ -16,7 +17,7 @@ export const MedicalShiftGrid = (propMedicalShifts: PropMedicalShifts) => {
         propMedicalShifts.medicalShifts.length > 0 ?
         propMedicalShifts.medicalShifts.map((medicalShift: MedicalShift) => {
 
-            return (<MedicalShiftCard key={ medicalShift.id.toString() } medicalShift={ medicalShift } />)
+            return (<MedicalShiftCard key={ medicalShift.id.toString() } medicalShift={ medicalShift } onClickCancel={ propMedicalShifts.onClickCancel}/>)
           })
         :
         <ErrorMessage errorMessage="No hay información para mostrar!" />

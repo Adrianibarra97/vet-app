@@ -3,11 +3,12 @@ import { MedicalShift } from '../../domain/MedicalShift'
 import dayjs from 'dayjs'
 import './MedicalShiftCard.css'
 interface MedicalShiftCardProps {
-  medicalShift: MedicalShift
+  medicalShift: MedicalShift,
+  onClickCancel: (idMedicalShift: number) => void
 }
 
 export default function MedicalShiftCard({
-  medicalShift,
+  medicalShift, onClickCancel
 }: MedicalShiftCardProps) {
   const fecha = dayjs(medicalShift.date).format('DD/MM/YYYY')
   const convertirHora = (fechaString: string) => {
@@ -53,7 +54,7 @@ export default function MedicalShiftCard({
             Editar
           </Button>
 
-          <Button className="content__button content__button--cancel">
+          <Button className="content__button content__button--cancel" onClick={() => onClickCancel(medicalShift.id)}>
             Cancelar
           </Button>
         </Box>
