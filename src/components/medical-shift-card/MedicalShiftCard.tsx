@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Box, Button } from '@mui/material'
+import { Card, Typography, Box } from '@mui/material'
 import { MedicalShift } from '../../domain/MedicalShift'
 import dayjs from 'dayjs'
 import './MedicalShiftCard.css'
@@ -20,29 +20,29 @@ export default function MedicalShiftCard({
         CONSULTA
       </h4>
 
-      <CardContent className="content__items--data">
-        <Box className="content__item">
+      <main className="content__items--data">
+        <div className="content__item">
           <Box className="content__item--data">
-            <Typography className="item--label">Veterinario</Typography>
+            <p className="item--label">Veterinario</p>
             <Typography className="item-data">
               {medicalShift.vetName}
             </Typography>
           </Box>
           <Box className="content__item--data">
-            <Typography className="item--label">Paciente</Typography>
+            <p className="item--label">Paciente</p>
             <Typography className="item-data">
               {medicalShift.petName}
             </Typography>
           </Box>
-        </Box>
+        </div>
 
         <Box className="content__item">
           <Box className="content__item--data">
-            <Typography className="item--label">Fecha</Typography>
+            <p className="item--label">Fecha</p>
             <Typography className="item-data">{fecha}</Typography>
           </Box>
           <Box className="content__item--data">
-            <Typography className="item--label">Hora</Typography>
+            <p className="item--label">Hora</p>
             <Typography className="item-data">
               {convertirHora(medicalShift.date)}
             </Typography>
@@ -50,15 +50,15 @@ export default function MedicalShiftCard({
         </Box>
 
         <Box className="content__item--button">
-          <Button className="content__button content__button--edit">
+          <button className="content__button content__button--edit">
             Editar
-          </Button>
+          </button>
 
-          <Button className="content__button content__button--cancel" onClick={() => onClickCancel(medicalShift.id)}>
+          <button className="content__button content__button--cancel" onClick={() => onClickCancel(medicalShift.id)}>
             Cancelar
-          </Button>
+          </button>
         </Box>
-      </CardContent>
+      </main>
     </Card>
   )
 }
