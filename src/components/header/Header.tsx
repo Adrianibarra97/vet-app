@@ -9,15 +9,21 @@ export const Header = () => {
   // const navigate = useNavigate()
 
   const menuOpenHandler = (setLayoutName: string) => {
-    const nav = document.getElementById('nav')
-    const linkPage = document.getElementById('link-page')
-    nav.style.display = 'flex'
-    linkPage.innerHTML = setLayoutName
+    const nav: HTMLElement | null = document.getElementById('nav')
+    const linkPage: HTMLElement | null = document.getElementById('link-page')
+    if(nav != null) {
+      nav.style.display = 'flex'
+    }
+    if(linkPage != null) {
+      linkPage.innerHTML = setLayoutName
+    }
   }
   
   const menuCloseHandler = () => {
-    const nav = document.getElementById('nav')
-    nav.style.display = 'none'
+    const nav: HTMLElement | null = document.getElementById('nav')
+    if(nav != null) {
+      nav.style.display = 'none'
+    }
   }
 
   const logoutApp = () => {

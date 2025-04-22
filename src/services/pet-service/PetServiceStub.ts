@@ -1,11 +1,11 @@
 import { PetServiceInter } from './PetServiceInter'
 
 import { PetFilterValues } from '../../domain/PetFilterValues'
-import { Pet } from '../../domain/Pet'
+import { Pet, PetJSON } from '../../domain/Pet'
 
 export class PetServiceStub implements PetServiceInter {
   
-	private objects: Array<Pet> = [
+	private objects: Array<PetJSON> = [
 		{
 			"id": 0,
 			"photo": "./src/assets/nala.jfif",
