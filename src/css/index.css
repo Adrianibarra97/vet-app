@@ -23,7 +23,6 @@
 }
 
 .scroll--style {
-	background-color: var(--primary-color);
 }
 
 .scroll--style::-webkit-scrollbar {
