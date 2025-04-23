@@ -9,10 +9,10 @@ class MedicalShiftServiceManager {
 
     public static getInstance(): MedicalShiftServiceInter {
         if (!MedicalShiftServiceManager.instance) {
-            MedicalShiftServiceManager.instance = this.useStub ? new MedicalShiftServiceStub() : new MedicalShiftService;
+            MedicalShiftServiceManager.instance = this.useStub ? new MedicalShiftServiceStub() : new MedicalShiftService()
         }
-        return MedicalShiftServiceManager.instance;
+        return MedicalShiftServiceManager.instance
     }
 }
 
-export default MedicalShiftServiceManager;
+export default MedicalShiftServiceManager

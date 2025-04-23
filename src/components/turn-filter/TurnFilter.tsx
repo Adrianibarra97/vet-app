@@ -4,6 +4,7 @@ import { FilterTurn, } from '../../domain/Filterturn'
 import { Filter } from '../../domain/Filter'
 
 import './TurnFilter.css'
+import { FilterItem } from '../filter-item/FilterItem'
 
 interface PropDateFilterValues {
     filter: Filter,
@@ -35,18 +36,21 @@ interface PropDateFilterValues {
       <div className="content__filter">
         <h2>Filtros</h2>
         <div className="filter">
-          <div className="filter-item">
-            <label>{filter.firstLabel}</label>
-            <input type={filter.firstType} onChange={onChangeDate} />
-          </div>
-          <div className="filter-item">
-            <label>{filter.secondtLabel}</label>
-            <input type={filter.secondType} onChange={onChangeToday} />
-          </div>
-          <div className="filter-item">
-            <label>{filter.thirdLabel}</label>
-            <input type={filter.thirdType} onChange={onChangeThisWeek} />
-          </div>
+          <FilterItem
+            label= { filter.firstLabel }
+            inputType={ filter.firstType }
+            onChangesFilter={ onChangeDate } 
+          />
+          <FilterItem
+            label= { filter.secondtLabel }
+            inputType={ filter.secondType }
+            onChangesFilter={ onChangeToday }
+          />
+          <FilterItem
+            label= { filter.thirdLabel }
+            inputType={ filter.thirdType }
+            onChangesFilter={ onChangeThisWeek }
+          />
         </div>
       </div>
     )
