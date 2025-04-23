@@ -16,7 +16,8 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
       user.email,
       user.telephone,
       user.adress,
-      user.username
+      user.username,
+	  user.landline
     )
   }
 

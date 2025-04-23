@@ -11,11 +11,12 @@ export class MedicalShiftServiceStub implements MedicalShiftServiceInter {
     'maria.gomez@gmail.com',
     1144556677,
     'Av. Balbin 456',
-    'mgomez'
+    'mgomez',
+    '01143001234'
   )
 
   private professionalInfo = new ProfessionalInfo(
-    'MP-12345',
+    '12345',
     '1133224455',
     'Cardiología',
     'Hospital Central 1000',
