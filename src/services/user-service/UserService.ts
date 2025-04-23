@@ -2,8 +2,9 @@ import axios from "axios"
 import { ProfessionalInfo } from "../../domain/ProfessionalInfo"
 import { User, UserJSON } from "../../domain/User"
 import { URL_BE } from "../config"
+import { UserServiceInter } from "./UserServiceInter"
 
-export class UserService {
+export class UserService implements UserServiceInter {
   
 	async getUserInfo(): Promise<User> {
 		const res = await axios.get<UserJSON>(`${URL_BE}/user/profile`)
@@ -33,10 +34,21 @@ export class UserService {
 		)
 	  }
 	
-	  async updateUserInfo(user: User): Promise<void> {
-		await axios.put(`${URL_BE}/user/update`, user.toJSON())
+	  async getAll(): Promise<User[]> {
+		const response = await axios.get(`${URL_BE}/get-all`)
+		return response.data
 	  }
 	
-	  async updateProfessionalInfo(info: ProfessionalInfo): Promise<void> {
-		await axios.put(`${URL_BE}/professional/update`, info.toJSON())
+	  async getOneById(id: number): Promise<User> {
+		const response = await axios.get(`${URL_BE}/get-one-by-id/${id}`)
+		return response.data
+	  }
+	
+	  async update(user: User): Promise<User> {
+		const response = await axios.put(`${URL_BE}/update`, user)
+		return response.data
+	  }
+	
+	  async delete(id: number): Promise<void> {
+		await axios.delete(`${URL_BE}/delete/${id}`)
 	  }}
