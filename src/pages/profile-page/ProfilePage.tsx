@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { ProfileMenu } from '../../components/profile-menu/Profile-menu'
 import { ProfileForm } from '../../components/user-form-component/User-form-component'
 import { ProfessionalInfo } from '../../domain/ProfessionalInfo'
+import UserServiceManager from '../../services/user-service/UserServiceManager'
 import { User } from '../../domain/User'
-import MedicalShiftServiceManager from '../../services/medical-shift-service/MedicalShiftServiceManager'
 
 export const ProfilePage = () => {
   const [user, setUser] = useState<User | null>(null)
@@ -11,8 +11,8 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const personal = await MedicalShiftServiceManager.getInstance().getUserInfo()
-      const prof = await MedicalShiftServiceManager.getInstance().getProfessionalInfo()
+      const personal = await UserServiceManager.getInstance().getUserInfo()
+      const prof = await UserServiceManager.getInstance().getProfessionalInfo()
       setUser(personal)
       setProfessional(prof)
     }
@@ -21,9 +21,9 @@ export const ProfilePage = () => {
 
   const handleSave = async (section: 'personal' | 'professional', data: any) => {
     if (section === 'personal') {
-      await MedicalShiftServiceManager.getInstance().updateUserInfo(data)
+      await UserServiceManager.getInstance().updateUserInfo(data)
     } else {
-      await MedicalShiftServiceManager.getInstance().updateProfessionalInfo(data)
+      await UserServiceManager.getInstance().updateProfessionalInfo(data)
     }
   }
 
