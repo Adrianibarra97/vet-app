@@ -24,9 +24,7 @@
     background-color: var(--main-color);
 }
 
-.scroll--style {
-	background-color: var(--main-color);
-}
+.scroll--style {}
 
 .scroll--style::-webkit-scrollbar {
 	width: 0.1rem;

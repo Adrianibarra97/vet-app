@@ -1,6 +1,5 @@
-import { Pet } from "../../domain/Pet"
-
-import { PetFilterValues } from "../../domain/PetFilterValues"
+import { Pet } from '../../domain/Pet'
+import { PetFilterValues } from '../../domain/PetFilterValues'
 
 export interface PetServiceInter {
 	

@@ -1,5 +1,3 @@
-
-
 export type MedicalShiftJSON = {
 	id: number,
 	vetName: string,
@@ -13,7 +11,7 @@ export class MedicalShift {
 		public id: number,
 		public vetName: string,
 		public petName: string,
-		public date: string
+		public date: Date
 	) {}
 
 	toJSON(): MedicalShiftJSON {
@@ -21,7 +19,7 @@ export class MedicalShift {
 			id: this.id,
 			vetName: this.vetName,
 			petName: this.petName,
-			date: this.date
+			date: this.date.toString()
 		}
 	}
 }
