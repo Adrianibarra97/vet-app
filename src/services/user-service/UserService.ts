@@ -1,4 +1,6 @@
-export class UserService {
+import { UserServiceInter } from "./UserServiceInter";
+
+export class UserService implements UserServiceInter {
   
-	constructor() {}
-}
+
+	}
