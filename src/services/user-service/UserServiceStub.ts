@@ -47,3 +47,4 @@ export class UserServiceStub implements UserServiceInter {
     console.log(`Stub: usuario con ID ${id} eliminado`)
   }
 }
+

@@ -4,7 +4,7 @@ import { ProtectedRoutes } from '../guards/ProtectedRoutes'
 import { MainLayout } from '../../layouts/main/MainLayout'
 import { ProfilePage } from '../../pages/profile-page/ProfilePage'
 import { PetPage } from '../../pages/pet-page/PetPage'
-import { MedicalShiftPage } from '../../pages/medical-shidt-page/MedicalShiftPage'
+import { MedicalShiftPage } from '../../pages/medical-shift-page/MedicalShiftPage'
 import { ErrorPage } from '../../pages/error-page/ErrorPage'
 
 export const PrincipalRoutes = () => {

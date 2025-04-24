@@ -6,4 +6,5 @@ export interface UserServiceInter {
     getOneById(id: number): Promise<{ user: User; professional: ProfessionalInfo }>
     update(user: User, professional: ProfessionalInfo): Promise<void>
     delete(id: number): Promise<void>
+
 }
