@@ -37,12 +37,13 @@ export const MedicalShiftPage = () => {
     setMedicalShifts(shifts)
   }
 
-  const handleEditOrCreateMedicalShift = async (medicalShift: MedicalShift, idMedicalShift?: number) => {
-    if(idMedicalShift) {
+  const handleEditOrCreateMedicalShift = async (medicalShift: MedicalShift, idMedicalShift: number) => {
+    if(idMedicalShift > -1) {
       medicalShift.id = idMedicalShift
       MedicalShiftServiceManager
         .getInstance()
         .editExistMedicalShift(idMedicalShift, medicalShift)
+      getAllMedicalShiftsByFilter(filter)
     }
     else{
       MedicalShiftServiceManager.getInstance().createNewMedicalShift(medicalShift)

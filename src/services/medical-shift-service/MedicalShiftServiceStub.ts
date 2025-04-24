@@ -38,7 +38,7 @@ export class MedicalShiftServiceStub implements MedicalShiftServiceInter {
     }
   ]
 
-  async getAll (): Promise<MedicalShift[]> {
+  async getAll(): Promise<MedicalShift[]> {
     return this.objects.map<MedicalShift>((MedicalShiftDto: MedicalShiftJSON) => {
       return new MedicalShift(
         MedicalShiftDto.id,

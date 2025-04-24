@@ -9,7 +9,7 @@ import './MedicalShiftCard.css'
 interface MedicalShiftCardProps {
   medicalShift: MedicalShift,
   onClickCancel: (idMedicalShift: number) => void
-  onClickEdit: (medicalShift: MedicalShift, idMedicalShift?: number)=>void
+  onClickEdit: (medicalShift: MedicalShift, idMedicalShift: number)=>void
 }
 export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickEdit }: MedicalShiftCardProps) {
   
@@ -20,7 +20,7 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
     return dayjs(fechaString).format('HH:mm')
   }
 
-  const handleOnEdit = (medicalShift: MedicalShift, idMedicalShift?: number) => {
+  const handleOnEdit = (medicalShift: MedicalShift, idMedicalShift: number) => {
     onClickEdit(medicalShift, idMedicalShift)
     setModalEditMedicalShiftOpen(false)
   }
@@ -64,7 +64,7 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
         open={modalEditMedicalShiftOpen}
         onClose={() => setModalEditMedicalShiftOpen(false)}
         onConfirm={handleOnEdit}
-        idMedicalShift={medicalShift.id}
+        idMedicalShift={ medicalShift.id }
       />
     </>
   )

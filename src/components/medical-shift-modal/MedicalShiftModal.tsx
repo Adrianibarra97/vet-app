@@ -7,12 +7,13 @@ import PetServiceManager from "../../services/pet-service/PetServiceManager";
 import MedicalShiftServiceManager from "../../services/medical-shift-service/MedicalShiftServiceManager";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { SnackbarUtilities } from "../../util/snackbar/SnackbarManager";
 
 interface MedicalShiftModalProps {
   open: boolean;
   onClose: () => void;
-  onConfirm: (medicalShift: MedicalShift, idMedicalShift?:number) => void;
-  idMedicalShift?: number;
+  onConfirm: (medicalShift: MedicalShift, idMedicalShift: number) => void;
+  idMedicalShift: number;
 }
 
 export function MedicalShiftModal({ open, onClose, onConfirm, idMedicalShift }: MedicalShiftModalProps) {
@@ -24,7 +25,6 @@ export function MedicalShiftModal({ open, onClose, onConfirm, idMedicalShift }: 
   
   const handleMedicalShiftCreationOrEdition = (name: keyof MedicalShift, value: string): void => {
     (medicalShift as unknown as Record<keyof MedicalShift, string | undefined>)[name] = value;
-    console.log(name, value)
     generateNewMedicalShift(medicalShift);
   }
 
@@ -44,7 +44,7 @@ export function MedicalShiftModal({ open, onClose, onConfirm, idMedicalShift }: 
   }
   
   useEffect(() => {
-    if(idMedicalShift) {
+    if(idMedicalShift > -1) {
       getMedicalShift();
     }
     getPetPacients();
@@ -53,10 +53,11 @@ export function MedicalShiftModal({ open, onClose, onConfirm, idMedicalShift }: 
   const handleOnConfirm = () => {
     setFromTouched(true)
     if(hasMissingRequiredFields()){
-      console.error('campos incompletos')
+      SnackbarUtilities.error('campos incompletos')
       return
     }
     onConfirm(medicalShift, medicalShift.id)
+    setMedicalShift(new MedicalShift())
     onClose()
   }
 
@@ -69,9 +70,9 @@ export function MedicalShiftModal({ open, onClose, onConfirm, idMedicalShift }: 
     <Modal open={open} onClose={onClose}>
       <Box sx={{ width: 300, margin: "auto", mt: "20%", p: 3, backgroundColor: "white", borderRadius: 2 }}>
         <Typography variant="h6" sx={{ mb: 2, color: "var(--primary-color)" }}>
-          {idMedicalShift ? "Editar Consulta" : "Crear Consulta"}
+          {idMedicalShift > -1 ? "Editar Consulta" : "Crear Consulta"}
         </Typography>
-        {!idMedicalShift && 
+        { idMedicalShift == -1 && 
           <TextField
             label="Nombre de Veterinario" fullWidth margin="normal"
             color="primary" name="vetName" required

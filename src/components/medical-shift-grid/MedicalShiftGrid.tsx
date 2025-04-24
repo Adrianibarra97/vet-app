@@ -9,13 +9,13 @@ import './MedicalShiftGrid.css'
 interface PropMedicalShifts {
   medicalShifts: Array<MedicalShift>
   onClickCancel: (idMedicalShift: number) => void
-  onEditOrCreateMedicalShift:(medicalShift: MedicalShift, idMedicalShift?: number) => void
+  onEditOrCreateMedicalShift:(medicalShift: MedicalShift, idMedicalShift: number) => void
 }
   
 export const MedicalShiftGrid = (propMedicalShifts: PropMedicalShifts) => {
 
   const [modalCreateMedicalShiftOpen,setModalCreateMedicalShiftOpen]= useState(false)
-  const handleOnCreate = (medicalShift: MedicalShift, idMedicalShift?: number) => {
+  const handleOnCreate = (medicalShift: MedicalShift, idMedicalShift: number) => {
     propMedicalShifts.onEditOrCreateMedicalShift(medicalShift, idMedicalShift)
   }
 
@@ -38,7 +38,7 @@ export const MedicalShiftGrid = (propMedicalShifts: PropMedicalShifts) => {
         open={modalCreateMedicalShiftOpen}
         onClose={() => setModalCreateMedicalShiftOpen(false)}
         onConfirm={handleOnCreate}
-        idMedicalShift={undefined}
+        idMedicalShift={ -1 }
       />
     </div>
   )
