@@ -38,7 +38,7 @@ export const ValidateFormByFields = yup.object().shape({
 
   landline: yup
     .string()
-    .matches(/^0[1-9]\d{9}$/, 'Debe ser un número de línea válido, incluyendo el código de área')
+    .matches(/^[1-9]\d{6,7}$/, 'Debe contener entre 7 y 8 dígitos. Ej: 43211234')
     .notRequired(),
 })
 
