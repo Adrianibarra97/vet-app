@@ -11,7 +11,7 @@ import { FaPen } from 'react-icons/fa'
 import './User-form-component.css'
 import { ProfessionalInfo } from '../../domain/ProfessionalInfo'
 import { User } from '../../domain/User'
-import { validateFormByFields } from '../../util/ValidateFormByFields'
+import { ValidateFormByFields, professionalSchema } from '../../util/ValidateFormByFields'
 interface Props {
   personal: User
   professional: ProfessionalInfo
@@ -50,7 +50,6 @@ export const ProfileForm = ({ personal, professional, onSave }: Props) => {
   const [professionalErrors, setProfessionalErrors] = useState<{
     [key: string]: string
   }>({})
-
   const handleChange = (
     section: 'personal' | 'professional',
     key: string,
@@ -67,34 +66,33 @@ export const ProfileForm = ({ personal, professional, onSave }: Props) => {
     if (section === 'personal') {
       setEditPersonal(false)
       setPersonalForm({ ...personal })
+      setPersonalErrors({})
     } else {
       setEditProfessional(false)
       setProfessionalForm({ ...professional })
+      setProfessionalErrors({})
     }
   }
-  const handleSave = (section: 'personal' | 'professional') => {
-    if (section === 'personal') {
-      const { valid, errors } = validateFormByFields(
-        personalForm,
-        personalFields,
-      )
-      if (!valid) {
-        setPersonalErrors(errors)
-        return
-      }
-      setPersonalErrors({})
 
-      onSave(section, personalForm)
-      setEditPersonal(false)
-    } else {
-      const { valid, errors } = validateFormByFields(
-        professionalForm,
-        professionalFields,
-      )
-      setProfessionalErrors(errors)
-      if (!valid) return
-      onSave(section, professionalForm)
-      setEditProfessional(false)
+  const handleSave = async (section: 'personal' | 'professional') => {
+    try {
+      if (section === 'personal') {
+        await ValidateFormByFields.validate(personalForm, { abortEarly: false })
+        setPersonalErrors({})
+        onSave(section, personalForm)
+        setEditPersonal(false)
+      } else {
+        await professionalSchema.validate(professionalForm, { abortEarly: false })
+        setProfessionalErrors({})
+        onSave(section, professionalForm)
+        setEditProfessional(false)
+      }
+    } catch (error: any) {
+      const errors: { [key: string]: string } = {}
+      error.inner.forEach((err: any) => {
+        errors[err.path] = err.message
+      })
+      section === 'personal' ? setPersonalErrors(errors) : setProfessionalErrors(errors)
     }
   }
 
@@ -124,6 +122,7 @@ export const ProfileForm = ({ personal, professional, onSave }: Props) => {
       ))}
     </Box>
   )
+
 
   return (
     <form className="data">
