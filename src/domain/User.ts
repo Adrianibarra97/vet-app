@@ -21,7 +21,8 @@ export class User {
 		public telephone: number,
 		public adress: string,
 		public username: string,
-		public landline: string
+		public landline: string,
+		public photoUrl?: string
 	) {}
 
 	toJSON(): UserJSON {

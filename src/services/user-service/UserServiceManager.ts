@@ -2,7 +2,7 @@ import { UserService } from "./UserService"
 import { UserServiceInter } from "./UserServiceInter"
 import { UserServiceStub } from "./UserServiceStub"
 
-class UserServiceManager {
+class UserServiceManager  {
     private static instance: UserServiceInter
     private static useStub = true
   

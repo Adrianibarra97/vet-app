@@ -1,13 +1,18 @@
 import {  Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import '../profile-menu/Profile-menu.css';
+import { User } from '../../domain/User';
 
-export const ProfileMenu = () => {
+interface Props {
+  user: User
+}
+export const ProfileMenu = ({ user }: Props) => {
   return (
     <>
       <figure className="menu--image">
         <Avatar
           alt="Foto de perfil"
+          src={user.photoUrl}
           sx={{
             width: '100%',
             height: '100%',

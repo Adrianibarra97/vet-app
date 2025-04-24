@@ -6,28 +6,34 @@ import UserServiceManager from '../../services/user-service/UserServiceManager'
 import { User } from '../../domain/User'
 
 export const ProfilePage = () => {
+  const userService = UserServiceManager.getInstance()
+
   const [user, setUser] = useState<User | null>(null)
   const [professional, setProfessional] = useState<ProfessionalInfo | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchData = async () => {
-      const personal = await UserServiceManager.getInstance().getUserInfo()
-      const prof = await UserServiceManager.getInstance().getProfessionalInfo()
-      setUser(personal)
-      setProfessional(prof)
-    }
-    fetchData()
+    userService.getOneById(1).then(({ user, professional }) => {
+      setUser(user)
+      setProfessional(professional)
+      setLoading(false)
+    })
   }, [])
 
-  const handleSave = async (section: 'personal' | 'professional', data: any) => {
-    if (section === 'personal') {
-      await UserServiceManager.getInstance().updateUserInfo(data)
-    } else {
-      await UserServiceManager.getInstance().updateProfessionalInfo(data)
+  const handleSave = (section: 'personal' | 'professional', data: any) => {
+    const updatedUser = section === 'personal' ? data : user
+    const updatedProfessional = section === 'professional' ? data : professional
+
+    if (updatedUser && updatedProfessional) {
+      userService.update(updatedUser, updatedProfessional).then(() => {
+        setUser(updatedUser)
+        setProfessional(updatedProfessional)
+      })
     }
   }
 
-  if (!user || !professional) return <p>Cargando...</p>
+
+  if (loading || !user || !professional) return <p>Cargando...</p>
 
   return (
     <main className="main">
@@ -38,7 +44,7 @@ export const ProfilePage = () => {
           <div className="content__menu">
             <h2>Menú</h2>
             <nav className="menu">
-              <ProfileMenu />
+              <ProfileMenu user={user} />
             </nav>
           </div>
         </div>
