@@ -21,7 +21,7 @@ export const PrincipalRoutes = () => {
             </Route> */}
             <Route element = { <ProtectedRoutes /> }>
               <Route path = "/" element = { <MainLayout /> } >
-                <Route path = "/profile" element = { <ProfilePage /> } />
+                <Route path = "/profile" element={<ProfilePage name="User Profile" />} />
                 <Route path = "/pets" element = { <PetPage name={ titleToTypeUser() } /> } />
                 <Route path = "/medical-shift" element = { <MedicalShiftPage /> } />
                 <Route path = "*" element = { <ErrorPage /> } />
