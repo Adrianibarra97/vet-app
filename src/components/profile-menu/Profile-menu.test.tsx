@@ -1,7 +1,4 @@
-export const ProfileMenu = () => {
-  return (
-    <>
-      <div>Profile Menu</div>
-    </>
-  )
-}
+describe('ProfileMenu', () => {
+  it('renders without crashing', () => {
+  })
+})   

@@ -6,7 +6,8 @@ export type UserJSON = {
 	email: string,
 	telephone: number,
 	adress: string,
-	username: string
+	username: string,
+	landline: string
 }
 
 export class User {
@@ -19,7 +20,9 @@ export class User {
 		public email: string,
 		public telephone: number,
 		public adress: string,
-		public username: string
+		public username: string,
+		public landline: string,
+		public photoUrl?: string
 	) {}
 
 	toJSON(): UserJSON {
@@ -31,7 +34,8 @@ export class User {
 			email: this.email,
 			telephone: this.telephone,
 			adress: this.adress,
-			username: this.username
+			username: this.username,
+			landline: this.landline
 		}
 	}
 }

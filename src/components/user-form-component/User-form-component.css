@@ -77,6 +77,28 @@
     border: 1px solid var(--footer-color);
 }
 
+.content__button {
+    display: flex;
+    width: 6em;
+    height: 2.5em;
+    font-size: 1.1em;
+    font-weight: bolder;
+    color: var(--header-color);
+    background-color: var(--footer-color);
+    border: 1px solid var(--footer-color);
+    border-radius: 0.4em;
+    justify-content: center;
+    align-items: center;
+}
+
+.content__button:hover {
+    background-color: var(--primary-color);
+}
+
+.content__button:active {
+    background-color: var(--primary-color);
+}
+
 @media screen and (min-width: 768px) {
     .data__section {
         height: 400px;
