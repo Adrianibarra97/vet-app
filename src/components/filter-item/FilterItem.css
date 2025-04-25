@@ -21,6 +21,13 @@
 
 .filter__item--color {
     accent-color: var(--secondary-color);
+    outline: none;
+    border: 1px solid var(--secondary-color);
+    border-radius: 0.4em;
+}
+
+.filter__item--color:focus {
+    box-shadow: 0px 0px 10px var(--footer-color);
 }
 
 @media screen and (min-width: 720px) {
