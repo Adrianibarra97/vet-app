@@ -12,6 +12,7 @@ import './User-form-component.css'
 import { ProfessionalInfo } from '../../domain/ProfessionalInfo'
 import { User } from '../../domain/User'
 import { ValidateFormByFields, professionalSchema } from '../../util/ValidateFormByFields'
+import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 interface Props {
   personal: User
   professional: ProfessionalInfo
@@ -81,11 +82,15 @@ export const ProfileForm = ({ personal, professional, onSave }: Props) => {
         setPersonalErrors({})
         onSave(section, personalForm)
         setEditPersonal(false)
+        SnackbarUtilities.succes('Información personal actualizada correctamente ✅')
+
       } else {
         await professionalSchema.validate(professionalForm, { abortEarly: false })
         setProfessionalErrors({})
         onSave(section, professionalForm)
         setEditProfessional(false)
+        SnackbarUtilities.succes('Información profesional actualizada correctamente ✅')
+
       }
     } catch (error: any) {
       const errors: { [key: string]: string } = {}
@@ -93,6 +98,8 @@ export const ProfileForm = ({ personal, professional, onSave }: Props) => {
         errors[err.path] = err.message
       })
       section === 'personal' ? setPersonalErrors(errors) : setProfessionalErrors(errors)
+      SnackbarUtilities.error('Por favor completá todos los campos obligatorios correctamente.')
+
     }
   }
 

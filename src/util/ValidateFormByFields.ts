@@ -23,9 +23,13 @@ export const ValidateFormByFields = yup.object().shape({
     .required('Ingresá una dirección válida'),
 
   email: yup
-    .string()
-    .email('Ingresá un email válido, por ejemplo usuario@ejemplo.com')
-    .required('El email es obligatorio'),
+  .string()
+  .matches(
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,4}$/,
+    'Ingresá un email profesional válido, por ejemplo nombre@empresa.com'
+  )
+  .required('El email profesional es obligatorio'),
+
 
   username: yup
     .string()
@@ -62,9 +66,13 @@ export const professionalSchema = yup.object().shape({
     .required('La dirección del trabajo es obligatoria'),
 
   professionalEmail: yup
-    .string()
-    .email('Ingresá un email profesional válido')
-    .required('El email profesional es obligatorio'),
+  .string()
+  .matches(
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,4}$/,
+    'Ingresá un email profesional válido, por ejemplo nombre@empresa.com'
+  )
+  .required('El email profesional es obligatorio'),
+
 
   attentionSchedule: yup
     .string()

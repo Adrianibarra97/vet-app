@@ -12,13 +12,13 @@ export class UserServiceStub implements UserServiceInter {
     1144556677,
     'Av. Balbin 456',
     'mgomez',
-    '01143001234',
+    '43001234',
     'https://thumbs.dreamstime.com/z/mujer-veterinaria-con-el-perro-de-aguas-39766136.jpg',
   )
 
   private professionalInfo = new ProfessionalInfo(
     '12345',
-    '1133224455',
+    '1533224455',
     'Cardiología',
     'Hospital Central 1000',
     'maria.prof@hospital.com',

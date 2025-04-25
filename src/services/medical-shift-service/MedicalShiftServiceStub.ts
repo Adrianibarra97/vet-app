@@ -11,13 +11,13 @@ export class MedicalShiftServiceStub implements MedicalShiftServiceInter {
       "id": 1,
       "vetName": "Dr. Juan Perez",
       "petName": "Nala",
-      "date": "2025-04-20T09:30"
+      "date": "2025-04-25T09:30"
     },
     {
       "id": 2,
       "vetName": "Dr. Maria Lopez",
       "petName": "Morena",
-      "date": "2025-04-22T13:00"
+      "date": "2025-04-23T13:00"
     },
     {
       "id": 3,
