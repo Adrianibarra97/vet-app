@@ -25,8 +25,8 @@ export const ProfileMenu = ({ user }: Props) => {
 
       <ul className="menu__ul">
         <Link className="menu__ul--link" to="/profile">Perfil</Link>
-        <Link className="menu__ul--link" to="/patients">Mis pacientes</Link>
-        <Link className="menu__ul--link" to="/turns">Turnos</Link>
+        <Link className="menu__ul--link" to="/pets">Mis pacientes</Link>
+        <Link className="menu__ul--link" to="/medical-shift">Turnos</Link>
       </ul>
     </>
    

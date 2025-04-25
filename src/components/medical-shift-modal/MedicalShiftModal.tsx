@@ -69,6 +69,10 @@ export function MedicalShiftModal({
   }
 
   useEffect(() => {
+    setMedicalShift(new MedicalShift())
+    setFromTouched(false)
+    setError(null)
+    setDate(null)
     if (idMedicalShift > -1) {
       getMedicalShift()
     } else {
@@ -96,6 +100,7 @@ export function MedicalShiftModal({
     setMedicalShift(new MedicalShift())
     setFromTouched(false)
     onClose()
+
   }
   const handleCancel = () => {
     setMedicalShift(new MedicalShift())
@@ -157,10 +162,9 @@ export function MedicalShiftModal({
                 ''
               )
             }
-            sx={{
-              '@media (max-width:600px)': {
-                color: 'var(--footer-color)!important',
-              },
+            sx={{ 
+           
+            
               '& .MuiInputLabel-root': {
                 color: 'var(--footer-color)',
               },
@@ -181,6 +185,7 @@ export function MedicalShiftModal({
                 WebkitTextFillColor: 'var(--footer-color)',
               },
             }}
+          
           />
         )}
         <FormControl
