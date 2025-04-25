@@ -1,0 +1,137 @@
+.data {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    height: auto;
+    padding: 1em;
+    gap: 1em;
+    place-items: center;
+    align-items: start;
+}
+
+.data__section {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    width: 100%;
+    height: 600px;
+    border-radius: 0.4em;
+    color: var(--font-color);
+    background-color: var(--header-color);
+    border: 1.5px solid var(--footer-color);
+}
+
+.section__header {
+    display: flex;
+    width: 100%;
+    height: 3em;
+    padding: 0 1em;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bolder;
+    border-bottom: 1px solid var(--primary-color);
+}
+
+.section__header--menu {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    font-size: 1.1em;
+}
+
+.section__header--title {
+    font-size: 1.1em;
+}
+
+
+.section__content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.section__items {
+    width: 80%;
+}
+
+.data__item {
+    display: flex;
+    flex-direction: column;
+    font-weight: bolder;
+    margin: 1em;
+}
+
+.data__item--input {
+    outline: none;
+    font-size: 1em;
+    border-radius: 0.2em;
+    color: var(--font-color);
+    border: 1px solid var(--primary-color);
+}
+
+.data__item--input:focus {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--footer-color);
+}
+
+.content__button {
+    display: flex;
+    width: 6em;
+    height: 2.5em;
+    font-size: 1.1em;
+    font-weight: bolder;
+    color: var(--header-color);
+    background-color: var(--footer-color);
+    border: 1px solid var(--footer-color);
+    border-radius: 0.4em;
+    justify-content: center;
+    align-items: center;
+}
+
+.content__button:hover {
+    background-color: var(--primary-color);
+}
+
+.content__button:active {
+    background-color: var(--primary-color);
+}
+
+@media screen and (min-width: 768px) {
+    .data__section {
+        height: 400px;
+    }
+
+    .section__header--menu {
+        font-size: 1.5em;
+    }
+    
+    .section__header--title {
+        font-size: 1.5em;
+    }
+
+    .section__content {
+        flex-direction: row;
+    }
+
+    .data__item {
+        margin: 1.5em 1em;
+    }
+}
+
+@media screen and (min-width: 1080px) {
+    .data__section {
+        width: 80%;
+        height: 400px;
+    }
+
+    .section__items {
+        width: 40%;
+    }
+
+    .data__item--input {
+        width: 80%;
+    }
+}

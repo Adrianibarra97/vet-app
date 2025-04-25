@@ -4,10 +4,15 @@ import { ProtectedRoutes } from '../guards/ProtectedRoutes'
 import { MainLayout } from '../../layouts/main/MainLayout'
 import { ProfilePage } from '../../pages/profile-page/ProfilePage'
 import { PetPage } from '../../pages/pet-page/PetPage'
-import { MedicalShiftPage } from '../../pages/medical-shidt-page/MedicalShiftPage'
+import { MedicalShiftPage } from '../../pages/medical-shift-page/MedicalShiftPage'
 import { ErrorPage } from '../../pages/error-page/ErrorPage'
 
 export const PrincipalRoutes = () => {
+
+    const titleToTypeUser = () => {
+      return "Pacientes"
+    }
+
     return (
       <BrowserRouter>
           <Routes>
@@ -16,12 +21,12 @@ export const PrincipalRoutes = () => {
             </Route> */}
             <Route element = { <ProtectedRoutes /> }>
               <Route path = "/" element = { <MainLayout /> } >
-                <Route path = "/profile" element = { <ProfilePage /> } />
-                <Route path = "/pets" element = { <PetPage /> } />
+                <Route path = "/profile" element={<ProfilePage name="Perfil" />} />
+                <Route path = "/pets" element = { <PetPage name={ titleToTypeUser() } /> } />
                 <Route path = "/medical-shift" element = { <MedicalShiftPage /> } />
                 <Route path = "*" element = { <ErrorPage /> } />
               </Route>
-          </Route>
+            </Route>
           </Routes>
       </BrowserRouter>
     )
