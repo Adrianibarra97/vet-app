@@ -18,7 +18,7 @@ export class UserServiceStub implements UserServiceInter {
 
   private professionalInfo = new ProfessionalInfo(
     '12345',
-    '1133224455',
+    '1533224455',
     'Cardiología',
     'Hospital Central 1000',
     'maria.prof@hospital.com',
