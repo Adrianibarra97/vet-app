@@ -26,9 +26,9 @@ export const ValidateFormByFields = yup.object().shape({
   .string()
   .matches(
     /^[^\s@]+@[^\s@]+\.[^\s@]{2,4}$/,
-    'Ingresá un email profesional válido, por ejemplo nombre@empresa.com'
+    'Ingresá un email válido, por ejemplo nombre@empresa.com'
   )
-  .required('El email profesional es obligatorio'),
+  .required('El email es obligatorio'),
 
 
   username: yup
