@@ -21,7 +21,7 @@ export function MedicalShiftModal({ open, onClose, onConfirm, idMedicalShift }: 
   const [medicalShift, setMedicalShift] = useState<MedicalShift>(new MedicalShift())
   const [fromTouched,setFromTouched] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [date, setDate] = useState<Dayjs | null>(dayjs(medicalShift.date))
+  const [date, setDate] = useState<Dayjs | null>(null)
   
   const handleMedicalShiftCreationOrEdition = (name: keyof MedicalShift, value: string): void => {
     (medicalShift as unknown as Record<keyof MedicalShift, string | undefined>)[name] = value;
@@ -48,8 +48,15 @@ export function MedicalShiftModal({ open, onClose, onConfirm, idMedicalShift }: 
       getMedicalShift();
     }
     getPetPacients();
-  }, [])
+  }, [idMedicalShift])
 
+  useEffect(() => {
+    if (medicalShift?.date) {
+      setDate(dayjs(medicalShift.date));
+    } else{
+      setDate(null);
+    }
+  }, [medicalShift]);
   const handleOnConfirm = () => {
     setFromTouched(true)
     if(hasMissingRequiredFields()){
@@ -58,6 +65,7 @@ export function MedicalShiftModal({ open, onClose, onConfirm, idMedicalShift }: 
     }
     onConfirm(medicalShift, medicalShift.id)
     setMedicalShift(new MedicalShift())
+    setFromTouched(false)
     onClose()
   }
 
@@ -91,8 +99,8 @@ export function MedicalShiftModal({ open, onClose, onConfirm, idMedicalShift }: 
             Paciente
           </InputLabel>
           <Select
-            value={medicalShift.petName ? `${medicalShift.petName} ` : ''}
-            onChange={(event) => handleMedicalShiftCreationOrEdition('petName', event.target.value)}
+           value={medicalShift.petName ?  `${medicalShift.petName}`:''}
+         onChange={(event) => handleMedicalShiftCreationOrEdition('petName', event.target.value)}
             label="Paciente" fullWidth color="primary"
           >
             <MenuItem value=""><em>Seleccionar Paciente</em></MenuItem>
