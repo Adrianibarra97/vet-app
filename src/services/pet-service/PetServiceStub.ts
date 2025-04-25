@@ -2,6 +2,7 @@ import { PetServiceInter } from './PetServiceInter'
 
 import { PetFilterValues } from '../../domain/PetFilterValues'
 import { Pet, PetJSON } from '../../domain/Pet'
+import { capitalize } from '@mui/material'
 
 export class PetServiceStub implements PetServiceInter {
   
@@ -160,19 +161,19 @@ export class PetServiceStub implements PetServiceInter {
 		})
 
 		if(petFilter.name != '' && petFilter.pendingVaccine && petFilter.withMedicalShift) {
-			return pets.slice(0,5)
+			return pets.filter((pet) => pet.name.startsWith(petFilter.name))
 		}
 
 		if(petFilter.name != '' && petFilter.pendingVaccine && !petFilter.withMedicalShift) {
-			return pets.slice(0,8)
+			return pets.filter((pet) => pet.name.startsWith(petFilter.name))
 		}
 
 		if(petFilter.name != '' && !petFilter.pendingVaccine && petFilter.withMedicalShift) {
-			return pets.slice(0,2)
+			return pets.filter((pet) => pet.name.startsWith(petFilter.name))
 		}
 
 		if(petFilter.name != '' && !petFilter.pendingVaccine && !petFilter.withMedicalShift) {
-			return pets.slice(0,7)
+			return pets.filter((pet) => capitalize(pet.name).startsWith(capitalize(petFilter.name)))
 		}
 
 		if(petFilter.name == '' && petFilter.pendingVaccine && petFilter.withMedicalShift) {
