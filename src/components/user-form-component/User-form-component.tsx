@@ -17,6 +17,7 @@ interface Props {
   personal: User
   professional: ProfessionalInfo
   onSave: (section: 'personal' | 'professional', data: any) => void
+  showProfessionalInfo: boolean
 }
 const personalFields = [
   { label: 'Nombre', key: 'name' },
@@ -38,7 +39,7 @@ const professionalFields = [
   { label: 'Horario de atención', key: 'attentionSchedule' },
 ]
 
-export const ProfileForm = ({ personal, professional, onSave }: Props) => {
+export const ProfileForm = ({ personal, professional, onSave, showProfessionalInfo }: Props) => { 
   const [editPersonal, setEditPersonal] = useState(false)
   const [editProfessional, setEditProfessional] = useState(false)
 
@@ -196,6 +197,8 @@ export const ProfileForm = ({ personal, professional, onSave }: Props) => {
         )}
       </Box>
 
+      {showProfessionalInfo && (
+
       <Box className="data__section">
         <Box className="section__header">
           <Stack direction="row" alignItems="center">
@@ -258,6 +261,7 @@ export const ProfileForm = ({ personal, professional, onSave }: Props) => {
           </Stack>
         )}
       </Box>
+      )}
     </form>
   )
 }

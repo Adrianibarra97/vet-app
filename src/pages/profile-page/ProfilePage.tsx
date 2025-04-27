@@ -49,11 +49,13 @@ export const ProfilePage = ({ name }: TitleProp) => {
         </div>
         <div className="main__content--data">
           {user && professional && (
-            <ProfileForm
-              personal={user}
-              professional={professional}
-              onSave={handleChangesProfile}
-            />
+         <ProfileForm
+         personal={user}
+         professional={professional}
+         onSave={handleChangesProfile}
+         showProfessionalInfo={UserServiceManager.getUserType() === "vet"} 
+       />
+       
           )}
         </div>
       </div>
