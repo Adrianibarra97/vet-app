@@ -9,7 +9,7 @@ export class PetServiceStub implements PetServiceInter {
 	private objects: Array<PetJSON> = [
 		{
 			"id": 0,
-			"photo": "./src/assets/nala.jfif",
+			"photo": "/pets/src/assets/nala.jfif",
 			"name": "Nala",
 			"age": 9,
 			"breed": "Mestizo",
@@ -21,7 +21,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 1,
-			"photo": "../../../src/assets/oli.jfif",
+			"photo": "/pets/src/assets/oli.jfif",
 			"name": "Oli",
 			"age": 4,
 			"breed": "Mestizo",
@@ -33,7 +33,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 2,
-			"photo": "../../../src/assets/owie.jfif",
+			"photo": "/pets/src/assets/owie.jfif",
 			"name": "Owie",
 			"age": 13,
 			"breed": "Mestizo",
@@ -45,7 +45,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 3,
-			"photo": "../../../src/assets/rocky.jfif",
+			"photo": "/pets/src/assets/rocky.jfif",
 			"name": "Rocky",
 			"age": 5,
 			"breed": "Mestizo",
@@ -57,7 +57,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 4,
-			"photo": "../../../src/assets/pipi.jfif",
+			"photo": "/pets/src/assets/pipi.jfif",
 			"name": "Pipi",
 			"age": 5,
 			"breed": "Torcaza",
@@ -69,7 +69,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 5,
-			"photo": "../../../src/assets/morena.jfif",
+			"photo": "/pets/src/assets/morena.jfif",
 			"name": "Morena",
 			"age": 14,
 			"breed": "Mestizo",
@@ -81,7 +81,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 6,
-			"photo": "../../../src/assets/mileva.jfif",
+			"photo": "/pets/src/assets/mileva.jfif",
 			"name": "Mileva",
 			"age": 4,
 			"breed": "Mestizo",
@@ -93,7 +93,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 7,
-			"photo": "../../../src/assets/napoleon.jfif",
+			"photo": "/pets/src/assets/napoleon.jfif",
 			"name": "Napoleón",
 			"age": 9,
 			"breed": "Mestizo",
@@ -105,7 +105,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 8,
-			"photo": "../../../src/assets/burpee.jfif",
+			"photo": "/pets/src/assets/burpee.jfif",
 			"name": "Burpee",
 			"age": 8,
 			"breed": "Sharpei",
@@ -117,7 +117,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 9,
-			"photo": "../../../src/assets/freya.jfif",
+			"photo": "/pets/src/assets/freya.jfif",
 			"name": "Freya",
 			"age": 5,
 			"breed": "Mestizo",
@@ -129,7 +129,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 10,
-			"photo": "../../../src/assets/cleopatra.jfif",
+			"photo": "/pets/src/assets/cleopatra.jfif",
 			"name": "Cleopatra",
 			"age": 5,
 			"breed": "Mestizo",
