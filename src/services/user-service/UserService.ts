@@ -12,7 +12,7 @@ export class UserService implements UserServiceInter {
 		  new User(
 			u.id, u.dni, u.name, u.surname,
 			u.email, u.telephone, u.adress,
-			u.username, u.landline, u.photoUrl
+			u.username, u.landline, u.type, u.photoUrl
 		  )
 		)
 	  }
@@ -24,7 +24,7 @@ export class UserService implements UserServiceInter {
 		  user: new User(
 			u.id, u.dni, u.name, u.surname,
 			u.email, u.telephone, u.adress,
-			u.username, u.landline
+			u.username, u.landline, u.type
 		  ),
 		  professional: new ProfessionalInfo(
 			u.license, u.workPhone, u.specialty,

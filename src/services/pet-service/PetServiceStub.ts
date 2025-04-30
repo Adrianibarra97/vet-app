@@ -5,11 +5,12 @@ import { Pet, PetJSON } from '../../domain/Pet'
 import { capitalize } from '@mui/material'
 
 export class PetServiceStub implements PetServiceInter {
-  
+
+	private standardPath: string = '/src/assets/'
 	private objects: Array<PetJSON> = [
 		{
 			"id": 0,
-			"photo": "./src/assets/nala.jfif",
+			"photo": this.standardPath + "nala.jfif",
 			"name": "Nala",
 			"age": 9,
 			"breed": "Mestizo",
@@ -21,7 +22,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 1,
-			"photo": "../../../src/assets/oli.jfif",
+			"photo": this.standardPath + "oli.jfif",
 			"name": "Oli",
 			"age": 4,
 			"breed": "Mestizo",
@@ -33,7 +34,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 2,
-			"photo": "../../../src/assets/owie.jfif",
+			"photo": this.standardPath + "owie.jfif",
 			"name": "Owie",
 			"age": 13,
 			"breed": "Mestizo",
@@ -45,7 +46,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 3,
-			"photo": "../../../src/assets/rocky.jfif",
+			"photo": this.standardPath + "rocky.jfif",
 			"name": "Rocky",
 			"age": 5,
 			"breed": "Mestizo",
@@ -57,7 +58,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 4,
-			"photo": "../../../src/assets/pipi.jfif",
+			"photo": this.standardPath + "pipi.jfif",
 			"name": "Pipi",
 			"age": 5,
 			"breed": "Torcaza",
@@ -69,7 +70,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 5,
-			"photo": "../../../src/assets/morena.jfif",
+			"photo": this.standardPath + "morena.jfif",
 			"name": "Morena",
 			"age": 14,
 			"breed": "Mestizo",
@@ -81,7 +82,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 6,
-			"photo": "../../../src/assets/mileva.jfif",
+			"photo": this.standardPath + "mileva.jfif",
 			"name": "Mileva",
 			"age": 4,
 			"breed": "Mestizo",
@@ -93,7 +94,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 7,
-			"photo": "../../../src/assets/napoleon.jfif",
+			"photo": this.standardPath + "napoleon.jfif",
 			"name": "Napoleón",
 			"age": 9,
 			"breed": "Mestizo",
@@ -105,7 +106,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 8,
-			"photo": "../../../src/assets/burpee.jfif",
+			"photo": this.standardPath + "burpee.jfif",
 			"name": "Burpee",
 			"age": 8,
 			"breed": "Sharpei",
@@ -117,7 +118,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 9,
-			"photo": "../../../src/assets/freya.jfif",
+			"photo": this.standardPath + "freya.jfif",
 			"name": "Freya",
 			"age": 5,
 			"breed": "Mestizo",
@@ -129,7 +130,7 @@ export class PetServiceStub implements PetServiceInter {
 		},
 		{
 			"id": 10,
-			"photo": "../../../src/assets/cleopatra.jfif",
+			"photo": this.standardPath + "cleopatra.jfif",
 			"name": "Cleopatra",
 			"age": 5,
 			"breed": "Mestizo",

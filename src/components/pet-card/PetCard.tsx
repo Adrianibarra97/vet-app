@@ -11,7 +11,7 @@ export const PetCard = (propPet: PropPetCard) => {
   return (
     <div className="card__content">
       <figure className="card__image">
-        <img className="card__image--size" src={ propPet.pet.photo } alt={ "Foto de " + propPet.pet.name } />
+        <img className="card__image--size" src= { propPet.pet.photo } alt={ "Foto de " + propPet.pet.name } />
       </figure>
       <div className="card__content--data">
         <div className="card__item">

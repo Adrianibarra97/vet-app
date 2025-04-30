@@ -1,12 +1,13 @@
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import './Header.css'
+import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 
 
 export const Header = () => {
 
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const menuOpenHandler = (setLayoutName: string) => {
     const nav: HTMLElement | null = document.getElementById('nav')
@@ -27,9 +28,8 @@ export const Header = () => {
   }
 
   const logoutApp = () => {
-    // authService.logout()
-		// navigate('/auth/login')
-    alert('Está funcionalidad de momento no se encuentra disponible!')
+    AuthServiceManager.getIntance().logout()
+		navigate('/auth/login')
   }
 
   return (
