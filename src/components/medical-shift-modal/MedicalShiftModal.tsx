@@ -100,8 +100,8 @@ export function MedicalShiftModal({
     setMedicalShift(new MedicalShift())
     setFromTouched(false)
     onClose()
-
   }
+
   const handleCancel = () => {
     setMedicalShift(new MedicalShift())
     setFromTouched(false)
@@ -120,30 +120,29 @@ export function MedicalShiftModal({
   }
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={handleCancel}>
       <Box
         sx={{
           width: 400,
-          maxWidth: '90vw',
+          maxWidth: '95vw',
+          maxHeight: '90vh',
           margin: 'auto',
           mt: '10vh',
-          p: 3,
+          p: 4,
           backgroundColor: 'white',
           borderRadius: 2,
-          maxHeight: '90vh',
-          overflow: 'auto',
+          overflow: 'hidden',
         }}
       >
-        <Typography variant="h6" sx={{ mb: 2, color: 'var(--primary-color)' }}>
+        <Typography variant="h6" sx={{ color: 'var(--primary-color)' }}>
           {idMedicalShift > -1 ? 'Editar Consulta' : 'Crear Consulta'}
         </Typography>
-        {idMedicalShift == -1 && (
+        {idMedicalShift === -1 && (
           <TextField
             label="Nombre de Veterinario"
             fullWidth
-            variant="filled"
+            variant="outlined"
             margin="normal"
-            color="primary"
             name="vetName"
             required
             value={medicalShift.vetName}
@@ -162,86 +161,27 @@ export function MedicalShiftModal({
                 ''
               )
             }
-            sx={{ 
-           
-            
-              '& .MuiInputLabel-root': {
-                color: 'var(--footer-color)',
-              },
-              '& .Mui-focused .MuiInputLabel-root': {
-                color: 'var(--footer-color)',
-              },
-              '& .MuiFilledInput-root': {
-                color: 'var(--footer-color)',
-              },
-              '& .MuiFilledInput-underline:before': {
-                borderBottomColor: 'var(--footer-color)',
-              },
-              '& .MuiFilledInput-underline:after': {
-                borderBottomColor: 'var(--footer-color)',
-              },
-              '& input:-webkit-autofill': {
-                WebkitBoxShadow: '0 0 0 1000px white inset',
-                WebkitTextFillColor: 'var(--footer-color)',
-              },
-            }}
-          
           />
         )}
         <FormControl
           fullWidth
           margin="normal"
-          variant="filled"
+          variant="outlined"
           error={fromTouched && !medicalShift.petName}
         >
           <InputLabel
             color={fromTouched && !medicalShift.petName ? 'error' : 'primary'}
-            sx={{
-              color: 'var(--footer-color)',
-              '&.Mui-focused': {
-                color: 'var(--footer-color)',
-              },
-            }}
           >
             Paciente
           </InputLabel>
-
           <Select
-            labelId="paciente-label"
             value={medicalShift.petName ? `${medicalShift.petName}` : ''}
             onChange={(event) =>
               handleMedicalShiftCreationOrEdition('petName', event.target.value)
             }
             label="Paciente"
             fullWidth
-            color="primary"
-            variant="filled"
-            sx={{ 
-           
-              '@media (max-width:600px)': {
-                color: 'var(--footer-color)!important',
-              },
-            
-              '& .MuiInputLabel-root': {
-                color: 'var(--footer-color)',
-              },
-              '& .Mui-focused .MuiInputLabel-root': {
-                color: 'var(--footer-color)',
-              },
-              '& .MuiFilledInput-root': {
-                color: 'var(--footer-color)',
-              },
-              '& .MuiFilledInput-underline:before': {
-                borderBottomColor: 'var(--footer-color)',
-              },
-              '& .MuiFilledInput-underline:after': {
-                borderBottomColor: 'var(--footer-color)',
-              },
-              '& input:-webkit-autofill': {
-                WebkitBoxShadow: '0 0 0 1000px white inset',
-                WebkitTextFillColor: 'var(--footer-color)',
-              },
-            }}
+            variant="outlined"
           >
             <MenuItem value="">
               <em>Seleccionar Paciente</em>
@@ -262,7 +202,6 @@ export function MedicalShiftModal({
           <DateTimePicker
             format="DD/MM/YYYY hh:mm A"
             label="Fecha y hora"
-            name="fechaInicio"
             value={date}
             defaultValue={dayjs()}
             minDateTime={dayjs()}
@@ -281,90 +220,10 @@ export function MedicalShiftModal({
             }}
             slotProps={{
               textField: {
-                variant: 'filled',
+                variant: 'outlined',
                 fullWidth: true,
                 error: !!error,
                 helperText: error,
-                sx: {
-                  '& .MuiInputLabel-root': {
-                    color: 'var(--footer-color)',
-                  },
-                  '& .MuiInputLabel-root.Mui-focused': {
-                    color: 'var(--footer-color)',
-                  },
-                  '& .MuiFilledInput-root': {
-                    color: 'var(--footer-color)',
-                    backgroundColor: '#f9f9f9',
-                    '&:hover': {
-                      backgroundColor: '#f9f9f9',
-                    },
-                    '&::before': {
-                      borderBottomColor: 'var(--footer-color)',
-                    },
-                    '&:hover::before': {
-                      borderBottomColor: 'var(--footer-color)',
-                    },
-                    '&::after': {
-                      borderBottomColor: 'var(--footer-color)',
-                    },
-                  },
-                  '& .MuiSvgIcon-root': {
-                    color: 'var(--footer-color)',
-                  },
-                  '& input:-webkit-autofill': {
-                    WebkitBoxShadow: '0 0 0 1000px white inset',
-                    WebkitTextFillColor: 'var(--footer-color)',
-                  },
-                },
-              },
-              popper: {
-                sx: {
-                  '& .MuiPickersDay-root.Mui-selected': {
-                    backgroundColor: 'var(--footer-color)',
-                    '&:hover': {
-                      backgroundColor: '#479986',
-                    },
-                  },
-                  '& .MuiPickersDay-root:focus': {
-                    backgroundColor: 'var(--footer-color)',
-                  },
-                  '& .MuiPickersDay-today': {
-                    borderColor: 'var(--footer-color)',
-                  },
-                  '& .MuiPickersCalendarHeader-label': {
-                    color: 'var(--footer-color)',
-                  },
-                  '& .MuiPickersArrowSwitcher-root button': {
-                    color: 'var(--footer-color)',
-                  },
-                  '& .MuiDialogActions-root button': {
-                    color: 'var(--footer-color)',
-                  },
-                  '& .MuiClock-root': {
-                    backgroundColor: '#f9f9f9',
-                  },
-                  '& .MuiClockPointer-root': {
-                    backgroundColor: 'var(--footer-color)',
-                  },
-                  '& .MuiClockPointer-thumb': {
-                    border: '14px solid var(--footer-color)',
-                    backgroundColor: 'var(--footer-color)',
-                  },
-                  '& .MuiClockNumber-root.Mui-selected': {
-                    backgroundColor: 'var(--footer-color)',
-                    color: 'white',
-                  },
-                  '& .MuiClockNumber-root:hover': {
-                    backgroundColor: '#d5f0e7',
-                  },
-                  '& .MuiPickersLayout-contentWrapper .Mui-selected': {
-                    backgroundColor: 'var(--footer-color)',
-                    color: '#fff',
-                  },
-                  '& .MuiPickersLayout-contentWrapper .MuiButtonBase-root:hover': {
-                    backgroundColor: '#d5f0e7',
-                  },
-                },
               },
             }}
           />
