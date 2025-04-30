@@ -14,6 +14,7 @@ export class UserServiceStub implements UserServiceInter {
     'mgomez',
     '43001234',
     'https://thumbs.dreamstime.com/z/mujer-veterinaria-con-el-perro-de-aguas-39766136.jpg',
+    'admin'
   )
 
   private professionalInfo = new ProfessionalInfo(

@@ -2,7 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 export const ProtectedRoutes = () => {
 
-  const isAuthorized = true
+  const isAuthorized = false
 
   if(isAuthorized) {
     return <Outlet />
