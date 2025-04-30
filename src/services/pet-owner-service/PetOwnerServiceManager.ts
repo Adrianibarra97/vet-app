@@ -1,4 +1,3 @@
-// src/services/pet-owner-service/PetOwnerServiceManager.ts
 import { PetOwnerService } from './PetOwnerService'
 import { PetOwnerServiceStub } from './PetOwnerServiceStub'
 import { PetOwnerServiceInter } from './PetOwnerServiceInter'

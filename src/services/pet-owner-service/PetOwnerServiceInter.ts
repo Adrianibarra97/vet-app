@@ -1,9 +1,8 @@
-import { ProfessionalInfo } from "../../domain/ProfessionalInfo"
-import { User } from "../../domain/User"
+import { PetOwner } from '../../domain/PetOwner'
 
 export interface PetOwnerServiceInter {
-  getAll(): Promise<User[]>
-  getOneById(id: number): Promise<{ user: User; professional: ProfessionalInfo }>
-  update(user: User): Promise<void>
+  getAll(): Promise<PetOwner[]>
+  getOneById(id: number): Promise<PetOwner>
+  update(user: PetOwner): Promise<void>
   delete(id: number): Promise<void>
 }

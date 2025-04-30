@@ -1,9 +1,8 @@
-import { ProfessionalInfo } from '../../domain/ProfessionalInfo'
-import { User } from '../../domain/User'
+import { Vet } from '../../domain/Vet'
 import { VetServiceInter } from './VetServiceInter'
 
 export class VetServiceStub implements VetServiceInter {
-  private user = new User(
+  private user = new Vet(
     1,
     30456789,
     'María',
@@ -13,38 +12,30 @@ export class VetServiceStub implements VetServiceInter {
     'Av. Balbin 456',
     'mgomez',
     '43001234',
-    'https://thumbs.dreamstime.com/z/mujer-veterinaria-con-el-perro-de-aguas-39766136.jpg',
-  )
-
-  private professionalInfo = new ProfessionalInfo(
     '12345',
-    '1533224455',
     'Cardiología',
-    'Hospital Central 1000',
-    'maria.prof@hospital.com',
     'Lunes a Viernes, 08:00 - 16:00',
+    'maria.prof@hospital.com',
+    'Hospital Central 1000',
+    '1533224455',
+    'https://thumbs.dreamstime.com/z/mujer-veterinaria-con-el-perro-de-aguas-39766136.jpg'
   )
 
-  async getAll(): Promise<User[]> {
+  async getAll(): Promise<Vet[]> {
     return [this.user]
   }
 
-  async getOneById(): Promise<{ user: User; professional: ProfessionalInfo }> {
-    return {
-      user: this.user,
-      professional: this.professionalInfo,
-    }
+  async getOneById(): Promise<Vet> {
+    return this.user
   }
 
-  async update(user: User, professional: ProfessionalInfo): Promise<void> {
+  async update(vet: Vet): Promise<void> {
     console.log('Stub: actualizando datos...')
-    this.user = user
-    this.professionalInfo = professional
-    console.log('Nuevo estado:', this.user, this.professionalInfo)
+    this.user = vet
+    console.log('Nuevo estado:', this.user)
   }
 
   async delete(id: number): Promise<void> {
     console.log(`Stub: usuario con ID ${id} eliminado`)
   }
 }
-

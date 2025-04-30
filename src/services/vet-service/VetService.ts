@@ -1,46 +1,25 @@
 import axios from "axios"
 import { Vet } from "../../domain/Vet"
-import { ProfessionalInfo } from "../../domain/ProfessionalInfo"
 import { URL_BE } from "../config"
 import { VetServiceInter } from "./VetServiceInter"
 
 export class VetService implements VetServiceInter {
   async getAll(): Promise<Vet[]> {
     const res = await axios.get(`${URL_BE}/vet/get-all`)
-    return res.data.map((v: any) => new Vet(
-      v.id, v.dni, v.name, v.surname,
-      v.email, v.telephone, v.professionalAdress,
-      v.username, v.professionalTelephone,
-      v.photoUrl
-    ))
+    return res.data.map((v: any) => Vet.fromJSON(v))
   }
 
-  async getOneById(id: number): Promise<{ user: Vet; professional: ProfessionalInfo }> {
+  async getOneById(id: number): Promise<Vet> {
     const res = await axios.get(`${URL_BE}/vet/get-one-by-id`, { params: { idVet: id } })
-    const v = res.data
-    return {
-      user: new Vet(
-        v.id, v.dni, v.name, v.surname,
-        v.email, v.telephone, v.professionalAdress,
-        v.username, v.professionalTelephone,
-        v.photoUrl
-      ),
-      professional: new ProfessionalInfo(
-        v.licence, v.professionalTelephone, v.speciality,
-        v.professionalAdress, v.professionalEmail, v.businessHours
-      )
-    }
+    return Vet.fromJSON(res.data)
   }
 
-  async update(user: Vet, professional: ProfessionalInfo): Promise<void> {
-    const payload = {
-      ...user.toJSON(),
-      ...professional.toJSON()
-    }
+  async update(vet: Vet): Promise<void> {
+    const payload = vet.toJSON()
     await axios.put(`${URL_BE}/vet/update-vet`, payload)
   }
 
   async delete(id: number): Promise<void> {
-    await axios.delete(`${URL_BE}/vet/delete-vet`, { params: { id: id } })
+    await axios.delete(`${URL_BE}/vet/delete-vet`, { params: { id } })
   }
 }

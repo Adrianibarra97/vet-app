@@ -13,5 +13,12 @@ class VetServiceManager {
     return VetServiceManager.instance
   }
 }
+export const UserTypeService = {
+  getUserType: (): 'vet' | 'petOwner' => {
+    return 'vet'  
+    //  return AuthService.getLoggedUserType()
+
+  }
+}
 
 export default VetServiceManager
