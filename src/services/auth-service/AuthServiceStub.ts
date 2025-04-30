@@ -1,22 +1,31 @@
-import { UserLogin } from "../../domain/User";
-import { AuthServiceInter } from "./AuthServiceInter";
+import { AuthServiceInter } from './AuthServiceInter'
+
+import { UserLogin } from '../../domain/User'
 
 export class AuthServiceStub implements AuthServiceInter {
 
+	private isVetStub: boolean = true
+
+	constructor() {}
+
 	login(userLogin: UserLogin): void {
 		console.log(userLogin)
-		throw new Error("Method not implemented.");
+		localStorage.setItem("user__token", userLogin.toString())
 	}
 
 	logout(): void {
-		throw new Error("Method not implemented.");
+		localStorage.removeItem("user__token")
 	}
 
 	isAuthorized(): boolean {
-		throw new Error("Method not implemented.");
+		return localStorage.getItem("user__token") != undefined
 	}
 	
-	isAdmin(): boolean {
-		throw new Error("Method not implemented.");
+	isVet(): boolean {
+		return this.isVetStub
+	}
+
+	isOwner(): boolean {
+		return !this.isVetStub
 	}
 }

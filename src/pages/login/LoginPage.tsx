@@ -1,13 +1,28 @@
+import { useNavigate } from 'react-router-dom'
+import { UserLogin } from '../../domain/User'
+import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import './LoginPage.css'
+import { useState } from 'react'
 
 export const LoginPage = () => {
 
+  const navigate = useNavigate()
+  const [userLogin, setUserLogin] = useState({
+    username: '',
+    password: ''
+  })
+
   const handleLogin = () => {
-    alert('ingreso a la app')
+    const userLogin: UserLogin = {
+      username: 'adri9730',
+      password: '1234'
+    }
+    AuthServiceManager.getIntance().login(userLogin)
+    navigate('/pets')
   }
 
   return (
-    <main className="main">
+    <main className="auth__main">
       <div className='login'>
         <h1 className="main__title">Login</h1>
         <form className='login__form'>

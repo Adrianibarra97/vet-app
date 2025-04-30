@@ -7,5 +7,7 @@ export interface AuthServiceInter {
 
 	isAuthorized(): boolean
 
-	isAdmin(): boolean
+	isVet(): boolean
+
+	isOwner(): boolean
 }

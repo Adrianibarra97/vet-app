@@ -15,5 +15,6 @@ export type UserFull = {
   workAdress: string
   professionalEmail: string
   attentionSchedule: string
+  type: string,
   photoUrl?: string
 }
