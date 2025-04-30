@@ -1,6 +1,6 @@
 // src/services/pet-owner-service/PetOwnerService.ts
 import axios from "axios"
-import { UserServiceInter } from "../user-service/UserServiceInter"
+import { UserServiceInter } from "../vet-service/VetServiceInter"
 import { User } from "../../domain/User"
 import { ProfessionalInfo } from "../../domain/ProfessionalInfo"
 import { URL_BE } from "../config"

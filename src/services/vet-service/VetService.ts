@@ -2,9 +2,9 @@ import axios from "axios"
 import { Vet } from "../../domain/Vet"
 import { ProfessionalInfo } from "../../domain/ProfessionalInfo"
 import { URL_BE } from "../config"
-import { UserServiceInter } from "../user-service/UserServiceInter"
+import { VetServiceInter } from "./VetServiceInter"
 
-export class VetService implements UserServiceInter {
+export class VetService implements VetServiceInter {
   async getAll(): Promise<Vet[]> {
     const res = await axios.get(`${URL_BE}/vet/get-all`)
     return res.data.map((v: any) => new Vet(

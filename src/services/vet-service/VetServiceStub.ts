@@ -1,8 +1,8 @@
 import { ProfessionalInfo } from '../../domain/ProfessionalInfo'
 import { User } from '../../domain/User'
-import { UserServiceInter } from './UserServiceInter'
+import { VetServiceInter } from './VetServiceInter'
 
-export class UserServiceStub implements UserServiceInter {
+export class VetServiceStub implements VetServiceInter {
   private user = new User(
     1,
     30456789,

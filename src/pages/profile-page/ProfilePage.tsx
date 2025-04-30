@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { ProfileMenu } from '../../components/profile-menu/Profile-menu'
 import { ProfileForm } from '../../components/user-form-component/User-form-component'
 import { ProfessionalInfo } from '../../domain/ProfessionalInfo'
-import UserServiceManager from '../../services/user-service/UserServiceManager'
+import UserServiceManager from '../../services/vet-service/VetServiceManager'
 import { User } from '../../domain/User'
 interface TitleProp {
   name: string
