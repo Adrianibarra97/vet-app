@@ -1,3 +1,8 @@
+export type UserLogin = {
+	username: string,
+	password: string
+}
+
 export type UserJSON = {
 	id: number,
 	dni: number,
@@ -7,7 +12,8 @@ export type UserJSON = {
 	telephone: number,
 	adress: string,
 	username: string,
-	landline: string
+	landline: string,
+	type: string
 }
 
 export class User {
@@ -22,6 +28,7 @@ export class User {
 		public adress: string,
 		public username: string,
 		public landline: string,
+		public type: string,
 		public photoUrl?: string
 	) {}
 
@@ -35,7 +42,8 @@ export class User {
 			telephone: this.telephone,
 			adress: this.adress,
 			username: this.username,
-			landline: this.landline
+			landline: this.landline,
+			type: this.type
 		}
 	}
 }

@@ -11,6 +11,7 @@ export class Vet extends User {
     adress: string,
     username: string,
     landline: string,
+    type: string,
     public licence: string,
     public specialty: string,
     public businessHours: string,
@@ -19,7 +20,7 @@ export class Vet extends User {
     public professionalTelephone: string,
     photoUrl?: string
   ) {
-    super(id, dni, name, surname, email, telephone, adress, username, landline, photoUrl)
+    super(id, dni, name, surname, email, telephone, adress, username, landline, type,  photoUrl)
   }
 
   toJSON() {
@@ -34,6 +35,7 @@ export class Vet extends User {
       username: this.username,
       landline: this.landline,
       photoUrl: this.photoUrl,
+      type: this.type,
       licence: this.licence,
       specialty: this.specialty,
       businessHours: this.businessHours,
