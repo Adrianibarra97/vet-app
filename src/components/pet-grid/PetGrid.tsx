@@ -4,6 +4,7 @@ import { Pet } from '../../domain/Pet'
 import { ErrorMessage } from '../error-message/ErrorMessage'
 
 import './PetGrid.css'
+import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 
 interface PropPets {
   pets: Array<Pet>
@@ -16,8 +17,9 @@ export const PetGrid = (propPets: PropPets) => {
   }
 
   const showNewPet = (): string => {
-    const isAdmin = true
-    return isAdmin ? 'card__content card__content--none' : 'card__content'
+    return AuthServiceManager.getIntance().isVet()
+      ? 'card__content card__content--none'
+      : 'card__content'
   }
 
   return (
