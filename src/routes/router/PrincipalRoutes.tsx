@@ -21,13 +21,11 @@ export const PrincipalRoutes = () => {
             <Route path = "/auth" element = { <AuthLayout /> }>
               <Route path = "login" element = { <LoginPage /> }/>
             </Route>
-            <Route path = "/" element = { <MainLayout /> } >
-              <Route path = "medical-shift" element = { <MedicalShiftPage /> } />
-            </Route>
             <Route element = { <ProtectedRoutes /> }>
               <Route path = "/" element = { <MainLayout /> } >
                 <Route path = "profile" element={<ProfilePage name="Perfil" />} />
                 <Route path = "pets" element = { <PetPage name={ titleToTypeUser() } /> } />
+                <Route path = "medical-shift" element = { <MedicalShiftPage /> } />
                 <Route path = "*" element = { <ErrorPage /> } />
               </Route>
             </Route>

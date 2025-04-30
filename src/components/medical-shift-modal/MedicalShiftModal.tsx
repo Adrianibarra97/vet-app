@@ -15,7 +15,8 @@ import dayjs, { Dayjs } from 'dayjs'
 import { Pet } from '../../domain/Pet'
 import PetServiceManager from '../../services/pet-service/PetServiceManager'
 import MedicalShiftServiceManager from '../../services/medical-shift-service/MedicalShiftServiceManager'
-import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
+import { LocalizationProvider} from '@mui/x-date-pickers'
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 
@@ -131,7 +132,6 @@ export function MedicalShiftModal({
           p: 4,
           backgroundColor: 'white',
           borderRadius: 2,
-          overflow: 'hidden',
         }}
       >
         <Typography variant="h6" sx={{ color: 'var(--primary-color)' }}>
@@ -161,6 +161,22 @@ export function MedicalShiftModal({
                 ''
               )
             }
+            sx={{
+              '& label.Mui-focused': {
+                color: 'var(--footer-color)',
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'var(--footer-color)',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'var(--footer-color)',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'var(--footer-color)',
+                },
+              },
+            }}
           />
         )}
         <FormControl
@@ -168,6 +184,16 @@ export function MedicalShiftModal({
           margin="normal"
           variant="outlined"
           error={fromTouched && !medicalShift.petName}
+          sx={{
+            '& label.Mui-focused': {
+              color: 'var(--footer-color)',
+            },
+            '& .MuiOutlinedInput-root': {
+              '&.Mui-focused fieldset': {
+                borderColor: 'var(--footer-color)',
+              },
+            },
+          }}
         >
           <InputLabel
             color={fromTouched && !medicalShift.petName ? 'error' : 'primary'}
@@ -182,6 +208,17 @@ export function MedicalShiftModal({
             label="Paciente"
             fullWidth
             variant="outlined"
+            sx={{
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'var(--footer-color)',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'var(--footer-color)',
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'var(--footer-color)',
+              },
+            }}
           >
             <MenuItem value="">
               <em>Seleccionar Paciente</em>
@@ -199,35 +236,53 @@ export function MedicalShiftModal({
           )}
         </FormControl>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateTimePicker
-            format="DD/MM/YYYY hh:mm A"
-            label="Fecha y hora"
-            value={date}
-            defaultValue={dayjs()}
-            minDateTime={dayjs()}
-            onChange={(newDate) => {
-              if (newDate && newDate.isValid()) {
-                setError(null)
-                setDate(newDate)
-                handleMedicalShiftCreationOrEdition(
-                  'date',
-                  newDate.toISOString(),
-                )
-              } else {
-                setError('Por favor, selecciona una fecha válida.')
-                setDate(dayjs(medicalShift.date))
-              }
-            }}
-            slotProps={{
-              textField: {
-                variant: 'outlined',
-                fullWidth: true,
-                error: !!error,
-                helperText: error,
-              },
-            }}
-          />
-        </LocalizationProvider>
+  <DateTimePicker
+    sx={{
+      width: '100%',
+    }}
+    format="DD/MM/YYYY hh:mm A"
+    label="Fecha y hora"
+    value={date}
+    defaultValue={dayjs()}
+    minDateTime={dayjs()}
+    onChange={(newDate) => {
+      if (newDate && newDate.isValid()) {
+        setError(null);
+        setDate(newDate);
+        handleMedicalShiftCreationOrEdition('date', newDate.toISOString());
+      } else {
+        setError('Por favor, selecciona una fecha válida.');
+        setDate(dayjs(medicalShift.date));
+      }
+    }}
+    slotProps={{
+      textField: {
+        error: !!error,
+        helperText: error,
+      },
+      popper: {
+        placement: 'bottom-start',
+        modifiers: [
+          {
+            name: 'preventOverflow',
+            enabled: true,
+            options: {
+              altAxis: true,
+              tether: false,
+              padding: 10,
+            },
+          },
+          {
+            name: 'offset',
+            options: {
+              offset: [0, 8],
+            },
+          },
+        ],
+      },
+    }}
+  />
+</LocalizationProvider>
         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
           <Button
             variant="contained"
