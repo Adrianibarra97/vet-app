@@ -1,16 +1,11 @@
-import { Pet } from '../../domain/Pet'
-import { PetFilterValues } from '../../domain/PetFilterValues'
 import { UserLogin } from '../../domain/User'
-
 export interface AuthServiceInter {
-
-
 	
 	login(userLogin: UserLogin): void
 
-	logout(petFilter: PetFilterValues): void
+	logout(): void
 
-	isAuthorized(newPet: Pet): boolean
+	isAuthorized(): boolean
 
-	isAdmin(pet: Pet): boolean
+	isAdmin(): boolean
 }
