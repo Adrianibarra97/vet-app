@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { UserLogin } from '../../domain/User'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import './LoginPage.css'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 
 export const LoginPage = () => {
 
@@ -13,12 +13,24 @@ export const LoginPage = () => {
   })
 
   const handleLogin = () => {
-    const userLogin: UserLogin = {
-      username: 'adri9730',
-      password: '1234'
-    }
     AuthServiceManager.getIntance().login(userLogin)
     navigate('/pets')
+  }
+
+  const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
+    const userLoginJSON: UserLogin = {
+      username: e.target.value,
+      password: userLogin.password
+    }
+    setUserLogin(userLoginJSON)
+  }
+
+  const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
+    const userLoginJSON: UserLogin = {
+      username: userLogin.username,
+      password: e.target.value
+    }
+    setUserLogin(userLoginJSON)
   }
 
   return (
@@ -28,11 +40,11 @@ export const LoginPage = () => {
         <form className='login__form'>
           <div className='login__item'>
             <label>Username</label>
-            <input type="text" />
+            <input type="text" onChange={ (e) => { handleUsername(e) } } />
           </div>
           <div className='login__item'>
             <label>Password</label>
-            <input type="text" />
+            <input type="text" onChange={ (e) => { handlePassword(e) } } />
           </div>
           <button onClick={ () => handleLogin() }>Ingresar</button>
         </form>
