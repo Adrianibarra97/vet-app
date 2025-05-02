@@ -37,17 +37,13 @@ export const PetPage = (titleProp: TitleProp) => {
     setFilter(petFilter)
   }
 
-  const handleCancel = () => {
-    
+  const handleCancel = (id: number) => {
+    console.log('Se cancelo: ', id)
   }
 
-  const handleCreate = () => {
+  const handleCreate = (pet: Pet) => PetServiceManager.getIntance().create(pet)
 
-  }
-
-  const handleEdit = () => {
-
-  }
+  const handleUpdate = (pet: Pet) => PetServiceManager.getIntance().update(pet)
 
   useEffect(() => {
     getAllPetsByFilter(filter)
@@ -61,7 +57,7 @@ export const PetPage = (titleProp: TitleProp) => {
           <PetFilter filter={ filterValues } filterFunction={ handleChangesFilter }/>
         </div>
         <div className="main__content--data">
-          <PetGrid pets={ pets } onCancel={ handleCancel } onCreate={ handleCreate } onEdit={ handleEdit }/>
+          <PetGrid pets={ pets } onCancel={ handleCancel } onCreate={ handleCreate } onUpdate={ handleUpdate }/>
         </div>
       </div>
     </main>
