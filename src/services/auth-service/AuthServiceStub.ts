@@ -4,28 +4,30 @@ import { UserLogin } from '../../domain/User'
 
 export class AuthServiceStub implements AuthServiceInter {
 
-	private isVetStub: boolean = false
-
 	constructor() {}
 
 	login(userLogin: UserLogin): void {
-		console.log(userLogin)
-		localStorage.setItem("user__token", userLogin.toString())
+		localStorage.setItem("username__token", userLogin.username)
+		if(userLogin.username === 'pepe') {
+			localStorage.setItem("usertype__token", 'vet')
+		} else {
+			localStorage.setItem("usertype__token", 'petowner')
+		}
 	}
 
 	logout(): void {
-		localStorage.removeItem("user__token")
+		localStorage.removeItem("username__token")
 	}
 
 	isAuthorized(): boolean {
-		return localStorage.getItem("user__token") != undefined
+		return localStorage.getItem("username__token") != undefined
 	}
 	
 	isVet(): boolean {
-		return this.isVetStub
+		return localStorage.getItem("usertype__token") == 'vet'
 	}
 
 	isOwner(): boolean {
-		return !this.isVetStub
+		return localStorage.getItem("usertype__token") == 'petowner'
 	}
 }

@@ -15,7 +15,7 @@ export class AuthService implements AuthServiceInter {
 	}
 
 	isAuthorized(): boolean {
-		throw new Error("Method not implemented.");
+		return localStorage.getItem("user__token") != undefined
 	}
 	
 	isVet(): boolean {
