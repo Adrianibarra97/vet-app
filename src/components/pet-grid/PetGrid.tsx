@@ -7,7 +7,10 @@ import './PetGrid.css'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 
 interface PropPets {
-  pets: Array<Pet>
+  pets: Array<Pet>,
+  onCancel(): void,
+  onCreate(): void,
+  onEdit(): void
 }
 
 export const PetGrid = (propPets: PropPets) => {
@@ -35,6 +38,7 @@ export const PetGrid = (propPets: PropPets) => {
         :
         <ErrorMessage errorMessage="No hay información para mostrar!" />
       }
+      
     </div>
   )
 }

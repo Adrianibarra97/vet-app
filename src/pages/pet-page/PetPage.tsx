@@ -37,6 +37,18 @@ export const PetPage = (titleProp: TitleProp) => {
     setFilter(petFilter)
   }
 
+  const handleCancel = () => {
+    
+  }
+
+  const handleCreate = () => {
+
+  }
+
+  const handleEdit = () => {
+
+  }
+
   useEffect(() => {
     getAllPetsByFilter(filter)
   }, [filter])
@@ -49,7 +61,7 @@ export const PetPage = (titleProp: TitleProp) => {
           <PetFilter filter={ filterValues } filterFunction={ handleChangesFilter }/>
         </div>
         <div className="main__content--data">
-          <PetGrid pets={ pets } />
+          <PetGrid pets={ pets } onCancel={ handleCancel } onCreate={ handleCreate } onEdit={ handleEdit }/>
         </div>
       </div>
     </main>
