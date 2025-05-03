@@ -8,7 +8,7 @@ export class AuthService implements AuthServiceInter {
 	constructor() {}
 
 	async login(userLogin: UserLoginJSON): Promise<void> {
-		const response: UserResponseJSON = await axios.post(URL_BE + '/user-data/login', userLogin)
+		const response: UserResponseJSON = await axios.post(`${URL_BE}/user-data/login`, userLogin)
 		localStorage.setItem("usertype__token", response.typeOfUser)
 		localStorage.setItem("userid__token", response.userLogedID.toString())
 	}
