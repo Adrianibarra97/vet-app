@@ -5,6 +5,7 @@ import { MedicalShift } from "../../domain/MedicalShift"
 import { MedicalShiftModal } from "../medical-shift-modal/MedicalShiftModal"
 
 import './MedicalShiftCard.css'
+import AuthServiceManager from "../../services/auth-service/AuthServiceManager"
 
 interface MedicalShiftCardProps {
   medicalShift: MedicalShift,
@@ -51,9 +52,13 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
             </Box>
           </Box>
           <Box className="content__item--button">
-            <button className="content__button content__button--edit"
-              onClick={()=>setModalEditMedicalShiftOpen(true)}
-            >Editar</button>
+            {AuthServiceManager.getIntance().isVet() &&
+              <button className="content__button content__button--edit"
+                onClick={()=>setModalEditMedicalShiftOpen(true)}
+              >
+                Editar
+              </button>
+            }
             <button className="content__button content__button--cancel"
               onClick={() => onClickCancel(medicalShift.id)}
             >Cancelar</button>
