@@ -6,6 +6,7 @@ import { MedicalShiftModal } from "../medical-shift-modal/MedicalShiftModal"
 
 import './MedicalShiftCard.css'
 import AuthServiceManager from "../../services/auth-service/AuthServiceManager"
+import CancelModalMedicalShift from "../cancel-modal-medical-shift/CancelModalMedicalShift"
 
 interface MedicalShiftCardProps {
   medicalShift: MedicalShift,
@@ -13,8 +14,8 @@ interface MedicalShiftCardProps {
   onClickEdit: (medicalShift: MedicalShift, idMedicalShift: number)=>void
 }
 export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickEdit }: MedicalShiftCardProps) {
-  
   const [modalEditMedicalShiftOpen,setModalEditMedicalShiftOpen]=useState(false)
+  const [modalCancelMedicalShiftState, setModalCancelMedicalShiftState] = useState(false);
   const fecha = dayjs(medicalShift.date).format('DD/MM/YYYY')
 
   const convertirHora = (fechaString: string) => {
@@ -60,7 +61,7 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
               </button>
             }
             <button className="content__button content__button--cancel"
-              onClick={() => onClickCancel(medicalShift.id)}
+              onClick={() => setModalCancelMedicalShiftState(true)}
             >Cancelar</button>
           </Box>
         </main>
@@ -70,6 +71,11 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
         onClose={() => setModalEditMedicalShiftOpen(false)}
         onConfirm={handleOnEdit}
         idMedicalShift={ medicalShift.id }
+      />
+      <CancelModalMedicalShift
+        open={modalCancelMedicalShiftState}
+        onClose={() => setModalCancelMedicalShiftState(false)}
+        onConfirm={() => onClickCancel(medicalShift.id)}
       />
     </>
   )
