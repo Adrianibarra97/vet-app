@@ -13,7 +13,6 @@
     box-sizing: border-box;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow: hidden;
-
 }
 
 .body {
@@ -22,6 +21,7 @@
     width: 100vw;
     overflow-y: scroll;
     background-color: var(--main-color);
+    padding-bottom: 6vh;
 }
 
 .scroll--style {
