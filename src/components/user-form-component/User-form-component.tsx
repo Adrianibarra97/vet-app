@@ -9,15 +9,19 @@ import {
 import { useState } from 'react'
 import { FaPen } from 'react-icons/fa'
 import './User-form-component.css'
-import { ProfessionalInfo } from '../../domain/ProfessionalInfo'
-import { User } from '../../domain/User'
 import { ValidateFormByFields, professionalSchema } from '../../util/ValidateFormByFields'
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
+import { Vet } from '../../domain/Vet'
+import { PetOwner } from '../../domain/PetOwner'
+import { User } from '../../domain/User'
+type UserType = User | Vet | PetOwner
+
 interface Props {
-  personal: User
-  professional: ProfessionalInfo
-  onSave: (section: 'personal' | 'professional', data: any) => void
+  user: UserType
+  onSave: (updated: UserType) => void
+  showProfessionalInfo: boolean
 }
+
 const personalFields = [
   { label: 'Nombre', key: 'name' },
   { label: 'Apellido', key: 'surname' },
@@ -30,67 +34,71 @@ const personalFields = [
 ]
 
 const professionalFields = [
-  { label: 'Matrícula', key: 'license' },
-  { label: 'Teléfono Laboral', key: 'workPhone' },
-  { label: 'Especialidad', key: 'specialty' },
-  { label: 'Dirección Laboral', key: 'workAdress' },
-  { label: 'Email Profesional', key: 'professionalEmail' },
-  { label: 'Horario de atención', key: 'attentionSchedule' },
+  { label: 'Matrícula', key: 'license', vetProp: 'licence' },
+  { label: 'Teléfono Laboral', key: 'workPhone', vetProp: 'professionalTelephone' },
+  { label: 'Especialidad', key: 'specialty', vetProp: 'specialty' },
+  { label: 'Dirección Laboral', key: 'workAdress', vetProp: 'professionalAdress' },
+  { label: 'Email Profesional', key: 'professionalEmail', vetProp: 'professionalEmail' },
+  { label: 'Horario de atención', key: 'attentionSchedule', vetProp: 'businessHours' },
 ]
 
-export const ProfileForm = ({ personal, professional, onSave }: Props) => {
+export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
   const [editPersonal, setEditPersonal] = useState(false)
   const [editProfessional, setEditProfessional] = useState(false)
 
-  const [personalForm, setPersonalForm] = useState({ ...personal })
-  const [professionalForm, setProfessionalForm] = useState({ ...professional })
+  const [personalForm, setPersonalForm] = useState<UserType>(user)
+  const [professionalForm, setProfessionalForm] = useState<UserType>(user)
 
-  const [personalErrors, setPersonalErrors] = useState<{
-    [key: string]: string
-  }>({})
-  const [professionalErrors, setProfessionalErrors] = useState<{
-    [key: string]: string
-  }>({})
+  const [personalErrors, setPersonalErrors] = useState<{ [key: string]: string }>({})
+  const [professionalErrors, setProfessionalErrors] = useState<{ [key: string]: string }>({})
+
   const handleChange = (
     section: 'personal' | 'professional',
     key: string,
-    value: string,
+    value: string
   ) => {
     if (section === 'personal') {
-      setPersonalForm((prev) => ({ ...prev, [key]: value }))
+      const updated = Object.assign(
+        Object.create(Object.getPrototypeOf(user)),
+        { ...personalForm, [key]: value }
+      )
+      setPersonalForm(updated)
     } else {
-      setProfessionalForm((prev) => ({ ...prev, [key]: value }))
+      const updated = Object.assign(
+        Object.create(Object.getPrototypeOf(user)),
+        { ...professionalForm, [key]: value }
+      )
+      setProfessionalForm(updated)
     }
   }
-
-  const handleCancel = (section: 'personal' | 'professional') => {
-    if (section === 'personal') {
-      setEditPersonal(false)
-      setPersonalForm({ ...personal })
-      setPersonalErrors({})
-    } else {
-      setEditProfessional(false)
-      setProfessionalForm({ ...professional })
-      setProfessionalErrors({})
-    }
-  }
-
   const handleSave = async (section: 'personal' | 'professional') => {
     try {
       if (section === 'personal') {
         await ValidateFormByFields.validate(personalForm, { abortEarly: false })
         setPersonalErrors({})
-        onSave(section, personalForm)
+  
+        const updated = Object.assign(
+          Object.create(Object.getPrototypeOf(user)),
+          { ...user, ...personalForm }
+        ) as UserType
+  
+        onSave(updated)
         setEditPersonal(false)
-        SnackbarUtilities.succes('Información personal actualizada correctamente ✅')
-
+        SnackbarUtilities.succes('Información personal actualizada correctamente ')
       } else {
-        await professionalSchema.validate(professionalForm, { abortEarly: false })
-        setProfessionalErrors({})
-        onSave(section, professionalForm)
-        setEditProfessional(false)
-        SnackbarUtilities.succes('Información profesional actualizada correctamente ✅')
-
+        if (user instanceof Vet) {
+          await professionalSchema.validate(professionalForm, { abortEarly: false })
+          setProfessionalErrors({})
+  
+          const updated = Object.assign(
+            Object.create(Object.getPrototypeOf(user)),
+            { ...user, ...professionalForm }
+          ) as Vet
+  
+          onSave(updated)
+          setEditProfessional(false)
+          SnackbarUtilities.succes('Información profesional actualizada correctamente ')
+        }
       }
     } catch (error: any) {
       const errors: { [key: string]: string } = {}
@@ -99,34 +107,52 @@ export const ProfileForm = ({ personal, professional, onSave }: Props) => {
       })
       section === 'personal' ? setPersonalErrors(errors) : setProfessionalErrors(errors)
       SnackbarUtilities.error('Por favor completá todos los campos obligatorios correctamente.')
-
+    }
+  }
+  const handleCancel = (section: 'personal' | 'professional') => {
+    const reset = Object.assign(
+      Object.create(Object.getPrototypeOf(user)),
+      user
+    )
+  
+    if (section === 'personal') {
+      setEditPersonal(false)
+      setPersonalForm(reset)
+      setPersonalErrors({})
+    } else {
+      setEditProfessional(false)
+      setProfessionalForm(reset)
+      setProfessionalErrors({})
     }
   }
 
   const renderFields = (
-    fields: { label: string; key: string }[],
+    fields: { label: string; key: string; vetProp?: string }[],
     form: any,
     edit: boolean,
     section: 'personal' | 'professional',
-    errors: { [key: string]: string },
+    errors: { [key: string]: string }
   ) => (
     <Box className="section__items">
-      {fields.map(({ label, key }) => (
-        <div className="data__item" key={key}>
-          <label className="data__item--label">{label}</label>
-          <TextField
-            fullWidth
-            variant="outlined"
-            size="small"
-            className="data__item--input"
-            value={form[key] ?? ''}
-            onChange={(e) => handleChange(section, key, e.target.value)}
-            disabled={!edit}
-            error={!!errors[key]}
-            helperText={errors[key]}
-          />
-        </div>
-      ))}
+      {fields.map(({ label, key, vetProp }) => {
+        const realKey = section === 'professional' && user instanceof Vet ? vetProp ?? key : key
+        return (
+          <div className="data__item" key={realKey}>
+            <label className="data__item--label">{label}</label>
+            <TextField
+              fullWidth
+              variant="outlined"
+              size="small"
+              className="data__item--input"
+              value={form[realKey] ?? ''}
+              onChange={(e) => handleChange(section, realKey, e.target.value)}
+              disabled={!edit}
+              error={!!errors[realKey]}
+              helperText={errors[realKey]}
+            />
+          </div>
+        )
+      })}
     </Box>
   )
 
@@ -148,19 +174,19 @@ export const ProfileForm = ({ personal, professional, onSave }: Props) => {
           </Stack>
         </Box>
         <Box className="section__content">
-          {renderFields(
+        {renderFields(
             personalFields.slice(0, 4),
             personalForm,
             editPersonal,
             'personal',
-            personalErrors,
+            personalErrors
           )}
           {renderFields(
             personalFields.slice(4),
             personalForm,
             editPersonal,
             'personal',
-            personalErrors,
+            personalErrors
           )}
         </Box>
         {editPersonal && (
@@ -196,7 +222,8 @@ export const ProfileForm = ({ personal, professional, onSave }: Props) => {
         )}
       </Box>
 
-      <Box className="data__section">
+      {showProfessionalInfo && user instanceof Vet && (
+              <Box className="data__section">
         <Box className="section__header">
           <Stack direction="row" alignItems="center">
             <Typography
@@ -258,6 +285,7 @@ export const ProfileForm = ({ personal, professional, onSave }: Props) => {
           </Stack>
         )}
       </Box>
+      )}
     </form>
   )
 }

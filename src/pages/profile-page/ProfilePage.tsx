@@ -1,39 +1,45 @@
 import { useState, useEffect } from 'react'
 import { ProfileMenu } from '../../components/profile-menu/Profile-menu'
 import { ProfileForm } from '../../components/user-form-component/User-form-component'
-import { ProfessionalInfo } from '../../domain/ProfessionalInfo'
-import UserServiceManager from '../../services/user-service/UserServiceManager'
 import { User } from '../../domain/User'
+import { PetOwner } from '../../domain/PetOwner'
+import { Vet } from '../../domain/Vet'
+import VetServiceManager from '../../services/vet-service/VetServiceManager'
+import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
 interface TitleProp {
   name: string
 }
 
 export const ProfilePage = ({ name }: TitleProp) => {
-  const userService = UserServiceManager.getInstance()
+  const [user, setUser] = useState<User | Vet | PetOwner | null>(null)
 
-  const [user, setUser] = useState<User | null>(null)
-  const [professional, setProfessional] = useState<ProfessionalInfo | null>(null)
-
-  const fetchProfileData = async () => {
-    const { user, professional } = await userService.getOneById(1)
-    setUser(user)
-    setProfessional(professional)
-  }
-
-  const handleChangesProfile = async (section: 'personal' | 'professional', data: any) => {
-    const updatedUser = section === 'personal' ? data : user
-    const updatedProfessional = section === 'professional' ? data : professional
-
-    if (updatedUser && updatedProfessional) {
-      await userService.update(updatedUser, updatedProfessional)
-      setUser(updatedUser)
-      setProfessional(updatedProfessional)
-    }
-  }
+  const userId = 1
+  const userType: 'vet' | 'petOwner' = 'vet'
 
   useEffect(() => {
+    const fetchProfileData = async () => {
+      let fetchedUser: Vet | PetOwner
+
+      if (userType === 'vet') {
+        fetchedUser = await VetServiceManager.getInstance().getOneById(userId)
+      } else {
+        fetchedUser = await PetOwnerServiceManager.getInstance().getOneById(userId)
+      }
+
+      setUser(fetchedUser)
+    }
+
     fetchProfileData()
   }, [])
+
+  const handleChangesProfile = async (updatedUser: User | Vet | PetOwner) => {
+    if (userType === 'vet') {
+      await VetServiceManager.getInstance().update(updatedUser as Vet)
+    } else {
+      await PetOwnerServiceManager.getInstance().update(updatedUser as PetOwner)
+    }
+    setUser(updatedUser)
+  }
 
   return (
     <main className="main">
@@ -48,11 +54,11 @@ export const ProfilePage = ({ name }: TitleProp) => {
           </div>
         </div>
         <div className="main__content--data">
-          {user && professional && (
+        {user && (
             <ProfileForm
-              personal={user}
-              professional={professional}
+              user={user}
               onSave={handleChangesProfile}
+              showProfessionalInfo={user instanceof Vet}
             />
           )}
         </div>
