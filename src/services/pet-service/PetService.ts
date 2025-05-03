@@ -4,7 +4,7 @@ import { PetFilterValues } from '../../domain/PetFilterValues'
 import { Pet, PetJSON } from '../../domain/Pet'
 import axios from 'axios'
 import { URL_BE } from '../config'
-import AuthServiceManager from '../auth-service/AuthServiceManager'
+import { obtenerUserID } from '../auth-service/AuthService'
 
 export class PetService implements PetServiceInter {
 
@@ -17,12 +17,13 @@ export class PetService implements PetServiceInter {
 
 	async getAllByFilter(petFilter: PetFilterValues): Promise<Pet[]> {
 		let promise: PetJSON[]
-		const userId: number = 1
-		if(AuthServiceManager.getIntance().isVet()) {
-			promise = await axios.post(URL_BE + `/vet/get-all-pets-by-filter?idVet=${userId}`, petFilter.toJSON())
-		} else {
-			promise = await axios.post(URL_BE + `/pet-owner/get-all-pets-by-filter?idPetOwner=${userId}`, petFilter.toJSON())
-		}
+		// if(await AuthServiceManager.getIntance().isVet()) {
+		// 	promise = await axios.post(URL_BE + `/vet/get-all-pets-by-filter?idVet=${obtenerUserID()}`, petFilter.toJSON())
+		// } else {
+		// 	promise = await axios.post(URL_BE + `/pet-owner/get-all-pets-by-filter?idPetOwner=${obtenerUserID()}`, petFilter.toJSON())
+		// }
+		promise = await axios.post(URL_BE + `/vet/get-all-pets-by-filter?idVet=${await obtenerUserID()}`, petFilter.toJSON())
+		console.log(promise)
 		return promise.map((petDTO: PetJSON) => {
 			return Pet.fromJSON(petDTO)
 		})

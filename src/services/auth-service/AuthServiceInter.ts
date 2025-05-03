@@ -5,9 +5,9 @@ export interface AuthServiceInter {
 
 	logout(): void
 
-	isAuthorized(): boolean
+	isAuthorized(): Promise <boolean> 
 
-	isVet(): boolean
+	isVet(): Promise <boolean>
 
-	isOwner(): boolean
+	isOwner(): Promise <boolean>
 }

@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { UserLoginJSON } from '../../domain/User'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import './LoginPage.css'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, MouseEvent, useState } from 'react'
 
 export const LoginPage = () => {
 
@@ -12,7 +12,8 @@ export const LoginPage = () => {
     password: ''
   })
 
-  const handleLogin = () => {
+  const handleLogin = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    e.preventDefault()
     AuthServiceManager.getIntance().login(userLogin)
     navigate('/pets')
   }
@@ -46,7 +47,7 @@ export const LoginPage = () => {
             <label>Password</label>
             <input type="text" onChange={ (e) => { handlePassword(e) } } />
           </div>
-          <button onClick={ () => handleLogin() }>Ingresar</button>
+          <button onClick={ (e) => handleLogin(e) }>Ingresar</button>
         </form>
       </div>
     </main>

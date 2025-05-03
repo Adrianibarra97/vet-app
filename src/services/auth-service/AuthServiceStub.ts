@@ -24,15 +24,15 @@ export class AuthServiceStub implements AuthServiceInter {
 		localStorage.clear()
 	}
 
-	isAuthorized(): boolean {
-		return localStorage.getItem("userid__token") != undefined
+	async isAuthorized(): Promise<boolean> {
+		return localStorage.getItem("userid__token") != null
 	}
 	
-	isVet(): boolean {
-		return localStorage.getItem("usertype__token") == VET_TYPE
+	async isVet(): Promise<boolean> {
+		return localStorage.getItem("usertype__token") === VET_TYPE
 	}
 
-	isOwner(): boolean {
-		return localStorage.getItem("usertype__token") == PETOWNER_TYPE
+	async isOwner(): Promise<boolean> {
+		return localStorage.getItem("usertype__token") === PETOWNER_TYPE
 	}
 }

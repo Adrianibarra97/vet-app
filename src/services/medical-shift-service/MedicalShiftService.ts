@@ -5,6 +5,7 @@ import { MedicalShift, MedicalShiftJSON } from "../../domain/MedicalShift"
 import { URL_BE } from "../config"
 import { MedicalShiftServiceInter } from "./MedicalShiftServiceInter"
 import AuthServiceManager from "../auth-service/AuthServiceManager"
+import { obtenerUserID } from "../auth-service/AuthService"
 
 export class MedicalShiftService implements MedicalShiftServiceInter {
   
@@ -17,11 +18,11 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 	
 	async getAllByFilter(filter: FilterTurn): Promise<MedicalShift[]> {
 		let response: MedicalShiftJSON[]
-		const userId: number = 1
-		if(AuthServiceManager.getIntance().isVet()) {
-			response = await axios.post(URL_BE + `/vet/get-all-medical-shift-by-filter?idVet=${userId}`, filter)
+		
+		if(await AuthServiceManager.getIntance().isVet()) {
+			response = await axios.post(URL_BE + `/vet/get-all-medical-shift-by-filter?idVet=${obtenerUserID()}`, filter)
 		} else {
-			response = await axios.post(URL_BE + `/pet-owner/get-all-medical-shift-by-filter?idPetOwner=${userId}`, filter)
+			response = await axios.post(URL_BE + `/pet-owner/get-all-medical-shift-by-filter?idPetOwner=${obtenerUserID()}`, filter)
 		}
 		return response.map((shiftDTO: MedicalShiftJSON) => {
 			return MedicalShift.fromJSON(shiftDTO)

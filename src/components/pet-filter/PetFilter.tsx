@@ -19,8 +19,8 @@ export const PetFilter = (filterValues: PropFilterValues)  => {
   const onChangeFilterName = (e: ChangeEvent<HTMLInputElement>) => {
     const newPetFilter: PetFilterValues = new PetFilterValues(
       e.currentTarget.value,
-      petFilter.withMedicalShift,
-      petFilter.pendingVaccine
+      petFilter.hasMedicalShift,
+      petFilter.hasPendingVaccine
     )
     setPetFilter(newPetFilter)
     filterValues.filterFunction(newPetFilter)
@@ -30,7 +30,7 @@ export const PetFilter = (filterValues: PropFilterValues)  => {
     const newPetFilter: PetFilterValues = new PetFilterValues(
       petFilter.name,
       e.currentTarget.checked,
-      petFilter.pendingVaccine
+      petFilter.hasPendingVaccine
     )
     setPetFilter(newPetFilter)
     filterValues.filterFunction(newPetFilter)
@@ -39,7 +39,7 @@ export const PetFilter = (filterValues: PropFilterValues)  => {
   const onChangeFilterpendingVaccine = (e: ChangeEvent<HTMLInputElement>) => {
     const newPetFilter: PetFilterValues = new PetFilterValues(
       petFilter.name,
-      petFilter.withMedicalShift,
+      petFilter.hasMedicalShift,
       e.currentTarget.checked
     )
     setPetFilter(newPetFilter)

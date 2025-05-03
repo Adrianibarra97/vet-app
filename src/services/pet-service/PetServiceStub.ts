@@ -153,31 +153,31 @@ export class PetServiceStub implements PetServiceInter {
 			return Pet.fromJSON(petDTO)
 		})
 
-		if(petFilter.name != '' && petFilter.pendingVaccine && petFilter.withMedicalShift) {
+		if(petFilter.name != '' && petFilter.hasPendingVaccine && petFilter.hasMedicalShift) {
 			return pets.filter((pet) => pet.name.startsWith(petFilter.name))
 		}
 
-		if(petFilter.name != '' && petFilter.pendingVaccine && !petFilter.withMedicalShift) {
+		if(petFilter.name != '' && petFilter.hasPendingVaccine && !petFilter.hasMedicalShift) {
 			return pets.filter((pet) => pet.name.startsWith(petFilter.name))
 		}
 
-		if(petFilter.name != '' && !petFilter.pendingVaccine && petFilter.withMedicalShift) {
+		if(petFilter.name != '' && !petFilter.hasPendingVaccine && petFilter.hasMedicalShift) {
 			return pets.filter((pet) => pet.name.startsWith(petFilter.name))
 		}
 
-		if(petFilter.name != '' && !petFilter.pendingVaccine && !petFilter.withMedicalShift) {
+		if(petFilter.name != '' && !petFilter.hasPendingVaccine && !petFilter.hasMedicalShift) {
 			return pets.filter((pet) => capitalize(pet.name).startsWith(capitalize(petFilter.name)))
 		}
 
-		if(petFilter.name == '' && petFilter.pendingVaccine && petFilter.withMedicalShift) {
+		if(petFilter.name == '' && petFilter.hasPendingVaccine && petFilter.hasMedicalShift) {
 			return pets.slice(0,6)
 		}
 
-		if(petFilter.name == '' && !petFilter.pendingVaccine && petFilter.withMedicalShift) {
+		if(petFilter.name == '' && !petFilter.hasPendingVaccine && petFilter.hasMedicalShift) {
 			return pets.slice(0,3)
 		}
 
-		if(petFilter.name == '' && petFilter.pendingVaccine && !petFilter.withMedicalShift) {
+		if(petFilter.name == '' && petFilter.hasPendingVaccine && !petFilter.hasMedicalShift) {
 			return pets.slice(0,4)
 		}
 		return pets
