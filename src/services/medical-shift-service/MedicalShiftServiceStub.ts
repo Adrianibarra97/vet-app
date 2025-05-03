@@ -106,15 +106,15 @@ export class MedicalShiftServiceStub implements MedicalShiftServiceInter {
     )
   }
 
-  async editExistMedicalShift(idMedicalShift: number, medicalShift: MedicalShift): Promise<void> {
-    const index = this.objects.findIndex(shift => shift.id === idMedicalShift);
+  async editExistMedicalShift(medicalShift: MedicalShift): Promise<void> {
+    const index = this.objects.findIndex(shift => shift.id === medicalShift.id);
     if (index === -1) {
-      throw new Error(`No se encontró un turno con el ID ${idMedicalShift}`);
+      throw new Error(`No se encontró un turno con el ID ${medicalShift.id}`);
     }
     this.objects[index] = {
       ...this.objects[index],
       ...medicalShift,
-      id: idMedicalShift
+      id: medicalShift.id
     }
   }
   

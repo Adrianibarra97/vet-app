@@ -4,6 +4,7 @@ import { FilterTurn } from "../../domain/Filterturn"
 import { MedicalShift, MedicalShiftJSON } from "../../domain/MedicalShift"
 import { URL_BE } from "../config"
 import { MedicalShiftServiceInter } from "./MedicalShiftServiceInter"
+import AuthServiceManager from "../auth-service/AuthServiceManager"
 
 export class MedicalShiftService implements MedicalShiftServiceInter {
   
@@ -19,15 +20,21 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 		})
 	  }
 	
-	  async getAllByFilter(filter: FilterTurn): Promise<MedicalShift[]> {
-		const response = await axios.post(URL_BE + '/medical-shift/filter', filter)
-		return response.data.map((shiftDTO: MedicalShiftJSON) => {
-		  return new MedicalShift(
+	async getAllByFilter(filter: FilterTurn): Promise<MedicalShift[]> {
+		let response: MedicalShiftJSON[]
+		const userId: number = 1
+		if(AuthServiceManager.getIntance().isVet()) {
+			response = await axios.post(URL_BE + `/vet/get-all-medical-shift-by-filter?idVet=${userId}`, filter)
+		} else {
+			response = await axios.post(URL_BE + `/pet-owner/get-all-medical-shift-by-filter?idPetOwner=${userId}`, filter)
+		}
+		return response.map((shiftDTO: MedicalShiftJSON) => {
+			return new MedicalShift(
 			shiftDTO.id,
 			shiftDTO.vetName,
 			shiftDTO.petName,
 			shiftDTO.date
-		  )
+			)
 		})
 	}
 
@@ -36,7 +43,7 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 	}
 
 	async getMedicalShiftById(idMedicalShift: number): Promise<MedicalShift> {
-		return await axios.get<MedicalShiftJSON>(`${URL_BE}/medical-shift/${idMedicalShift}`)
+		return await axios.get<MedicalShiftJSON>(`${URL_BE}/medical-shift/get-one-by-id?idMedicalShift=${idMedicalShift}`)
 			.then(response => {
 				return new MedicalShift(
 					response.data.id,
@@ -51,8 +58,8 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 			});
 	}
 	
-	async editExistMedicalShift(idMedicalShift: number, medicalShift:MedicalShift): Promise<void> {
-		await axios.put(` ${URL_BE}/medical-shift/update/${idMedicalShift}`, medicalShift)
+	async editExistMedicalShift(medicalShift:MedicalShift): Promise<void> {
+		await axios.put(` ${URL_BE}/medical-shift/update/`, medicalShift)
 	}
 
 	async createNewMedicalShift(medicalShift: MedicalShift): Promise<void> {
