@@ -5,6 +5,7 @@ import MedicalShiftCard from "../medical-shift-card/MedicalShiftCard"
 import { MedicalShiftModal } from "../medical-shift-modal/MedicalShiftModal"
 
 import './MedicalShiftGrid.css'
+import AuthServiceManager from "../../services/auth-service/AuthServiceManager"
 
 interface PropMedicalShifts {
   medicalShifts: Array<MedicalShift>
@@ -13,17 +14,23 @@ interface PropMedicalShifts {
 }
   
 export const MedicalShiftGrid = (propMedicalShifts: PropMedicalShifts) => {
-
   const [modalCreateMedicalShiftOpen,setModalCreateMedicalShiftOpen]= useState(false)
+
+  const showNewMedicalShiftButton = () => {
+    return AuthServiceManager.getIntance().isVet()
+      ?'content__items'
+      :'content__items content__items--none'
+  }
+
   const handleOnCreate = (medicalShift: MedicalShift, idMedicalShift: number) => {
     propMedicalShifts.onEditOrCreateMedicalShift(medicalShift, idMedicalShift)
   }
 
   return (
-    <div id="content" className="content">
-      <div className="content__items"
+    <div id="content" className='content'>
+      <div className={showNewMedicalShiftButton()}
         onClick={()=>setModalCreateMedicalShiftOpen(true)}>
-        <h3 className="items--title">+ Nueva Consulta</h3>
+        <h3 className="content__items--add">+ Nueva Consulta</h3>
       </div>
       {
         propMedicalShifts.medicalShifts.length > 0 ?
