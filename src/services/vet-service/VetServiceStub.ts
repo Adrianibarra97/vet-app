@@ -12,13 +12,15 @@ export class VetServiceStub implements VetServiceInter {
     'Av. Balbin 456',
     'mgomez',
     '43001234',
+    'https://thumbs.dreamstime.com/z/mujer-veterinaria-con-el--de-aguas-39766136.jpg',
     '12345',
-    'Cardiología',
+    'Cardiología', 
     'Lunes a Viernes, 08:00 - 16:00',
     'maria.prof@hospital.com',
+  
     'Hospital Central 1000',
     '1533224455',
-    'https://thumbs.dreamstime.com/z/mujer-veterinaria-con-el-perro-de-aguas-39766136.jpg'
+
   )
 
   async getAll(): Promise<Vet[]> {
