@@ -1,7 +1,7 @@
-import { UserLogin } from '../../domain/User'
+import { UserLoginJSON } from '../../domain/User'
 export interface AuthServiceInter {
 	
-	login(userLogin: UserLogin): void
+	login(userLogin: UserLoginJSON): void
 
 	logout(): void
 

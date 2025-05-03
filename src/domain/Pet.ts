@@ -22,9 +22,17 @@ export class Pet {
 		public sterilized: boolean = false,
 		public photo: string = '',
 		public sex: string = '',
-		public birth: Date = new Date(),
+		public birth: string = '',
 		public specie: string = ''
 	) {}
+
+	static fromJSON(petJSON: PetJSON): Pet {
+		return new Pet(
+			petJSON.id, petJSON.name, petJSON.breed, petJSON.age,
+			petJSON.weight, petJSON.sterilized, petJSON.photo, petJSON.sex,
+			petJSON.birth, petJSON.specie
+		)
+	}
 
 	toJSON(): PetJSON {
 		return {
@@ -36,7 +44,7 @@ export class Pet {
 			sterilized: this.sterilized,
 			photo: this.photo,
 			sex: this.sex,
-			birth: this.birth.toString(),
+			birth: this.birth,
 			specie: this.specie,
 		}
 	}

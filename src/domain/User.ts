@@ -1,6 +1,11 @@
-export type UserLogin = {
+export type UserLoginJSON = {
 	username: string,
 	password: string
+}
+
+export type UserResponseJSON = {
+	userLogedID: number,
+	typeOfUser: string
 }
 
 export type UserJSON = {

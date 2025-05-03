@@ -14,6 +14,15 @@ export class MedicalShift {
 		public date: string = ''
 	) {}
 
+	static fromJSON(medicalShiftJSON: MedicalShiftJSON): MedicalShift {
+		return new MedicalShift(
+			medicalShiftJSON.id,
+			medicalShiftJSON.vetName,
+			medicalShiftJSON.petName,
+			medicalShiftJSON.date
+		)
+	}
+
 	toJSON(): MedicalShiftJSON {
 		return {
 			id: this.id,

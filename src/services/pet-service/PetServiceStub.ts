@@ -144,21 +144,13 @@ export class PetServiceStub implements PetServiceInter {
 	
 	async getAll(): Promise<Pet[]> {
 		return this.objects.map<Pet>(petDTO => {
-			return new Pet(
-				petDTO.id, petDTO.name, petDTO.breed,
-				petDTO.age, petDTO.weight, petDTO.sterilized,
-				petDTO.photo, petDTO.sex, new Date(), petDTO.specie
-			)
+			return Pet.fromJSON(petDTO)
 		})
 	}
 
 	async getAllByFilter(petFilter: PetFilterValues): Promise<Pet[]> {
 		const pets = this.objects.map<Pet>(petDTO => {
-			return new Pet(
-				petDTO.id, petDTO.name, petDTO.breed,
-				petDTO.age, petDTO.weight, petDTO.sterilized,
-				petDTO.photo, petDTO.sex, new Date(), petDTO.specie
-			)
+			return Pet.fromJSON(petDTO)
 		})
 
 		if(petFilter.name != '' && petFilter.pendingVaccine && petFilter.withMedicalShift) {

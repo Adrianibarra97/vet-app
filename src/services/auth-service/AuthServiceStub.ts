@@ -1,27 +1,31 @@
 import { AuthServiceInter } from './AuthServiceInter'
 
-import { UserLogin } from '../../domain/User'
-import { VET_TYPE, OWNER_TYPE } from '../config'
+import { UserLoginJSON, UserResponseJSON } from '../../domain/User'
+import { VET_TYPE, PETOWNER_TYPE } from '../config'
 
 export class AuthServiceStub implements AuthServiceInter {
 
 	constructor() {}
 
-	login(userLogin: UserLogin): void {
-		localStorage.setItem("username__token", userLogin.username)
+	login(userLogin: UserLoginJSON): void {
+		let userResponse: UserResponseJSON = { userLogedID: 0, typeOfUser: '' }
+
 		if(userLogin.username === 'pepe') {
-			localStorage.setItem("usertype__token", 'VET')
+			userResponse = { userLogedID: 6, typeOfUser: 'VET' }
 		} else {
-			localStorage.setItem("usertype__token", 'PETOWNER')
+			userResponse = { userLogedID: 1, typeOfUser: 'PETOWNER' }
 		}
+	
+		localStorage.setItem("usertype__token", userResponse.typeOfUser)
+		localStorage.setItem("userid__token", userResponse.userLogedID.toString())
 	}
 
 	logout(): void {
-		localStorage.removeItem("username__token")
+		localStorage.clear()
 	}
 
 	isAuthorized(): boolean {
-		return localStorage.getItem("username__token") != undefined
+		return localStorage.getItem("userid__token") != undefined
 	}
 	
 	isVet(): boolean {
@@ -29,6 +33,6 @@ export class AuthServiceStub implements AuthServiceInter {
 	}
 
 	isOwner(): boolean {
-		return localStorage.getItem("usertype__token") == OWNER_TYPE
+		return localStorage.getItem("usertype__token") == PETOWNER_TYPE
 	}
 }

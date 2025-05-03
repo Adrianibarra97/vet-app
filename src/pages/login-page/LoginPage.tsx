@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { UserLogin } from '../../domain/User'
+import { UserLoginJSON } from '../../domain/User'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import './LoginPage.css'
 import { ChangeEvent, useState } from 'react'
@@ -18,7 +18,7 @@ export const LoginPage = () => {
   }
 
   const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
-    const userLoginJSON: UserLogin = {
+    const userLoginJSON: UserLoginJSON = {
       username: e.target.value,
       password: userLogin.password
     }
@@ -26,7 +26,7 @@ export const LoginPage = () => {
   }
 
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    const userLoginJSON: UserLogin = {
+    const userLoginJSON: UserLoginJSON = {
       username: userLogin.username,
       password: e.target.value
     }

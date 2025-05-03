@@ -11,14 +11,9 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 	async getAll(): Promise<MedicalShift[]> {
 		const response = await axios.get(URL_BE + '/medical-shift/get-all')
 		return response.data.map((shiftDTO: MedicalShiftJSON) => {
-		  return new MedicalShift(
-			shiftDTO.id,
-			shiftDTO.vetName,
-			shiftDTO.petName,
-			shiftDTO.date
-		  )
+			return MedicalShift.fromJSON(shiftDTO)
 		})
-	  }
+	}
 	
 	async getAllByFilter(filter: FilterTurn): Promise<MedicalShift[]> {
 		let response: MedicalShiftJSON[]
@@ -29,12 +24,7 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 			response = await axios.post(URL_BE + `/pet-owner/get-all-medical-shift-by-filter?idPetOwner=${userId}`, filter)
 		}
 		return response.map((shiftDTO: MedicalShiftJSON) => {
-			return new MedicalShift(
-			shiftDTO.id,
-			shiftDTO.vetName,
-			shiftDTO.petName,
-			shiftDTO.date
-			)
+			return MedicalShift.fromJSON(shiftDTO)
 		})
 	}
 
@@ -43,19 +33,8 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 	}
 
 	async getMedicalShiftById(idMedicalShift: number): Promise<MedicalShift> {
-		return await axios.get<MedicalShiftJSON>(`${URL_BE}/medical-shift/get-one-by-id?idMedicalShift=${idMedicalShift}`)
-			.then(response => {
-				return new MedicalShift(
-					response.data.id,
-					response.data.vetName,
-					response.data.petName,
-					response.data.date
-				)
-			})
-			.catch(error => {
-				console.error("Error obteniendo turno médico:", error)
-				throw new Error("No se pudo obtener el turno médico")
-			});
+		const response = await axios.get<MedicalShiftJSON>(`${URL_BE}/medical-shift/get-one-by-id?idMedicalShift=${idMedicalShift}`)
+		return MedicalShift.fromJSON(response.data)
 	}
 	
 	async editExistMedicalShift(medicalShift:MedicalShift): Promise<void> {
