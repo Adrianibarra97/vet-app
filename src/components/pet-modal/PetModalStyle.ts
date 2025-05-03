@@ -7,17 +7,26 @@ export const formContainer = {
   backgroundColor: 'white',
   borderRadius: 2,
   maxHeight: '90vh',
-  overflow: 'auto',
+  overflow: 'auto'
 }
+
+export const modalTitle = {
+  mb: 2,
+  color: 'var(--primary-color)'
+}
+
+
+
+
 
 export const button__Container = { 
   display: 'flex',
   mt: 2,
-  justifyContent: 'space-between',
-  variant: ''
+  width: { xs: '100%', sm: 'auto' },
+  justifyContent: 'space-between'
 }
 
-export const BkgCancelButton = { 
+export const BkgCancelButton = {
   backgroundColor: 'var(--primary-color)'
 }
 

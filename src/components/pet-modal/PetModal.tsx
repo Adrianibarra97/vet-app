@@ -3,7 +3,8 @@ import { Modal, Box, Button, Typography } from '@mui/material'
 import { Pet } from '../../domain/Pet'
 
 import { 
-  BkgCancelButton, BkgConfirmButton, button__Container, formContainer 
+  BkgCancelButton, BkgConfirmButton, button__Container, formContainer, 
+  modalTitle
 } from './PetModalStyle'
 import { useState } from 'react'
 
@@ -26,13 +27,8 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
   }
 
   const handleConfirm = () => {
-    if(id >= 0) {
-      onUpdate(pet)
-    }
-
-    if(id < 0) {
-      onCreate(pet)
-    }
+    if(id >= 0) onUpdate(pet)
+    if(id < 0) onCreate(pet)
   }
   
   // const [petPacients, setPetPacients] = useState<Pet[]>([])
@@ -125,9 +121,7 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
   return (
     <Modal open={ open } onClose={ onClose }>
       <Box sx={ formContainer }>
-        <Typography variant="h6" sx={{ mb: 2, color: 'var(--primary-color)' }}>
-          {/* {idMedicalShift > -1 ? 'Editar Consulta' : 'Crear Consulta'} */}adadsasd
-        </Typography>
+        <Typography variant="h6" sx={ modalTitle }>{id > -1 ? 'Editar Consulta' : 'Crear Consulta'}</Typography>
         {/* {idMedicalShift == -1 && (
           <TextField
             label="Nombre de Veterinario"
@@ -153,9 +147,7 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
                 ''
               )
             }
-            sx={{ 
-           
-            
+            sx={{
               '& .MuiInputLabel-root': {
                 color: 'var(--footer-color)',
               },
