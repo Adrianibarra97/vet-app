@@ -1,10 +1,10 @@
+import { obtenerUserID } from './../auth-service/AuthService';
 import { PetServiceInter } from './PetServiceInter'
-
 import { PetFilterValues } from '../../domain/PetFilterValues'
 import { Pet, PetJSON } from '../../domain/Pet'
 import axios from 'axios'
 import { URL_BE } from '../config'
-import { obtenerUserID } from '../auth-service/AuthService'
+import AuthServiceManager from '../auth-service/AuthServiceManager';
 
 export class PetService implements PetServiceInter {
 
@@ -16,17 +16,18 @@ export class PetService implements PetServiceInter {
 	}
 
 	async getAllByFilter(petFilter: PetFilterValues): Promise<Pet[]> {
-		let promise: PetJSON[]
-		// if(await AuthServiceManager.getIntance().isVet()) {
-		// 	promise = await axios.post(URL_BE + `/vet/get-all-pets-by-filter?idVet=${obtenerUserID()}`, petFilter.toJSON())
-		// } else {
-		// 	promise = await axios.post(URL_BE + `/pet-owner/get-all-pets-by-filter?idPetOwner=${obtenerUserID()}`, petFilter.toJSON())
-		// }
-		promise = await axios.post(URL_BE + `/vet/get-all-pets-by-filter?idVet=${await obtenerUserID()}`, petFilter.toJSON())
-		console.log(promise)
-		return promise.map((petDTO: PetJSON) => {
-			return Pet.fromJSON(petDTO)
-		})
+		
+		if(await AuthServiceManager.getIntance().isVet()) {
+			const response = await axios.post(URL_BE + `/vet/get-all-pets-by-filter?idVet=${await obtenerUserID()}`, petFilter.toJSON());
+			const promise: PetJSON[] = response.data; // Extraemos solo los datos
+			return promise.map((petDTO: PetJSON) => Pet.fromJSON(petDTO));
+
+		} else {
+			const response = await axios.post(URL_BE + `/pet-owner/get-all-pets-by-filter?idPetOwner=${await obtenerUserID()}`, petFilter.toJSON())
+			const promise: PetJSON[] = response.data; // Extraemos solo los datos
+			return promise.map((petDTO: PetJSON) => Pet.fromJSON(petDTO));
+		}
+			
 	}
 
 	async getPetById(id: number): Promise<Pet> {

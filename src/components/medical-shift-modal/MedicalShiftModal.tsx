@@ -146,13 +146,13 @@ export function MedicalShiftModal({
             color="primary"
             name="vetName"
             required
-            value={medicalShift.vetName}
+            value={medicalShift.nameVet}
             onChange={(event) =>
-              handleMedicalShiftCreationOrEdition('vetName', event.target.value)
+              handleMedicalShiftCreationOrEdition('nameVet', event.target.value)
             }
-            error={fromTouched && !medicalShift.vetName}
+            error={fromTouched && !medicalShift.nameVet}
             helperText={
-              fromTouched && !medicalShift.vetName ? (
+              fromTouched && !medicalShift.nameVet ? (
                 <Box display="flex" alignItems="center" gap={1}>
                   <Typography color="red">
                     El veterinario es obligatorio
@@ -192,10 +192,10 @@ export function MedicalShiftModal({
           fullWidth
           margin="normal"
           variant="filled"
-          error={fromTouched && !medicalShift.petName}
+          error={fromTouched && !medicalShift.namePet}
         >
           <InputLabel
-            color={fromTouched && !medicalShift.petName ? 'error' : 'primary'}
+            color={fromTouched && !medicalShift.namePet ? 'error' : 'primary'}
             sx={{
               color: 'var(--footer-color)',
               '&.Mui-focused': {
@@ -208,9 +208,9 @@ export function MedicalShiftModal({
 
           <Select
             labelId="paciente-label"
-            value={medicalShift.petName ? `${medicalShift.petName}` : ''}
+            value={medicalShift.namePet ? `${medicalShift.namePet.name}` : ''}
             onChange={(event) =>
-              handleMedicalShiftCreationOrEdition('petName', event.target.value)
+              handleMedicalShiftCreationOrEdition('namePet', event.target.value)
             }
             label="Paciente"
             fullWidth
@@ -252,7 +252,7 @@ export function MedicalShiftModal({
               </MenuItem>
             ))}
           </Select>
-          {fromTouched && !medicalShift.petName && (
+          {fromTouched && !medicalShift.namePet && (
             <Box display="flex" alignItems="center" gap={1}>
               <Typography color="red">El paciente es obligatorio</Typography>
             </Box>

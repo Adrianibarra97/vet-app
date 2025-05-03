@@ -9,10 +9,17 @@ export class AuthService implements AuthServiceInter {
 
 
 	async login(userLogin: UserLoginJSON): Promise<void> {
-		const response = await axios.post(`${URL_BE}/user-data/login`, userLogin)
-		localStorage.setItem("usertype__token", response.data.typeOfUser)
-		localStorage.setItem("userid__token", response.data.userLogedID.toString())
+		const response = await axios.post(`${URL_BE}/user-data/login`, userLogin);
+	
+		if (response.data.userLogedID !== undefined && response.data.userLogedID !== null) {
+			localStorage.setItem("usertype__token", response.data.typeOfUser);
+			localStorage.setItem("userid__token", response.data.userLogedID.toString());
+			console.log("ID guardado en localStorage:", localStorage.getItem("userid__token"));
+		} else {
+			console.error("Error en login: El ID del usuario no es válido.");
+		}
 	}
+
 
 	logout(): void {
 		localStorage.clear()
@@ -25,6 +32,7 @@ export class AuthService implements AuthServiceInter {
 	
 	
 	async isVet(): Promise<boolean> {
+		await new Promise(resolve => setTimeout(resolve, 100));
 		return localStorage.getItem("usertype__token") === VET_TYPE
 	}
 
@@ -36,6 +44,7 @@ export class AuthService implements AuthServiceInter {
 
 
 export const obtenerUserID = async () => {
-	const idUsuarioLogueado = localStorage.getItem('userid__token')
-	return idUsuarioLogueado ? + idUsuarioLogueado:-1
-}
+	await new Promise(resolve => setTimeout(resolve, 100));
+    const idUsuarioLogueado = localStorage.getItem("userid__token");
+    return idUsuarioLogueado && !isNaN(parseInt(idUsuarioLogueado, 10)) ? parseInt(idUsuarioLogueado, 10) : -1;
+};

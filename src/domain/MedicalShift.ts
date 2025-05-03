@@ -1,34 +1,40 @@
+import { Pet, PetJSON } from "./Pet"
+
 export type MedicalShiftJSON = {
 	id: number,
-	vetName: string,
-	petName: string,
-	date: string
+	nameVet: string,
+	namePet: PetJSON,
+	date: string,
+	hour: string
 }
 
 export class MedicalShift {
     
 	constructor(
 		public id: number = -1,
-		public vetName: string = '',
-		public petName: string = '',
-		public date: string = ''
+		public nameVet: string = '',
+		public namePet: Pet = new Pet(),
+		public date: string = '',
+		public hour: string = ''
 	) {}
 
 	static fromJSON(medicalShiftJSON: MedicalShiftJSON): MedicalShift {
 		return new MedicalShift(
 			medicalShiftJSON.id,
-			medicalShiftJSON.vetName,
-			medicalShiftJSON.petName,
-			medicalShiftJSON.date
+			medicalShiftJSON.nameVet,
+			Pet.fromJSON(medicalShiftJSON.namePet),
+			medicalShiftJSON.date,
+			medicalShiftJSON.hour
 		)
 	}
 
 	toJSON(): MedicalShiftJSON {
 		return {
 			id: this.id,
-			vetName: this.vetName,
-			petName: this.petName,
-			date: this.date
+			nameVet: this.nameVet,
+			namePet: this.namePet,
+			date: this.date,
+			hour: this.hour
 		}
 	}
 }

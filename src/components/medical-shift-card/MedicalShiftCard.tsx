@@ -13,7 +13,7 @@ interface MedicalShiftCardProps {
   onClickCancel: (idMedicalShift: number) => void
   onClickEdit: (medicalShift: MedicalShift, idMedicalShift: number)=>void
 }
-export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickEdit }: MedicalShiftCardProps) {
+export default async function MedicalShiftCard({ medicalShift, onClickCancel, onClickEdit }: MedicalShiftCardProps) {
   const [modalEditMedicalShiftOpen,setModalEditMedicalShiftOpen]=useState(false)
   const [modalCancelMedicalShiftState, setModalCancelMedicalShiftState] = useState(false);
   const fecha = dayjs(medicalShift.date).format('DD/MM/YYYY')
@@ -35,11 +35,11 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
           <div className="content__item">
             <Box className="content__item--data">
               <p className="item--label">Veterinario</p>
-              <Typography className="item-data">{medicalShift.vetName}</Typography>
+              <Typography className="item-data">{medicalShift.nameVet}</Typography>
             </Box>
             <Box className="content__item--data">
               <p className="item--label">Paciente</p>
-              <Typography className="item-data">{medicalShift.petName}</Typography>
+              <Typography className="item-data">{medicalShift.namePet.name}</Typography>
             </Box>
           </div>
           <Box className="content__item">
@@ -49,11 +49,11 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
             </Box>
             <Box className="content__item--data">
               <p className="item--label">Hora</p>
-              <Typography className="item-data">{convertirHora(medicalShift.date)}</Typography>
+              <Typography className="item-data">{convertirHora(medicalShift.hour)}</Typography>
             </Box>
           </Box>
           <Box className="content__item--button">
-            {AuthServiceManager.getIntance().isVet() &&
+            {await AuthServiceManager.getIntance().isVet() &&
               <button className="content__button content__button--edit"
                 onClick={()=>setModalEditMedicalShiftOpen(true)}
               >

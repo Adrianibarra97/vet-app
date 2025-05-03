@@ -17,17 +17,19 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 	}
 	
 	async getAllByFilter(filter: FilterTurn): Promise<MedicalShift[]> {
-		let response: MedicalShiftJSON[]
-		
+		console.log(filter)
 		if(await AuthServiceManager.getIntance().isVet()) {
-			response = await axios.post(URL_BE + `/vet/get-all-medical-shift-by-filter?idVet=${obtenerUserID()}`, filter)
+			const response = await axios.post(URL_BE + `/vet/get-all-medical-shift-by-filter?idVet=${await obtenerUserID()}`, filter)
+			const promise: MedicalShiftJSON[] = response.data
+			return promise.map((medicalShiftDTO: MedicalShiftJSON) => MedicalShift.fromJSON(medicalShiftDTO))
 		} else {
-			response = await axios.post(URL_BE + `/pet-owner/get-all-medical-shift-by-filter?idPetOwner=${obtenerUserID()}`, filter)
+			const response = await axios.post(URL_BE + `/pet-owner/get-all-medical-shift-by-filter?idPetOwner=${await obtenerUserID()}`, filter)
+			const promise: MedicalShiftJSON[] = response.data
+			return promise.map((medicalShiftDTO: MedicalShiftJSON) => MedicalShift.fromJSON(medicalShiftDTO))
 		}
-		return response.map((shiftDTO: MedicalShiftJSON) => {
-			return MedicalShift.fromJSON(shiftDTO)
-		})
+
 	}
+
 
 	async cancelMedicalShift(idMedicalShift: number): Promise<void> {
 		await axios.delete(` ${URL_BE}/medical-shift/delete/${idMedicalShift}`)
