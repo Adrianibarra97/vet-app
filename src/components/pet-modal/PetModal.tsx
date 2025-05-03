@@ -1,139 +1,128 @@
-import { useEffect, useState } from 'react'
-import { MedicalShift } from '../../domain/MedicalShift'
-import {
-  Modal,
-  Box,
-  Typography,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-} from '@mui/material'
-import dayjs, { Dayjs } from 'dayjs'
+import { Modal, Box, Button, Typography } from '@mui/material'
+
 import { Pet } from '../../domain/Pet'
-import PetServiceManager from '../../services/pet-service/PetServiceManager'
-import MedicalShiftServiceManager from '../../services/medical-shift-service/MedicalShiftServiceManager'
-import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
+
+import { 
+  BkgCancelButton, BkgConfirmButton, button__Container, formContainer, 
+  modalTitle
+} from './PetModalStyle'
+import { useState } from 'react'
 
 interface PetModalProps {
-  open: boolean
-  onClose: () => void
-  onConfirm: (medicalShift: MedicalShift, idMedicalShift: number) => void
-  idMedicalShift: number
+  open: boolean,
+  id: number,
+  onClose: () => void,
+  onCreate: (pet: Pet) => void,
+  onUpdate: (pet: Pet) => void
 }
 
-export const MedicalShiftModal = ({ open, onClose, onConfirm, idMedicalShift }: PetModalProps) => {
-  
-  const [petPacients, setPetPacients] = useState<Pet[]>([])
-  const [medicalShift, setMedicalShift] = useState<MedicalShift>(
-    new MedicalShift(),
-  )
-  const [fromTouched, setFromTouched] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [date, setDate] = useState<Dayjs | null>(null)
+export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProps) => {
 
-  const handleMedicalShiftCreationOrEdition = (
-    name: keyof MedicalShift,
-    value: string,
-  ): void => {
-    ;(
-      medicalShift as unknown as Record<keyof MedicalShift, string | undefined>
-    )[name] = value
-    generateNewMedicalShift(medicalShift)
-  }
+  const [pet, setPet] = useState(new Pet())
 
-  const generateNewMedicalShift = (medicalShift: MedicalShift) => {
-    const newMedicalShift = Object.assign(new MedicalShift(), medicalShift)
-    setMedicalShift(newMedicalShift)
-  }
 
-  const getPetPacients = async () => {
-    const newPetPacients = PetServiceManager.getIntance().getAll()
-    setPetPacients(await newPetPacients)
-  }
-
-  const getMedicalShift = async () => {
-    const newMedicalShift =
-      MedicalShiftServiceManager.getInstance().getMedicalShiftById(
-        +idMedicalShift!,
-      )
-    setMedicalShift(await newMedicalShift)
-  }
-
-  useEffect(() => {
-    setMedicalShift(new MedicalShift())
-    setFromTouched(false)
-    setError(null)
-    setDate(null)
-    if (idMedicalShift > -1) {
-      getMedicalShift()
-    } else {
-      setMedicalShift(new MedicalShift())
-    }
-    getPetPacients()
-    setFromTouched(false)
-  }, [idMedicalShift, setFromTouched])
-
-  useEffect(() => {
-    if (medicalShift?.date) {
-      setDate(dayjs(medicalShift.date))
-    } else {
-      setDate(null)
-    }
-  }, [medicalShift])
-
-  const handleOnConfirm = () => {
-    setFromTouched(true)
-    if (hasMissingRequiredFields()) {
-      SnackbarUtilities.error('campos incompletos')
-      return
-    }
-    onConfirm(medicalShift, medicalShift.id)
-    setMedicalShift(new MedicalShift())
-    setFromTouched(false)
-    onClose()
-
-  }
   const handleCancel = () => {
-    setMedicalShift(new MedicalShift())
-    setFromTouched(false)
-    setError(null)
-    setDate(null)
+    setPet(new Pet())
     onClose()
   }
 
-  const hasMissingRequiredFields = (): boolean => {
-    const requiredFields: (keyof MedicalShift)[] = [
-      'vetName',
-      'petName',
-      'date',
-    ]
-    return requiredFields.some((field) => !medicalShift[field])
+  const handleConfirm = () => {
+    if(id >= 0) onUpdate(pet)
+    if(id < 0) onCreate(pet)
   }
+  
+  // const [petPacients, setPetPacients] = useState<Pet[]>([])
+  // const [medicalShift, setMedicalShift] = useState<MedicalShift>(
+  //   new MedicalShift(),
+  // )
+  // const [fromTouched, setFromTouched] = useState(false)
+  // const [error, setError] = useState<string | null>(null)
+  // const [date, setDate] = useState<Dayjs | null>(null)
+
+  // const handleMedicalShiftCreationOrEdition = (
+  //   name: keyof MedicalShift,
+  //   value: string,
+  // ): void => {
+  //   ;(
+  //     medicalShift as unknown as Record<keyof MedicalShift, string | undefined>
+  //   )[name] = value
+  //   generateNewMedicalShift(medicalShift)
+  // }
+
+  // const generateNewMedicalShift = (medicalShift: MedicalShift) => {
+  //   const newMedicalShift = Object.assign(new MedicalShift(), medicalShift)
+  //   setMedicalShift(newMedicalShift)
+  // }
+
+  // const getPetPacients = async () => {
+  //   const newPetPacients = PetServiceManager.getIntance().getAll()
+  //   setPetPacients(await newPetPacients)
+  // }
+
+  // const getMedicalShift = async () => {
+  //   const newMedicalShift =
+  //     MedicalShiftServiceManager.getInstance().getMedicalShiftById(
+  //       +idMedicalShift!,
+  //     )
+  //   setMedicalShift(await newMedicalShift)
+  // }
+
+  // useEffect(() => {
+  //   setMedicalShift(new MedicalShift())
+  //   setFromTouched(false)
+  //   setError(null)
+  //   setDate(null)
+  //   if (idMedicalShift > -1) {
+  //     getMedicalShift()
+  //   } else {
+  //     setMedicalShift(new MedicalShift())
+  //   }
+  //   getPetPacients()
+  //   setFromTouched(false)
+  // }, [idMedicalShift, setFromTouched])
+
+  // useEffect(() => {
+  //   if (medicalShift?.date) {
+  //     setDate(dayjs(medicalShift.date))
+  //   } else {
+  //     setDate(null)
+  //   }
+  // }, [medicalShift])
+
+  // const handleOnConfirm = () => {
+  //   setFromTouched(true)
+  //   if (hasMissingRequiredFields()) {
+  //     SnackbarUtilities.error('campos incompletos')
+  //     return
+  //   }
+  //   onConfirm(medicalShift, medicalShift.id)
+  //   setMedicalShift(new MedicalShift())
+  //   setFromTouched(false)
+  //   onClose()
+
+  // }
+  // const handleCancel = () => {
+  //   setMedicalShift(new MedicalShift())
+  //   setFromTouched(false)
+  //   setError(null)
+  //   setDate(null)
+  //   onClose()
+  // }
+
+  // const hasMissingRequiredFields = (): boolean => {
+  //   const requiredFields: (keyof MedicalShift)[] = [
+  //     'vetName',
+  //     'petName',
+  //     'date',
+  //   ]
+  //   return requiredFields.some((field) => !medicalShift[field])
+  // }
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Box
-        sx={{
-          width: 400,
-          maxWidth: '90vw',
-          margin: 'auto',
-          mt: '10vh',
-          p: 3,
-          backgroundColor: 'white',
-          borderRadius: 2,
-          maxHeight: '90vh',
-          overflow: 'auto',
-        }}
-      >
-        <Typography variant="h6" sx={{ mb: 2, color: 'var(--primary-color)' }}>
-          {idMedicalShift > -1 ? 'Editar Consulta' : 'Crear Consulta'}
-        </Typography>
-        {idMedicalShift == -1 && (
+    <Modal open={ open } onClose={ onClose }>
+      <Box sx={ formContainer }>
+        <Typography variant="h6" sx={ modalTitle }>{id > -1 ? 'Editar Consulta' : 'Crear Consulta'}</Typography>
+        {/* {idMedicalShift == -1 && (
           <TextField
             label="Nombre de Veterinario"
             fullWidth
@@ -158,9 +147,7 @@ export const MedicalShiftModal = ({ open, onClose, onConfirm, idMedicalShift }: 
                 ''
               )
             }
-            sx={{ 
-           
-            
+            sx={{
               '& .MuiInputLabel-root': {
                 color: 'var(--footer-color)',
               },
@@ -364,22 +351,10 @@ export const MedicalShiftModal = ({ open, onClose, onConfirm, idMedicalShift }: 
               },
             }}
           />
-        </LocalizationProvider>
-        <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
-          <Button
-            variant="contained"
-            onClick={handleCancel}
-            sx={{ backgroundColor: 'var(--primary-color)' }}
-          >
-            Cancelar
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleOnConfirm}
-            sx={{ backgroundColor: 'var(--footer-color)' }}
-          >
-            Confirmar
-          </Button>
+        </LocalizationProvider> */}
+        <Box sx={ button__Container }>
+          <Button variant="contained" sx={ BkgCancelButton } onClick={ handleCancel }>Cancelar</Button>
+          <Button variant="contained" sx={ BkgConfirmButton } onClick={ handleConfirm }>Confirmar</Button>
         </Box>
       </Box>
     </Modal>

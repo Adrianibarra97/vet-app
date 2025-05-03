@@ -29,12 +29,12 @@ export class PetService implements PetServiceInter {
 		})
 	}
 
-	async create(newPet: Pet): Promise<void> {
-		await axios.post(URL_BE + '/pet/create/', newPet.toJSON())
+	async create(pet: Pet): Promise<void> {
+		await axios.post(URL_BE + '/pet/create/', pet.toJSON())
 	}
 
-	async update(updatedPet: Pet): Promise<void> {
-		await axios.put(URL_BE + '/pet/update/', updatedPet.toJSON())
+	async update(pet: Pet): Promise<void> {
+		await axios.put(URL_BE + '/pet/update/', pet.toJSON())
 	}
 
 	async delete(id: number): Promise<void> {

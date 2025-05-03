@@ -318,6 +318,20 @@ export function MedicalShiftModal({
                 },
               },
               popper: {
+                placement: 'bottom-start',
+                modifiers: [
+                  {
+                    name: 'flip',
+                    enabled: false, 
+                  },
+                  {
+                    name: 'preventOverflow',
+                    options: {
+                      boundary: 'clippingParents', 
+                      altAxis: true,
+                    },
+                  },
+                ],
                 sx: {
                   '& .MuiPickersDay-root.Mui-selected': {
                     backgroundColor: 'var(--footer-color)',

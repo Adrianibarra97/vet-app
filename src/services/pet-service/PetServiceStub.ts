@@ -191,15 +191,23 @@ export class PetServiceStub implements PetServiceInter {
 		return pets
 	}
 
-	async create(newPet: Pet): Promise<void> {
-		console.log(newPet)
+	async create(pet: Pet): Promise<void> {
+		console.log(pet)
+		// pet.id = this.objects.length
+		// this.objects.push(pet.toJSON())
 	}
 
-	async update(newPet: Pet): Promise<void> {
-		console.log(newPet)
+	async update(pet: Pet): Promise<void> {
+		console.log(pet)
+		// this.objects.forEach((object: PetJSON) => {
+		// 	if(object.id === pet.id) {
+		// 		object = pet.toJSON()
+		// 	}
+		// })
 	}
 
 	async delete(id: number): Promise<void> {
 		console.log(id)
+		// this.objects = this.objects.filter((object: PetJSON) => object.id != id)
 	}
 }

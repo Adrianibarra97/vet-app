@@ -14,16 +14,16 @@ export type PetJSON = {
 export class Pet {
     
 	constructor(
-		public id: number,
-		public name: string,
-		public breed: string,
-		public age: number,
-		public weight: number,
-		public sterilized: boolean,
-		public photo: string,
-		public sex: string,
-		public birth: Date,
-		public specie: string
+		public id: number = -1,
+		public name: string = '',
+		public breed: string = '',
+		public age: number = 0,
+		public weight: number = 0,
+		public sterilized: boolean = false,
+		public photo: string = '',
+		public sex: string = '',
+		public birth: Date = new Date(),
+		public specie: string = ''
 	) {}
 
 	toJSON(): PetJSON {
