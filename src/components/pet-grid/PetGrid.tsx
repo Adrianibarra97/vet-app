@@ -5,19 +5,19 @@ import { ErrorMessage } from '../error-message/ErrorMessage'
 
 import './PetGrid.css'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
+import { useState } from 'react'
+import { PetModal } from '../pet-modal/PetModal'
 
 interface PropPets {
   pets: Array<Pet>,
-  onCancel(): void,
-  onCreate(): void,
-  onEdit(): void
+  onCancel(id: number): void,
+  onCreate(pet: Pet): void,
+  onUpdate(pet: Pet): void
 }
 
 export const PetGrid = (propPets: PropPets) => {
 
-  const handleNewPet = () => {
-    alert('nueva mascota')
-  }
+  const [openModal, setOpenModal] = useState(false)
 
   const showNewPet = (): string => {
     return AuthServiceManager.getIntance().isVet()
@@ -27,7 +27,7 @@ export const PetGrid = (propPets: PropPets) => {
 
   return (
     <div id="content" className="content">
-      <div className={ showNewPet() } onClick={ () => handleNewPet() }>
+      <div className={ showNewPet() } onClick={ () => setOpenModal(true) }>
         <p className='card__content--add'>+ Nueva Mascota</p>
       </div>
       {
@@ -38,7 +38,13 @@ export const PetGrid = (propPets: PropPets) => {
         :
         <ErrorMessage errorMessage="No hay información para mostrar!" />
       }
-      
+      <PetModal 
+        open={ openModal }
+        id={ -1 }
+        onClose={ () => setOpenModal(false) }
+        onCreate={ propPets.onCreate }
+        onUpdate={ propPets.onUpdate }
+      />
     </div>
   )
 }
