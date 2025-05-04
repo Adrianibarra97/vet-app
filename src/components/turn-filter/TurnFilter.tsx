@@ -12,7 +12,7 @@ interface PropDateFilterValues {
   }
   
   export const TurnFilter = ({ filter, filterFunction }: PropDateFilterValues) => {
-    const [medicalShiftFilter, setMedicalShiftFilter] = useState(new FilterTurn('', false, false))
+    const [medicalShiftFilter, setMedicalShiftFilter] = useState(new FilterTurn("", false, false))
   
     const onChangeDate = (e: ChangeEvent<HTMLInputElement>) => {
       const newFilter = new FilterTurn(e.currentTarget.value, medicalShiftFilter.today, medicalShiftFilter.thisWeek)
