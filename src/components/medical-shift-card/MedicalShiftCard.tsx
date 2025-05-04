@@ -35,7 +35,7 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
             </Box>
             <Box className="content__item--data">
               <p className="item--label">Paciente</p>
-              <Typography className="item-data">{medicalShift.namePet.name}</Typography>
+              <Typography className="item-data">{medicalShift.petMedicalShift.name}</Typography>
             </Box>
           </div>
           <Box className="content__item">

@@ -49,3 +49,29 @@ export class Pet {
 		}
 	}
 }
+
+export class PetMedicalShiftDTO{
+	constructor(
+		public id:number = -1,
+		public name:string = ''
+	){}
+
+	static fromJSON(petMedicalShiftJson:PetMedicalShiftJSON):PetMedicalShiftDTO{
+		return new PetMedicalShiftDTO(
+			petMedicalShiftJson.id,
+			petMedicalShiftJson.name
+		)
+	}
+
+	toJson():PetMedicalShiftJSON{
+		return{
+			id:this.id,
+			name:this.name
+		}
+	}
+}
+
+export type PetMedicalShiftJSON = {
+	id:number,
+	name:string
+}

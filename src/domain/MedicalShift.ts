@@ -1,9 +1,9 @@
-import { Pet, PetJSON } from "./Pet"
+import { PetMedicalShiftDTO, PetMedicalShiftJSON } from "./Pet"
 
 export type MedicalShiftJSON = {
 	id: number,
 	nameVet: string,
-	namePet: PetJSON,
+	petMedicalShift:PetMedicalShiftJSON,
 	date: string,
 	hour: string
 }
@@ -13,7 +13,7 @@ export class MedicalShift {
 	constructor(
 		public id: number = -1,
 		public nameVet: string = '',
-		public namePet: Pet = new Pet(),
+		public petMedicalShift: PetMedicalShiftDTO = new PetMedicalShiftDTO(),
 		public date: string = '',
 		public hour: string = ''
 	) {}
@@ -22,7 +22,7 @@ export class MedicalShift {
 		return new MedicalShift(
 			medicalShiftJSON.id,
 			medicalShiftJSON.nameVet,
-			Pet.fromJSON(medicalShiftJSON.namePet),
+			PetMedicalShiftDTO.fromJSON(medicalShiftJSON.petMedicalShift),
 			medicalShiftJSON.date,
 			medicalShiftJSON.hour
 		)
@@ -32,7 +32,7 @@ export class MedicalShift {
 		return {
 			id: this.id,
 			nameVet: this.nameVet,
-			namePet: this.namePet,
+			petMedicalShift: this.petMedicalShift.toJson(),
 			date: this.date,
 			hour: this.hour
 		}

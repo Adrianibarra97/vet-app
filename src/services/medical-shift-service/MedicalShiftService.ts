@@ -8,7 +8,7 @@ import AuthServiceManager from "../auth-service/AuthServiceManager"
 import { obtenerUserID } from "../auth-service/AuthService"
 
 export class MedicalShiftService implements MedicalShiftServiceInter {
-  
+
 	async getAll(): Promise<MedicalShift[]> {
 		const response = await axios.get(URL_BE + '/medical-shift/get-all')
 		return response.data.map((shiftDTO: MedicalShiftJSON) => {
@@ -41,10 +41,23 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 	}
 	
 	async editExistMedicalShift(medicalShift:MedicalShift): Promise<void> {
-		await axios.put(` ${URL_BE}/medical-shift/update/`, medicalShift)
+		const MedicalShiftRequestDTO = {
+			"id":medicalShift.id,
+			"date":medicalShift.date,
+			"hour":medicalShift.hour,
+			"vetId":obtenerUserID(),
+			"petId":medicalShift.petMedicalShift.id
+		}
+		await axios.put(` ${URL_BE}/medical-shift/update/`, MedicalShiftRequestDTO)
 	}
 
 	async createNewMedicalShift(medicalShift: MedicalShift): Promise<void> {
-		await axios.post(` ${URL_BE}/medical-shift/create`, medicalShift)
+		const MedicalShiftRequestDTO = {
+			"date":medicalShift.date,
+			"hour":medicalShift.hour,
+			"vetId":obtenerUserID(),
+			"petId":medicalShift.petMedicalShift.id
+		}
+		await axios.post(` ${URL_BE}/medical-shift/create`, MedicalShiftRequestDTO)
 	}
 }

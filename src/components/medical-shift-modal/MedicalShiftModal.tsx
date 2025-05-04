@@ -112,9 +112,10 @@ export function MedicalShiftModal({
 
   const hasMissingRequiredFields = (): boolean => {
     const requiredFields: (keyof MedicalShift)[] = [
-      'vetName',
-      'petName',
+      'nameVet',
+      'petMedicalShift',
       'date',
+      'hour'
     ]
     return requiredFields.some((field) => !medicalShift[field])
   }
@@ -192,10 +193,10 @@ export function MedicalShiftModal({
           fullWidth
           margin="normal"
           variant="filled"
-          error={fromTouched && !medicalShift.namePet}
+          error={fromTouched && !medicalShift.petMedicalShift}
         >
           <InputLabel
-            color={fromTouched && !medicalShift.namePet ? 'error' : 'primary'}
+            color={fromTouched && !medicalShift.petMedicalShift ? 'error' : 'primary'}
             sx={{
               color: 'var(--footer-color)',
               '&.Mui-focused': {
@@ -208,9 +209,9 @@ export function MedicalShiftModal({
 
           <Select
             labelId="paciente-label"
-            value={medicalShift.namePet ? `${medicalShift.namePet.name}` : ''}
+            value={medicalShift.petMedicalShift ? `${medicalShift.petMedicalShift.name}` : ''}
             onChange={(event) =>
-              handleMedicalShiftCreationOrEdition('namePet', event.target.value)
+              handleMedicalShiftCreationOrEdition('petMedicalShift', event.target.value)
             }
             label="Paciente"
             fullWidth
@@ -252,7 +253,7 @@ export function MedicalShiftModal({
               </MenuItem>
             ))}
           </Select>
-          {fromTouched && !medicalShift.namePet && (
+          {fromTouched && !medicalShift.petMedicalShift && (
             <Box display="flex" alignItems="center" gap={1}>
               <Typography color="red">El paciente es obligatorio</Typography>
             </Box>
