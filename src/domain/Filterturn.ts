@@ -1,7 +1,14 @@
 export class FilterTurn {
-	constructor(
-		public date: string,
-		public today: boolean,
-		public isThisWeek: boolean
-	) {}
+    day: string | null
+    today: boolean
+    thisWeek: boolean
+    constructor(
+        day: string | null,
+        today: boolean,
+        thisWeek: boolean
+    ) {
+        this.day = day === '' ? null : day
+        this.today = today
+        this.thisWeek = thisWeek
+    }
 }

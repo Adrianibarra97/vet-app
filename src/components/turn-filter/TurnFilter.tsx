@@ -15,19 +15,19 @@ interface PropDateFilterValues {
     const [medicalShiftFilter, setMedicalShiftFilter] = useState(new FilterTurn('', false, false))
   
     const onChangeDate = (e: ChangeEvent<HTMLInputElement>) => {
-      const newFilter = new FilterTurn(e.currentTarget.value, medicalShiftFilter.today, medicalShiftFilter.isThisWeek)
+      const newFilter = new FilterTurn(e.currentTarget.value, medicalShiftFilter.today, medicalShiftFilter.thisWeek)
       setMedicalShiftFilter(newFilter)
       filterFunction(newFilter)
     }
   
     const onChangeToday = (e: ChangeEvent<HTMLInputElement>) => {
-      const newFilter = new FilterTurn(medicalShiftFilter.date, e.currentTarget.checked, medicalShiftFilter.isThisWeek)
+      const newFilter = new FilterTurn(medicalShiftFilter.day, e.currentTarget.checked, medicalShiftFilter.thisWeek)
       setMedicalShiftFilter(newFilter)
       filterFunction(newFilter)
     }
   
     const onChangeThisWeek = (e: ChangeEvent<HTMLInputElement>) => {
-      const newFilter = new FilterTurn(medicalShiftFilter.date, medicalShiftFilter.today, e.currentTarget.checked)
+      const newFilter = new FilterTurn(medicalShiftFilter.day, medicalShiftFilter.today, e.currentTarget.checked)
       setMedicalShiftFilter(newFilter)
       filterFunction(newFilter)
     }
