@@ -13,14 +13,10 @@ interface MedicalShiftCardProps {
   onClickCancel: (idMedicalShift: number) => void
   onClickEdit: (medicalShift: MedicalShift, idMedicalShift: number)=>void
 }
-export default async function MedicalShiftCard({ medicalShift, onClickCancel, onClickEdit }: MedicalShiftCardProps) {
+export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickEdit }: MedicalShiftCardProps) {
   const [modalEditMedicalShiftOpen,setModalEditMedicalShiftOpen]=useState(false)
   const [modalCancelMedicalShiftState, setModalCancelMedicalShiftState] = useState(false);
   const fecha = dayjs(medicalShift.date).format('DD/MM/YYYY')
-
-  const convertirHora = (fechaString: string) => {
-    return dayjs(fechaString).format('HH:mm')
-  }
 
   const handleOnEdit = (medicalShift: MedicalShift, idMedicalShift: number) => {
     onClickEdit(medicalShift, idMedicalShift)
@@ -49,11 +45,11 @@ export default async function MedicalShiftCard({ medicalShift, onClickCancel, on
             </Box>
             <Box className="content__item--data">
               <p className="item--label">Hora</p>
-              <Typography className="item-data">{convertirHora(medicalShift.hour)}</Typography>
+              <Typography className="item-data">{medicalShift.hour}</Typography>
             </Box>
           </Box>
           <Box className="content__item--button">
-            {await AuthServiceManager.getIntance().isVet() &&
+            {AuthServiceManager.getIntance().isVet() &&
               <button className="content__button content__button--edit"
                 onClick={()=>setModalEditMedicalShiftOpen(true)}
               >

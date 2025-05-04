@@ -7,6 +7,7 @@ import { Vet } from '../../domain/Vet'
 import VetServiceManager from '../../services/vet-service/VetServiceManager'
 import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
 import { obtenerUserID } from '../../services/auth-service/AuthService'
+import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 interface TitleProp {
   name: string
 }
@@ -14,16 +15,14 @@ interface TitleProp {
 export const ProfilePage = ({ name }: TitleProp) => {
   const [user, setUser] = useState<User | Vet | PetOwner | null>(null)
 
-  const userType: 'vet' | 'petOwner' = 'vet'
-
   useEffect(() => {
     const fetchProfileData = async () => {
       let fetchedUser: Vet | PetOwner
 
-      if (userType === 'vet') {
-        fetchedUser = await VetServiceManager.getInstance().getOneById(await obtenerUserID())
-      } else {
+      if (AuthServiceManager.getIntance().isOwner()) {
         fetchedUser = await PetOwnerServiceManager.getInstance().getOneById(await obtenerUserID())
+      } else {
+        fetchedUser = await VetServiceManager.getInstance().getOneById(await obtenerUserID())
       }
 
       setUser(fetchedUser)

@@ -1,7 +1,7 @@
 export class FilterTurn {
 	constructor(
-	  public date: string,
-	  public isToday: boolean,
-	  public isThisWeek: boolean
+		public date: string,
+		public today: boolean,
+		public isThisWeek: boolean
 	) {}
-  }
+}
