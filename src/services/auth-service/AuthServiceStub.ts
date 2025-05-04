@@ -1,13 +1,14 @@
 import { AuthServiceInter } from './AuthServiceInter'
 
 import { UserLoginJSON, UserResponseJSON } from '../../domain/User'
-import { VET_TYPE, PETOWNER_TYPE } from '../config'
 
-export class AuthServiceStub implements AuthServiceInter {
+export class AuthServiceStub extends AuthServiceInter {
 
-	constructor() {}
+	constructor() {
+		super()
+	}
 
-	login(userLogin: UserLoginJSON): void {
+	override login(userLogin: UserLoginJSON): void {
 		let userResponse: UserResponseJSON = { userLogedID: 0, typeOfUser: '' }
 
 		if(userLogin.username === 'pepe') {
@@ -15,24 +16,8 @@ export class AuthServiceStub implements AuthServiceInter {
 		} else {
 			userResponse = { userLogedID: 1, typeOfUser: 'PETOWNER' }
 		}
-	
+		this.userType = userResponse.typeOfUser
 		localStorage.setItem("usertype__token", userResponse.typeOfUser)
 		localStorage.setItem("userid__token", userResponse.userLogedID.toString())
-	}
-
-	logout(): void {
-		localStorage.clear()
-	}
-
-	async isAuthorized(): Promise<boolean> {
-		return localStorage.getItem("userid__token") != null
-	}
-	
-	async isVet(): Promise<boolean> {
-		return localStorage.getItem("usertype__token") === VET_TYPE
-	}
-
-	async isOwner(): Promise<boolean> {
-		return localStorage.getItem("usertype__token") === PETOWNER_TYPE
 	}
 }

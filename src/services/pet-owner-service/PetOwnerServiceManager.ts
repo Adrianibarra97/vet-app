@@ -4,7 +4,7 @@ import { PetOwnerServiceInter } from './PetOwnerServiceInter'
 
 class PetOwnerServiceManager {
   private static instance: PetOwnerServiceInter
-  private static useStub: boolean = false
+  private static useStub: boolean = true
 
   public static getInstance(): PetOwnerServiceInter {
     if (!PetOwnerServiceManager.instance) {
