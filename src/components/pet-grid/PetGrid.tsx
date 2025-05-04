@@ -19,7 +19,7 @@ export const PetGrid = (propPets: PropPets) => {
 
   const [openModal, setOpenModal] = useState(false)
 
-  const showNewPet = (): string => {
+  const showNewPet = (): string => {    
     return AuthServiceManager.getIntance().isVet()
       ? 'card__content card__content--none'
       : 'card__content'

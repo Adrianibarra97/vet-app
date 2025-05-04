@@ -1,13 +1,26 @@
 import { UserLoginJSON } from '../../domain/User'
-export interface AuthServiceInter {
+import { PETOWNER_TYPE, VET_TYPE } from '../config'
+export abstract class AuthServiceInter {
+
+	public userType: string = ''
 	
-	login(userLogin: UserLoginJSON): void
+	login(userLogin: UserLoginJSON): void {
+		console.log(userLogin)
+	}
 
-	logout(): void
+	logout(): void {
+		localStorage.clear()
+	}
 
-	isAuthorized(): Promise <boolean> 
+	async isAuthorized(): Promise<boolean> {
+		return localStorage.getItem("userid__token") != null
+	}
 
-	isVet(): Promise <boolean>
+	isVet(): boolean {
+		return this.userType === VET_TYPE
+	}
 
-	isOwner(): Promise <boolean>
+	isOwner(): boolean {
+		return this.userType === PETOWNER_TYPE
+	}
 }

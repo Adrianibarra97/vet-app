@@ -4,7 +4,7 @@ import { VetServiceInter } from './VetServiceInter'
 
 class VetServiceManager {
   private static instance: VetServiceInter
-  private static useStub: boolean = false
+  private static useStub: boolean = true
 
   public static getInstance(): VetServiceInter{
     if (!VetServiceManager.instance) {
