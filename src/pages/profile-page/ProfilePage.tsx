@@ -32,7 +32,7 @@ export const ProfilePage = ({ name }: TitleProp) => {
   }, [])
 
   const handleChangesProfile = async (updatedUser: User | Vet | PetOwner) => {
-    if (userType === 'vet') {
+    if (AuthServiceManager.getIntance().isOwner()) {
       await VetServiceManager.getInstance().update(updatedUser as Vet)
     } else {
       await PetOwnerServiceManager.getInstance().update(updatedUser as PetOwner)
