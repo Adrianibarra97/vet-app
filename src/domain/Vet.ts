@@ -35,7 +35,7 @@ export class Vet extends User {
       username: this.username,
       landline: this.landline,
       photoUrl: this.photoUrl,
-      type: this.type,
+      type: this.typeOfUser,
       licence: this.licence,
       specialty: this.specialty,
       businessHours: this.businessHours,

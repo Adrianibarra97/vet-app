@@ -18,7 +18,8 @@ export type UserJSON = {
 	adress: string,
 	username: string,
 	landline: string,
-	type: string
+	typeOfUser: string,
+	photo: string
 }
 
 export class User {
@@ -33,8 +34,8 @@ export class User {
 		public adress: string,
 		public username: string,
 		public landline: string,
-		public type: string,
-		public photoUrl?: string
+		public typeOfUser: string,
+		public photo: string
 	) {}
 
 	toJSON(): UserJSON {
@@ -48,7 +49,8 @@ export class User {
 			adress: this.adress,
 			username: this.username,
 			landline: this.landline,
-			type: this.type
+			typeOfUser: this.typeOfUser,
+			photo: this.photo
 		}
 	}
 }

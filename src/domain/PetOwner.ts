@@ -11,16 +11,16 @@ export class PetOwner extends User {
     adress: string,
     username: string,
     landline: string,
-    photoUrl?: string
+    photo: string
   ) {
-    super(id, dni, name, surname, email, telephone, adress, username, landline, 'type', photoUrl)
+    super(id, dni, name, surname, email, telephone, adress, username, landline, 'type', photo)
   }
 
   static fromJSON(json: any): PetOwner {
     return new PetOwner(
       json.id, json.dni, json.name, json.surname,
       json.email, json.telephone, json.address,
-      json.username, json.landline, json.photoUrl
+      json.username, json.landline, json.photo
     )
   }
 
