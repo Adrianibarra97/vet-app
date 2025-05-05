@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MedicalShift } from "../../domain/MedicalShift"
 import { Pet } from "../../domain/Pet"
 import MedicalShiftServiceManager from "../../services/medical-shift-service/MedicalShiftServiceManager"
@@ -7,10 +7,13 @@ import { useOnInit } from "../../util/customHooks"
 import dayjs, { Dayjs } from "dayjs"
 import { SnackbarUtilities } from "../../util/snackbar/SnackbarManager"
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Typography } from "@mui/material"
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
+import { formContainer } from "./MedicalShiftModalStyle"
+import { PetFilterValues } from "../../domain/PetFilterValues"
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 
 interface MedicalShiftModalProps {
   open: boolean
@@ -23,7 +26,10 @@ export function MedicalShiftModal({open,onClose,onConfirm,idMedicalShift}: Medic
   const [medicalShift,setMedicalShift] = useState<MedicalShift>(new MedicalShift())
   const [vetPatients,setVetPatients] = useState<Pet[]>([])
   const [fromTouched, setFromTouched] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [errors, setErrors] = useState({
+    date: null as string | null,
+    hour: null as string | null
+  })
   const [date, setDate] = useState<Dayjs | null>(medicalShift.date?dayjs(medicalShift.date):null)
   const [time, setTime] = useState<Dayjs | null>(medicalShift.hour?dayjs(medicalShift.hour):null)
 
@@ -33,16 +39,34 @@ export function MedicalShiftModal({open,onClose,onConfirm,idMedicalShift}: Medic
   }
 
   const getVetPatientsAll = async () => {
-    const vetPatientsAll = await PetServiceManager.getIntance().getAll()
+    const filterPetBlanck = new PetFilterValues("",false,false)
+    const vetPatientsAll = await PetServiceManager.getIntance().getAllByFilter(filterPetBlanck)
     setVetPatients(vetPatientsAll)
   }
 
   useOnInit(() => {
+    cleanStates()
     if(idMedicalShift !== -1){
       getMedicalShiftById()
     }
     getVetPatientsAll()
   })
+
+  dayjs.extend(customParseFormat)
+
+  useEffect(() => {
+    if(medicalShift?.date){
+      setDate(dayjs(medicalShift.date,"YYYY-MM-DD"))
+    }else{
+      setDate(null)
+    }
+
+    if(medicalShift?.hour){
+      setTime(dayjs(medicalShift.hour,"HH:mm"))
+    }else{
+      setTime(null)
+    }
+  }, [medicalShift])
 
   const handleMedicalShiftCreationOrEdition = (name: keyof MedicalShift, value: string): void => {
     (medicalShift as unknown as Record<keyof MedicalShift, string | undefined>)[name] = value
@@ -57,33 +81,38 @@ export function MedicalShiftModal({open,onClose,onConfirm,idMedicalShift}: Medic
 
   const handleDateChange = (newDay:Dayjs | null) => {
     if(newDay && newDay.isValid()){
-      setError(null)
+      setErrors({...errors, date:null})
       setDate(newDay)
       const dateFormat = newDay.format('YYYY-MM-DD')
       handleMedicalShiftCreationOrEdition('date',dateFormat)
     }else{
-      setError('Por favor, seleccione un dia valido')
+      if(newDay){
+        setErrors({...errors, date: 'Por favor, seleccione un dia valido'})
+      }else{
+        setErrors({...errors, date: 'Por favor, ingrese un dia de consulta'})
+      }
       setDate(dayjs(medicalShift.date))
     }
   }
 
   const handleTimeChange = (newTime: Dayjs | null) => {
     if (newTime && newTime.isValid()) {
-      setError(null);
+      setErrors({...errors, hour:null})
+      setTime(newTime)
       const timeFormat = newTime.format('HH:mm')
-      setTime(newTime);
-      handleMedicalShiftCreationOrEdition('hour', timeFormat);
+      handleMedicalShiftCreationOrEdition('hour', timeFormat)
     } else {
-      setError('Por favor, seleccione una hora válida');
-      setTime(dayjs(medicalShift.hour));
+      if(newTime){
+        setErrors({...errors, hour: 'Por favor, seleccione una hora valida'})
+      }else{
+        setErrors({...errors, hour: 'Por favor, ingrese una hora de consulta'})
+      }
+      setTime(dayjs(medicalShift.hour))
     }
-  };
+  }
 
   const generateNewMedicalShift = (medicalShift: MedicalShift) => {
     const newMedicalShift = Object.assign(new MedicalShift(), medicalShift)
-    console.log(medicalShift.petMedicalShift)
-    console.log(medicalShift.date)
-    console.log(medicalShift.hour)
     setMedicalShift(newMedicalShift)
   }
 
@@ -94,7 +123,7 @@ export function MedicalShiftModal({open,onClose,onConfirm,idMedicalShift}: Medic
       return
     }
     onConfirm(medicalShift, medicalShift.id)
-    setFromTouched(false)
+    cleanStates()
     onClose()
   }
 
@@ -108,23 +137,29 @@ export function MedicalShiftModal({open,onClose,onConfirm,idMedicalShift}: Medic
   }
 
   const handleCancel = () => {
-    setFromTouched(false)
-    setError(null)
-    setDate(null)
+    cleanStates()
     onClose()
   }
 
+  const cleanStates = () => {
+    setErrors({...errors, hour:null, date:null})
+    setMedicalShift(new MedicalShift())
+    setFromTouched(false)
+    setDate(null)
+    setTime(null)
+  }
+
   return(
-    <Dialog onClose={handleCancel} open={open} fullWidth>
-      <DialogTitle>
+    <Dialog onClose={handleCancel} open={open} fullWidth sx={{maxHeight:'90vh', overflow:'auto'}}>
+      <DialogTitle component="div">
         <Typography variant="h6" sx={{color:'var(--footer-color)', fontWeight:'bold'}}>
           {idMedicalShift !== -1 ? 'Editar consulta' : 'Nueva consulta'}
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', flexWrap: 'wrap', width: '100%'}}>
-          <FormControl fullWidth  margin="normal">
-            <InputLabel>Paciente</InputLabel>
+        <Box component='form' sx={formContainer}>
+          <FormControl fullWidth  margin="normal" error={fromTouched && !medicalShift.petMedicalShift} required>
+            <InputLabel color={fromTouched && !medicalShift.petMedicalShift ? "error" : "primary"}>Paciente</InputLabel>
             <Select
               value={medicalShift.petMedicalShift ? medicalShift.petMedicalShift.name : ''}
               onChange={(event)=> handlePatientChange(event.target.value)}
@@ -134,34 +169,43 @@ export function MedicalShiftModal({open,onClose,onConfirm,idMedicalShift}: Medic
                 <MenuItem value={pet.name} key={pet.name}>{pet.name}</MenuItem>
               )}
             </Select>
+            {fromTouched && !medicalShift.petMedicalShift && (
+              <Box display="flex" alignItems="center" gap={1}  >
+                <Typography color="red">El paciente es obligatorio</Typography>
+              </Box>
+            )}
           </FormControl>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                value={date}
-                label="Fecha"
-                format="DD/MM/YYYY"
-                onChange={handleDateChange}
-                slotProps={{
-                    textField: {
-                        error: !!error,
-                        helperText: error,
-                        margin:'normal'
-                    },
-                }}
-              />
-              <TimePicker
-                label="Hora"
-                value={time}
-                onChange={handleTimeChange}
-                format="HH:mm" 
-                slotProps={{
+            <DatePicker
+              value={date}
+              label="Fecha"
+              format="DD/MM/YYYY"
+              onChange={handleDateChange}
+              slotProps={{
                   textField: {
-                    error: !!error,
-                    helperText: error,
-                    margin:'normal'
+                      error: !!errors.date,
+                      helperText: errors.date,
+                      margin:'normal',
+                      required: true,
+                      fullWidth:true
                   },
-                }}
-              />
+              }}
+            />
+            <TimePicker
+              label="Hora"
+              value={time}
+              onChange={handleTimeChange}
+              format="HH:mm" 
+              slotProps={{
+                textField: {
+                  error: !!errors.hour,
+                  helperText: errors.hour,
+                  margin:'normal',
+                  required: true,
+                  fullWidth:true
+                },
+              }}
+            />
           </LocalizationProvider>
         </Box>
       </DialogContent>
