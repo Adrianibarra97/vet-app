@@ -5,7 +5,7 @@ import { MedicalShiftServiceStub } from './MedicalShiftServiceStub';
 class MedicalShiftServiceManager {
 
     private static instance: MedicalShiftServiceInter;
-    private static useStub: boolean = false;
+    private static useStub: boolean = true
 
     public static getInstance(): MedicalShiftServiceInter {
         if (!MedicalShiftServiceManager.instance) {
