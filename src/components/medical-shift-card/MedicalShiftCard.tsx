@@ -66,6 +66,7 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
         open={modalEditMedicalShiftOpen}
         onClose={() => setModalEditMedicalShiftOpen(false)}
         onConfirm={handleOnEdit}
+        medicalShift={medicalShift}
         idMedicalShift={ medicalShift.id }
       />
       <CancelModalMedicalShift

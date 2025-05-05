@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { MedicalShift } from "../../domain/MedicalShift"
 import { Pet } from "../../domain/Pet"
-import MedicalShiftServiceManager from "../../services/medical-shift-service/MedicalShiftServiceManager"
 import PetServiceManager from "../../services/pet-service/PetServiceManager"
 import { useOnInit } from "../../util/customHooks"
 import dayjs, { Dayjs } from "dayjs"
@@ -19,24 +18,20 @@ interface MedicalShiftModalProps {
   open: boolean
   onClose: () => void
   onConfirm: (medicalShift: MedicalShift, idMedicalShift: number) => void
+  medicalShift?:MedicalShift
   idMedicalShift: number
 }
 
-export function MedicalShiftModal({open,onClose,onConfirm,idMedicalShift}: MedicalShiftModalProps) {
-  const [medicalShift,setMedicalShift] = useState<MedicalShift>(new MedicalShift())
+export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMedicalShift,idMedicalShift}: MedicalShiftModalProps) {
+  const [medicalShift,setMedicalShift] = useState<MedicalShift>(initialMedicalShift || new MedicalShift())
   const [vetPatients,setVetPatients] = useState<Pet[]>([])
   const [fromTouched, setFromTouched] = useState(false)
   const [errors, setErrors] = useState({
     date: null as string | null,
     hour: null as string | null
   })
-  const [date, setDate] = useState<Dayjs | null>(medicalShift.date?dayjs(medicalShift.date):null)
-  const [time, setTime] = useState<Dayjs | null>(medicalShift.hour?dayjs(medicalShift.hour):null)
-
-  const getMedicalShiftById = async () => {
-    const medicalShiftToEdit = await  MedicalShiftServiceManager.getInstance().getMedicalShiftById(idMedicalShift)
-    setMedicalShift(medicalShiftToEdit)
-  }
+  const [date, setDate] = useState<Dayjs | null>(initialMedicalShift?.date ? dayjs(initialMedicalShift.date) : null)
+  const [time, setTime] = useState<Dayjs | null>(initialMedicalShift?.hour ? dayjs(initialMedicalShift.hour) : null)
 
   const getVetPatientsAll = async () => {
     const filterPetBlanck = new PetFilterValues("",false,false)
@@ -46,27 +41,22 @@ export function MedicalShiftModal({open,onClose,onConfirm,idMedicalShift}: Medic
 
   useOnInit(() => {
     cleanStates()
-    if(idMedicalShift !== -1){
-      getMedicalShiftById()
-    }
     getVetPatientsAll()
   })
 
   dayjs.extend(customParseFormat)
 
   useEffect(() => {
-    if(medicalShift?.date){
-      setDate(dayjs(medicalShift.date,"YYYY-MM-DD"))
-    }else{
+    if (initialMedicalShift) {
+      setMedicalShift(initialMedicalShift)
+      setDate(initialMedicalShift.date ? dayjs(initialMedicalShift.date, "YYYY-MM-DD") : null)
+      setTime(initialMedicalShift.hour ? dayjs(initialMedicalShift.hour, "HH:mm") : null)
+    } else if (idMedicalShift === -1) { 
+      setMedicalShift(new MedicalShift())
       setDate(null)
-    }
-
-    if(medicalShift?.hour){
-      setTime(dayjs(medicalShift.hour,"HH:mm"))
-    }else{
       setTime(null)
     }
-  }, [medicalShift])
+  }, [initialMedicalShift, open,idMedicalShift])
 
   const handleMedicalShiftCreationOrEdition = (name: keyof MedicalShift, value: string): void => {
     (medicalShift as unknown as Record<keyof MedicalShift, string | undefined>)[name] = value
@@ -142,11 +132,13 @@ export function MedicalShiftModal({open,onClose,onConfirm,idMedicalShift}: Medic
   }
 
   const cleanStates = () => {
+    if (idMedicalShift === -1) {
+      setMedicalShift(new MedicalShift())
+      setDate(null)
+      setTime(null)
+    }
     setErrors({...errors, hour:null, date:null})
-    setMedicalShift(new MedicalShift())
     setFromTouched(false)
-    setDate(null)
-    setTime(null)
   }
 
   return(
