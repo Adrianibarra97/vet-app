@@ -15,9 +15,23 @@ export const modalTitle = {
   color: 'var(--primary-color)'
 }
 
+export const modalItems = {
+  display: 'flex',
+  flexDirection: { xs: 'column', sm: 'row' },
+  width: '100%',
+  justifyContent: 'space-between'
+}
 
+export const formControl = {
+  display: 'flex',
+  height: '3em',
+  width: { xs: '100%', sm: '45%' }
+}
 
-
+export const inputLabelControl = {
+  color: 'var(--footer-color)',
+  '&.Mui-focused': { color: 'var(--footer-color)' }
+}
 
 export const button__Container = { 
   display: 'flex',

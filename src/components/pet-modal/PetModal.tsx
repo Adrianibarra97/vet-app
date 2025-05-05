@@ -1,12 +1,10 @@
 import { Modal, Box, Button, Typography } from '@mui/material'
-
 import { Pet } from '../../domain/Pet'
-
 import { 
-  BkgCancelButton, BkgConfirmButton, button__Container, formContainer, 
-  modalTitle
+  BkgCancelButton, BkgConfirmButton, button__Container, formContainer, modalItems, modalTitle
 } from './PetModalStyle'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
+import { FormControlModal } from '../form-control-modal/FormControlModal'
 
 interface PetModalProps {
   open: boolean,
@@ -18,8 +16,14 @@ interface PetModalProps {
 
 export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProps) => {
 
+  const petKeys: (keyof Pet)[] = [
+    'id', 'name', 'breed', 'age', 'weight',
+    'sterilized', 'photo', 'sex', 'birth', 'specie'
+  ]
+  const fieldKyes: (string)[] = [
+    'Id', 'Nombre', 'Raza'
+  ]
   const [pet, setPet] = useState(new Pet())
-
 
   const handleCancel = () => {
     setPet(new Pet())
@@ -29,6 +33,16 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
   const handleConfirm = () => {
     if(id >= 0) onUpdate(pet)
     if(id < 0) onCreate(pet)
+  }
+
+  const handleInputChanges = (key: keyof Pet, e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    (pet as unknown as Record<keyof Pet, string | undefined>)[key] = e.target.value
+    const newPet = Object.assign(new Pet(), pet)
+    setPet(newPet)
+  }
+
+  const handleLabelColor = (key: keyof Pet): 'primary' | 'error' => {
+    return pet[key] ? 'primary' : 'error'
   }
   
   // const [petPacients, setPetPacients] = useState<Pet[]>([])
@@ -122,6 +136,27 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
     <Modal open={ open } onClose={ onClose }>
       <Box sx={ formContainer }>
         <Typography variant="h6" sx={ modalTitle }>{id > -1 ? 'Editar Consulta' : 'Crear Consulta'}</Typography>
+        
+        <Box sx={ modalItems }>
+          <FormControlModal 
+            petKey={ petKeys[1] }
+            label={ fieldKyes[1] }
+            labelColor={ handleLabelColor(petKeys[1]) }
+            handleInputChanges={ handleInputChanges }
+          />
+          <FormControlModal 
+            petKey={ petKeys[2] }
+            label={ fieldKyes[2] }
+            labelColor={ handleLabelColor(petKeys[2]) }
+            handleInputChanges={ handleInputChanges }
+          />
+        </Box>
+
+
+
+
+        
+        
         {/* {idMedicalShift == -1 && (
           <TextField
             label="Nombre de Veterinario"
