@@ -32,7 +32,7 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 
 
 	async cancelMedicalShift(idMedicalShift: number): Promise<void> {
-		await axios.delete(` ${URL_BE}/medical-shift/delete/${idMedicalShift}`)
+		await axios.delete(` ${URL_BE}/medical-shift/delete?idMedicalShift=${idMedicalShift}`)
 	}
 
 	async getMedicalShiftById(idMedicalShift: number): Promise<MedicalShift> {
@@ -45,19 +45,21 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 			"id":medicalShift.id,
 			"date":medicalShift.date,
 			"hour":medicalShift.hour,
-			"vetId":obtenerUserID(),
+			"vetId":await obtenerUserID(),
 			"petId":medicalShift.petMedicalShift.id
 		}
-		await axios.put(` ${URL_BE}/medical-shift/update/`, MedicalShiftRequestDTO)
+		console.log(MedicalShiftRequestDTO)
+		await axios.put(` ${URL_BE}/medical-shift/update`, MedicalShiftRequestDTO)
 	}
 
 	async createNewMedicalShift(medicalShift: MedicalShift): Promise<void> {
 		const MedicalShiftRequestDTO = {
 			"date":medicalShift.date,
 			"hour":medicalShift.hour,
-			"vetId":obtenerUserID(),
+			"vetId": await obtenerUserID(),
 			"petId":medicalShift.petMedicalShift.id
 		}
+		console.log(MedicalShiftRequestDTO)
 		await axios.post(` ${URL_BE}/medical-shift/create`, MedicalShiftRequestDTO)
 	}
 }
