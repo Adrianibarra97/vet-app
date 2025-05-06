@@ -6,7 +6,7 @@ import { PetOwner } from '../../domain/PetOwner'
 import { Vet } from '../../domain/Vet'
 import VetServiceManager from '../../services/vet-service/VetServiceManager'
 import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
-import { obtenerUserID } from '../../services/auth-service/AuthService'
+import { getUserID } from '../../services/auth-service/AuthService'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 interface TitleProp {
   name: string
@@ -19,10 +19,10 @@ export const ProfilePage = ({ name }: TitleProp) => {
     const fetchProfileData = async () => {
       let fetchedUser: Vet | PetOwner
 
-      if (AuthServiceManager.getIntance().isOwner()) {
-        fetchedUser = await PetOwnerServiceManager.getInstance().getOneById(await obtenerUserID())
+      if (AuthServiceManager.getIntance().isVet()) {
+        fetchedUser = await VetServiceManager.getInstance().getOneById(getUserID())
       } else {
-        fetchedUser = await VetServiceManager.getInstance().getOneById(await obtenerUserID())
+        fetchedUser = await PetOwnerServiceManager.getInstance().getOneById(getUserID())
       }
 
       setUser(fetchedUser)
@@ -32,7 +32,7 @@ export const ProfilePage = ({ name }: TitleProp) => {
   }, [])
 
   const handleChangesProfile = async (updatedUser: User | Vet | PetOwner) => {
-    if (AuthServiceManager.getIntance().isOwner()) {
+    if (AuthServiceManager.getIntance().isVet()) {
       await VetServiceManager.getInstance().update(updatedUser as Vet)
     } else {
       await PetOwnerServiceManager.getInstance().update(updatedUser as PetOwner)

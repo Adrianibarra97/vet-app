@@ -1,10 +1,10 @@
-export type UserLoginJSON = {
+export type AuthCredentialsLoginDTO = {
 	username: string,
 	password: string
 }
 
-export type UserResponseJSON = {
-	userLogedID: number,
+export type AuthCredentialsResponseDTO = {
+	authCredentialsID: number,
 	typeOfUser: string
 }
 
