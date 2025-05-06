@@ -18,10 +18,6 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
   const [modalCancelMedicalShiftState, setModalCancelMedicalShiftState] = useState(false);
   const fecha = dayjs(medicalShift.date).format('DD/MM/YYYY')
 
-  const convertirHora = (fechaString: string) => {
-    return dayjs(fechaString).format('HH:mm')
-  }
-
   const handleOnEdit = (medicalShift: MedicalShift, idMedicalShift: number) => {
     onClickEdit(medicalShift, idMedicalShift)
     setModalEditMedicalShiftOpen(false)
@@ -39,7 +35,7 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
             </Box>
             <Box className="content__item--data">
               <p className="item--label">Paciente</p>
-              <Typography className="item-data">{medicalShift.namePet.name}</Typography>
+              <Typography className="item-data">{medicalShift.petMedicalShift.name}</Typography>
             </Box>
           </div>
           <Box className="content__item">
@@ -49,7 +45,7 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
             </Box>
             <Box className="content__item--data">
               <p className="item--label">Hora</p>
-              <Typography className="item-data">{convertirHora(medicalShift.hour)}</Typography>
+              <Typography className="item-data">{medicalShift.hour}</Typography>
             </Box>
           </Box>
           <Box className="content__item--button">
@@ -70,6 +66,7 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
         open={modalEditMedicalShiftOpen}
         onClose={() => setModalEditMedicalShiftOpen(false)}
         onConfirm={handleOnEdit}
+        medicalShift={medicalShift}
         idMedicalShift={ medicalShift.id }
       />
       <CancelModalMedicalShift
