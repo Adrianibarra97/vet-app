@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { AuthCredentialsLoginDTO } from '../../domain/User'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import './LoginPage.css'
-import { ChangeEvent, MouseEvent, useState } from 'react'
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
 
 export const LoginPage = () => {
 
@@ -11,6 +11,10 @@ export const LoginPage = () => {
     username: '',
     password: ''
   })
+
+  useEffect(() => {
+    localStorage.clear()
+  },[])
 
   const handleLogin = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
     e.preventDefault()

@@ -13,7 +13,7 @@ interface MedicalShiftCardProps {
   onClickCancel: (idMedicalShift: number) => void
   onClickEdit: (medicalShift: MedicalShift, idMedicalShift: number)=>void
 }
-export default async function MedicalShiftCard({ medicalShift, onClickCancel, onClickEdit }: MedicalShiftCardProps) {
+export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickEdit }: MedicalShiftCardProps) {
   const [modalEditMedicalShiftOpen,setModalEditMedicalShiftOpen]=useState(false)
   const [modalCancelMedicalShiftState, setModalCancelMedicalShiftState] = useState(false);
   const fecha = dayjs(medicalShift.date).format('DD/MM/YYYY')
@@ -53,7 +53,7 @@ export default async function MedicalShiftCard({ medicalShift, onClickCancel, on
             </Box>
           </Box>
           <Box className="content__item--button">
-            {await AuthServiceManager.getIntance().isVet() &&
+            {AuthServiceManager.getIntance().isVet() &&
               <button className="content__button content__button--edit"
                 onClick={()=>setModalEditMedicalShiftOpen(true)}
               >

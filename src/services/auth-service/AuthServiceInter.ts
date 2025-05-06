@@ -1,5 +1,5 @@
 import { AuthCredentialsLoginDTO } from '../../domain/User'
-import { PETOWNER_TYPE, VET_TYPE } from '../config'
+import { PETOWNER_TYPE, USER_ID_TOKEN, VET_TYPE } from '../config'
 export abstract class AuthServiceInter {
 
 	public userType: string = ''
@@ -12,8 +12,8 @@ export abstract class AuthServiceInter {
 		localStorage.clear()
 	}
 
-	async isAuthorized(): Promise<boolean> {
-		return localStorage.getItem("userid__token") != null
+	isAuthorized(): boolean {
+		return localStorage.getItem(USER_ID_TOKEN) !== null
 	}
 
 	isVet(): boolean {
