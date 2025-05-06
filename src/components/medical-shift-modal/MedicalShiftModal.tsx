@@ -1,94 +1,111 @@
-import { useEffect, useState } from 'react'
-import { MedicalShift } from '../../domain/MedicalShift'
-import {
-  Modal,
-  Box,
-  Typography,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-} from '@mui/material'
-import dayjs, { Dayjs } from 'dayjs'
-import { Pet } from '../../domain/Pet'
-import PetServiceManager from '../../services/pet-service/PetServiceManager'
-import MedicalShiftServiceManager from '../../services/medical-shift-service/MedicalShiftServiceManager'
-import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
+import { useEffect, useState } from "react"
+import { MedicalShift } from "../../domain/MedicalShift"
+import { Pet } from "../../domain/Pet"
+import PetServiceManager from "../../services/pet-service/PetServiceManager"
+import { useOnInit } from "../../util/customHooks"
+import dayjs, { Dayjs } from "dayjs"
+import { SnackbarUtilities } from "../../util/snackbar/SnackbarManager"
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField, Typography } from "@mui/material"
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { TimePicker } from '@mui/x-date-pickers/TimePicker'
+import { formContainer } from "./MedicalShiftModalStyle"
+import { PetFilterValues } from "../../domain/PetFilterValues"
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import MedicalShiftServiceManager from "../../services/medical-shift-service/MedicalShiftServiceManager"
 
 interface MedicalShiftModalProps {
   open: boolean
   onClose: () => void
   onConfirm: (medicalShift: MedicalShift, idMedicalShift: number) => void
+  medicalShift?:MedicalShift
   idMedicalShift: number
 }
 
-export function MedicalShiftModal({
-  open,
-  onClose,
-  onConfirm,
-  idMedicalShift,
-}: MedicalShiftModalProps) {
-  const [petPacients, setPetPacients] = useState<Pet[]>([])
-  const [medicalShift, setMedicalShift] = useState<MedicalShift>(
-    new MedicalShift(),
-  )
+export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMedicalShift,idMedicalShift}: MedicalShiftModalProps) {
+  const [medicalShift,setMedicalShift] = useState<MedicalShift>(initialMedicalShift || new MedicalShift())
+  const [vetPatients,setVetPatients] = useState<Pet[]>([])
   const [fromTouched, setFromTouched] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [date, setDate] = useState<Dayjs | null>(null)
+  const [errors, setErrors] = useState({
+    date: null as string | null,
+    hour: null as string | null
+  })
+  const [date, setDate] = useState<Dayjs | null>(initialMedicalShift?.date ? dayjs(initialMedicalShift.date) : null)
+  const [time, setTime] = useState<Dayjs | null>(initialMedicalShift?.hour ? dayjs(initialMedicalShift.hour) : null)
 
-  const handleMedicalShiftCreationOrEdition = (
-    name: keyof MedicalShift,
-    value: string,
-  ): void => {
-    ;(
-      medicalShift as unknown as Record<keyof MedicalShift, string | undefined>
-    )[name] = value
+  const getVetPatientsAll = async () => {
+    const filterPetBlanck = new PetFilterValues("",false,false)
+    const vetPatientsAll = await PetServiceManager.getIntance().getAllByFilter(filterPetBlanck)
+    setVetPatients(vetPatientsAll)
+  }
+
+  useOnInit(() => {
+    cleanStates()
+    getVetPatientsAll()
+  })
+
+  dayjs.extend(customParseFormat)
+
+  useEffect(() => {
+    if (initialMedicalShift) {
+      setMedicalShift(initialMedicalShift)
+      setDate(initialMedicalShift.date ? dayjs(initialMedicalShift.date, "YYYY-MM-DD") : null)
+      setTime(initialMedicalShift.hour ? dayjs(initialMedicalShift.hour, "HH:mm") : null)
+    } else if (idMedicalShift === -1) { 
+      setMedicalShift(new MedicalShift())
+      setDate(null)
+      setTime(null)
+    }
+  }, [initialMedicalShift, open,idMedicalShift])
+
+  const handleMedicalShiftCreationOrEdition = (name: keyof MedicalShift, value: string): void => {
+    (medicalShift as unknown as Record<keyof MedicalShift, string | undefined>)[name] = value
     generateNewMedicalShift(medicalShift)
+  }
+
+  const handlePatientChange = (namePatient:string) =>{
+    const newPatient = vetPatients.find((pet)=> `${pet.name}` === namePatient)
+    medicalShift.assignPatient(newPatient!)
+    generateNewMedicalShift(medicalShift)
+  }
+
+  const handleDateChange = (newDay:Dayjs | null) => {
+    if(newDay && newDay.isValid()){
+      setErrors({...errors, date:null})
+      setDate(newDay)
+      const dateFormat = newDay.format('YYYY-MM-DD')
+      handleMedicalShiftCreationOrEdition('date',dateFormat)
+    }else{
+      if(!newDay?.isValid()){
+        setErrors({...errors, date: 'Por favor, seleccione un dia valido'})
+      }else{
+        setErrors({...errors, date: 'Por favor, ingrese un dia de consulta'})
+      }
+      setDate(dayjs(medicalShift.date))
+    }
+  }
+
+  const handleTimeChange = (newTime: Dayjs | null) => {
+    if (newTime && newTime.isValid()) {
+      setErrors({...errors, hour:null})
+      setTime(newTime)
+      const timeFormat = newTime.format('HH:mm')
+      handleMedicalShiftCreationOrEdition('hour', timeFormat)
+    } else {
+      if(!newTime?.isValid()){
+        setErrors({...errors, hour: 'Por favor, seleccione una hora valida'})
+      }else{
+        setErrors({...errors, hour: 'Por favor, ingrese una hora de consulta'})
+      }
+      setTime(dayjs(medicalShift.hour))
+    }
   }
 
   const generateNewMedicalShift = (medicalShift: MedicalShift) => {
     const newMedicalShift = Object.assign(new MedicalShift(), medicalShift)
     setMedicalShift(newMedicalShift)
   }
-
-  const getPetPacients = async () => {
-    const newPetPacients = PetServiceManager.getIntance().getAll()
-    setPetPacients(await newPetPacients)
-  }
-
-  const getMedicalShift = async () => {
-    const newMedicalShift =
-      MedicalShiftServiceManager.getInstance().getMedicalShiftById(
-        +idMedicalShift!,
-      )
-    setMedicalShift(await newMedicalShift)
-  }
-
-  useEffect(() => {
-    setMedicalShift(new MedicalShift())
-    setFromTouched(false)
-    setError(null)
-    setDate(null)
-    if (idMedicalShift > -1) {
-      getMedicalShift()
-    } else {
-      setMedicalShift(new MedicalShift())
-    }
-    getPetPacients()
-    setFromTouched(false)
-  }, [idMedicalShift, setFromTouched])
-
-  useEffect(() => {
-    if (medicalShift?.date) {
-      setDate(dayjs(medicalShift.date))
-    } else {
-      setDate(null)
-    }
-  }, [medicalShift])
 
   const handleOnConfirm = () => {
     setFromTouched(true)
@@ -97,294 +114,123 @@ export function MedicalShiftModal({
       return
     }
     onConfirm(medicalShift, medicalShift.id)
-    setMedicalShift(new MedicalShift())
-    setFromTouched(false)
-    onClose()
-
-  }
-  const handleCancel = () => {
-    setMedicalShift(new MedicalShift())
-    setFromTouched(false)
-    setError(null)
-    setDate(null)
+    cleanStates()
     onClose()
   }
 
   const hasMissingRequiredFields = (): boolean => {
-    const requiredFields: (keyof MedicalShift)[] = [
-      'nameVet',
-      'petMedicalShift',
-      'date',
-      'hour'
-    ]
+    const requiredFields: (keyof MedicalShift)[] = ['petMedicalShift','date','hour']
+
+    if(MedicalShiftServiceManager.useStub){
+      requiredFields.unshift('nameVet')
+    }
+
     return requiredFields.some((field) => !medicalShift[field])
   }
 
-  return (
-    <Modal open={open} onClose={onClose}>
-      <Box
-        sx={{
-          width: 400,
-          maxWidth: '90vw',
-          margin: 'auto',
-          mt: '10vh',
-          p: 3,
-          backgroundColor: 'white',
-          borderRadius: 2,
-          maxHeight: '90vh',
-          overflow: 'auto',
-        }}
-      >
-        <Typography variant="h6" sx={{ mb: 2, color: 'var(--primary-color)' }}>
-          {idMedicalShift > -1 ? 'Editar Consulta' : 'Crear Consulta'}
-        </Typography>
-        {idMedicalShift == -1 && (
-          <TextField
-            label="Nombre de Veterinario"
-            fullWidth
-            variant="filled"
-            margin="normal"
-            color="primary"
-            name="vetName"
-            required
-            value={medicalShift.nameVet}
-            onChange={(event) =>
-              handleMedicalShiftCreationOrEdition('nameVet', event.target.value)
-            }
-            error={fromTouched && !medicalShift.nameVet}
-            helperText={
-              fromTouched && !medicalShift.nameVet ? (
-                <Box display="flex" alignItems="center" gap={1}>
-                  <Typography color="red">
-                    El veterinario es obligatorio
-                  </Typography>
-                </Box>
-              ) : (
-                ''
-              )
-            }
-            sx={{ 
-           
-            
-              '& .MuiInputLabel-root': {
-                color: 'var(--footer-color)',
-              },
-              '& .Mui-focused .MuiInputLabel-root': {
-                color: 'var(--footer-color)',
-              },
-              '& .MuiFilledInput-root': {
-                color: 'var(--footer-color)',
-              },
-              '& .MuiFilledInput-underline:before': {
-                borderBottomColor: 'var(--footer-color)',
-              },
-              '& .MuiFilledInput-underline:after': {
-                borderBottomColor: 'var(--footer-color)',
-              },
-              '& input:-webkit-autofill': {
-                WebkitBoxShadow: '0 0 0 1000px white inset',
-                WebkitTextFillColor: 'var(--footer-color)',
-              },
-            }}
-          
-          />
-        )}
-        <FormControl
-          fullWidth
-          margin="normal"
-          variant="filled"
-          error={fromTouched && !medicalShift.petMedicalShift}
-        >
-          <InputLabel
-            color={fromTouched && !medicalShift.petMedicalShift ? 'error' : 'primary'}
-            sx={{
-              color: 'var(--footer-color)',
-              '&.Mui-focused': {
-                color: 'var(--footer-color)',
-              },
-            }}
-          >
-            Paciente
-          </InputLabel>
+  const handleCancel = () => {
+    cleanStates()
+    onClose()
+  }
 
-          <Select
-            labelId="paciente-label"
-            value={medicalShift.petMedicalShift ? `${medicalShift.petMedicalShift.name}` : ''}
-            onChange={(event) =>
-              handleMedicalShiftCreationOrEdition('petMedicalShift', event.target.value)
-            }
-            label="Paciente"
-            fullWidth
-            color="primary"
-            variant="filled"
-            sx={{ 
-           
-              '@media (max-width:600px)': {
-                color: 'var(--footer-color)!important',
-              },
-            
-              '& .MuiInputLabel-root': {
-                color: 'var(--footer-color)',
-              },
-              '& .Mui-focused .MuiInputLabel-root': {
-                color: 'var(--footer-color)',
-              },
-              '& .MuiFilledInput-root': {
-                color: 'var(--footer-color)',
-              },
-              '& .MuiFilledInput-underline:before': {
-                borderBottomColor: 'var(--footer-color)',
-              },
-              '& .MuiFilledInput-underline:after': {
-                borderBottomColor: 'var(--footer-color)',
-              },
-              '& input:-webkit-autofill': {
-                WebkitBoxShadow: '0 0 0 1000px white inset',
-                WebkitTextFillColor: 'var(--footer-color)',
-              },
-            }}
-          >
-            <MenuItem value="">
-              <em>Seleccionar Paciente</em>
-            </MenuItem>
-            {petPacients.map((pet) => (
-              <MenuItem value={`${pet.name}`} key={pet.name}>
-                {pet.name}
-              </MenuItem>
-            ))}
-          </Select>
-          {fromTouched && !medicalShift.petMedicalShift && (
-            <Box display="flex" alignItems="center" gap={1}>
-              <Typography color="red">El paciente es obligatorio</Typography>
-            </Box>
-          )}
-        </FormControl>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateTimePicker
-            format="DD/MM/YYYY hh:mm A"
-            label="Fecha y hora"
-            name="fechaInicio"
-            value={date}
-            defaultValue={dayjs()}
-            minDateTime={dayjs()}
-            onChange={(newDate) => {
-              if (newDate && newDate.isValid()) {
-                setError(null)
-                setDate(newDate)
-                handleMedicalShiftCreationOrEdition(
-                  'date',
-                  newDate.toISOString(),
-                )
-              } else {
-                setError('Por favor, selecciona una fecha válida.')
-                setDate(dayjs(medicalShift.date))
-              }
-            }}
-            slotProps={{
-              textField: {
-                variant: 'filled',
-                fullWidth: true,
-                error: !!error,
-                helperText: error,
-                sx: {
-                  '& .MuiInputLabel-root': {
-                    color: 'var(--footer-color)',
+  const cleanStates = () => {
+    if (idMedicalShift === -1) {
+      setMedicalShift(new MedicalShift())
+      setDate(null)
+      setTime(null)
+    }
+    setErrors({...errors, hour:null, date:null})
+    setFromTouched(false)
+  }
+
+  return(
+    <Dialog onClose={handleCancel} open={open} fullWidth sx={{maxHeight:'90vh', overflow:'auto'}}>
+      <DialogTitle component="div">
+        <Typography variant="h6" sx={{color:'var(--footer-color)', fontWeight:'bold'}}>
+          {idMedicalShift !== -1 ? 'Editar consulta' : 'Nueva consulta'}
+        </Typography>
+      </DialogTitle>
+      <DialogContent>
+        <Box component='form' sx={formContainer}>
+          {MedicalShiftServiceManager.useStub && idMedicalShift === -1 && (
+              <TextField
+                label="Nombre de Veterinario"
+                fullWidth
+                margin="normal"
+                color="primary"
+                name="vetName"
+                required
+                value={medicalShift.nameVet}
+                onChange={(event) =>
+                  handleMedicalShiftCreationOrEdition('nameVet', event.target.value)
+                }
+                error={fromTouched && !medicalShift.nameVet}
+                helperText={
+                  fromTouched && !medicalShift.nameVet ? (
+                    <Box display="flex" alignItems="center" gap={1}>
+                      <Typography color="red">
+                        El veterinario es obligatorio
+                      </Typography>
+                    </Box>
+                  ) : (
+                    ''
+                  )
+                }
+              />
+            )
+          }
+          <FormControl fullWidth  margin="normal" error={fromTouched && !medicalShift.petMedicalShift} required>
+            <InputLabel color={fromTouched && !medicalShift.petMedicalShift ? "error" : "primary"}>Paciente</InputLabel>
+            <Select
+              value={medicalShift.petMedicalShift ? medicalShift.petMedicalShift.name : ''}
+              onChange={(event)=> handlePatientChange(event.target.value)}
+              input={<OutlinedInput label="Paciente"/>}
+            >
+              {vetPatients.map(pet =>
+                <MenuItem value={pet.name} key={pet.name}>{pet.name}</MenuItem>
+              )}
+            </Select>
+            {fromTouched && !medicalShift.petMedicalShift && (
+              <Box display="flex" alignItems="center" gap={1}  >
+                <Typography color="red">El paciente es obligatorio</Typography>
+              </Box>
+            )}
+          </FormControl>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              value={date}
+              label="Fecha"
+              format="DD/MM/YYYY"
+              onChange={handleDateChange}
+              slotProps={{
+                  textField: {
+                      error: !!errors.date,
+                      helperText: errors.date,
+                      margin:'normal',
+                      required: true,
+                      fullWidth:true
                   },
-                  '& .MuiInputLabel-root.Mui-focused': {
-                    color: 'var(--footer-color)',
-                  },
-                  '& .MuiFilledInput-root': {
-                    color: 'var(--footer-color)',
-                    backgroundColor: '#f9f9f9',
-                    '&:hover': {
-                      backgroundColor: '#f9f9f9',
-                    },
-                    '&::before': {
-                      borderBottomColor: 'var(--footer-color)',
-                    },
-                    '&:hover::before': {
-                      borderBottomColor: 'var(--footer-color)',
-                    },
-                    '&::after': {
-                      borderBottomColor: 'var(--footer-color)',
-                    },
-                  },
-                  '& .MuiSvgIcon-root': {
-                    color: 'var(--footer-color)',
-                  },
-                  '& input:-webkit-autofill': {
-                    WebkitBoxShadow: '0 0 0 1000px white inset',
-                    WebkitTextFillColor: 'var(--footer-color)',
-                  },
+              }}
+            />
+            <TimePicker
+              label="Hora"
+              value={time}
+              onChange={handleTimeChange}
+              format="HH:mm" 
+              slotProps={{
+                textField: {
+                  error: !!errors.hour,
+                  helperText: errors.hour,
+                  margin:'normal',
+                  required: true,
+                  fullWidth:true
                 },
-              },
-              popper: {
-                placement: 'bottom-start',
-                modifiers: [
-                  {
-                    name: 'flip',
-                    enabled: false, 
-                  },
-                  {
-                    name: 'preventOverflow',
-                    options: {
-                      boundary: 'clippingParents', 
-                      altAxis: true,
-                    },
-                  },
-                ],
-                sx: {
-                  '& .MuiPickersDay-root.Mui-selected': {
-                    backgroundColor: 'var(--footer-color)',
-                    '&:hover': {
-                      backgroundColor: '#479986',
-                    },
-                  },
-                  '& .MuiPickersDay-root:focus': {
-                    backgroundColor: 'var(--footer-color)',
-                  },
-                  '& .MuiPickersDay-today': {
-                    borderColor: 'var(--footer-color)',
-                  },
-                  '& .MuiPickersCalendarHeader-label': {
-                    color: 'var(--footer-color)',
-                  },
-                  '& .MuiPickersArrowSwitcher-root button': {
-                    color: 'var(--footer-color)',
-                  },
-                  '& .MuiDialogActions-root button': {
-                    color: 'var(--footer-color)',
-                  },
-                  '& .MuiClock-root': {
-                    backgroundColor: '#f9f9f9',
-                  },
-                  '& .MuiClockPointer-root': {
-                    backgroundColor: 'var(--footer-color)',
-                  },
-                  '& .MuiClockPointer-thumb': {
-                    border: '14px solid var(--footer-color)',
-                    backgroundColor: 'var(--footer-color)',
-                  },
-                  '& .MuiClockNumber-root.Mui-selected': {
-                    backgroundColor: 'var(--footer-color)',
-                    color: 'white',
-                  },
-                  '& .MuiClockNumber-root:hover': {
-                    backgroundColor: '#d5f0e7',
-                  },
-                  '& .MuiPickersLayout-contentWrapper .Mui-selected': {
-                    backgroundColor: 'var(--footer-color)',
-                    color: '#fff',
-                  },
-                  '& .MuiPickersLayout-contentWrapper .MuiButtonBase-root:hover': {
-                    backgroundColor: '#d5f0e7',
-                  },
-                },
-              },
-            }}
-          />
-        </LocalizationProvider>
-        <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
+              }}
+            />
+          </LocalizationProvider>
+        </Box>
+      </DialogContent>
+      <DialogActions sx={{width:'100%', display:'flex',justifyContent:'space-around',alignItems:'center'}}>
           <Button
             variant="contained"
             onClick={handleCancel}
@@ -399,8 +245,7 @@ export function MedicalShiftModal({
           >
             Confirmar
           </Button>
-        </Box>
-      </Box>
-    </Modal>
+      </DialogActions>
+    </Dialog>
   )
 }

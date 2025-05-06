@@ -1,4 +1,4 @@
-import { PetMedicalShiftDTO, PetMedicalShiftJSON } from "./Pet"
+import { Pet, PetMedicalShiftDTO, PetMedicalShiftJSON } from "./Pet"
 
 export type MedicalShiftJSON = {
 	id: number,
@@ -36,5 +36,10 @@ export class MedicalShift {
 			date: this.date,
 			hour: this.hour
 		}
+	}
+
+	assignPatient(newPatient:Pet){
+		const newPetMedicalShiftDTO = new PetMedicalShiftDTO(newPatient.id,newPatient.name)
+		this.petMedicalShift = newPetMedicalShiftDTO
 	}
 }
