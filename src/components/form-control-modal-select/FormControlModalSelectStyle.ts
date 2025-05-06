@@ -24,10 +24,15 @@ export const formControlLabel = {
   justifyContent: 'flex-start'
 }
 
-export const formControlInput = {
+export const formControlSelect = {
   display: 'flex',
-  height: '100%',
   width: '100%',
+  height: '1.5em',
+  pl: '1em',
   color: 'var(--footer-color)',
-  justifyContent: 'flex-start'
+  background: 'var(--header-color)',
+  '& .MuiSelect-select': {
+    display: 'flex',
+    padding: '0'
+  }
 }

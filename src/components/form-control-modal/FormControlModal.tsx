@@ -1,9 +1,10 @@
-import { FormControl, InputLabel, Input } from '@mui/material'
+import { FormControl, Input, Box, InputLabel } from '@mui/material'
 import { ChangeEvent } from 'react'
 import { Pet } from '../../domain/Pet'
-import { formControl, inputLabelControl } from './FormControlModalStyle'
+import { formControl, formControlInput, formControlItem, formControlLabel, formControlNone } from './FormControlModalStyle'
 
 interface FromControlModalProps {
+  isActive: boolean,
   label: string,
   labelColor: 'primary' | 'error',
   petKey: keyof Pet,
@@ -12,9 +13,19 @@ interface FromControlModalProps {
 
 export const FormControlModal = (formControlProps: FromControlModalProps) => {
   return (
-    <FormControl fullWidth margin="normal" variant="filled" sx={ formControl }>
-      <InputLabel color={ formControlProps.labelColor } sx={ inputLabelControl }>{ formControlProps.label }</InputLabel>
-      <Input onChange={ (e) => formControlProps.handleInputChanges(formControlProps.petKey, e) }></Input>
+    <FormControl fullWidth margin="normal" variant="filled" sx={ formControlProps.isActive ? formControl : formControlNone }>
+      <Box sx={ formControlItem }>
+        <InputLabel
+          sx={ formControlLabel }
+          color={ formControlProps.labelColor }
+        >{ formControlProps.label }</InputLabel>
+      </Box>
+      <Box sx={ formControlItem }>
+        <Input
+          sx={ formControlInput }
+          onChange={ (e) => formControlProps.handleInputChanges(formControlProps.petKey, e) }
+        />
+      </Box>
     </FormControl>
   )
 }
