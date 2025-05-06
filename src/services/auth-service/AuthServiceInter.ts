@@ -1,11 +1,11 @@
-import { UserLoginJSON } from '../../domain/User'
+import { AuthCredentialsLoginDTO } from '../../domain/User'
 import { PETOWNER_TYPE, VET_TYPE } from '../config'
 export abstract class AuthServiceInter {
 
 	public userType: string = ''
 	
-	login(userLogin: UserLoginJSON): void {
-		console.log(userLogin)
+	login(authCredentialsLoginDTO: AuthCredentialsLoginDTO): void {
+		console.log(authCredentialsLoginDTO)
 	}
 
 	logout(): void {

@@ -1,6 +1,6 @@
 import { AuthServiceInter } from './AuthServiceInter'
 
-import { UserLoginJSON, UserResponseJSON } from '../../domain/User'
+import { AuthCredentialsLoginDTO, AuthCredentialsResponseDTO } from '../../domain/User'
 
 export class AuthServiceStub extends AuthServiceInter {
 
@@ -8,16 +8,16 @@ export class AuthServiceStub extends AuthServiceInter {
 		super()
 	}
 
-	override login(userLogin: UserLoginJSON): void {
-		let userResponse: UserResponseJSON = { userLogedID: 0, typeOfUser: '' }
+	override login(authCredentialsLoginDTO: AuthCredentialsLoginDTO): void {
+		let authCredentialsResponse: AuthCredentialsResponseDTO = { authCredentialsID: 0, typeOfUser: '' }
 
-		if(userLogin.username === 'pepe') {
-			userResponse = { userLogedID: 6, typeOfUser: 'VET' }
+		if(authCredentialsLoginDTO.username === 'pepe') {
+			authCredentialsResponse = { authCredentialsID: 6, typeOfUser: 'VET' }
 		} else {
-			userResponse = { userLogedID: 1, typeOfUser: 'PETOWNER' }
+			authCredentialsResponse = { authCredentialsID: 1, typeOfUser: 'PETOWNER' }
 		}
-		this.userType = userResponse.typeOfUser
-		localStorage.setItem("usertype__token", userResponse.typeOfUser)
-		localStorage.setItem("userid__token", userResponse.userLogedID.toString())
+		this.userType = authCredentialsResponse.typeOfUser
+		localStorage.setItem("usertype__token", authCredentialsResponse.typeOfUser)
+		localStorage.setItem("userid__token", authCredentialsResponse.authCredentialsID.toString())
 	}
 }

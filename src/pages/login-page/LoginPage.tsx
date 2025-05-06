@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { UserLoginJSON } from '../../domain/User'
+import { AuthCredentialsLoginDTO } from '../../domain/User'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import './LoginPage.css'
 import { ChangeEvent, MouseEvent, useState } from 'react'
@@ -19,19 +19,19 @@ export const LoginPage = () => {
   }
 
   const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
-    const userLoginJSON: UserLoginJSON = {
+    const authCredentialsLoginDTO: AuthCredentialsLoginDTO = {
       username: e.target.value,
       password: userLogin.password
     }
-    setUserLogin(userLoginJSON)
+    setUserLogin(authCredentialsLoginDTO)
   }
 
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    const userLoginJSON: UserLoginJSON = {
+    const authCredentialsLoginDTO: AuthCredentialsLoginDTO = {
       username: userLogin.username,
       password: e.target.value
     }
-    setUserLogin(userLoginJSON)
+    setUserLogin(authCredentialsLoginDTO)
   }
 
   return (
