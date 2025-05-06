@@ -11,9 +11,16 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
     1133445566,
     'Sarmiento 2243',
     'tam',
+    '123',
     '42334411',
-    'https://cdn-icons-png.flaticon.com/512/2922/2922510.png'
+    'src/assets/images/tam.jfif',
+    'Contraseña123', 
+    'San Miguel',    
+    '1663',          
+    'Buenos Aires'   
   )
+
+
 
   async getAll(): Promise<PetOwner[]> {
     return [this.user]

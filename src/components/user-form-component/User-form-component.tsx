@@ -13,7 +13,7 @@ import { ValidateFormByFields, professionalSchema } from '../../util/ValidateFor
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 import { Vet } from '../../domain/Vet'
 import { PetOwner } from '../../domain/PetOwner'
-import { User } from '../../domain/User'
+import { User} from '../../domain/User'
 type UserType = User | Vet | PetOwner
 
 interface Props {
@@ -21,26 +21,33 @@ interface Props {
   onSave: (updated: UserType) => void
   showProfessionalInfo: boolean
 }
-
 const personalFields = [
   { label: 'Nombre', key: 'name' },
   { label: 'Apellido', key: 'surname' },
   { label: 'DNI', key: 'dni' },
-  { label: 'Dirección', key: 'adress' },
-  { label: 'Email', key: 'email' },
   { label: 'Username', key: 'username' },
+  { label: 'Contraseña', key: 'password' },
   { label: 'Celular', key: 'telephone' },
-  { label: 'Teléfono fijo', key: 'landline' },
+  { label: 'Email', key: 'email' },
+  { label: 'Dirección', key: 'adress' },
+  { label: 'Localidad', key: 'location' },
+  { label: 'Código Postal', key: 'postalCode' },
+  { label: 'Provincia', key: 'province' },
+ 
 ]
+
 
 const professionalFields = [
   { label: 'Matrícula', key: 'license', vetProp: 'licence' },
   { label: 'Teléfono Laboral', key: 'workPhone', vetProp: 'professionalTelephone' },
   { label: 'Especialidad', key: 'specialty', vetProp: 'specialty' },
   { label: 'Dirección Laboral', key: 'workAdress', vetProp: 'professionalAdress' },
+  { label: 'Localidad Laboral', key: 'workLocation', vetProp: 'professionalLocation' },
+  { label: 'Provincia Laboral', key: 'workProvince', vetProp: 'professionalProvince' },
   { label: 'Email Profesional', key: 'professionalEmail', vetProp: 'professionalEmail' },
   { label: 'Horario de atención', key: 'attentionSchedule', vetProp: 'businessHours' },
 ]
+
 
 export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
   const [editPersonal, setEditPersonal] = useState(false)
@@ -159,8 +166,14 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
 
   return (
     <form className="data">
-      <Box className="data__section" sx={{ minHeight: { md: '30em' } }}>
-        <Box className="section__header">
+<Box className="data__section"  sx={{
+    height: 'auto',        
+    minHeight: '20em',    
+    width: '100%',
+    paddingBottom: '2em',  
+    boxSizing: 'border-box' 
+  }}>
+<Box className="section__header">
           <Stack direction="row" alignItems="center">
             <Typography
               className="section__header--title"
@@ -175,7 +188,7 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
         </Box>
         <Box className="section__content">
         {renderFields(
-            personalFields.slice(0, 4),
+            personalFields.slice(0, 7),
             personalForm,
             editPersonal,
             'personal',
@@ -194,7 +207,7 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
             direction="row"
             justifyContent="flex-end"
             spacing={2}
-            sx={{ px: 4, pb: 2 }}
+            sx={{ px: 5, pb: 2 }}
           >
             <Button
               variant="outlined"

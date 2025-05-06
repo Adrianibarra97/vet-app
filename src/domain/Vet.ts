@@ -11,47 +11,45 @@ export class Vet extends User {
     adress: string,
     username: string,
     landline: string,
-    type: string,
+    typeOfUser: string,
+    photo: string,
+    password: string,
+    location: string,
+    province: string,
+    postalCode: string,
     public licence: string,
     public specialty: string,
     public businessHours: string,
     public professionalEmail: string,
     public professionalAdress: string,
     public professionalTelephone: string,
-    photoUrl?: string
+    public professionalLocation: string,
+    public professionalProvince: string
   ) {
-    super(id, dni, name, surname, email, telephone, adress, username, landline, type,  photoUrl)
+    super(id, dni, name, surname, email, telephone, adress, username, landline, typeOfUser, photo, password, location, province, postalCode)
   }
 
   toJSON() {
     return {
-      id: this.id,
-      dni: this.dni,
-      name: this.name,
-      surname: this.surname,
-      email: this.email,
-      telephone: this.telephone,
-      adress: this.adress,
-      username: this.username,
-      landline: this.landline,
-      photoUrl: this.photoUrl,
-      type: this.typeOfUser,
+      ...super.toJSON(),
       licence: this.licence,
       specialty: this.specialty,
       businessHours: this.businessHours,
       professionalEmail: this.professionalEmail,
       professionalAdress: this.professionalAdress,
-      professionalTelephone: this.professionalTelephone
+      professionalTelephone: this.professionalTelephone,
+      professionalLocation: this.professionalLocation,
+      professionalProvince: this.professionalProvince
     }
   }
 
   static fromJSON(json: any): Vet {
     return new Vet(
       json.id, json.dni, json.name, json.surname, json.email, json.telephone,
-      json.professionalAdress, json.username, json.professionalTelephone,
+      json.adress, json.username, json.landline, json.typeOfUser, json.photo,
+      json.password, json.location, json.province, json.postalCode,
       json.licence, json.specialty, json.businessHours, json.professionalEmail,
-      json.professionalAdress, json.professionalTelephone,
-      json.photoUrl
+      json.professionalAdress, json.professionalTelephone, json.professionalLocation, json.professionalProvince
     )
   }
 }

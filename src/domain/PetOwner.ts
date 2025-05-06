@@ -1,4 +1,4 @@
-import { User } from './User'
+import { User } from "./User"
 
 export class PetOwner extends User {
   constructor(
@@ -11,16 +11,22 @@ export class PetOwner extends User {
     adress: string,
     username: string,
     landline: string,
-    photo: string
+    typeOfUser: string,
+    photo: string,
+    password: string,
+    location: string,
+    province: string,
+    postalCode: string
   ) {
-    super(id, dni, name, surname, email, telephone, adress, username, landline, 'type', photo)
+    super(id, dni, name, surname, email, telephone, adress, username, landline, typeOfUser, photo, password, location, province, postalCode)
   }
 
   static fromJSON(json: any): PetOwner {
     return new PetOwner(
       json.id, json.dni, json.name, json.surname,
-      json.email, json.telephone, json.address,
-      json.username, json.landline, json.photo
+      json.email, json.telephone, json.adress,
+      json.username, json.landline, json.typeOfUser,
+      json.photo, json.password, json.location, json.province, json.postalCode
     )
   }
 

@@ -19,11 +19,14 @@ export type UserJSON = {
 	username: string,
 	landline: string,
 	typeOfUser: string,
-	photo: string
+	photo: string,
+	password: string,
+	location: string,
+	province: string,
+	postalCode: string
 }
 
 export class User {
-    
 	constructor(
 		public id: number,
 		public dni: number,
@@ -35,7 +38,11 @@ export class User {
 		public username: string,
 		public landline: string,
 		public typeOfUser: string,
-		public photo: string
+		public photo: string,
+		public password: string,
+		public location: string,
+		public province: string,
+		public postalCode: string
 	) {}
 
 	toJSON(): UserJSON {
@@ -50,7 +57,11 @@ export class User {
 			username: this.username,
 			landline: this.landline,
 			typeOfUser: this.typeOfUser,
-			photo: this.photo
+			photo: this.photo,
+			password: this.password,
+			location: this.location,
+			province: this.province,
+			postalCode: this.postalCode
 		}
 	}
 }

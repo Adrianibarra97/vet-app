@@ -11,17 +11,24 @@ export class VetServiceStub implements VetServiceInter {
     1144556677,
     'Av. Balbin 456',
     'mgomez',
+    '1234',
     '43001234',
     'https://thumbs.dreamstime.com/z/mujer-veterinaria-con-el--de-aguas-39766136.jpg',
     '12345',
     'Cardiología', 
     'Lunes a Viernes, 08:00 - 16:00',
     'maria.prof@hospital.com',
-  
     'Hospital Central 1000',
     '1533224455',
-
+    'Belgrano', 
+    'Buenos Aires', 
+    'Contraseña123', 
+    'CABA', 
+    '1428', 
+    'Buenos Aires' 
   )
+ 
+
 
   async getAll(): Promise<Vet[]> {
     return [this.user]
