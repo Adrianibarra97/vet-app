@@ -9,59 +9,59 @@ export type UserResponseJSON = {
 }
 
 export type UserJSON = {
-	id: number,
-	dni: number,
-	name: string,
-	surname: string,
-	email: string,
-	telephone: number,
-	adress: string,
-	username: string,
-	landline: string,
-	typeOfUser: string,
-	photo: string,
-	password: string,
-	location: string,
-	province: string,
-	postalCode: string
-}
-
-export class User {
+	id: number;
+	username: string;
+	password: string;
+	name: string;
+	surname: string;
+	dni: number;
+	email: string;
+	telephone: number;
+	photo: string;
+	address: string;
+	postalCode: string;
+	locality: string;
+	province: string;
+	country: string;
+	typeOfUser: string;
+  }
+  
+  export class User {
 	constructor(
-		public id: number,
-		public dni: number,
-		public name: string,
-		public surname: string,
-		public email: string,
-		public telephone: number,
-		public adress: string,
-		public username: string,
-		public landline: string,
-		public typeOfUser: string,
-		public photo: string,
-		public password: string,
-		public location: string,
-		public province: string,
-		public postalCode: string
+	  public id: number,
+	  public username: string,
+	  public password: string,
+	  public name: string,
+	  public surname: string,
+	  public dni: number,
+	  public email: string,
+	  public telephone: number,
+	  public photo: string,
+	  public address: string,
+	  public postalCode: string,
+	  public locality: string,
+	  public province: string,
+	  public country: string,
+	  public typeOfUser: string
 	) {}
-
+  
 	toJSON(): UserJSON {
-		return {
-			id: this.id,
-			dni: this.dni,
-			name: this.name,
-			surname: this.surname,
-			email: this.email,
-			telephone: this.telephone,
-			adress: this.adress,
-			username: this.username,
-			landline: this.landline,
-			typeOfUser: this.typeOfUser,
-			photo: this.photo,
-			password: this.password,
-			location: this.location,
-			province: this.province,
-			postalCode: this.postalCode
-		}
+	  return {
+		id: this.id,
+		username: this.username,
+		password: this.password,
+		name: this.name,
+		surname: this.surname,
+		dni: this.dni,
+		email: this.email,
+		telephone: this.telephone,
+		photo: this.photo,
+		address: this.address,
+		postalCode: this.postalCode,
+		locality: this.locality,
+		province: this.province,
+		country: this.country,
+		typeOfUser: this.typeOfUser
+	  }
 	}
-}
+  }

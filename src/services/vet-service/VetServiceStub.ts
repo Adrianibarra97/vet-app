@@ -3,31 +3,30 @@ import { VetServiceInter } from './VetServiceInter'
 
 export class VetServiceStub implements VetServiceInter {
   private user = new Vet(
-    1,
-    30456789,
-    'María',
-    'Gómez',
-    'maria.gomez@gmail.com',
-    1144556677,
-    'Av. Balbin 456',
-    'mgomez',
-    '1234',
-    '43001234',
-    'https://thumbs.dreamstime.com/z/mujer-veterinaria-con-el--de-aguas-39766136.jpg',
-    '12345',
-    'Cardiología', 
-    'Lunes a Viernes, 08:00 - 16:00',
-    'maria.prof@hospital.com',
-    'Hospital Central 1000',
-    '1533224455',
-    'Belgrano', 
-    'Buenos Aires', 
-    'Contraseña123', 
-    'CABA', 
-    '1428', 
-    'Buenos Aires' 
+    1,                        
+    'mgomez',                  
+    'Contraseña123',           
+    'María',                   
+    'Gómez',                   
+    30456789,                  
+    'maria.gomez@gmail.com',    
+    1144556677,                
+    'https://thumbs.dreamstime.com/z/mujer-veterinaria-con-el--de-aguas-39766136.jpg', 
+    'Av. Balbin 456',          
+    '1428',                     
+    'Belgrano',               
+    'CABA',                   
+    'Argentina',               
+    'Vet',                    
+    '12345',                   
+    'Cardiología',             
+    'Lunes a Viernes, 08:00 - 16:00', 
+    'maria.prof@hospital.com',  
+    '1533224455',              
+    'Hospital Central 1000',   
+    'Belgrano',               
+    '1428'                     
   )
- 
 
 
   async getAll(): Promise<Vet[]> {

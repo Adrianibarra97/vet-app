@@ -1,36 +1,55 @@
-import { User } from "./User"
+import { User } from "./User";
 
 export class PetOwner extends User {
   constructor(
     id: number,
-    dni: number,
+    username: string,
+    password: string,
     name: string,
     surname: string,
+    dni: number,
     email: string,
     telephone: number,
-    adress: string,
-    username: string,
-    landline: string,
-    typeOfUser: string,
     photo: string,
-    password: string,
-    location: string,
+    address: string,
+    postalCode: string,
+    locality: string,
     province: string,
-    postalCode: string
+    country: string,
+    typeOfUser: string,
+    public emergencyContactName: string,
+    public emergencyContactPhone: string
   ) {
-    super(id, dni, name, surname, email, telephone, adress, username, landline, typeOfUser, photo, password, location, province, postalCode)
+    super(id, username, password, name, surname, dni, email, telephone, photo, address, postalCode, locality, province, country, typeOfUser);
+  }
+
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      emergencyContactName: this.emergencyContactName,
+      emergencyContactPhone: this.emergencyContactPhone
+    }
   }
 
   static fromJSON(json: any): PetOwner {
     return new PetOwner(
-      json.id, json.dni, json.name, json.surname,
-      json.email, json.telephone, json.adress,
-      json.username, json.landline, json.typeOfUser,
-      json.photo, json.password, json.location, json.province, json.postalCode
-    )
-  }
-
-  toJSON(): any {
-    return super.toJSON()
+      json.id,
+      json.username,
+      json.password,
+      json.name,
+      json.surname,
+      json.dni,
+      json.email,
+      json.telephone,
+      json.photo,
+      json.address,
+      json.postalCode,
+      json.locality,
+      json.province,
+      json.country,
+      json.typeOfUser,
+      json.emergencyContactName,
+      json.emergencyContactPhone
+    );
   }
 }

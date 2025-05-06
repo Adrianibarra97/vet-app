@@ -19,7 +19,7 @@ export const ProfilePage = ({ name }: TitleProp) => {
     const fetchProfileData = async () => {
       let fetchedUser: Vet | PetOwner
 
-      if (AuthServiceManager.getIntance().isOwner()) {
+      if (await AuthServiceManager.getIntance().isOwner()) {
         fetchedUser = await PetOwnerServiceManager.getInstance().getOneById(await obtenerUserID())
       } else {
         fetchedUser = await VetServiceManager.getInstance().getOneById(await obtenerUserID())
@@ -32,7 +32,7 @@ export const ProfilePage = ({ name }: TitleProp) => {
   }, [])
 
   const handleChangesProfile = async (updatedUser: User | Vet | PetOwner) => {
-    if (AuthServiceManager.getIntance().isOwner()) {
+    if (await AuthServiceManager.getIntance().isOwner()) {
       await VetServiceManager.getInstance().update(updatedUser as Vet)
     } else {
       await PetOwnerServiceManager.getInstance().update(updatedUser as PetOwner)

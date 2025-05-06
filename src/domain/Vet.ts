@@ -1,55 +1,73 @@
-import { User } from "./User"
+import { User } from "./User";
 
 export class Vet extends User {
   constructor(
     id: number,
-    dni: number,
+    username: string,
+    password: string,
     name: string,
     surname: string,
+    dni: number,
     email: string,
     telephone: number,
-    adress: string,
-    username: string,
-    landline: string,
-    typeOfUser: string,
     photo: string,
-    password: string,
-    location: string,
-    province: string,
+    address: string,
     postalCode: string,
-    public licence: string,
+    locality: string,
+    province: string,
+    country: string,
+    typeOfUser: string,
+    public license: string,
     public specialty: string,
     public businessHours: string,
     public professionalEmail: string,
-    public professionalAdress: string,
     public professionalTelephone: string,
-    public professionalLocation: string,
-    public professionalProvince: string
+    public professionalAddress: string,
+    public professionalLocality: string,
+    public professionalPostalCode: string
   ) {
-    super(id, dni, name, surname, email, telephone, adress, username, landline, typeOfUser, photo, password, location, province, postalCode)
+    super(id, username, password, name, surname, dni, email, telephone, photo, address, postalCode, locality, province, country, typeOfUser);
   }
 
   toJSON() {
     return {
       ...super.toJSON(),
-      licence: this.licence,
+      license: this.license,
       specialty: this.specialty,
       businessHours: this.businessHours,
       professionalEmail: this.professionalEmail,
-      professionalAdress: this.professionalAdress,
       professionalTelephone: this.professionalTelephone,
-      professionalLocation: this.professionalLocation,
-      professionalProvince: this.professionalProvince
+      professionalAddress: this.professionalAddress,
+      professionalLocality: this.professionalLocality,
+      professionalPostalCode: this.professionalPostalCode
     }
   }
 
   static fromJSON(json: any): Vet {
     return new Vet(
-      json.id, json.dni, json.name, json.surname, json.email, json.telephone,
-      json.adress, json.username, json.landline, json.typeOfUser, json.photo,
-      json.password, json.location, json.province, json.postalCode,
-      json.licence, json.specialty, json.businessHours, json.professionalEmail,
-      json.professionalAdress, json.professionalTelephone, json.professionalLocation, json.professionalProvince
-    )
+      json.id,
+      json.username,
+      json.password,
+      json.name,
+      json.surname,
+      json.dni,
+      json.email,
+      json.telephone,
+      json.photo,
+      json.address,
+      json.postalCode,
+      json.locality,
+      json.province,
+      json.country,
+      json.typeOfUser,
+      json.license,
+      json.specialty,
+      json.businessHours,
+      json.professionalEmail,
+      json.professionalTelephone,
+      json.professionalAddress,
+      json.professionalLocality,
+      json.professionalPostalCode
+    );
   }
 }

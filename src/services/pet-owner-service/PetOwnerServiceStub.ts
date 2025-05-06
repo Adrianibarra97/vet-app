@@ -3,22 +3,25 @@ import { PetOwnerServiceInter } from './PetOwnerServiceInter'
 
 export class PetOwnerServiceStub implements PetOwnerServiceInter {
   private user = new PetOwner(
-    1,
-    40123456,
-    'Tamara',
-    'Mecozzi',
-    'mecozzite@gmail.com',
-    1133445566,
-    'Sarmiento 2243',
-    'tam',
-    '123',
-    '42334411',
-    'src/assets/images/tam.jfif',
-    'Contraseña123', 
-    'San Miguel',    
-    '1663',          
-    'Buenos Aires'   
+    1,                          
+    'tam',                      
+    'Contraseña123',             
+    'Tamara',                   
+    'Mecozzi',                  
+    40123456,                   
+    'mecozzite@gmail.com',       
+    1133445566,                
+    'src/assets/tam.jpg',
+    'Sarmiento 2243',            
+    '1663',                      
+    'San Miguel',                
+    'Buenos Aires',              
+    'Argentina',                 
+    'PetOwner',                  
+    '42334411',                  
+    'Gisele'         
   )
+
 
 
 

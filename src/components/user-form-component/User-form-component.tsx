@@ -7,6 +7,7 @@ import {
   Stack,
 } from '@mui/material'
 import { useState } from 'react'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { FaPen } from 'react-icons/fa'
 import './User-form-component.css'
 import { ValidateFormByFields, professionalSchema } from '../../util/ValidateFormByFields'
@@ -21,7 +22,23 @@ interface Props {
   onSave: (updated: UserType) => void
   showProfessionalInfo: boolean
 }
-const personalFields = [
+const vetPersonalFields = [
+  { label: 'Nombre', key: 'name' },  
+  { label: 'DNI', key: 'dni' },
+
+  { label: 'Apellido', key: 'surname' },
+  { label: 'Username', key: 'username' },
+  { label: 'Contraseña', key: 'password' },
+  { label: 'Celular', key: 'telephone' },
+  { label: 'Email', key: 'email' },
+  { label: 'Dirección', key: 'address' },
+  { label: 'Localidad', key: 'locality' },
+  { label: 'Código Postal', key: 'postalCode' },
+  { label: 'Provincia', key: 'province' },
+  { label: 'País', key: 'country' },
+]
+
+const petOwnerPersonalFields = [
   { label: 'Nombre', key: 'name' },
   { label: 'Apellido', key: 'surname' },
   { label: 'DNI', key: 'dni' },
@@ -29,24 +46,26 @@ const personalFields = [
   { label: 'Contraseña', key: 'password' },
   { label: 'Celular', key: 'telephone' },
   { label: 'Email', key: 'email' },
-  { label: 'Dirección', key: 'adress' },
-  { label: 'Localidad', key: 'location' },
+  { label: 'Dirección', key: 'address' },
+  { label: 'Localidad', key: 'locality' },
   { label: 'Código Postal', key: 'postalCode' },
   { label: 'Provincia', key: 'province' },
- 
+  { label: 'País', key: 'country' },
+  { label: 'Contacto de Emergencia', key: 'emergencyContactName' },
+  { label: 'Teléfono de Emergencia', key: 'emergencyContactPhone' },
 ]
-
 
 const professionalFields = [
-  { label: 'Matrícula', key: 'license', vetProp: 'licence' },
-  { label: 'Teléfono Laboral', key: 'workPhone', vetProp: 'professionalTelephone' },
-  { label: 'Especialidad', key: 'specialty', vetProp: 'specialty' },
-  { label: 'Dirección Laboral', key: 'workAdress', vetProp: 'professionalAdress' },
-  { label: 'Localidad Laboral', key: 'workLocation', vetProp: 'professionalLocation' },
-  { label: 'Provincia Laboral', key: 'workProvince', vetProp: 'professionalProvince' },
-  { label: 'Email Profesional', key: 'professionalEmail', vetProp: 'professionalEmail' },
-  { label: 'Horario de atención', key: 'attentionSchedule', vetProp: 'businessHours' },
+  { label: 'Matrícula', key: 'license' },
+  { label: 'Especialidad', key: 'specialty' },
+  { label: 'Horario de atención', key: 'businessHours' },
+  { label: 'Email Profesional', key: 'professionalEmail' },
+  { label: 'Teléfono Laboral', key: 'professionalTelephone' },
+  { label: 'Dirección Laboral', key: 'professionalAddress' },
+  { label: 'Localidad Laboral', key: 'professionalLocality' },
+  { label: 'Código Postal Laboral', key: 'professionalPostalCode' },
 ]
+
 
 
 export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
@@ -58,6 +77,9 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
 
   const [personalErrors, setPersonalErrors] = useState<{ [key: string]: string }>({})
   const [professionalErrors, setProfessionalErrors] = useState<{ [key: string]: string }>({})
+
+  const fieldsToUse = user instanceof Vet ? vetPersonalFields : petOwnerPersonalFields
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleChange = (
     section: 'personal' | 'professional',
@@ -140,9 +162,16 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
     section: 'personal' | 'professional',
     errors: { [key: string]: string }
   ) => (
-    <Box className="section__items">
-      {fields.map(({ label, key, vetProp }) => {
+    <Box
+    className="section__items"
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      width: '100%' 
+    }}
+  >      {fields.map(({ label, key, vetProp }) => {
         const realKey = section === 'professional' && user instanceof Vet ? vetProp ?? key : key
+        const isPasswordField = realKey === 'password' //
         return (
           <div className="data__item" key={realKey}>
             <label className="data__item--label">{label}</label>
@@ -152,10 +181,28 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
               size="small"
               className="data__item--input"
               value={form[realKey] ?? ''}
-              onChange={(e) => handleChange(section, realKey, e.target.value)}
+              type={isPasswordField && !showPassword ? 'password' : 'text'}              onChange={(e) => handleChange(section, realKey, e.target.value)}
               disabled={!edit}
               error={!!errors[realKey]}
               helperText={errors[realKey]}
+              sx={{
+                mt: 0.5,
+                height: '3.5em',
+                '& .MuiInputBase-input': {
+                  height: '2em'
+                }
+              }}
+              InputProps={isPasswordField ? {
+                endAdornment: (
+                  <IconButton
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                    size="small"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                )
+              } : undefined}
             />
           </div>
         )
@@ -186,28 +233,32 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
             </IconButton>
           </Stack>
         </Box>
-        <Box className="section__content">
+        <Box className="section__content" sx={{ display: 'flex',  gap: 2 }}>
+        <Box sx={{ flex: '10 ', maxWidth: '100%' }}>
         {renderFields(
-            personalFields.slice(0, 7),
-            personalForm,
-            editPersonal,
-            'personal',
-            personalErrors
-          )}
-          {renderFields(
-            personalFields.slice(4),
-            personalForm,
-            editPersonal,
-            'personal',
-            personalErrors
-          )}
-        </Box>
+      fieldsToUse.slice(0, Math.ceil(fieldsToUse.length / 2)),
+      personalForm,
+      editPersonal,
+      'personal',
+      personalErrors
+    )}
+  </Box>
+  <Box sx={{ flex: '10' }}>
+    {renderFields(
+      fieldsToUse.slice(Math.ceil(fieldsToUse.length / 2)),
+      personalForm,
+      editPersonal,
+      'personal',
+      personalErrors
+    )}
+  </Box>
+</Box>
         {editPersonal && (
           <Stack
             direction="row"
             justifyContent="flex-end"
             spacing={2}
-            sx={{ px: 5, pb: 2 }}
+            sx={{ px: 3, pb: 2 }}
           >
             <Button
               variant="outlined"
