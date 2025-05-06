@@ -8,7 +8,7 @@ import AuthServiceManager from "../auth-service/AuthServiceManager"
 import { obtenerUserID } from "../auth-service/AuthService"
 
 export class MedicalShiftService implements MedicalShiftServiceInter {
-  
+
 	async getAll(): Promise<MedicalShift[]> {
 		const response = await axios.get(URL_BE + '/medical-shift/get-all')
 		return response.data.map((shiftDTO: MedicalShiftJSON) => {
@@ -17,8 +17,7 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 	}
 	
 	async getAllByFilter(filter: FilterTurn): Promise<MedicalShift[]> {
-		console.log(filter)
-		if(await AuthServiceManager.getIntance().isVet()) {
+		if(AuthServiceManager.getIntance().isVet()) {
 			const response = await axios.post(URL_BE + `/vet/get-all-medical-shift-by-filter?idVet=${await obtenerUserID()}`, filter)
 			const promise: MedicalShiftJSON[] = response.data
 			return promise.map((medicalShiftDTO: MedicalShiftJSON) => MedicalShift.fromJSON(medicalShiftDTO))
@@ -32,7 +31,7 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 
 
 	async cancelMedicalShift(idMedicalShift: number): Promise<void> {
-		await axios.delete(` ${URL_BE}/medical-shift/delete/${idMedicalShift}`)
+		await axios.delete(` ${URL_BE}/medical-shift/delete?idMedicalShift=${idMedicalShift}`)
 	}
 
 	async getMedicalShiftById(idMedicalShift: number): Promise<MedicalShift> {
@@ -41,10 +40,25 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 	}
 	
 	async editExistMedicalShift(medicalShift:MedicalShift): Promise<void> {
-		await axios.put(` ${URL_BE}/medical-shift/update/`, medicalShift)
+		const MedicalShiftRequestDTO = {
+			"id":medicalShift.id,
+			"date":medicalShift.date,
+			"hour":medicalShift.hour,
+			"vetId":await obtenerUserID(),
+			"petId":medicalShift.petMedicalShift.id
+		}
+		console.log(MedicalShiftRequestDTO)
+		await axios.put(` ${URL_BE}/medical-shift/update`, MedicalShiftRequestDTO)
 	}
 
 	async createNewMedicalShift(medicalShift: MedicalShift): Promise<void> {
-		await axios.post(` ${URL_BE}/medical-shift/create`, medicalShift)
+		const MedicalShiftRequestDTO = {
+			"date":medicalShift.date,
+			"hour":medicalShift.hour,
+			"vetId": await obtenerUserID(),
+			"petId":medicalShift.petMedicalShift.id
+		}
+		console.log(MedicalShiftRequestDTO)
+		await axios.post(` ${URL_BE}/medical-shift/create`, MedicalShiftRequestDTO)
 	}
 }

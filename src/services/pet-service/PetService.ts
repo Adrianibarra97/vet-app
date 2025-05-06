@@ -16,8 +16,7 @@ export class PetService implements PetServiceInter {
 	}
 
 	async getAllByFilter(petFilter: PetFilterValues): Promise<Pet[]> {
-		
-		if(await AuthServiceManager.getIntance().isVet()) {
+		if(AuthServiceManager.getIntance().isVet()) {
 			const response = await axios.post(URL_BE + `/vet/get-all-pets-by-filter?idVet=${await obtenerUserID()}`, petFilter.toJSON());
 			const promise: PetJSON[] = response.data; // Extraemos solo los datos
 			return promise.map((petDTO: PetJSON) => Pet.fromJSON(petDTO));
