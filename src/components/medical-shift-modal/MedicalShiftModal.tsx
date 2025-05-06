@@ -5,7 +5,7 @@ import PetServiceManager from "../../services/pet-service/PetServiceManager"
 import { useOnInit } from "../../util/customHooks"
 import dayjs, { Dayjs } from "dayjs"
 import { SnackbarUtilities } from "../../util/snackbar/SnackbarManager"
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Typography } from "@mui/material"
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField, Typography } from "@mui/material"
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -13,6 +13,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import { formContainer } from "./MedicalShiftModalStyle"
 import { PetFilterValues } from "../../domain/PetFilterValues"
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import MedicalShiftServiceManager from "../../services/medical-shift-service/MedicalShiftServiceManager"
 
 interface MedicalShiftModalProps {
   open: boolean
@@ -76,7 +77,7 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
       const dateFormat = newDay.format('YYYY-MM-DD')
       handleMedicalShiftCreationOrEdition('date',dateFormat)
     }else{
-      if(newDay){
+      if(!newDay?.isValid()){
         setErrors({...errors, date: 'Por favor, seleccione un dia valido'})
       }else{
         setErrors({...errors, date: 'Por favor, ingrese un dia de consulta'})
@@ -92,7 +93,7 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
       const timeFormat = newTime.format('HH:mm')
       handleMedicalShiftCreationOrEdition('hour', timeFormat)
     } else {
-      if(newTime){
+      if(!newTime?.isValid()){
         setErrors({...errors, hour: 'Por favor, seleccione una hora valida'})
       }else{
         setErrors({...errors, hour: 'Por favor, ingrese una hora de consulta'})
@@ -118,11 +119,12 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
   }
 
   const hasMissingRequiredFields = (): boolean => {
-    const requiredFields: (keyof MedicalShift)[] = [
-      'petMedicalShift',
-      'date',
-      'hour'
-    ]
+    const requiredFields: (keyof MedicalShift)[] = ['petMedicalShift','date','hour']
+
+    if(MedicalShiftServiceManager.useStub){
+      requiredFields.unshift('nameVet')
+    }
+
     return requiredFields.some((field) => !medicalShift[field])
   }
 
@@ -150,6 +152,33 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
       </DialogTitle>
       <DialogContent>
         <Box component='form' sx={formContainer}>
+          {MedicalShiftServiceManager.useStub && idMedicalShift === -1 && (
+              <TextField
+                label="Nombre de Veterinario"
+                fullWidth
+                margin="normal"
+                color="primary"
+                name="vetName"
+                required
+                value={medicalShift.nameVet}
+                onChange={(event) =>
+                  handleMedicalShiftCreationOrEdition('nameVet', event.target.value)
+                }
+                error={fromTouched && !medicalShift.nameVet}
+                helperText={
+                  fromTouched && !medicalShift.nameVet ? (
+                    <Box display="flex" alignItems="center" gap={1}>
+                      <Typography color="red">
+                        El veterinario es obligatorio
+                      </Typography>
+                    </Box>
+                  ) : (
+                    ''
+                  )
+                }
+              />
+            )
+          }
           <FormControl fullWidth  margin="normal" error={fromTouched && !medicalShift.petMedicalShift} required>
             <InputLabel color={fromTouched && !medicalShift.petMedicalShift ? "error" : "primary"}>Paciente</InputLabel>
             <Select

@@ -17,8 +17,7 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 	}
 	
 	async getAllByFilter(filter: FilterTurn): Promise<MedicalShift[]> {
-		console.log(filter)
-		if(await AuthServiceManager.getIntance().isVet()) {
+		if(AuthServiceManager.getIntance().isVet()) {
 			const response = await axios.post(URL_BE + `/vet/get-all-medical-shift-by-filter?idVet=${await obtenerUserID()}`, filter)
 			const promise: MedicalShiftJSON[] = response.data
 			return promise.map((medicalShiftDTO: MedicalShiftJSON) => MedicalShift.fromJSON(medicalShiftDTO))

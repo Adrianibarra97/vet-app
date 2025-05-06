@@ -9,45 +9,58 @@ export class MedicalShiftServiceStub implements MedicalShiftServiceInter {
   private objects: Array<MedicalShiftJSON> = [
     {
       "id": 1,
-      "vetName": "Dr. Juan Perez",
-      "petName": "Nala",
-      "date": "2025-04-25T09:30"
+      "nameVet": "Dr. Juan Perez",
+      "petMedicalShift": {
+        "id": 1,
+        "name":"Nala"
+      },
+      "date": "2025-04-25",
+      "hour": "18:30"
     },
     {
       "id": 2,
-      "vetName": "Dr. Maria Lopez",
-      "petName": "Morena",
-      "date": "2025-04-23T13:00"
+      "nameVet": "Dr. Maria Lopez",
+      "petMedicalShift":{
+        "id":2,
+        "name":"Morena"
+      },
+      "date": "2025-04-23",
+      "hour": "13:00"
     },
     {
       "id": 3,
-      "vetName": "Dr. Carlos Garcia",
-      "petName": "Oli",
-      "date": "2025-06-03T15:45"
+      "nameVet": "Dr. Carlos Garcia",
+      "petMedicalShift": {
+        "id":3,
+        "name":"Oli"
+      },
+      "date": "2025-06-03",
+      "hour": "15:45"
     },
     {
       "id": 4,
-      "vetName": "Dr. Ana Martinez",
-      "petName": "Pipi",
-      "date": "2025-06-04T10:15"
+      "nameVet": "Dr. Ana Martinez",
+      "petMedicalShift": {
+        "id":4,
+        "name":"Pipi"
+      },
+      "date": "2025-06-04",
+      "hour":"10:15"
     },
     {
       "id": 5,
-      "vetName": "Dr. Laura Fernandez",
-      "petName": "Napoleon",
-      "date": "2025-02-05T08:00"
+      "nameVet": "Dr. Laura Fernandez",
+      "petMedicalShift": {
+        "id":5,
+        "name":"Napoleon"
+      },
+      "date": "2025-02-05",
+      "hour": "08:00"
     }
   ]
 
   async getAll(): Promise<MedicalShift[]> {
-    return this.objects.map<MedicalShift>((MedicalShiftDto: MedicalShiftJSON) => {
-      return new MedicalShift(
-        MedicalShiftDto.id,
-        MedicalShiftDto.vetName,
-        MedicalShiftDto.petName,
-        MedicalShiftDto.date,
-      )
-    })
+    return this.objects.map<MedicalShift>((MedicalShiftDto: MedicalShiftJSON) => MedicalShift.fromJSON(MedicalShiftDto))
   }
 
   async getAllByFilter(filter: FilterTurn): Promise<MedicalShift[]> {
@@ -60,33 +73,26 @@ export class MedicalShiftServiceStub implements MedicalShiftServiceInter {
     const endOfWeek = new Date(today)
     endOfWeek.setDate(today.getDate() + (6 - today.getDay())); // sábado
   
-  const medicalShifts = this.objects.map<MedicalShift>((MedicalShiftDto: MedicalShiftJSON) =>{
-    return new MedicalShift(
-        MedicalShiftDto.id,
-        MedicalShiftDto.vetName,
-        MedicalShiftDto.petName,
-        MedicalShiftDto.date,
-      )
-    })
-    if(filter.date !== '' && filter.isToday === true && filter.isThisWeek === true) {
-      return medicalShifts.filter((medicalShift) => convertirFecha(medicalShift.date) === convertirFecha (filter.date)  && convertirFecha(medicalShift.date) ===  convertirFecha (new Date().toString()) && (convertirFecha(medicalShift.date)>= startOfWeek.getDate().toString() && convertirFecha(medicalShift.date) <= endOfWeek.getDate().toString()))
+  const medicalShifts = this.objects.map<MedicalShift>((MedicalShiftDto: MedicalShiftJSON) => MedicalShift.fromJSON(MedicalShiftDto))
+    if(filter.day !== '' && filter.today === true && filter.thisWeek === true) {
+      return medicalShifts.filter((medicalShift) => convertirFecha(medicalShift.date) === convertirFecha (filter.day)  && convertirFecha(medicalShift.date) ===  convertirFecha (new Date().toString()) && (convertirFecha(medicalShift.date)>= startOfWeek.getDate().toString() && convertirFecha(medicalShift.date) <= endOfWeek.getDate().toString()))
     }
-    if(filter.date !== '' && filter.isToday === true && filter.isThisWeek === false) {
-      return medicalShifts.filter((medicalShift) => convertirFecha(medicalShift.date) === convertirFecha (filter.date) && convertirFecha(medicalShift.date) ===  convertirFecha (new Date().toString()))
+    if(filter.day !== '' && filter.today === true && filter.thisWeek === false) {
+      return medicalShifts.filter((medicalShift) => convertirFecha(medicalShift.date) === convertirFecha (filter.day) && convertirFecha(medicalShift.date) ===  convertirFecha (new Date().toString()))
     }
-    if(filter.date !== '' && filter.isToday === false && filter.isThisWeek === true) {
-      return medicalShifts.filter((medicalShift) => convertirFecha(medicalShift.date) === convertirFecha (filter.date) && (convertirFecha(medicalShift.date)>= startOfWeek.getDate().toString() && convertirFecha(medicalShift.date) <= endOfWeek.getDate().toString()))
+    if(filter.day !== '' && filter.today === false && filter.thisWeek === true) {
+      return medicalShifts.filter((medicalShift) => convertirFecha(medicalShift.date) === convertirFecha (filter.day) && (convertirFecha(medicalShift.date)>= startOfWeek.getDate().toString() && convertirFecha(medicalShift.date) <= endOfWeek.getDate().toString()))
     }
-    if(filter.date !== '' && filter.isToday === false && filter.isThisWeek === false) {
-      return medicalShifts.filter((medicalShift) => convertirFecha(medicalShift.date) === convertirFecha (filter.date))
+    if(filter.day !== '' && filter.today === false && filter.thisWeek === false) {
+      return medicalShifts.filter((medicalShift) => convertirFecha(medicalShift.date) === convertirFecha (filter.day))
     }
-    if(filter.date === '' && filter.isToday === true && filter.isThisWeek === true) {
+    if(filter.day === '' && filter.today === true && filter.thisWeek === true) {
       return medicalShifts.filter((medicalShift) => convertirFecha(medicalShift.date) ===  convertirFecha (new Date().toString()) && (convertirFecha(medicalShift.date)>= startOfWeek.getDate().toString() && convertirFecha(medicalShift.date) <= endOfWeek.getDate().toString()))
     }
-    if(filter.date === '' && filter.isToday === true && filter.isThisWeek === false) {
+    if(filter.day === '' && filter.today === true && filter.thisWeek === false) {
       return medicalShifts.filter((medicalShift) => convertirFecha(medicalShift.date) ===  convertirFecha (new Date().toString()))
     }
-    if(filter.date === '' && filter.isToday === false && filter.isThisWeek === true) {
+    if(filter.day === '' && filter.today === false && filter.thisWeek === true) {
       return medicalShifts.filter((medicalShift) => (convertirFecha(medicalShift.date)>= startOfWeek.getDate().toString() && convertirFecha(medicalShift.date) <= endOfWeek.getDate().toString()))
     }
     return medicalShifts
@@ -98,12 +104,7 @@ export class MedicalShiftServiceStub implements MedicalShiftServiceInter {
 
   async getMedicalShiftById(idMedicalShift: number): Promise<MedicalShift> {
     const medicalShiftDto: MedicalShiftJSON = this.objects[idMedicalShift - 1]
-    return new MedicalShift(
-      medicalShiftDto.id,
-      medicalShiftDto.vetName,
-      medicalShiftDto.petName,
-      medicalShiftDto.date
-    )
+    return MedicalShift.fromJSON(medicalShiftDto)
   }
 
   async editExistMedicalShift(medicalShift: MedicalShift): Promise<void> {
