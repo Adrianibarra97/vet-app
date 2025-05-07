@@ -8,6 +8,8 @@ import VetServiceManager from '../../services/vet-service/VetServiceManager'
 import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
 import { getUserID } from '../../services/auth-service/AuthService'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
+import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
+
 interface TitleProp {
   name: string
 }
@@ -18,13 +20,14 @@ export const ProfilePage = ({ name }: TitleProp) => {
   useEffect(() => {
     const fetchProfileData = async () => {
       let fetchedUser: Vet | PetOwner
-
       if (AuthServiceManager.getIntance().isVet()) {
         fetchedUser = await VetServiceManager.getInstance().getOneById(getUserID())
+        fetchedUser.typeOfUser = 'vet'
       } else {
         fetchedUser = await PetOwnerServiceManager.getInstance().getOneById(getUserID())
+        fetchedUser.typeOfUser = 'petOwner'
       }
-
+      
       setUser(fetchedUser)
     }
 
@@ -39,6 +42,7 @@ export const ProfilePage = ({ name }: TitleProp) => {
       await PetOwnerServiceManager.getInstance().update(updatedUser as PetOwner)
     }
     setUser(updatedUser)
+    SnackbarUtilities.succes("Perfil actualizado correctamente")
   }
 
   return (

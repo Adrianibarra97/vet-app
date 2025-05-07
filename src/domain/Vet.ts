@@ -9,16 +9,16 @@ export class Vet extends User {
     surname: string,
     dni: number,
     email: string,
-    telephone: number,
+    telephone: string,
     photo: string,
     address: string,
     postalCode: string,
     locality: string,
     province: string,
     country: string,
-    typeOfUser: string,
-    public license: string,
-    public specialty: string,
+    idAuthCredentials: number,
+    public licence: string,
+    public speciality: string,
     public businessHours: string,
     public professionalEmail: string,
     public professionalTelephone: string,
@@ -26,14 +26,16 @@ export class Vet extends User {
     public professionalLocality: string,
     public professionalPostalCode: string
   ) {
-    super(id, username, password, name, surname, dni, email, telephone, photo, address, postalCode, locality, province, country, typeOfUser);
+
+    super(id, username, password, name, surname, dni, email, telephone, photo, 
+          address, postalCode, locality, province, country, 'vet', idAuthCredentials);
   }
 
   toJSON() {
     return {
       ...super.toJSON(),
-      license: this.license,
-      specialty: this.specialty,
+      licence: this.licence,
+      speciality: this.speciality,
       businessHours: this.businessHours,
       professionalEmail: this.professionalEmail,
       professionalTelephone: this.professionalTelephone,
@@ -59,9 +61,9 @@ export class Vet extends User {
       json.locality,
       json.province,
       json.country,
-      json.typeOfUser,
-      json.license,
-      json.specialty,
+      json.idAuthCredentials,
+      json.licence,
+      json.speciality,
       json.businessHours,
       json.professionalEmail,
       json.professionalTelephone,

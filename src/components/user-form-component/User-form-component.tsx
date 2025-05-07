@@ -19,7 +19,7 @@ type UserType = User | Vet | PetOwner
 
 interface Props {
   user: UserType
-  onSave: (updated: UserType) => void
+  onSave: (updated: Vet | PetOwner) => void
   showProfessionalInfo: boolean
 }
 const vetPersonalFields = [
@@ -56,8 +56,8 @@ const petOwnerPersonalFields = [
 ]
 
 const professionalFields = [
-  { label: 'Matrícula', key: 'license' },
-  { label: 'Especialidad', key: 'specialty' },
+  { label: 'Matrícula', key: 'licence' },
+  { label: 'Especialidad', key: 'speciality' },
   { label: 'Horario de atención', key: 'businessHours' },
   { label: 'Email Profesional', key: 'professionalEmail' },
   { label: 'Teléfono Laboral', key: 'professionalTelephone' },
@@ -103,41 +103,62 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
   const handleSave = async (section: 'personal' | 'professional') => {
     try {
       if (section === 'personal') {
-        await ValidateFormByFields.validate(personalForm, { abortEarly: false })
-        setPersonalErrors({})
+        await ValidateFormByFields.validate(personalForm, { abortEarly: false });
+        setPersonalErrors({});
   
-        const updated = Object.assign(
-          Object.create(Object.getPrototypeOf(user)),
-          { ...user, ...personalForm }
-        ) as UserType
-  
-        onSave(updated)
-        setEditPersonal(false)
-        SnackbarUtilities.succes('Información personal actualizada correctamente ')
-      } else {
         if (user instanceof Vet) {
-          await professionalSchema.validate(professionalForm, { abortEarly: false })
-          setProfessionalErrors({})
-  
-          const updated = Object.assign(
-            Object.create(Object.getPrototypeOf(user)),
-            { ...user, ...professionalForm }
-          ) as Vet
-  
-          onSave(updated)
-          setEditProfessional(false)
-          SnackbarUtilities.succes('Información profesional actualizada correctamente ')
+          const vetData = {
+            ...personalForm,
+            ...(editProfessional ? professionalForm : {}),
+            typeOfUser: 'vet'
+          };
+          const updatedVet = Vet.fromJSON(vetData);
+          await onSave(updatedVet);
+        } else {
+          const petOwnerData = {
+            ...personalForm,
+            typeOfUser: 'petOwner'
+          };
+          const updatedPetOwner = PetOwner.fromJSON(petOwnerData);
+          await onSave(updatedPetOwner);
         }
+  
+        setEditPersonal(false);
+        SnackbarUtilities.succes('Información personal actualizada correctamente');
+      } else if (user instanceof Vet) {
+        await professionalSchema.validate(professionalForm, { abortEarly: false });
+        setProfessionalErrors({});
+  
+        const vetData = {
+          ...personalForm,
+          ...professionalForm,
+          typeOfUser: 'vet'
+        };
+        const updatedVet = Vet.fromJSON(vetData);
+        
+        await onSave(updatedVet);
+        setEditProfessional(false);
+        SnackbarUtilities.succes('Información profesional actualizada correctamente');
       }
     } catch (error: any) {
-      const errors: { [key: string]: string } = {}
-      error.inner.forEach((err: any) => {
-        errors[err.path] = err.message
-      })
-      section === 'personal' ? setPersonalErrors(errors) : setProfessionalErrors(errors)
-      SnackbarUtilities.error('Por favor completá todos los campos obligatorios correctamente.')
+      const errors: { [key: string]: string } = {};
+      if (error.inner) {
+        error.inner.forEach((err: any) => {
+          errors[err.path] = err.message;
+        });
+      } else {
+        errors.general = error.message;
+      }
+  
+      if (section === 'personal') {
+        setPersonalErrors(errors);
+      } else if (user instanceof Vet) {
+        setProfessionalErrors(errors);
+      }
+      
+      SnackbarUtilities.error('Por favor completá todos los campos obligatorios correctamente.');
     }
-  }
+  };
   const handleCancel = (section: 'personal' | 'professional') => {
     const reset = Object.assign(
       Object.create(Object.getPrototypeOf(user)),
@@ -154,7 +175,6 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
       setProfessionalErrors({})
     }
   }
-
   const renderFields = (
     fields: { label: string; key: string; vetProp?: string }[],
     form: any,
@@ -162,16 +182,10 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
     section: 'personal' | 'professional',
     errors: { [key: string]: string }
   ) => (
-    <Box
-    className="section__items"
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%' 
-    }}
-  >      {fields.map(({ label, key, vetProp }) => {
+    <>
+      {fields.map(({ label, key, vetProp }) => {
         const realKey = section === 'professional' && user instanceof Vet ? vetProp ?? key : key
-        const isPasswordField = realKey === 'password' //
+        const isPasswordField = realKey === 'password'
         return (
           <div className="data__item" key={realKey}>
             <label className="data__item--label">{label}</label>
@@ -181,13 +195,15 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
               size="small"
               className="data__item--input"
               value={form[realKey] ?? ''}
-              type={isPasswordField && !showPassword ? 'password' : 'text'}              onChange={(e) => handleChange(section, realKey, e.target.value)}
+              type={isPasswordField && !showPassword ? 'password' : 'text'}
+              onChange={(e) => handleChange(section, realKey, e.target.value)}
               disabled={!edit}
               error={!!errors[realKey]}
               helperText={errors[realKey]}
               sx={{
                 mt: 0.5,
                 height: '3.5em',
+                width: { xs: '100%', md: '100%' }, 
                 '& .MuiInputBase-input': {
                   height: '2em'
                 }
@@ -207,19 +223,20 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
           </div>
         )
       })}
-    </Box>
+    </>
   )
-
+  
 
   return (
     <form className="data">
-<Box className="data__section"  sx={{
-    height: 'auto',        
-    minHeight: '20em',    
+  <Box className="data__section" sx={{
+    height: 'auto',
+    minHeight: '20em',
     width: '100%',
-    paddingBottom: '2em',  
-    boxSizing: 'border-box' 
-  }}>
+    paddingBottom: '2em',
+    boxSizing: 'border-box',
+    mt: 2 
+  }}>  
 <Box className="section__header">
           <Stack direction="row" alignItems="center">
             <Typography
@@ -233,9 +250,20 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
             </IconButton>
           </Stack>
         </Box>
-        <Box className="section__content" sx={{ display: 'flex',  gap: 2 }}>
-        <Box sx={{ flex: '10 ', maxWidth: '100%' }}>
-        {renderFields(
+        <Box className="section__content"
+  sx={{
+    display: 'flex',
+    flexDirection: { xs: 'column', md: 'row' },
+    gap: 2,
+  }}
+>
+<Box className="section__items"
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      maxwidth: '100%' 
+    }}
+>    {renderFields(
       fieldsToUse.slice(0, Math.ceil(fieldsToUse.length / 2)),
       personalForm,
       editPersonal,
@@ -243,15 +271,20 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
       personalErrors
     )}
   </Box>
-  <Box sx={{ flex: '10' }}>
-    {renderFields(
+  <Box className="section__items"
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      maxwidth: '100%' 
+    }}
+>    {renderFields(
       fieldsToUse.slice(Math.ceil(fieldsToUse.length / 2)),
       personalForm,
       editPersonal,
       'personal',
       personalErrors
     )}
-  </Box>
+</Box>
 </Box>
         {editPersonal && (
           <Stack
@@ -287,8 +320,14 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
       </Box>
 
       {showProfessionalInfo && user instanceof Vet && (
-              <Box className="data__section">
-        <Box className="section__header">
+  <Box className="data__section" sx={{
+    height: 'auto',
+    minHeight: '20em',
+    width: '100%',
+    paddingBottom: '2em',
+    boxSizing: 'border-box',
+    mt: 2 
+  }}>        <Box className="section__header">
           <Stack direction="row" alignItems="center">
             <Typography
               className="section__header--title"
@@ -301,22 +340,31 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
             </IconButton>
           </Stack>
         </Box>
-        <Box className="section__content">
-          {renderFields(
-            professionalFields.slice(0, 3),
-            professionalForm,
-            editProfessional,
-            'professional',
-            professionalErrors,
-          )}
-          {renderFields(
-            professionalFields.slice(3),
-            professionalForm,
-            editProfessional,
-            'professional',
-            professionalErrors,
-          )}{' '}
-        </Box>
+        <Box className="section__content"
+  sx={{
+    display: 'flex',
+    flexDirection: { xs: 'column', md: 'row' },
+    gap: 2,
+  }}
+>
+<Box className="section__items"
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      maxwidth: '100%' 
+    }}
+>    {renderFields(professionalFields.slice(0, Math.ceil(professionalFields.length / 2)), professionalForm, editProfessional, 'professional', professionalErrors)}
+  </Box>
+  <Box className="section__items"
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      maxwidth: '100%' 
+    }}
+>    {renderFields(professionalFields.slice(Math.ceil(professionalFields.length / 2)), professionalForm, editProfessional, 'professional', professionalErrors)}
+  </Box>
+</Box>
+
         {editProfessional && (
           <Stack
             direction="row"

@@ -9,23 +9,24 @@ export class PetOwner extends User {
     surname: string,
     dni: number,
     email: string,
-    telephone: number,
+    telephone: string,
     photo: string,
     address: string,
     postalCode: string,
     locality: string,
     province: string,
     country: string,
-    typeOfUser: string,
+    idAuthCredentials: number,
     public emergencyContactName: string,
     public emergencyContactPhone: string
   ) {
-    super(id, username, password, name, surname, dni, email, telephone, photo, address, postalCode, locality, province, country, typeOfUser);
+    super(id, username, password, name, surname, dni, email, telephone, photo, address, postalCode, locality, province, country, 'petOwner',idAuthCredentials);
   }
 
   toJSON() {
     return {
       ...super.toJSON(),
+   
       emergencyContactName: this.emergencyContactName,
       emergencyContactPhone: this.emergencyContactPhone
     }
@@ -47,7 +48,7 @@ export class PetOwner extends User {
       json.locality,
       json.province,
       json.country,
-      json.typeOfUser,
+      json.idAuthCredentials,
       json.emergencyContactName,
       json.emergencyContactPhone
     );
