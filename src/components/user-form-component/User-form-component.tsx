@@ -10,11 +10,14 @@ import { useState } from 'react'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { FaPen } from 'react-icons/fa'
 import './User-form-component.css'
-import { ValidateFormByFields, professionalSchema } from '../../util/ValidateFormByFields'
+import {
+  ValidateFormByFields,
+  professionalSchema,
+} from '../../util/ValidateFormByFields'
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 import { Vet } from '../../domain/Vet'
 import { PetOwner } from '../../domain/PetOwner'
-import { User} from '../../domain/User'
+import { User } from '../../domain/User'
 type UserType = User | Vet | PetOwner
 
 interface Props {
@@ -23,9 +26,8 @@ interface Props {
   showProfessionalInfo: boolean
 }
 const vetPersonalFields = [
-  { label: 'Nombre', key: 'name' },  
+  { label: 'Nombre', key: 'name' },
   { label: 'DNI', key: 'dni' },
-
   { label: 'Apellido', key: 'surname' },
   { label: 'Username', key: 'username' },
   { label: 'Contraseña', key: 'password' },
@@ -66,8 +68,6 @@ const professionalFields = [
   { label: 'Código Postal Laboral', key: 'professionalPostalCode' },
 ]
 
-
-
 export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
   const [editPersonal, setEditPersonal] = useState(false)
   const [editProfessional, setEditProfessional] = useState(false)
@@ -75,27 +75,32 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
   const [personalForm, setPersonalForm] = useState<UserType>(user)
   const [professionalForm, setProfessionalForm] = useState<UserType>(user)
 
-  const [personalErrors, setPersonalErrors] = useState<{ [key: string]: string }>({})
-  const [professionalErrors, setProfessionalErrors] = useState<{ [key: string]: string }>({})
+  const [personalErrors, setPersonalErrors] = useState<{
+    [key: string]: string
+  }>({})
+  const [professionalErrors, setProfessionalErrors] = useState<{
+    [key: string]: string
+  }>({})
 
-  const fieldsToUse = user instanceof Vet ? vetPersonalFields : petOwnerPersonalFields
+  const fieldsToUse =
+    user instanceof Vet ? vetPersonalFields : petOwnerPersonalFields
   const [showPassword, setShowPassword] = useState(false)
 
   const handleChange = (
     section: 'personal' | 'professional',
     key: string,
-    value: string
+    value: string,
   ) => {
     if (section === 'personal') {
       const updated = Object.assign(
         Object.create(Object.getPrototypeOf(user)),
-        { ...personalForm, [key]: value }
+        { ...personalForm, [key]: value },
       )
       setPersonalForm(updated)
     } else {
       const updated = Object.assign(
         Object.create(Object.getPrototypeOf(user)),
-        { ...professionalForm, [key]: value }
+        { ...professionalForm, [key]: value },
       )
       setProfessionalForm(updated)
     }
@@ -103,68 +108,76 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
   const handleSave = async (section: 'personal' | 'professional') => {
     try {
       if (section === 'personal') {
-        await ValidateFormByFields.validate(personalForm, { abortEarly: false });
-        setPersonalErrors({});
-  
+        await ValidateFormByFields.validate(personalForm, { abortEarly: false })
+        setPersonalErrors({})
+
         if (user instanceof Vet) {
           const vetData = {
             ...personalForm,
             ...(editProfessional ? professionalForm : {}),
-            typeOfUser: 'vet'
-          };
-          const updatedVet = Vet.fromJSON(vetData);
-          await onSave(updatedVet);
+            typeOfUser: 'vet',
+          }
+          const updatedVet = Vet.fromJSON(vetData)
+          await onSave(updatedVet)
         } else {
           const petOwnerData = {
             ...personalForm,
-            typeOfUser: 'petOwner'
-          };
-          const updatedPetOwner = PetOwner.fromJSON(petOwnerData);
-          await onSave(updatedPetOwner);
+            typeOfUser: 'petOwner',
+          }
+          const updatedPetOwner = PetOwner.fromJSON(petOwnerData)
+          await onSave(updatedPetOwner)
         }
-  
-        setEditPersonal(false);
-        SnackbarUtilities.succes('Información personal actualizada correctamente');
+
+        setEditPersonal(false)
+        SnackbarUtilities.succes(
+          'Información personal actualizada correctamente',
+        )
       } else if (user instanceof Vet) {
-        await professionalSchema.validate(professionalForm, { abortEarly: false });
-        setProfessionalErrors({});
-  
+        await professionalSchema.validate(professionalForm, {
+          abortEarly: false,
+        })
+        setProfessionalErrors({})
+
         const vetData = {
           ...personalForm,
           ...professionalForm,
-          typeOfUser: 'vet'
-        };
-        const updatedVet = Vet.fromJSON(vetData);
-        
-        await onSave(updatedVet);
-        setEditProfessional(false);
-        SnackbarUtilities.succes('Información profesional actualizada correctamente');
+          typeOfUser: 'vet',
+        }
+        const updatedVet = Vet.fromJSON(vetData)
+
+        await onSave(updatedVet)
+        setEditProfessional(false)
+        SnackbarUtilities.succes(
+          'Información profesional actualizada correctamente',
+        )
       }
     } catch (error: any) {
-      const errors: { [key: string]: string } = {};
+      const errors: { [key: string]: string } = {}
       if (error.inner) {
         error.inner.forEach((err: any) => {
-          errors[err.path] = err.message;
-        });
+          errors[err.path] = err.message
+        })
       } else {
-        errors.general = error.message;
+        errors.general = error.message
       }
-  
+
       if (section === 'personal') {
-        setPersonalErrors(errors);
+        setPersonalErrors(errors)
       } else if (user instanceof Vet) {
-        setProfessionalErrors(errors);
+        setProfessionalErrors(errors)
       }
-      
-      SnackbarUtilities.error('Por favor completá todos los campos obligatorios correctamente.');
+
+      SnackbarUtilities.error(
+        'Por favor completá todos los campos obligatorios correctamente.',
+      )
     }
-  };
+  }
   const handleCancel = (section: 'personal' | 'professional') => {
     const reset = Object.assign(
       Object.create(Object.getPrototypeOf(user)),
-      user
+      user,
     )
-  
+
     if (section === 'personal') {
       setEditPersonal(false)
       setPersonalForm(reset)
@@ -180,11 +193,14 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
     form: any,
     edit: boolean,
     section: 'personal' | 'professional',
-    errors: { [key: string]: string }
+    errors: { [key: string]: string },
   ) => (
     <>
       {fields.map(({ label, key, vetProp }) => {
-        const realKey = section === 'professional' && user instanceof Vet ? vetProp ?? key : key
+        const realKey =
+          section === 'professional' && user instanceof Vet
+            ? (vetProp ?? key)
+            : key
         const isPasswordField = realKey === 'password'
         return (
           <div className="data__item" key={realKey}>
@@ -203,41 +219,47 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
               sx={{
                 mt: 0.5,
                 height: '3.5em',
-                width: { xs: '100%', md: '100%' }, 
+                width: { xs: '100%', md: '100%' },
                 '& .MuiInputBase-input': {
-                  height: '2em'
-                }
+                  height: '2em',
+                },
               }}
-              InputProps={isPasswordField ? {
-                endAdornment: (
-                  <IconButton
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge="end"
-                    size="small"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                )
-              } : undefined}
+              InputProps={
+                isPasswordField
+                  ? {
+                      endAdornment: (
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                          size="small"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      ),
+                    }
+                  : undefined
+              }
             />
           </div>
         )
       })}
     </>
   )
-  
 
   return (
     <form className="data">
-  <Box className="data__section" sx={{
-    height: 'auto',
-    minHeight: '20em',
-    width: '100%',
-    paddingBottom: '2em',
-    boxSizing: 'border-box',
-    mt: 2 
-  }}>  
-<Box className="section__header">
+      <Box
+        className="data__section"
+        sx={{
+          height: 'auto',
+          minHeight: '20em',
+          width: '100%',
+          paddingBottom: '2em',
+          boxSizing: 'border-box',
+          mt: 2,
+        }}
+      >
+        <Box className="section__header">
           <Stack direction="row" alignItems="center">
             <Typography
               className="section__header--title"
@@ -250,42 +272,49 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
             </IconButton>
           </Stack>
         </Box>
-        <Box className="section__content"
-  sx={{
-    display: 'flex',
-    flexDirection: { xs: 'column', md: 'row' },
-    gap: 2,
-  }}
->
-<Box className="section__items"
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      maxwidth: '100%' 
-    }}
->    {renderFields(
-      fieldsToUse.slice(0, Math.ceil(fieldsToUse.length / 2)),
-      personalForm,
-      editPersonal,
-      'personal',
-      personalErrors
-    )}
-  </Box>
-  <Box className="section__items"
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      maxwidth: '100%' 
-    }}
->    {renderFields(
-      fieldsToUse.slice(Math.ceil(fieldsToUse.length / 2)),
-      personalForm,
-      editPersonal,
-      'personal',
-      personalErrors
-    )}
-</Box>
-</Box>
+        <Box
+          className="section__content"
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            gap: 2,
+          }}
+        >
+          <Box
+            className="section__items"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              maxwidth: '100%',
+            }}
+          >
+            {' '}
+            {renderFields(
+              fieldsToUse.slice(0, Math.ceil(fieldsToUse.length / 2)),
+              personalForm,
+              editPersonal,
+              'personal',
+              personalErrors,
+            )}
+          </Box>
+          <Box
+            className="section__items"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              maxwidth: '100%',
+            }}
+          >
+            {' '}
+            {renderFields(
+              fieldsToUse.slice(Math.ceil(fieldsToUse.length / 2)),
+              personalForm,
+              editPersonal,
+              'personal',
+              personalErrors,
+            )}
+          </Box>
+        </Box>
         {editPersonal && (
           <Stack
             direction="row"
@@ -320,83 +349,113 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
       </Box>
 
       {showProfessionalInfo && user instanceof Vet && (
-  <Box className="data__section" sx={{
-    height: 'auto',
-    minHeight: '20em',
-    width: '100%',
-    paddingBottom: '2em',
-    boxSizing: 'border-box',
-    mt: 2 
-  }}>        <Box className="section__header">
-          <Stack direction="row" alignItems="center">
-            <Typography
-              className="section__header--title"
-              sx={{ fontWeight: 'bold' }}
-            >
-              Información profesional
-            </Typography>
-            <IconButton onClick={() => setEditProfessional(!editProfessional)}>
-              <FaPen />
-            </IconButton>
-          </Stack>
-        </Box>
-        <Box className="section__content"
-  sx={{
-    display: 'flex',
-    flexDirection: { xs: 'column', md: 'row' },
-    gap: 2,
-  }}
->
-<Box className="section__items"
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      maxwidth: '100%' 
-    }}
->    {renderFields(professionalFields.slice(0, Math.ceil(professionalFields.length / 2)), professionalForm, editProfessional, 'professional', professionalErrors)}
-  </Box>
-  <Box className="section__items"
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      maxwidth: '100%' 
-    }}
->    {renderFields(professionalFields.slice(Math.ceil(professionalFields.length / 2)), professionalForm, editProfessional, 'professional', professionalErrors)}
-  </Box>
-</Box>
-
-        {editProfessional && (
-          <Stack
-            direction="row"
-            justifyContent="flex-end"
-            spacing={2}
-            sx={{ px: 4, pb: 2 }}
+        <Box
+          className="data__section"
+          sx={{
+            height: 'auto',
+            minHeight: '20em',
+            width: '100%',
+            paddingBottom: '2em',
+            boxSizing: 'border-box',
+            mt: 2,
+          }}
+        >
+          {' '}
+          <Box className="section__header">
+            <Stack direction="row" alignItems="center">
+              <Typography
+                className="section__header--title"
+                sx={{ fontWeight: 'bold' }}
+              >
+                Información profesional
+              </Typography>
+              <IconButton
+                onClick={() => setEditProfessional(!editProfessional)}
+              >
+                <FaPen />
+              </IconButton>
+            </Stack>
+          </Box>
+          <Box
+            className="section__content"
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', md: 'row' },
+              gap: 2,
+            }}
           >
-            <Button
-              variant="outlined"
+            <Box
+              className="section__items"
               sx={{
-                color: 'var(--font-color)',
-                borderColor: 'var(--footer-color)',
-                '&:hover': { borderColor: 'var(--primary-color)' },
+                display: 'flex',
+                flexDirection: 'column',
+                maxwidth: '100%',
               }}
-              onClick={() => handleCancel('professional')}
             >
-              Cancelar
-            </Button>
-            <Button
-              variant="contained"
+              {' '}
+              {renderFields(
+                professionalFields.slice(
+                  0,
+                  Math.ceil(professionalFields.length / 2),
+                ),
+                professionalForm,
+                editProfessional,
+                'professional',
+                professionalErrors,
+              )}
+            </Box>
+            <Box
+              className="section__items"
               sx={{
-                backgroundColor: 'var(--primary-color)',
-                color: 'var(--font-color)',
-                '&:hover': { backgroundColor: 'var(--footer-color)' },
+                display: 'flex',
+                flexDirection: 'column',
+                maxwidth: '100%',
               }}
-              onClick={() => handleSave('professional')}
             >
-              Guardar
-            </Button>
-          </Stack>
-        )}
-      </Box>
+              {' '}
+              {renderFields(
+                professionalFields.slice(
+                  Math.ceil(professionalFields.length / 2),
+                ),
+                professionalForm,
+                editProfessional,
+                'professional',
+                professionalErrors,
+              )}
+            </Box>
+          </Box>
+          {editProfessional && (
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+              spacing={2}
+              sx={{ px: 4, pb: 2 }}
+            >
+              <Button
+                variant="outlined"
+                sx={{
+                  color: 'var(--font-color)',
+                  borderColor: 'var(--footer-color)',
+                  '&:hover': { borderColor: 'var(--primary-color)' },
+                }}
+                onClick={() => handleCancel('professional')}
+              >
+                Cancelar
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: 'var(--primary-color)',
+                  color: 'var(--font-color)',
+                  '&:hover': { backgroundColor: 'var(--footer-color)' },
+                }}
+                onClick={() => handleSave('professional')}
+              >
+                Guardar
+              </Button>
+            </Stack>
+          )}
+        </Box>
       )}
     </form>
   )

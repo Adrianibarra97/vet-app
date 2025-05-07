@@ -1,4 +1,4 @@
-import { User } from "./User";
+import { User } from './User'
 
 export class PetOwner extends User {
   constructor(
@@ -18,17 +18,34 @@ export class PetOwner extends User {
     country: string,
     idAuthCredentials: number,
     public emergencyContactName: string,
-    public emergencyContactPhone: string
+    public emergencyContactPhone: string,
   ) {
-    super(id, username, password, name, surname, dni, email, telephone, photo, address, postalCode, locality, province, country, 'petOwner',idAuthCredentials);
+    super(
+      id,
+      username,
+      password,
+      name,
+      surname,
+      dni,
+      email,
+      telephone,
+      photo,
+      address,
+      postalCode,
+      locality,
+      province,
+      country,
+      'petOwner',
+      idAuthCredentials,
+    )
   }
 
   toJSON() {
     return {
       ...super.toJSON(),
-   
+
       emergencyContactName: this.emergencyContactName,
-      emergencyContactPhone: this.emergencyContactPhone
+      emergencyContactPhone: this.emergencyContactPhone,
     }
   }
 
@@ -50,7 +67,7 @@ export class PetOwner extends User {
       json.country,
       json.idAuthCredentials,
       json.emergencyContactName,
-      json.emergencyContactPhone
-    );
+      json.emergencyContactPhone,
+    )
   }
 }

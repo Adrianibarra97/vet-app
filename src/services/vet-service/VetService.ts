@@ -1,7 +1,7 @@
-import axios from "axios"
-import { Vet } from "../../domain/Vet"
-import { URL_BE } from "../config"
-import { VetServiceInter } from "./VetServiceInter"
+import axios from 'axios'
+import { Vet } from '../../domain/Vet'
+import { URL_BE } from '../config'
+import { VetServiceInter } from './VetServiceInter'
 
 export class VetService implements VetServiceInter {
   async getAll(): Promise<Vet[]> {
@@ -10,7 +10,9 @@ export class VetService implements VetServiceInter {
   }
 
   async getOneById(id: number): Promise<Vet> {
-    const res = await axios.get(`${URL_BE}/vet/get-one-by-id`, { params: { idVet: id } })
+    const res = await axios.get(`${URL_BE}/vet/get-one-by-id`, {
+      params: { idVet: id },
+    })
     return Vet.fromJSON(res.data)
   }
 
@@ -23,3 +25,4 @@ export class VetService implements VetServiceInter {
     await axios.delete(`${URL_BE}/vet/delete-vet`, { params: { id } })
   }
 }
+
