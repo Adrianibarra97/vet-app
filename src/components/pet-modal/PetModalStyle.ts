@@ -10,7 +10,7 @@ export const formContainer = {
   p: 3,
   backgroundColor: 'white',
   borderRadius: 2,
-  maxHeight: { xs: '97vh', sm: '62vh' },
+  maxHeight: { xs: '97vh', sm: '80vh' },
   overflow: 'auto'
 }
 
