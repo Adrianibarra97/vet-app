@@ -12,4 +12,6 @@ export interface PetServiceInter {
 	update(pet: Pet): void
 
 	delete(id: number): void
+
+	getPetById(id: number): Promise<Pet>
 }

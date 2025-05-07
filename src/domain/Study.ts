@@ -7,10 +7,20 @@ export type StudyJSON = {
 export class Study {
     
   constructor(
-    public id: number,
-    public name: string,
-    public description: string
+    public id: number = -1,
+    public name: string = '',
+    public description: string = ''
   ) {}
+
+  static fromJSON(studyJSON:StudyJSON):Study{
+    return Object.assign(new Study(),studyJSON)
+    /*new Study(
+      studyJSON.id,
+      studyJSON.name,
+      studyJSON.description
+    )
+    */
+  }
 
   toJSON(): StudyJSON {
     return {

@@ -10,13 +10,24 @@ export type VaccineJSON = {
 export class Vaccine {
     
 	constructor(
-		public id: number,
-		public name: string,
-		public description: string,
-		public batchNumber: number,
-		public expirationDate: Date,
-		public aplicationDate: Date
+		public id: number = -1,
+		public name: string = '',
+		public description: string = '',
+		public batchNumber: number = -1,
+		public expirationDate: string = '',
+		public aplicationDate: string = ''
 	) {}
+
+	static fromJSON(vaccineJSON:VaccineJSON):Vaccine{
+		return new Vaccine(
+			vaccineJSON.id,
+			vaccineJSON.name,
+			vaccineJSON.description,
+			vaccineJSON.batchNumber,
+			vaccineJSON.expirationDate,
+			vaccineJSON.aplicationDate
+		)
+	}
 
 	toJSON(): VaccineJSON {
 		return {
