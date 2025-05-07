@@ -26,46 +26,47 @@ interface Props {
   showProfessionalInfo: boolean
 }
 const vetPersonalFields = [
+  { label: 'Username', key: 'username' },
   { label: 'Nombre', key: 'name' },
   { label: 'DNI', key: 'dni' },
-  { label: 'Apellido', key: 'surname' },
-  { label: 'Username', key: 'username' },
-  { label: 'Contraseña', key: 'password' },
-  { label: 'Celular', key: 'telephone' },
   { label: 'Email', key: 'email' },
-  { label: 'Dirección', key: 'address' },
-  { label: 'Localidad', key: 'locality' },
   { label: 'Código Postal', key: 'postalCode' },
   { label: 'Provincia', key: 'province' },
+  { label: 'Contraseña', key: 'password' },
+  { label: 'Apellido', key: 'surname' },
+  { label: 'Celular', key: 'telephone' },
+  { label: 'Dirección', key: 'address' },
+  { label: 'Localidad', key: 'locality' },
   { label: 'País', key: 'country' },
 ]
 
 const petOwnerPersonalFields = [
-  { label: 'Nombre', key: 'name' },
-  { label: 'Apellido', key: 'surname' },
-  { label: 'DNI', key: 'dni' },
   { label: 'Username', key: 'username' },
-  { label: 'Contraseña', key: 'password' },
-  { label: 'Celular', key: 'telephone' },
+  { label: 'Nombre', key: 'name' },
+  { label: 'DNI', key: 'dni' },
   { label: 'Email', key: 'email' },
-  { label: 'Dirección', key: 'address' },
-  { label: 'Localidad', key: 'locality' },
   { label: 'Código Postal', key: 'postalCode' },
   { label: 'Provincia', key: 'province' },
-  { label: 'País', key: 'country' },
   { label: 'Contacto de Emergencia', key: 'emergencyContactName' },
+  { label: 'Contraseña', key: 'password' },
+  { label: 'Apellido', key: 'surname' },
+  { label: 'Celular', key: 'telephone' },
+  { label: 'Dirección', key: 'address' },
+  { label: 'Localidad', key: 'locality' },
+  { label: 'País', key: 'country' },
   { label: 'Teléfono de Emergencia', key: 'emergencyContactPhone' },
 ]
 
 const professionalFields = [
   { label: 'Matrícula', key: 'licence' },
-  { label: 'Especialidad', key: 'speciality' },
-  { label: 'Horario de atención', key: 'businessHours' },
-  { label: 'Email Profesional', key: 'professionalEmail' },
   { label: 'Teléfono Laboral', key: 'professionalTelephone' },
   { label: 'Dirección Laboral', key: 'professionalAddress' },
-  { label: 'Localidad Laboral', key: 'professionalLocality' },
   { label: 'Código Postal Laboral', key: 'professionalPostalCode' },
+  { label: 'Especialidad', key: 'speciality' },
+  { label: 'Email Profesional', key: 'professionalEmail' },
+  { label: 'Localidad Laboral', key: 'professionalLocality' },
+  { label: 'Horario de atención', key: 'businessHours' },
+
 ]
 
 export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {

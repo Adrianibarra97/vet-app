@@ -49,16 +49,13 @@ export const ProfileMenu = ({ user, onPhotoChange }: Props) => {
 
     setIsUploading(true)
     try {
-      // ⚡ Para ahora: simulamos que la foto es la URL local (hasta que subas a S3, etc.)
       const newPhotoUrl = URL.createObjectURL(selectedFile)
 
-      // Creamos nuevo objeto actualizado
       const updatedUser = Object.assign(
         Object.create(Object.getPrototypeOf(user)),
         { ...user, photo: newPhotoUrl },
       )
 
-      // Actualizamos en backend igual que con los datos normales
       if (AuthServiceManager.getIntance().isVet()) {
         await VetServiceManager.getInstance().update(updatedUser as Vet)
       } else {
@@ -66,7 +63,6 @@ export const ProfileMenu = ({ user, onPhotoChange }: Props) => {
           updatedUser as PetOwner,
         )
       }
-
       onPhotoChange(newPhotoUrl)
       SnackbarUtilities.succes('Foto de perfil actualizada correctamente')
       handleCloseModal()
@@ -131,7 +127,6 @@ export const ProfileMenu = ({ user, onPhotoChange }: Props) => {
             flexDirection: 'column',
             alignItems: 'center',
             gap: 3,
-            boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)',
           }}
         >
           <Typography variant="h6" sx={{ color: 'var(--font-color)' }}>
