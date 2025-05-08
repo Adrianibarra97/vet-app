@@ -14,6 +14,4 @@ class VetServiceManager {
   }
 }
 
-
-
 export default VetServiceManager
