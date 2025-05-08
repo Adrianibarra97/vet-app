@@ -1,4 +1,4 @@
-import { Modal, Box, Button, Typography, SelectChangeEvent } from '@mui/material'
+import { Modal, Box, Button, Typography, SelectChangeEvent, InputBaseComponentProps } from '@mui/material'
 import { Pet } from '../../domain/Pet'
 import { 
   BkgCancelButton, BkgConfirmButton, button__Container, formContainer, modal, modalTitle
@@ -17,6 +17,19 @@ interface PetModalProps {
 
 export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProps) => {
 
+  const inputTypeText: string = 'text'
+  const inputTypeNumber: string = 'number'
+  const baseInputProp: InputBaseComponentProps = JSON.parse('{}')
+  const ageInputProp: InputBaseComponentProps = {
+    min: 0,
+    max: 500,
+    step: 1 // Solo valores enteros positivos
+  }
+  const weightInputProp: InputBaseComponentProps = {
+    min: 0,
+    max: 500,
+    step: 'any' // Permite tanto enteros como decimales
+  }
   const sexOptions: string[] = ['Macho', 'Hembra']
   const sterilizedOptions: string[] = ['SI', 'NO']
   const [pet, setPet] = useState(new Pet())
@@ -30,13 +43,13 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
   const handleConfirm = () => {
     if(id >= 0) onUpdate(pet)
     if(id < 0) onCreate(pet)
+    onClose()
   }
 
   const handleInputChanges = (key: keyof Pet, e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     (pet as unknown as Record<keyof Pet, string | undefined>)[key] = e.target.value
     const newPet = Object.assign(new Pet(), pet)
     setPet(newPet)
-    console.log(pet)
   }
 
   const handleSelectChanges = (key: keyof Pet, e: SelectChangeEvent) => {
@@ -52,7 +65,6 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
     
     const newPet = Object.assign(new Pet(), pet)
     setPet(newPet)
-    console.log(pet)
   }
 
   const handleLabelColor = (key: keyof Pet): 'primary' | 'error' => {
@@ -151,14 +163,20 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
       <Box sx={ formContainer }>
         <Typography variant="h6" sx={ modalTitle }>{id > -1 ? 'Editar Consulta' : 'Crear Consulta'}</Typography>
         <PetModalItems
+          firstType={ inputTypeText } secondType={ inputTypeText }
+          firstInputProp={ baseInputProp } secondInputProp={ baseInputProp }
           firstIsActive={ true } secondIsActive={ false } handleLabelColor={ handleLabelColor }
           firstIndex={ 1 } secondIndex={ 0 } handleInputChanges={ handleInputChanges }
         />
         <PetModalItems
+          firstType={ inputTypeText } secondType={ inputTypeText }
+          firstInputProp={ baseInputProp } secondInputProp={ baseInputProp }
           firstIsActive={ true } secondIsActive={ true } handleLabelColor={ handleLabelColor }
           firstIndex={ 9 } secondIndex={ 2 } handleInputChanges={ handleInputChanges }
         />
         <PetModalItems
+          firstType={ inputTypeNumber } secondType={ inputTypeNumber }
+          firstInputProp={ ageInputProp } secondInputProp={ weightInputProp }
           firstIsActive={ true } secondIsActive={ true } handleLabelColor={ handleLabelColor }
           firstIndex={ 3 } secondIndex={ 4 } handleInputChanges={ handleInputChanges }
         />
@@ -168,6 +186,8 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
           firstIndex={ 5 } secondIndex={ 7 } handleSelectChanges={ handleSelectChanges }
         />
         <PetModalItems
+          firstType={ inputTypeText } secondType={ inputTypeText }
+          firstInputProp={ baseInputProp } secondInputProp={ baseInputProp }
           firstIsActive={ true } secondIsActive={ true } handleLabelColor={ handleLabelColor }
           firstIndex={ 6 } secondIndex={ 8 } handleInputChanges={ handleInputChanges }
         />
