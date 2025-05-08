@@ -1,8 +1,7 @@
 import axios from 'axios'
-import { UserLoginJSON } from '../../domain/User'
+import { AuthCredentialsLoginDTO, AuthCredentialsResponseDTO } from '../../domain/User'
 import { AuthServiceInter } from './AuthServiceInter'
-import { URL_BE } from '../config';
-import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager';
+import { URL_BE, USER_ID_TOKEN, USER_TYPE_TOKEN } from '../config';
 
 export class AuthService extends AuthServiceInter {
 
@@ -10,20 +9,16 @@ export class AuthService extends AuthServiceInter {
 		super()
 	}
 
-	override async login(userLogin: UserLoginJSON): Promise<void> {
-		const response = await axios.post(`${URL_BE}/user-data/login`, userLogin)
-	
-		if (response.data.userLogedID !== undefined && response.data.userLogedID !== null) {
-			localStorage.setItem("usertype__token", response.data.typeOfUser)
-			localStorage.setItem("userid__token", response.data.userLogedID.toString())
-		} else {
-			SnackbarUtilities.error('No se recibió ningún usuario')
-		}
+	override async login(authCredentialsLoginDTO: AuthCredentialsLoginDTO) {
+		const response = await axios.post<AuthCredentialsResponseDTO>(`${URL_BE}/auth-credentials/login`, authCredentialsLoginDTO)
+		localStorage.setItem(USER_ID_TOKEN, response.data.authCredentialsID.toString())
+		localStorage.setItem(USER_TYPE_TOKEN, response.data.typeOfUser)
+		this.userType = localStorage.getItem(USER_TYPE_TOKEN)!
 	}
+
 }
 
-export const obtenerUserID = async () => {
-	await new Promise(resolve => setTimeout(resolve, 100))
-    const idUsuarioLogueado = localStorage.getItem("userid__token")
+export const getUserID = () => {
+    const idUsuarioLogueado = localStorage.getItem(USER_ID_TOKEN)
     return idUsuarioLogueado && !isNaN(parseInt(idUsuarioLogueado, 10)) ? parseInt(idUsuarioLogueado, 10) : -1
 };

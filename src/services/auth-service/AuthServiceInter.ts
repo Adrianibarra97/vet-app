@@ -1,19 +1,19 @@
-import { UserLoginJSON } from '../../domain/User'
-import { PETOWNER_TYPE, VET_TYPE } from '../config'
+import { AuthCredentialsLoginDTO } from '../../domain/User'
+import { PETOWNER_TYPE, USER_ID_TOKEN, VET_TYPE } from '../config'
 export abstract class AuthServiceInter {
 
 	public userType: string = ''
 	
-	login(userLogin: UserLoginJSON): void {
-		console.log(userLogin)
+	login(authCredentialsLoginDTO: AuthCredentialsLoginDTO): void {
+		console.log(authCredentialsLoginDTO)
 	}
 
 	logout(): void {
 		localStorage.clear()
 	}
 
-	async isAuthorized(): Promise<boolean> {
-		return localStorage.getItem("userid__token") != null
+	isAuthorized(): boolean {
+		return localStorage.getItem(USER_ID_TOKEN) !== null
 	}
 
 	isVet(): boolean {

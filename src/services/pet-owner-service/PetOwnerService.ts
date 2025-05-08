@@ -11,7 +11,7 @@ export class PetOwnerService implements PetOwnerServiceInter {
 
   async getOneById(id: number): Promise<PetOwner> {
     const res = await axios.get(`${URL_BE}/pet-owner/get-one-by-id`, {
-      params: { idPet: id }
+      params: { idPetOwner: id }
     })
     return PetOwner.fromJSON(res.data)
   }
