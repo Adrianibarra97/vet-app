@@ -19,6 +19,13 @@ export const modalTitle = {
   color: 'var(--primary-color)'
 }
 
+export const modalItems = {
+  display: 'flex',
+  flexDirection: { xs: 'column', sm: 'row' },
+  width: '100%',
+  justifyContent: 'space-between'
+}
+
 export const button__Container = { 
   display: 'flex',
   mt: 2,
