@@ -1,15 +1,16 @@
 export type StudyJSON = {
   id: number,
   name: string,
-  description: string
+  description: string,
+  medicalShiftId?:number//Solo lo agrego para poder usar en el stub
 }
 
-export class Study {
-    
+export class Study {  
   constructor(
     public id: number = -1,
     public name: string = '',
-    public description: string = ''
+    public description: string = '',
+    public medicalShiftId?:number//Solo lo agrego para poder usar en el stub
   ) {}
 
   static fromJSON(studyJSON:StudyJSON):Study{
