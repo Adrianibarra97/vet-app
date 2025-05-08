@@ -8,6 +8,7 @@ import { MedicalShiftPage } from '../../pages/medical-shift-page/MedicalShiftPag
 import { ErrorPage } from '../../pages/error-page/ErrorPage'
 import { AuthLayout } from '../../layouts/auth/AuthLayout'
 import { LoginPage } from '../../pages/login-page/LoginPage'
+import { PetDetail } from '../../pages/pet-detail/PetDetail'
 
 export const PrincipalRoutes = () => {
 
@@ -26,6 +27,7 @@ export const PrincipalRoutes = () => {
                 <Route path = "profile" element={<ProfilePage name="Perfil" />} />
                 <Route path = "pets" element = { <PetPage name={ titleToTypeUser() } /> } />
                 <Route path = "medical-shift" element = { <MedicalShiftPage /> } />
+                <Route path = 'pet-detail/:petID' element = {<PetDetail/>}/>
                 <Route path = "*" element = { <ErrorPage /> } />
               </Route>
             </Route>

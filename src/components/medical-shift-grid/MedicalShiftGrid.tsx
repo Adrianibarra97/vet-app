@@ -12,7 +12,7 @@ interface PropMedicalShifts {
   onClickCancel: (idMedicalShift: number) => void
   onEditOrCreateMedicalShift:(medicalShift: MedicalShift, idMedicalShift: number) => void
 }
-  
+
 export const MedicalShiftGrid = (propMedicalShifts: PropMedicalShifts) => {
   const [modalCreateMedicalShiftOpen,setModalCreateMedicalShiftOpen]= useState(false)
 

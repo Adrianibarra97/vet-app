@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { Pet } from '../../domain/Pet'
 
 import './PetCard.css'
@@ -8,8 +9,14 @@ interface PropPetCard {
 
 export const PetCard = (propPet: PropPetCard) => {
 
+  const navigate = useNavigate()
+
+  const goToPetDetail = () => {
+    navigate(`/pet-detail/${propPet.pet.id}`)
+  }
+
   return (
-    <div className="card__content">
+    <div className="card__content" onClick={goToPetDetail}>
       <figure className="card__image">
         <img className="card__image--size" src= { propPet.pet.photo } alt={ "Foto de " + propPet.pet.name } />
       </figure>
