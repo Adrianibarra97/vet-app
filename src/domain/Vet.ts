@@ -1,57 +1,75 @@
-import { User } from "./User"
+import { User } from "./User";
 
 export class Vet extends User {
   constructor(
     id: number,
-    dni: number,
+    username: string,
+    password: string,
     name: string,
     surname: string,
+    dni: number,
     email: string,
-    telephone: number,
-    adress: string,
-    username: string,
-    landline: string,
-    type: string,
+    telephone: string,
+    photo: string,
+    address: string,
+    postalCode: string,
+    locality: string,
+    province: string,
+    country: string,
+    idAuthCredentials: number,
     public licence: string,
-    public specialty: string,
+    public speciality: string,
     public businessHours: string,
     public professionalEmail: string,
-    public professionalAdress: string,
     public professionalTelephone: string,
-    photoUrl?: string
+    public professionalAddress: string,
+    public professionalLocality: string,
+    public professionalPostalCode: string
   ) {
-    super(id, dni, name, surname, email, telephone, adress, username, landline, type,  photoUrl)
+
+    super(id, username, password, name, surname, dni, email, telephone, photo, 
+          address, postalCode, locality, province, country, 'vet', idAuthCredentials);
   }
 
   toJSON() {
     return {
-      id: this.id,
-      dni: this.dni,
-      name: this.name,
-      surname: this.surname,
-      email: this.email,
-      telephone: this.telephone,
-      adress: this.adress,
-      username: this.username,
-      landline: this.landline,
-      photoUrl: this.photoUrl,
-      type: this.type,
+      ...super.toJSON(),
       licence: this.licence,
-      specialty: this.specialty,
+      speciality: this.speciality,
       businessHours: this.businessHours,
       professionalEmail: this.professionalEmail,
-      professionalAdress: this.professionalAdress,
-      professionalTelephone: this.professionalTelephone
+      professionalTelephone: this.professionalTelephone,
+      professionalAddress: this.professionalAddress,
+      professionalLocality: this.professionalLocality,
+      professionalPostalCode: this.professionalPostalCode
     }
   }
 
   static fromJSON(json: any): Vet {
     return new Vet(
-      json.id, json.dni, json.name, json.surname, json.email, json.telephone,
-      json.professionalAdress, json.username, json.professionalTelephone,
-      json.licence, json.specialty, json.businessHours, json.professionalEmail,
-      json.professionalAdress, json.professionalTelephone,
-      json.photoUrl
-    )
+      json.id,
+      json.username,
+      json.password,
+      json.name,
+      json.surname,
+      json.dni,
+      json.email,
+      json.telephone,
+      json.photo,
+      json.address,
+      json.postalCode,
+      json.locality,
+      json.province,
+      json.country,
+      json.idAuthCredentials,
+      json.licence,
+      json.speciality,
+      json.businessHours,
+      json.professionalEmail,
+      json.professionalTelephone,
+      json.professionalAddress,
+      json.professionalLocality,
+      json.professionalPostalCode
+    );
   }
 }

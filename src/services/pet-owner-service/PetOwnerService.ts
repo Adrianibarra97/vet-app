@@ -18,6 +18,8 @@ export class PetOwnerService implements PetOwnerServiceInter {
 
   async update(petOwner: PetOwner): Promise<void> {
     const payload = petOwner.toJSON()
+    console.log('Payload limpio:', payload);
+
     await axios.put(`${URL_BE}/pet-owner/update`, payload)
   }
 
