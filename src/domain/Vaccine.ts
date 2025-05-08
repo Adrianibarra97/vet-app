@@ -5,6 +5,7 @@ export type VaccineJSON = {
 	batchNumber: number,
 	expirationDate: string,
 	aplicationDate: string
+	medicalHistoryId?: number//Solo lo utilizo para el stub
 }
 
 export class Vaccine {
@@ -15,7 +16,8 @@ export class Vaccine {
 		public description: string = '',
 		public batchNumber: number = -1,
 		public expirationDate: string = '',
-		public aplicationDate: string = ''
+		public aplicationDate: string = '',
+		public medicalHistoryId?:number//Solo lo utilizo para el stub
 	) {}
 
 	static fromJSON(vaccineJSON:VaccineJSON):Vaccine{
@@ -25,7 +27,8 @@ export class Vaccine {
 			vaccineJSON.description,
 			vaccineJSON.batchNumber,
 			vaccineJSON.expirationDate,
-			vaccineJSON.aplicationDate
+			vaccineJSON.aplicationDate,
+			vaccineJSON.medicalHistoryId
 		)
 	}
 
@@ -35,8 +38,9 @@ export class Vaccine {
 			name: this.name,
 			description: this.description,
 			batchNumber: this.batchNumber,
-			expirationDate: this.expirationDate.toString(),
-			aplicationDate: this.aplicationDate.toString()
+			expirationDate: this.expirationDate,
+			aplicationDate: this.aplicationDate,
+			medicalHistoryId: this.medicalHistoryId
 		} 
 	}
 }

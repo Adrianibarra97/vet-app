@@ -7,13 +7,13 @@ export class StudyResultServiceStub implements StudyResultServiceInter{
             "id":0,
             "name":"Analisis de orina",
             "description":"Se detecto que tiene bien la orina",
-            "medicalShiftId":0
+            "medicalHistoryId":0
         },
         {
             "id":1,
             "name":"Resultados de radiografia",
             "description":"En la radiografia salio todo bien.",
-            "medicalShiftId":1
+            "medicalHistoryId":1
         }
     ]
 
@@ -26,8 +26,8 @@ export class StudyResultServiceStub implements StudyResultServiceInter{
         return Study.fromJSON(studyJSON)
     }
 
-    async getStudyResultByMedicalShiftId(idMedicalHistory: number): Promise<Study[]> {
-        const studysJSON:StudyJSON[] = this.object.filter(study => study.medicalShiftId === idMedicalHistory)
+    async getStudyResultByMedicalHistoryId(idMedicalHistory: number): Promise<Study[]> {
+        const studysJSON:StudyJSON[] = this.object.filter(study => study.medicalHistoryId === idMedicalHistory)
         return studysJSON.map((studyJSON:StudyJSON)=>Study.fromJSON(studyJSON))
     }
 
@@ -38,7 +38,7 @@ export class StudyResultServiceStub implements StudyResultServiceInter{
         
         const newStudyJSON : StudyJSON = {
             ...studyResult,
-            medicalShiftId:idMedicalHistory,
+            medicalHistoryId:idMedicalHistory,
             id:newId
         }
 
@@ -54,7 +54,7 @@ export class StudyResultServiceStub implements StudyResultServiceInter{
         this.object[index] = {
             ...this.object[index],
             ...studyResult,
-            medicalShiftId:idMedicalHistory,
+            medicalHistoryId:idMedicalHistory,
             id:studyResult.id
         }
     }

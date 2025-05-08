@@ -14,7 +14,7 @@ export class StudyResultService implements StudyResultServiceInter{
         return Study.fromJSON(response.data)
     }
 
-    async getStudyResultByMedicalShiftId(idMedicalHistory: number): Promise<Study[]> {
+    async getStudyResultByMedicalHistoryId(idMedicalHistory: number): Promise<Study[]> {
         const response = await axios.get<StudyJSON[]>(`${URL_BE}/study-result/...?...=${idMedicalHistory}`)
         return response.data.map((studyJSON:StudyJSON)=>Study.fromJSON(studyJSON))
     }

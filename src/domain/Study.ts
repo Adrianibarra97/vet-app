@@ -2,7 +2,7 @@ export type StudyJSON = {
   id: number,
   name: string,
   description: string,
-  medicalShiftId?:number//Solo lo agrego para poder usar en el stub
+  medicalHistoryId?:number//Solo lo agrego para poder usar en el stub
 }
 
 export class Study {  
@@ -10,7 +10,7 @@ export class Study {
     public id: number = -1,
     public name: string = '',
     public description: string = '',
-    public medicalShiftId?:number//Solo lo agrego para poder usar en el stub
+    public medicalHistoryId?:number//Solo lo agrego para poder usar en el stub
   ) {}
 
   static fromJSON(studyJSON:StudyJSON):Study{
