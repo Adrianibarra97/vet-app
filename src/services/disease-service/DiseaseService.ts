@@ -14,17 +14,26 @@ export class DiseaseService implements DiseaseServiceInter{
         return Disease.fromJSON(response.data)
     }
 
-    async getDiseaseByPetId(idPet: number): Promise<Disease[]> {
-        const response = await axios.get<DiseaseJSON[]>(`${URL_BE}/pre-existence-disease/...?...=${idPet}`)
+    async getDiseasesByMedicalHistoryId(idMedicalHistory: number): Promise<Disease[]> {
+        const response = await axios.get<DiseaseJSON[]>(`${URL_BE}/pre-existence-disease/...?...=${idMedicalHistory}`)
         return response.data.map((diseaseJSON:DiseaseJSON)=>Disease.fromJSON(diseaseJSON))
     }
 
-    async createNewDisease(disease: Disease): Promise<void> {
-        console.log(`Todo: To implement creation disease ${disease} `)
+    async createNewDisease(disease: Disease, idMedicalHistory:number): Promise<void> {
+        const PreExistenceDiseaseDTO = {
+            name:disease.name,
+            description:disease.description,
+            medicalHistoryId:idMedicalHistory
+        }
+        await axios.post(`${URL_BE}/pre-existence-disease/create`,PreExistenceDiseaseDTO)
     }
 
-    async editExistDisease(disease: Disease): Promise<void> {
-        console.log(`Todo: To implement edit disease ${disease}`)
+    async editExistDisease(disease: Disease,idMedicalHistory:number): Promise<void> {
+        const PreExistenceDiseaseDTO = {
+            ...disease,
+            medicalHistoryId:idMedicalHistory
+        }
+        await axios.put(`${URL_BE}/pre-existence-disease/update`,PreExistenceDiseaseDTO)
     }
 
     async deleteExistDiseaseById(idDisease: number): Promise<void> {

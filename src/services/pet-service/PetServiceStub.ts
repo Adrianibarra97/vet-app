@@ -18,7 +18,8 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 17,
 			"sterilized": true,
 			"specie": "Perro",
-			"birth": "15/10/2015"
+			"birth": "15/10/2015",
+			"medicalHistoryId": 0
 		},
 		{
 			"id": 1,
@@ -30,7 +31,8 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 14,
 			"sterilized": true,
 			"specie": "Perro",
-			"birth": "20/02/2021"
+			"birth": "20/02/2021",
+			"medicalHistoryId": 1
 		},
 		{
 			"id": 2,
@@ -42,7 +44,8 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 15,
 			"sterilized": true,
 			"specie": "Perro",
-			"birth": "19/02/2012"
+			"birth": "19/02/2012",
+			"medicalHistoryId": 2
 		},
 		{
 			"id": 3,
@@ -54,7 +57,8 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 25,
 			"sterilized": false,
 			"specie": "Perro",
-			"birth": "02/07/2020"
+			"birth": "02/07/2020",
+			"medicalHistoryId": 3
 		},
 		{
 			"id": 4,
@@ -66,7 +70,8 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 0.119,
 			"sterilized": false,
 			"specie": "Ave",
-			"birth": "01/01/2020"
+			"birth": "01/01/2020",
+			"medicalHistoryId": 4
 		},
 		{
 			"id": 5,
@@ -78,7 +83,8 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 15,
 			"sterilized": true,
 			"specie": "Perro",
-			"birth": "20/05/2011"
+			"birth": "20/05/2011",
+			"medicalHistoryId": 5
 		},
 		{
 			"id": 6,
@@ -90,7 +96,8 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 2.9,
 			"sterilized": true,
 			"specie": "Gato",
-			"birth": "26/09/2020"
+			"birth": "26/09/2020",
+			"medicalHistoryId": 6
 		},
 		{
 			"id": 7,
@@ -102,7 +109,8 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 6,
 			"sterilized": true,
 			"specie": "Gato",
-			"birth": "11/09/2015"
+			"birth": "11/09/2015",
+			"medicalHistoryId": 7
 		},
 		{
 			"id": 8,
@@ -114,7 +122,8 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 19,
 			"sterilized": true,
 			"specie": "Perro",
-			"birth": "01/10/2016"
+			"birth": "01/10/2016",
+			"medicalHistoryId":8
 		},
 		{
 			"id": 9,
@@ -126,7 +135,8 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 5,
 			"sterilized": true,
 			"specie": "Gato",
-			"birth": "30/10/2019"
+			"birth": "30/10/2019",
+			"medicalHistoryId": 9
 		},
 		{
 			"id": 10,
@@ -138,7 +148,8 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 4,
 			"sterilized": true,
 			"specie": "Gato",
-			"birth": "30/10/2019"
+			"birth": "30/10/2019",
+			"medicalHistoryId": 10
 		}
 	]
 	
@@ -201,5 +212,10 @@ export class PetServiceStub implements PetServiceInter {
 	async delete(id: number): Promise<void> {
 		console.log(id)
 		// this.objects = this.objects.filter((object: PetJSON) => object.id != id)
+	}
+
+	async getPetById(id: number): Promise<Pet> {
+		const petJSON:PetJSON = this.objects[id - 1]
+		return Pet.fromJSON(petJSON) 
 	}
 }

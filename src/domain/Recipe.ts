@@ -2,7 +2,8 @@ export type RecipeJSON = {
 	id: number,
 	vet: string,
 	description: string,
-	date: string
+	date: string,
+	medicalHistoryId?:number//Lo agrego para poder utilizar el stub
 }
 
 export class Recipe {
@@ -10,7 +11,8 @@ export class Recipe {
 		public id: number = -1,
 		public vet: string = "",
 		public description: string = "",
-		public date: string = ""
+		public date: string = "",
+		public medicalHistoryId?:number//Lo agrego para poder utilizar el stub
 	) {}
 
 	static fromJSON(recipeJSON:RecipeJSON):Recipe{
@@ -18,7 +20,8 @@ export class Recipe {
 			recipeJSON.id,
 			recipeJSON.vet,
 			recipeJSON.description,
-			recipeJSON.date
+			recipeJSON.date,
+			recipeJSON.medicalHistoryId
 		)
 	}
 
@@ -27,7 +30,8 @@ export class Recipe {
 			id: this.id,
 			vet: this.vet,
 			description: this.description,
-			date: this.date
+			date: this.date,
+			medicalHistoryId:this.medicalHistoryId
 		}
 	}
 }

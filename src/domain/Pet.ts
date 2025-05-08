@@ -8,7 +8,8 @@ export type PetJSON = {
 	photo: string,
 	sex: string,
 	birth: string,
-	specie: string
+	specie: string,
+	medicalHistoryId:number
 }
 
 export class Pet {
@@ -23,14 +24,15 @@ export class Pet {
 		public photo: string = '',
 		public sex: string = '',
 		public birth: string = '',
-		public specie: string = ''
+		public specie: string = '',
+		public medicalHistoryId:number = -1
 	) {}
 
 	static fromJSON(petJSON: PetJSON): Pet {
 		return new Pet(
 			petJSON.id, petJSON.name, petJSON.breed, petJSON.age,
 			petJSON.weight, petJSON.sterilized, petJSON.photo, petJSON.sex,
-			petJSON.birth, petJSON.specie
+			petJSON.birth, petJSON.specie, petJSON.medicalHistoryId
 		)
 	}
 
@@ -46,6 +48,7 @@ export class Pet {
 			sex: this.sex,
 			birth: this.birth,
 			specie: this.specie,
+			medicalHistoryId:this.medicalHistoryId
 		}
 	}
 }

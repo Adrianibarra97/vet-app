@@ -8,67 +8,67 @@ export class DiseaseServiceStub implements DiseaseServiceInter{
             id:0,
             name:'Rabia',
             description:'Se noto que le agarro rabica',
-            petId:0
+            medicalHistoryId:0
         },
         {
             id:1,
             name:'Moquillo',
             description:'Se noto que le agarro moquillo',
-            petId:1
+            medicalHistoryId:1
         },
         {
             id:2,
             name:'Parasitos',
             description:'Se noto que le agarro parasitos',
-            petId:2
+            medicalHistoryId:2
         },
         {
             id:3,
             name:'Hepatitis infecciosa canina',
             description:'Se noto que le agarro hepatitis infecciosa canina',
-            petId:3
+            medicalHistoryId:3
         },
         {
             id:4,
             name:'Leptospirosis',
             description:'Se noto que le agarro leptospirosis',
-            petId:4
+            medicalHistoryId:4
         },
         {
             id:5,
             name:'Parvovirosis',
             description:'Se noto que le agarro parvovirosis',
-            petId:5
+            medicalHistoryId:5
         },
         {
             id:6,
             name:'Parainfluenza',
             description:'Se noto que le agarro parainfluenza',
-            petId:6
+            medicalHistoryId:6
         },
         {
             id:7,
             name:'Adenovirus',
             description:'Se noto que le agarro adenovirus',
-            petId:7
+            medicalHistoryId:7
         },
         {
             id:8,
             name:'Leishmaniosis',
             description:'Se noto que le agarro leishmaniosis',
-            petId:8
+            medicalHistoryId:8
         },
         {
             id:9,
             name:'Bordetelosis',
             description:'Se noto que le agarro bordetelosis',
-            petId:9
+            medicalHistoryId:9
         },
         {
             id:10,
             name:'Sarna',
             description:'Se noto que le agarro sarna',
-            petId:10
+            medicalHistoryId:10
         }
     ]
 
@@ -81,25 +81,26 @@ export class DiseaseServiceStub implements DiseaseServiceInter{
         return Disease.fromJSON(diseaseJSON)
     }
 
-    async getDiseaseByPetId(idPet: number): Promise<Disease[]> {
-        const diseasesJSON:DiseaseJSON[] = this.object.filter((disease)=> disease.petId === idPet)
+    async getDiseasesByMedicalHistoryId(idMedicalHistory: number): Promise<Disease[]> {
+        const diseasesJSON:DiseaseJSON[] = this.object.filter(disease => disease.medicalHistoryId === idMedicalHistory)
         return diseasesJSON.map((diseaseJSON:DiseaseJSON)=>Disease.fromJSON(diseaseJSON))
     }
 
-    async createNewDisease(disease:Disease): Promise<void> {
+    async createNewDisease(disease:Disease,idMedicalHistory:number): Promise<void> {
         const newId = this.object.length > 0 ?
             Math.max(...this.object.map(disease => disease.id)) + 1 
             : 1
 
         const newDiseaseJSON : DiseaseJSON = {
             ...disease,
+            medicalHistoryId:idMedicalHistory,
             id:newId
         }
 
         this.object.push(newDiseaseJSON)
     }
 
-    async editExistDisease(disease: Disease): Promise<void> {
+    async editExistDisease(disease: Disease, idMedicalHistory:number): Promise<void> {
         const index = this.object.findIndex(diseaseJSON => diseaseJSON.id === disease.id)
         if (index === -1){
             throw new Error(`No se encontro la enfermedad con el id:${disease.id}`)
@@ -108,6 +109,7 @@ export class DiseaseServiceStub implements DiseaseServiceInter{
         this.object[index] = {
             ...this.object[index],
             ...disease,
+            medicalHistoryId:idMedicalHistory,
             id:disease.id
         }
     }
