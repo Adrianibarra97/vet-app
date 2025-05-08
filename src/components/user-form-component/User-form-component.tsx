@@ -24,49 +24,49 @@ interface Props {
   user: UserType
   onSave: (updated: Vet | PetOwner) => void
   showProfessionalInfo: boolean
-}
-const vetPersonalFields = [
+}const vetPersonalFields = [
   { label: 'Username', key: 'username' },
-  { label: 'Nombre', key: 'name' },
-  { label: 'DNI', key: 'dni' },
-  { label: 'Email', key: 'email' },
-  { label: 'Código Postal', key: 'postalCode' },
-  { label: 'Provincia', key: 'province' },
   { label: 'Contraseña', key: 'password' },
+
+  { label: 'Nombre', key: 'name' },
   { label: 'Apellido', key: 'surname' },
+  { label: 'Email', key: 'email' },
   { label: 'Celular', key: 'telephone' },
-  { label: 'Dirección', key: 'address' },
-  { label: 'Localidad', key: 'locality' },
+  { label: 'DNI', key: 'dni' },
   { label: 'País', key: 'country' },
+  { label: 'Provincia', key: 'province' },
+  { label: 'Localidad', key: 'locality' },  
+  { label: 'Dirección', key: 'address' },
+  { label: 'Código Postal', key: 'postalCode' },
+
 ]
 
 const petOwnerPersonalFields = [
   { label: 'Username', key: 'username' },
-  { label: 'Nombre', key: 'name' },
-  { label: 'DNI', key: 'dni' },
-  { label: 'Email', key: 'email' },
-  { label: 'Código Postal', key: 'postalCode' },
-  { label: 'Provincia', key: 'province' },
-  { label: 'Contacto de Emergencia', key: 'emergencyContactName' },
   { label: 'Contraseña', key: 'password' },
+  { label: 'Nombre', key: 'name' },
   { label: 'Apellido', key: 'surname' },
+  { label: 'Email', key: 'email' },
   { label: 'Celular', key: 'telephone' },
-  { label: 'Dirección', key: 'address' },
-  { label: 'Localidad', key: 'locality' },
-  { label: 'País', key: 'country' },
+  { label: 'DNI', key: 'dni' },
+  { label: 'Contacto de Emergencia', key: 'emergencyContactName' },
   { label: 'Teléfono de Emergencia', key: 'emergencyContactPhone' },
+  { label: 'País', key: 'country' },
+  { label: 'Provincia', key: 'province' },
+  { label: 'Localidad', key: 'locality' },  
+  { label: 'Dirección', key: 'address' },
+  { label: 'Código Postal', key: 'postalCode' },
 ]
 
 const professionalFields = [
   { label: 'Matrícula', key: 'licence' },
-  { label: 'Teléfono Laboral', key: 'professionalTelephone' },
-  { label: 'Dirección Laboral', key: 'professionalAddress' },
-  { label: 'Código Postal Laboral', key: 'professionalPostalCode' },
   { label: 'Especialidad', key: 'speciality' },
   { label: 'Email Profesional', key: 'professionalEmail' },
+  { label: 'Teléfono Laboral', key: 'professionalTelephone' },
   { label: 'Localidad Laboral', key: 'professionalLocality' },
+  { label: 'Dirección Laboral', key: 'professionalAddress' },
+  { label: 'Código Postal Laboral', key: 'professionalPostalCode' },
   { label: 'Horario de atención', key: 'businessHours' },
-
 ]
 
 export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
@@ -380,8 +380,8 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
           <Box
             className="section__content"
             sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', md: 'row' },
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
               gap: 2,
             }}
           >
