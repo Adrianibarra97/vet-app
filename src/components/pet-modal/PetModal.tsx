@@ -8,6 +8,8 @@ import { PetModalItems } from '../pet-modal-items/PetModalItems'
 import { PetModalItemsSelect } from '../pet-modal-items-select/PetModalItemsSelect'
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 import { FormControlModalDate } from '../form-control-modal-date/FormControlModalDate'
+import { FormControlModalImage } from '../form-control-modal-image/FormControlModalImage'
+import { KeyOff } from '@mui/icons-material'
 
 interface PetModalProps {
   open: boolean,
@@ -68,6 +70,15 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
     const newPet = Object.assign(new Pet(), pet)
     setPet(newPet)
   }
+
+  const handleImageChanges = (key: keyof Pet, e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      console.log(key, file.name)
+    }
+    console.log('se ejecuto')
+  }
+  
 
   const handleSelectChanges = (key: keyof Pet, e: SelectChangeEvent) => {
     if(sterilizedOptions.some((value: string) => value == e.target.value)) {
@@ -149,10 +160,10 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
           firstIndex={ 5 } secondIndex={ 7 } handleSelectChanges={ handleSelectChanges }
         />
         <Box sx={ modalItems }>
-          <FormControlModalDate
+          <FormControlModalImage
             inputProp={ baseInputProp } isActive={ true } petKey={ petKeys[6] }
             label={ fieldKyes[6] } labelColor={ handleLabelColor(petKeys[6]) }
-            handleInputChanges={ handleInputChanges }
+            handleInputChanges={ handleImageChanges }
           />
           <FormControlModalDate
             inputProp={ baseInputProp } isActive={ true } petKey={ petKeys[8] }
