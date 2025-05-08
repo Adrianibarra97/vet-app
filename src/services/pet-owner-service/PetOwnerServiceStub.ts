@@ -18,8 +18,9 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
     'Buenos Aires',
     'Argentina',
     3,
-    '1142334411',
     'Gisele',
+
+    '1142334411',
   )
 
   async getAll(): Promise<PetOwner[]> {

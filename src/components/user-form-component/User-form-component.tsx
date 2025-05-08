@@ -24,7 +24,8 @@ interface Props {
   user: UserType
   onSave: (updated: Vet | PetOwner) => void
   showProfessionalInfo: boolean
-}const vetPersonalFields = [
+}
+const vetPersonalFields = [
   { label: 'Username', key: 'username' },
   { label: 'Contraseña', key: 'password' },
 
@@ -35,10 +36,9 @@ interface Props {
   { label: 'DNI', key: 'dni' },
   { label: 'País', key: 'country' },
   { label: 'Provincia', key: 'province' },
-  { label: 'Localidad', key: 'locality' },  
+  { label: 'Localidad', key: 'locality' },
   { label: 'Dirección', key: 'address' },
   { label: 'Código Postal', key: 'postalCode' },
-
 ]
 
 const petOwnerPersonalFields = [
@@ -53,7 +53,7 @@ const petOwnerPersonalFields = [
   { label: 'Teléfono de Emergencia', key: 'emergencyContactPhone' },
   { label: 'País', key: 'country' },
   { label: 'Provincia', key: 'province' },
-  { label: 'Localidad', key: 'locality' },  
+  { label: 'Localidad', key: 'locality' },
   { label: 'Dirección', key: 'address' },
   { label: 'Código Postal', key: 'postalCode' },
 ]
@@ -380,8 +380,8 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
           <Box
             className="section__content"
             sx={{
-              display: 'grid',
-              gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+              display: 'flex',
+              flexDirection: { xs: 'column', md: 'row' },
               gap: 2,
             }}
           >
