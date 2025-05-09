@@ -31,7 +31,7 @@ export const PetPage = (titleProp: TitleProp) => {
   const [filter, setFilter] = useState(new PetFilterValues('', false, false))
   const [openModal, setOpenModal] = useState(false)
   const [petId, setPetId] = useState(-1)
-  const [openConfirm, setOpenConfirm] = useState(true)
+  const [openConfirm, setOpenConfirm] = useState(false)
 
   const cleanFilter = () => setFilter(new PetFilterValues('', false, false))
 
@@ -83,7 +83,7 @@ export const PetPage = (titleProp: TitleProp) => {
           <PetFilter filter={ filterValues } filterFunction={ handleChangesFilter }/>
         </div>
         <div className="main__content--data">
-          <PetGrid 
+          <PetGrid
             pets={ pets }
             handlePetId={ handleAction }
             handleDelete={ confirmDelete }

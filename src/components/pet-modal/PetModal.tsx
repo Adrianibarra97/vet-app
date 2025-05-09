@@ -103,7 +103,6 @@ export const PetModal = (petModalProp: PetModalProps) => {
   const handleLabelColor = (key: keyof Pet): 'primary' | 'error' => {
     return pet[key] ? 'primary' : 'error'
   }
-  
 
   // const [error, setError] = useState<string | null>(null)
 
