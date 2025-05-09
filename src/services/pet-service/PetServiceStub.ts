@@ -148,6 +148,14 @@ export class PetServiceStub implements PetServiceInter {
 		})
 	}
 
+	async getPetById(id: number): Promise<Pet> {
+		let pet = new Pet()
+		this.objects.forEach(object => {
+			if(object.id === id) pet = Pet.fromJSON(object)
+		})
+		return pet
+	}
+
 	async getAllByFilter(petFilter: PetFilterValues): Promise<Pet[]> {
 		const pets = this.objects.map<Pet>(petDTO => {
 			return Pet.fromJSON(petDTO)

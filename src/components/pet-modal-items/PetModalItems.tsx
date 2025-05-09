@@ -8,10 +8,12 @@ interface ModalItemsProps {
   firstIsActive: boolean,
   firstIndex: number,
   firstType: string,
+  firstDefaultValue: string | number,
   firstInputProp: InputBaseComponentProps,
   secondIsActive: boolean,
   secondIndex: number,
   secondType: string,
+  secondDefaultValue: string | number,
   secondInputProp: InputBaseComponentProps,
   handleLabelColor(key: keyof Pet): 'primary' | 'error'
   handleInputChanges(key: keyof Pet, e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
@@ -31,6 +33,7 @@ export const PetModalItems = (modalItemsProps: ModalItemsProps) => {
   return (
     <Box sx={ modalItems }>
       <FormControlModal
+        defaultValue={ modalItemsProps.firstDefaultValue }
         type={ modalItemsProps.firstType }
         inputProp={ modalItemsProps.firstInputProp }
         isActive={ modalItemsProps.firstIsActive }
@@ -40,6 +43,7 @@ export const PetModalItems = (modalItemsProps: ModalItemsProps) => {
         handleInputChanges={ modalItemsProps.handleInputChanges }
       />
       <FormControlModal
+        defaultValue={ modalItemsProps.secondDefaultValue }
         type={ modalItemsProps.secondType }
         inputProp={ modalItemsProps.secondInputProp }
         isActive={ modalItemsProps.secondIsActive }

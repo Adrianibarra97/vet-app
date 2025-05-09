@@ -3,12 +3,13 @@ import { Pet } from '../../domain/Pet'
 import { 
   BkgCancelButton, BkgConfirmButton, button__Container, formContainer, modal, modalItems, modalTitle
 } from './PetModalStyle'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { PetModalItems } from '../pet-modal-items/PetModalItems'
 import { PetModalItemsSelect } from '../pet-modal-items-select/PetModalItemsSelect'
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 import { FormControlModalDate } from '../form-control-modal-date/FormControlModalDate'
 import { FormControlModalImage } from '../form-control-modal-image/FormControlModalImage'
+import PetServiceManager from '../../services/pet-service/PetServiceManager'
 interface PetModalProps {
   open: boolean,
   id: number,
@@ -104,6 +105,13 @@ export const PetModal = (petModalProp: PetModalProps) => {
     return pet[key] ? 'primary' : 'error'
   }
 
+  const initModal = async () => {
+    if(petModalProp.id >= 0) {
+      const updatePet = PetServiceManager.getIntance().getPetById(petModalProp.id)
+      setPet(await updatePet)
+    }
+  }
+
   // const [error, setError] = useState<string | null>(null)
 
   // const hasMissingRequiredFields = (): boolean => {
@@ -115,25 +123,32 @@ export const PetModal = (petModalProp: PetModalProps) => {
   //   return requiredFields.some((field) => !medicalShift[field])
   // }
 
+  useEffect(() => {
+    initModal()
+  }, [])
+
   return (
     <Modal open={ petModalProp.open } onClose={ petModalProp.onClose } sx={ modal }>
       <Box sx={ formContainer }>
         <Typography variant="h6" sx={ modalTitle }>
-          {petModalProp.id > -1 ? 'Editar Consulta' : 'Crear Consulta'}
+          { pet.id > -1 ? 'Editar Consulta' : 'Crear Consulta' }
         </Typography>
         <PetModalItems
+          firstDefaultValue={ pet.name } secondDefaultValue={ pet.name }
           firstType={ inputTypeText } secondType={ inputTypeText }
           firstInputProp={ baseInputProp } secondInputProp={ baseInputProp }
           firstIsActive={ true } secondIsActive={ false } handleLabelColor={ handleLabelColor }
           firstIndex={ 1 } secondIndex={ 0 } handleInputChanges={ handleInputChanges }
         />
         <PetModalItems
+          firstDefaultValue={ pet.specie } secondDefaultValue={ pet.breed }
           firstType={ inputTypeText } secondType={ inputTypeText }
           firstInputProp={ baseInputProp } secondInputProp={ baseInputProp }
           firstIsActive={ true } secondIsActive={ true } handleLabelColor={ handleLabelColor }
           firstIndex={ 9 } secondIndex={ 2 } handleInputChanges={ handleInputChanges }
         />
         <PetModalItems
+          firstDefaultValue={ pet.age } secondDefaultValue={ pet.weight }
           firstType={ inputTypeNumber } secondType={ inputTypeNumber }
           firstInputProp={ ageInputProp } secondInputProp={ weightInputProp }
           firstIsActive={ true } secondIsActive={ true } handleLabelColor={ handleLabelColor }
