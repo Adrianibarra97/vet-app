@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { Recipe } from "../../domain/Recipe";
 import { Pet } from "../../domain/Pet";
 import { Vaccine } from "../../domain/Vaccine";
@@ -13,8 +13,10 @@ import { StudyResultServiceManager } from "../../services/study-result-service/S
 import { useOnInit } from "../../util/customHooks";
 
 import './PetDetail.css'
-import dayjs from "dayjs";
 import { VaccineGrid } from "../../components/vaccine-grid/VaccineGrid";
+import { RecipeGrid } from "../../components/recipe-grid/RecipeGrid";
+import { DiseaseGrid } from "../../components/disease-grid/DiseaseGrid";
+import { StudyResultGrid } from "../../components/study-result-grid/StudyResultGrid";
 
 export function PetDetail(){
     const [pet,setPet] = useState<Pet>(new Pet())
@@ -25,30 +27,31 @@ export function PetDetail(){
     const [selectedOption, setSelectedOption] = useState('one');
     const {petID} = useParams()
 
-    const dateBirthPet = dayjs(pet.birth).format('DD/MM/YYYY')
-
     const getPetDetail = async() => {
         const petDetail = await PetServiceManager.getIntance().getPetById(+petID!)
         setPet(petDetail)
     }
 
     const getRecipesPet = async() => {
-        const recipes = await RecipeServiceManager.getInstance().getRecipesByMedicalHistoryId(pet.medicalHistoryId)
+        const recipes = await RecipeServiceManager.getInstance().getRecipesByMedicalHistoryId(0)
+        console.log(recipes)
         setRecipesPet(recipes)
     }
 
     const getVaccinesPet = async() => {
-        const vaccines = await VaccineServiceManager.getInstance().getVaccineByMedicalHistoryId(pet.medicalHistoryId)
+        const vaccines = await VaccineServiceManager.getInstance().getVaccineByMedicalHistoryId(0)
+        console.log(vaccines)
+        console.log(pet.medicalHistoryId)
         setVaccinesPet(vaccines)
     }
 
     const getDiseasesPet = async() => {
-        const diseases = await DiseaseServiceManager.getInstance().getDiseasesByMedicalHistoryId(pet.medicalHistoryId)
+        const diseases = await DiseaseServiceManager.getInstance().getDiseasesByMedicalHistoryId(0)
         setDiseasePet(diseases)
     }
 
     const getStudysPet = async() => {
-        const studys = await StudyResultServiceManager.getInstace().getStudyResultByMedicalHistoryId(pet.medicalHistoryId)
+        const studys = await StudyResultServiceManager.getInstace().getStudyResultByMedicalHistoryId(0)
         setStudyResultsPet(studys)
     }
 
@@ -103,11 +106,14 @@ export function PetDetail(){
                                 <option value="one">Vacunas</option>
                                 <option value="two">Recetas</option>
                                 <option value="three">Enfermedades Pre-existentes</option>
-                                <option value="three">Resultado de estudios</option>
+                                <option value="four">Resultado de estudios</option>
                             </select>
                         </div>
-                        <div className="content--data scroll__detail--style">
+                        <div className="content__history--data">
                             {selectedOption === 'one' && <VaccineGrid vaccines={vaccinesPet} />}
+                            {selectedOption === 'two' && <RecipeGrid recipes={recipesPet}/>}
+                            {selectedOption === 'three' && <DiseaseGrid diseases={diseasePet}/>}
+                            {selectedOption === 'four' && <StudyResultGrid studysResult={studyResultsPet}/>}
                         </div>
                     </div>
                 </div>

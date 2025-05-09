@@ -28,7 +28,7 @@
     box-shadow: 0.5px 0.5px 2px var(--footer-color);
 }
 
-.vaccine__container {
+.recipe__container {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -36,7 +36,7 @@
     padding: 0 0.5em;
 }
 
-.vaccine__item--title {
+.recipe__item--title {
     display: flex;
     width: 100%;
     height: 15%;
@@ -48,7 +48,7 @@
     -webkit-text-stroke-color: var(--font-color);
 }
 
-.vaccine--title {
+.recipe--title {
     display: flex;
     width: 80%;
     height: 100%;
@@ -57,7 +57,7 @@
     justify-content: flex-start;
 }
 
-.vaccine--logo {
+.recipe--logo {
     display: flex !important;
     width: 20% !important;
     height: 100% !important;
