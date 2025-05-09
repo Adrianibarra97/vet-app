@@ -9,8 +9,6 @@ import { PetModalItemsSelect } from '../pet-modal-items-select/PetModalItemsSele
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 import { FormControlModalDate } from '../form-control-modal-date/FormControlModalDate'
 import { FormControlModalImage } from '../form-control-modal-image/FormControlModalImage'
-import { KeyOff } from '@mui/icons-material'
-
 interface PetModalProps {
   open: boolean,
   id: number,
@@ -19,7 +17,7 @@ interface PetModalProps {
   onUpdate: (pet: Pet) => void
 }
 
-export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProps) => {
+export const PetModal = (petModalProp: PetModalProps) => {
 
   const inputTypeText: string = 'text'
   const inputTypeNumber: string = 'number'
@@ -33,6 +31,9 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
     min: 0,
     max: 500,
     step: 'any', // allows only integers.
+  }
+  const imageInputProp: InputBaseComponentProps = {
+
   }
   const sexOptions: string[] = ['Macho', 'Hembra']
   const sterilizedOptions: string[] = ['SI', 'NO']
@@ -48,37 +49,45 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
 
   const handleCancel = () => {
     setPet(new Pet())
-    onClose()
+    petModalProp.onClose()
   }
 
   const handleConfirm = () => {
     let msg: string = ''
-    if(id >= 0) {
-      onUpdate(pet)
+    if(petModalProp.id >= 0) {
+      petModalProp.onUpdate(pet)
       msg = 'Ha actualizado el perfil de su mascota con éxito!' 
     }
-    if(id < 0) {
-      onCreate(pet)
+    if(petModalProp.id < 0) {
+      petModalProp.onCreate(pet)
       msg = 'Ha creado el perfil de su mascota con éxito!'
     }
-    onClose()
+    petModalProp.onClose()
     SnackbarUtilities.succes(msg)
   }
 
+  const newStatusPet = (updatedPet: Pet) => {
+    const newPet = Object.assign(new Pet(), updatedPet)
+    setPet(newPet)
+  } 
+
   const handleInputChanges = (key: keyof Pet, e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     (pet as unknown as Record<keyof Pet, string | undefined>)[key] = e.target.value
-    const newPet = Object.assign(new Pet(), pet)
-    setPet(newPet)
+    newStatusPet(pet)
   }
 
   const handleImageChanges = (key: keyof Pet, e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      console.log(key, file.name)
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onloadend = () => {
+        const imageData = reader.result as string
+        (pet as unknown as Record<keyof Pet, string | undefined>)[key] = imageData
+        newStatusPet(pet)
+      }
     }
-    console.log('se ejecuto')
   }
-  
 
   const handleSelectChanges = (key: keyof Pet, e: SelectChangeEvent) => {
     if(sterilizedOptions.some((value: string) => value == e.target.value)) {
@@ -95,33 +104,8 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
     return pet[key] ? 'primary' : 'error'
   }
   
-  // const [petPacients, setPetPacients] = useState<Pet[]>([])
-  // const [medicalShift, setMedicalShift] = useState<MedicalShift>(
-  //   new MedicalShift(),
-  // )
-  // const [fromTouched, setFromTouched] = useState(false)
+
   // const [error, setError] = useState<string | null>(null)
-  // const [date, setDate] = useState<Dayjs | null>(null)
-
-  // const handleOnConfirm = () => {
-  //   setFromTouched(true)
-  //   if (hasMissingRequiredFields()) {
-  //     SnackbarUtilities.error('campos incompletos')
-  //     return
-  //   }
-  //   onConfirm(medicalShift, medicalShift.id)
-  //   setMedicalShift(new MedicalShift())
-  //   setFromTouched(false)
-  //   onClose()
-
-  // }
-  // const handleCancel = () => {
-  //   setMedicalShift(new MedicalShift())
-  //   setFromTouched(false)
-  //   setError(null)
-  //   setDate(null)
-  //   onClose()
-  // }
 
   // const hasMissingRequiredFields = (): boolean => {
   //   const requiredFields: (keyof MedicalShift)[] = [
@@ -133,9 +117,11 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
   // }
 
   return (
-    <Modal open={ open } onClose={ onClose } sx={ modal }>
+    <Modal open={ petModalProp.open } onClose={ petModalProp.onClose } sx={ modal }>
       <Box sx={ formContainer }>
-        <Typography variant="h6" sx={ modalTitle }>{id > -1 ? 'Editar Consulta' : 'Crear Consulta'}</Typography>
+        <Typography variant="h6" sx={ modalTitle }>
+          {petModalProp.id > -1 ? 'Editar Consulta' : 'Crear Consulta'}
+        </Typography>
         <PetModalItems
           firstType={ inputTypeText } secondType={ inputTypeText }
           firstInputProp={ baseInputProp } secondInputProp={ baseInputProp }
@@ -161,7 +147,7 @@ export const PetModal = ({ open, id, onClose, onCreate, onUpdate }: PetModalProp
         />
         <Box sx={ modalItems }>
           <FormControlModalImage
-            inputProp={ baseInputProp } isActive={ true } petKey={ petKeys[6] }
+            inputProp={ imageInputProp } isActive={ true } petKey={ petKeys[6] }
             label={ fieldKyes[6] } labelColor={ handleLabelColor(petKeys[6]) }
             handleInputChanges={ handleImageChanges }
           />

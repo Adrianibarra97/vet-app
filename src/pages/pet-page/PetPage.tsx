@@ -9,6 +9,8 @@ import { Filter } from '../../domain/Filter'
 import './PetPage.css'
 import PetServiceManager from '../../services/pet-service/PetServiceManager'
 import { PetFilterValues } from '../../domain/PetFilterValues'
+import { PetModal } from '../../components/pet-modal/PetModal'
+import { ConfirmModal } from '../../components/confirm-modal/ConfirmModal'
 
 interface TitleProp {
   name: string
@@ -27,6 +29,11 @@ export const PetPage = (titleProp: TitleProp) => {
 
   const [pets, setPets] = useState(new Array<Pet>())
   const [filter, setFilter] = useState(new PetFilterValues('', false, false))
+  const [openModal, setOpenModal] = useState(false)
+  const [petId, setPetId] = useState(-1)
+  const [openConfirm, setOpenConfirm] = useState(true)
+
+  const cleanFilter = () => setFilter(new PetFilterValues('', false, false))
 
   const getAllPetsByFilter = async (petFilter: PetFilterValues) => {
     const pets: Array<Pet> = await PetServiceManager.getIntance().getAllByFilter(petFilter)
@@ -37,13 +44,32 @@ export const PetPage = (titleProp: TitleProp) => {
     setFilter(petFilter)
   }
 
-  const handleCancel = (id: number) => {
-    console.log('Se cancelo: ', id)
+  const handleAction = (id: number) => {
+    setPetId(id)
+    setOpenModal(true)
   }
 
-  const handleCreate = (pet: Pet) => PetServiceManager.getIntance().create(pet)
+  const handleCreate = async (pet: Pet) => {
+    PetServiceManager.getIntance().create(pet)
+    cleanFilter()
+  }
+  
+  const handleUpdate = async (pet: Pet) => {
+    PetServiceManager.getIntance().update(pet)
+    cleanFilter()
+  }
 
-  const handleUpdate = (pet: Pet) => PetServiceManager.getIntance().update(pet)
+  const confirmDelete = (id: number) => {
+    setPetId(id)
+    setOpenConfirm(true)
+  }
+
+  const handleDelete = async () => {
+    PetServiceManager.getIntance().delete(petId)
+    setPetId(-1)
+    cleanFilter()
+    setOpenConfirm(false)
+  }
 
   useEffect(() => {
     getAllPetsByFilter(filter)
@@ -57,9 +83,23 @@ export const PetPage = (titleProp: TitleProp) => {
           <PetFilter filter={ filterValues } filterFunction={ handleChangesFilter }/>
         </div>
         <div className="main__content--data">
-          <PetGrid pets={ pets } onCancel={ handleCancel } onCreate={ handleCreate } onUpdate={ handleUpdate }/>
+          <PetGrid 
+            pets={ pets }
+            handlePetId={ handleAction }
+            handleDelete={ confirmDelete }
+          />
         </div>
       </div>
+      <PetModal 
+        open={ openModal } onCreate={ handleCreate }
+        id={ petId } onUpdate={ handleUpdate }
+        onClose={ () => setOpenModal(false) }
+      />
+      <ConfirmModal 
+        open={ openConfirm } text={ 'Seguro que desea eliminar?' }
+        onClose={ () => setOpenConfirm(false) }
+        handleDelete={ handleDelete } 
+      />
     </main>
   )
 }
