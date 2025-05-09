@@ -3,7 +3,9 @@ import { Pet } from '../../domain/Pet'
 import './PetCard.css'
 
 interface PropPetCard {
-  pet: Pet
+  pet: Pet,
+  startUpdate(id: number): void,
+  handleDelete(id:number): void
 }
 
 export const PetCard = (propPet: PropPetCard) => {
@@ -26,9 +28,15 @@ export const PetCard = (propPet: PropPetCard) => {
           <label className="card__item--label">Raza</label>
           <p className="card__item--p">{ propPet.pet.breed }</p>
         </div>
-        <div className="card__item">
-          <label className="card__item--label">Sexo</label>
-          <p className="card__item--p">{ propPet.pet.sex }</p>
+        <div className="card__item card__item--button">
+          <button
+            className="fa-solid fa-pen button__icon"
+            onClick={ () => propPet.startUpdate(propPet.pet.id) }
+          ></button>
+          <button 
+            className="fa-solid fa-trash button__icon"
+            onClick={ () => propPet.handleDelete(propPet.pet.id) }
+          ></button>
         </div>
       </div>     
     </div>
