@@ -166,6 +166,7 @@ export const PetModal = (petModalProp: PetModalProps) => {
             handleInputChanges={ handleImageChanges }
           />
           <FormControlModalDate
+            defaultValue={ pet.birth }
             inputProp={ baseInputProp } isActive={ true } petKey={ petKeys[8] }
             label={ fieldKyes[8] } labelColor={ handleLabelColor(petKeys[8]) }
             handleInputChanges={ handleInputChanges }
