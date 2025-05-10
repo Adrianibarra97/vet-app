@@ -33,7 +33,7 @@ export const PetModal = (petModalProp: PetModalProps) => {
     'Id', 'Nombre', 'Raza', 'Edad', 'Peso',
     'Castrado', 'Image', 'Sexo', 'Nacimiento', 'Especie'
   ]
-  const [pet, setPet] = useState(new Pet(3, 'adri', 'trucho', 12, 12.5, false, '/src/assets/adri.jfif', 'Macho', '23/12/1997', 'Perro'))
+  const [pet, setPet] = useState(new Pet(3, 'adri', 'trucho', 12, 12.5, true, '/src/assets/adri.jfif', 'Macho', '23/12/1997', 'Perro'))
   const [errorActive, setErrorActive] = useState(false)
 
   const handleCancel = () => {
@@ -43,6 +43,16 @@ export const PetModal = (petModalProp: PetModalProps) => {
   }
 
   const hasRequiredFields = (): boolean => {
+    // const [error, setError] = useState<string | null>(null)
+
+    // const hasMissingRequiredFields = (): boolean => {
+    //   const requiredFields: (keyof MedicalShift)[] = [
+    //     'vetName',
+    //     'petName',
+    //     'date',
+    //   ]
+    //   return requiredFields.some((field) => !medicalShift[field])
+    // }
     return true
   }
 
@@ -114,20 +124,9 @@ export const PetModal = (petModalProp: PetModalProps) => {
     }
   }
 
-  // const [error, setError] = useState<string | null>(null)
-
-  // const hasMissingRequiredFields = (): boolean => {
-  //   const requiredFields: (keyof MedicalShift)[] = [
-  //     'vetName',
-  //     'petName',
-  //     'date',
-  //   ]
-  //   return requiredFields.some((field) => !medicalShift[field])
-  // }
-
   useEffect(() => {
     initModal()
-  }, [])
+  }, [petModalProp.id])
 
   return (
     <Modal open={ petModalProp.open } onClose={ petModalProp.onClose } sx={ modal }>
@@ -157,21 +156,22 @@ export const PetModal = (petModalProp: PetModalProps) => {
           firstIndex={ 3 } secondIndex={ 4 } handleInputChanges={ handleInputChanges }
         />
         <PetModalItemsSelect
+          firstdefaultValue={ pet.sterilized ? sterilizedOptions[0] : sterilizedOptions[1] } seconddefaultValue={ pet.sex }
           firstArrayOptions={ sterilizedOptions } secondArrayOptions={ sexOptions }
           firstIsActive={ true } secondIsActive={ true } handleLabelColor={ handleLabelColor }
           firstIndex={ 5 } secondIndex={ 7 } handleSelectChanges={ handleSelectChanges }
         />
         <Box sx={ modalItems }>
-          <FormControlModalImage
-            inputProp={ imageInputProp } isActive={ true } petKey={ petKeys[6] }
-            label={ fieldKyes[6] } labelColor={ handleLabelColor(petKeys[6]) }
-            handleInputChanges={ handleImageChanges }
-          />
           <FormControlModalDate
             defaultValue={ pet.birth }
             inputProp={ baseInputProp } isActive={ true } petKey={ petKeys[8] }
             label={ fieldKyes[8] } labelColor={ handleLabelColor(petKeys[8]) }
             handleInputChanges={ handleInputChanges }
+          />
+          <FormControlModalImage
+            inputProp={ imageInputProp } isActive={ true } petKey={ petKeys[6] }
+            label={ fieldKyes[6] } labelColor={ handleLabelColor(petKeys[6]) }
+            handleInputChanges={ handleImageChanges }
           />
         </Box>
         <Box sx={ button__Container }>

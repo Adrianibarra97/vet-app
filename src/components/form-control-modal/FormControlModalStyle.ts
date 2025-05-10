@@ -21,33 +21,3 @@ export const helpText = {
   alignItems: 'center',
   gap: '1'
 }
-
-
-
-
-
-
-
-
-export const formControlItem = {
-  display: 'flex',
-  height: '100%',
-  width: '100%',
-  justifyContent: 'flex-start'
-}
-
-export const formControlLabel = {
-  display: 'flex',
-  height: '100%',
-  width: '100%',
-  color: 'var(--footer-color)',
-  justifyContent: 'flex-start'
-}
-
-export const formControlInput = {
-  display: 'flex',
-  height: '100%',
-  width: '100%',
-  color: 'var(--footer-color)',
-  justifyContent: 'flex-start'
-}
