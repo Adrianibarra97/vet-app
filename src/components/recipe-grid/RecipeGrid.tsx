@@ -1,4 +1,5 @@
 import { Recipe } from "../../domain/Recipe";
+import AuthServiceManager from "../../services/auth-service/AuthServiceManager";
 import { ErrorMessage } from "../error-message/ErrorMessage";
 import { RecipeCard } from "../recipe-card/RecipeCard";
 
@@ -9,9 +10,15 @@ interface PropsRecipeGrid{
 }
 
 export function RecipeGrid({recipes}:PropsRecipeGrid){
+    const showNewRecipe = (): string => {    
+        return AuthServiceManager.getIntance().isVet()
+            ? 'content__data--item'
+            : 'card__content--none'
+    }
+
     return(
         <div className="content--data scroll__detail--style">
-            <div className="content__data--item">
+            <div className={showNewRecipe()}>
                 <div className="recipe__item--title">
                     <h3 className="recipe--title">Receta</h3>
                     <i className="fa-solid fa-paw recipe--logo"></i>

@@ -1,4 +1,5 @@
 import { Study } from "../../domain/Study";
+import AuthServiceManager from "../../services/auth-service/AuthServiceManager";
 import { ErrorMessage } from "../error-message/ErrorMessage";
 import { StudyResultCard } from "../study-result-card/StudyResultCard";
 
@@ -9,9 +10,16 @@ interface PropsStudyResultGrid{
 }
 
 export function StudyResultGrid({studysResult}:PropsStudyResultGrid){
+
+    const showNewStudy = (): string => {    
+        return AuthServiceManager.getIntance().isVet()
+            ? 'content__data--item'
+            : 'card__content--none'
+    }
+
     return(
         <div className="content--data scroll__detail--style">
-            <div className="content__data--item">
+            <div className={showNewStudy()}>
                 <div className="study__item--title">
                     <h3 className="study--title">Estudios</h3>
                     <i className="fa-solid fa-paw study--logo"></i>

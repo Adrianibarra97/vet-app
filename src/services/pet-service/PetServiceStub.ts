@@ -216,7 +216,7 @@ export class PetServiceStub implements PetServiceInter {
 
 	async getPetById(id: number): Promise<Pet> {
 		const petJSON:PetJSON = this.objects[id]
-		console.log(petJSON.medicalHistoryId)
-		return new Pet(petJSON.id,petJSON.name,petJSON.breed,petJSON.age,petJSON.weight,petJSON.sterilized,petJSON.photo,petJSON.sex,petJSON.birth,petJSON.specie,petJSON.medicalHistoryId)
+		const pet:Pet = Pet.fromJSON(petJSON)
+		return pet
 	}
 }

@@ -34,6 +34,7 @@ export class Pet {
 			petJSON.weight, petJSON.sterilized, petJSON.photo, petJSON.sex,
 			petJSON.birth, petJSON.specie, petJSON.medicalHistoryId
 		)
+		
 	}
 
 	toJSON(): PetJSON {

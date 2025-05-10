@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Recipe } from "../../domain/Recipe";
 import { Pet } from "../../domain/Pet";
 import { Vaccine } from "../../domain/Vaccine";
@@ -33,35 +33,39 @@ export function PetDetail(){
     }
 
     const getRecipesPet = async() => {
-        const recipes = await RecipeServiceManager.getInstance().getRecipesByMedicalHistoryId(0)
+        const recipes = await RecipeServiceManager.getInstance().getRecipesByMedicalHistoryId(pet.medicalHistoryId)
         console.log(recipes)
         setRecipesPet(recipes)
     }
 
     const getVaccinesPet = async() => {
-        const vaccines = await VaccineServiceManager.getInstance().getVaccineByMedicalHistoryId(0)
+        const vaccines = await VaccineServiceManager.getInstance().getVaccineByMedicalHistoryId(pet.medicalHistoryId)
         console.log(vaccines)
-        console.log(pet.medicalHistoryId)
         setVaccinesPet(vaccines)
     }
 
     const getDiseasesPet = async() => {
-        const diseases = await DiseaseServiceManager.getInstance().getDiseasesByMedicalHistoryId(0)
+        const diseases = await DiseaseServiceManager.getInstance().getDiseasesByMedicalHistoryId(pet.medicalHistoryId)
         setDiseasePet(diseases)
     }
 
     const getStudysPet = async() => {
-        const studys = await StudyResultServiceManager.getInstace().getStudyResultByMedicalHistoryId(0)
+        const studys = await StudyResultServiceManager.getInstace().getStudyResultByMedicalHistoryId(pet.medicalHistoryId)
         setStudyResultsPet(studys)
     }
 
     useOnInit(()=>{
         getPetDetail()
-        getRecipesPet()
-        getVaccinesPet()
-        getDiseasesPet()
-        getStudysPet()
     })
+
+    useEffect(() => {
+    if (pet) { 
+        getRecipesPet();
+        getVaccinesPet();
+        getDiseasesPet();
+        getStudysPet();
+    }
+}, [pet])
 
     const handleSelectChange = (option:string) => {
         setSelectedOption(option);
