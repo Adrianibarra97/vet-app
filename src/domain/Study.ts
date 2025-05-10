@@ -1,6 +1,7 @@
 export type StudyJSON = {
   id: number,
-  name: string,
+  type: string,
+  date:string,
   description: string,
   medicalHistoryId?:number//Solo lo agrego para poder usar en el stub
 }
@@ -8,25 +9,21 @@ export type StudyJSON = {
 export class Study {  
   constructor(
     public id: number = -1,
-    public name: string = '',
+    public type: string = '',
+    public date:string = '',
     public description: string = '',
     public medicalHistoryId?:number//Solo lo agrego para poder usar en el stub
   ) {}
 
   static fromJSON(studyJSON:StudyJSON):Study{
     return Object.assign(new Study(),studyJSON)
-    /*new Study(
-      studyJSON.id,
-      studyJSON.name,
-      studyJSON.description
-    )
-    */
   }
 
   toJSON(): StudyJSON {
     return {
       id: this.id,
-      name: this.name,
+      type: this.type,
+      date:this.date,
       description: this.description
     }
   }

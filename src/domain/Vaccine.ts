@@ -1,6 +1,6 @@
 export type VaccineJSON = {
 	id: number,
-	name: string,
+	type: string,
 	description: string,
 	batchNumber: number,
 	expirationDate: string,
@@ -12,7 +12,7 @@ export class Vaccine {
     
 	constructor(
 		public id: number = -1,
-		public name: string = '',
+		public type: string = '',
 		public description: string = '',
 		public batchNumber: number = -1,
 		public expirationDate: string = '',
@@ -23,7 +23,7 @@ export class Vaccine {
 	static fromJSON(vaccineJSON:VaccineJSON):Vaccine{
 		return new Vaccine(
 			vaccineJSON.id,
-			vaccineJSON.name,
+			vaccineJSON.type,
 			vaccineJSON.description,
 			vaccineJSON.batchNumber,
 			vaccineJSON.expirationDate,
@@ -35,7 +35,7 @@ export class Vaccine {
 	toJSON(): VaccineJSON {
 		return {
 			id: this.id,
-			name: this.name,
+			type: this.type,
 			description: this.description,
 			batchNumber: this.batchNumber,
 			expirationDate: this.expirationDate,

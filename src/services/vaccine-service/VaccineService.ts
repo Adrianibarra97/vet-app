@@ -15,21 +15,17 @@ export class VaccineService implements VaccineServiceInter{
     }
 
     async getVaccineByMedicalHistoryId(idMedicalHistory: number): Promise<Vaccine[]> {
-        const response = await axios.get<VaccineJSON[]>(`${URL_BE}/vaccines/...?...=${idMedicalHistory}`)
+        const response = await axios.get<VaccineJSON[]>(`${URL_BE}/medical-history/get-all-pet-vaccines?idMedicalHistory=${idMedicalHistory}`)
         return response.data.map((vaccineJSON:VaccineJSON)=>Vaccine.fromJSON(vaccineJSON))
     }
 
-    async createNewVaccine(vaccine: Vaccine, idMedicalHistory: number): Promise<void> {
-        const today = new Date()
-        today.setFullYear(today.getFullYear() + 1)
-        const nextYearDate = today.toISOString().split('T')[0]
-
+    async createNewVaccine(vaccine: Vaccine, idMedicalHistory: number): Promise<void> {        
         const newVaccineDTO = {
-            name:vaccine.name,
+            type:vaccine.type,
             description:vaccine.description,
             batchNumber:vaccine.batchNumber,
             aplicationDate:new Date().toISOString().split('T')[0],
-            expirationDate:nextYearDate,
+            expirationDate:vaccine.expirationDate,
             medicalHistoryId:idMedicalHistory
         }
 
@@ -39,7 +35,7 @@ export class VaccineService implements VaccineServiceInter{
     async editExistVaccine(vaccine: Vaccine, idMedicalHistory: number): Promise<void> {
         const newVaccineDTO = {
             id:vaccine.id,
-            name:vaccine.name,
+            type:vaccine.type,
             description:vaccine.description,
             batchNumber:vaccine.batchNumber,
             medicalHistoryId:idMedicalHistory

@@ -15,14 +15,14 @@ export class DiseaseService implements DiseaseServiceInter{
     }
 
     async getDiseasesByMedicalHistoryId(idMedicalHistory: number): Promise<Disease[]> {
-        const response = await axios.get<DiseaseJSON[]>(`${URL_BE}/pre-existence-disease/...?...=${idMedicalHistory}`)
+        const response = await axios.get<DiseaseJSON[]>(`${URL_BE}/medical-history/get-all-pet-pre-existence-disease?idMedicalHistory=${idMedicalHistory}`)
         return response.data.map((diseaseJSON:DiseaseJSON)=>Disease.fromJSON(diseaseJSON))
     }
 
     async createNewDisease(disease: Disease, idMedicalHistory:number): Promise<void> {
         const PreExistenceDiseaseDTO = {
-            name:disease.name,
-            description:disease.description,
+            type:disease.type,
+            observation:disease.observation,
             medicalHistoryId:idMedicalHistory
         }
         await axios.post(`${URL_BE}/pre-existence-disease/create`,PreExistenceDiseaseDTO)

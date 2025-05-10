@@ -15,13 +15,13 @@ export class StudyResultService implements StudyResultServiceInter{
     }
 
     async getStudyResultByMedicalHistoryId(idMedicalHistory: number): Promise<Study[]> {
-        const response = await axios.get<StudyJSON[]>(`${URL_BE}/study-result/...?...=${idMedicalHistory}`)
+        const response = await axios.get<StudyJSON[]>(`${URL_BE}/medical-history/get-all-pet-study-result?idMedicalHistory=${idMedicalHistory}`)
         return response.data.map((studyJSON:StudyJSON)=>Study.fromJSON(studyJSON))
     }
 
     async createNewStudyResult(studyResult: Study, idMedicalHistory: number): Promise<void> {
         const newStudyResultDTO = {
-            name:studyResult.name,
+            type:studyResult.type,
             description:studyResult.description,
             medicalHistoryId:idMedicalHistory
         }
@@ -32,7 +32,7 @@ export class StudyResultService implements StudyResultServiceInter{
     async editExistStudyResult(studyResult: Study, idMedicalHistory: number): Promise<void> {
         const newStudyResultDTO = {
             id:studyResult.id,
-            name:studyResult.name,
+            type:studyResult.type,
             description:studyResult.description,
             medicalHistory:idMedicalHistory
         }

@@ -16,7 +16,7 @@ export class RecipeService implements RecipeServiceInter{
     }
 
     async getRecipesByMedicalHistoryId(idMedicalHistory: number): Promise<Recipe[]> {
-        const response = await axios.get<RecipeJSON[]>(`${URL_BE}/recipe/...?...=${idMedicalHistory}`)
+        const response = await axios.get<RecipeJSON[]>(`${URL_BE}/medical-history/get-all-pet-recipes?idMedicalHistory=${idMedicalHistory}`)
         return response.data.map((recipeJSON:RecipeJSON)=>Recipe.fromJSON(recipeJSON))
     }
 

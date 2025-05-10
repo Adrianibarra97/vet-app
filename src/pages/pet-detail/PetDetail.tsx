@@ -35,13 +35,11 @@ export function PetDetail(){
 
     const getRecipesPet = async() => {
         const recipes = await RecipeServiceManager.getInstance().getRecipesByMedicalHistoryId(pet.medicalHistoryId)
-        console.log(recipes)
         setRecipesPet(recipes)
     }
 
     const getVaccinesPet = async() => {
         const vaccines = await VaccineServiceManager.getInstance().getVaccineByMedicalHistoryId(pet.medicalHistoryId)
-        console.log(vaccines)
         setVaccinesPet(vaccines)
     }
 
@@ -130,6 +128,6 @@ export function PetDetail(){
             <div>
                 <button className="content_button" onClick={returnPage}>Volver</button>
             </div>
-    </main>
+        </main>
     )
 }
