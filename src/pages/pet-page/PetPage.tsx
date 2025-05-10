@@ -32,6 +32,9 @@ export const PetPage = (titleProp: TitleProp) => {
   const [openModal, setOpenModal] = useState(false)
   const [petId, setPetId] = useState(-1)
   const [openConfirm, setOpenConfirm] = useState(false)
+  const [pet, setPet] = useState(
+    new Pet(3, 'adri', 'trucho', 12, 12.5, true, '/src/assets/adri.jfif', 'Macho', '1997-03-30', 'Perro')
+  )
 
   const cleanFilter = () => setFilter(new PetFilterValues('', false, false))
 
@@ -75,6 +78,13 @@ export const PetPage = (titleProp: TitleProp) => {
     getAllPetsByFilter(filter)
   }, [filter])
 
+  useEffect(() => {
+    const onInit = async () => {
+      await PetServiceManager.getIntance().getPetById(petId).then(response => setPet(response))      
+    }
+    onInit()
+  }, [petId])
+
   return (
     <main className="main">
       <h1 className="main__title">{ titleProp.name }</h1>
@@ -83,17 +93,13 @@ export const PetPage = (titleProp: TitleProp) => {
           <PetFilter filter={ filterValues } filterFunction={ handleChangesFilter }/>
         </div>
         <div className="main__content--data">
-          <PetGrid
-            pets={ pets }
-            handlePetId={ handleAction }
-            handleDelete={ confirmDelete }
-          />
+          <PetGrid pets={ pets } handlePetId={ handleAction } handleDelete={ confirmDelete }/>
         </div>
       </div>
-      <PetModal 
+      <PetModal
         open={ openModal } onCreate={ handleCreate }
-        id={ petId } onUpdate={ handleUpdate }
-        onClose={ () => setOpenModal(false) }
+        id={ petId } onUpdate={ handleUpdate } setPet={ setPet }
+        onClose={ () => setOpenModal(false) } pet={ pet }
       />
       <ConfirmModal 
         open={ openConfirm } text={ 'Seguro que desea eliminar?' }
