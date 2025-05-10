@@ -60,13 +60,13 @@ export function PetDetail(){
     })
 
     useEffect(() => {
-    if (pet) { 
-        getRecipesPet();
-        getVaccinesPet();
-        getDiseasesPet();
-        getStudysPet();
-    }
-}, [pet])
+        if (pet) { 
+            getRecipesPet();
+            getVaccinesPet();
+            getDiseasesPet();
+            getStudysPet();
+        }
+    }, [pet])
 
     const handleSelectChange = (option:string) => {
         setSelectedOption(option);
