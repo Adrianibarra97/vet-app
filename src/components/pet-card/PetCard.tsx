@@ -18,7 +18,7 @@ export const PetCard = (propPet: PropPetCard) => {
   }
 
   return (
-    <div className="card__content" onClick={goToPetDetail}>
+    <div className="card__content">
       <figure className="card__image">
         <img className="card__image--size" src= { propPet.pet.photo } alt={ "Foto de " + propPet.pet.name } />
       </figure>
@@ -39,6 +39,10 @@ export const PetCard = (propPet: PropPetCard) => {
           <button
             className="fa-solid fa-pen button__icon"
             onClick={ () => propPet.startUpdate(propPet.pet.id) }
+          ></button>
+          <button
+            className="fa-solid fa-paw button__icon"
+            onClick={goToPetDetail}
           ></button>
           <button 
             className="fa-solid fa-trash button__icon"

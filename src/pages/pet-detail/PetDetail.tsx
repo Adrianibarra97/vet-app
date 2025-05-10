@@ -4,7 +4,7 @@ import { Pet } from "../../domain/Pet";
 import { Vaccine } from "../../domain/Vaccine";
 import { Disease } from "../../domain/Disease";
 import { Study } from "../../domain/Study";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PetServiceManager from "../../services/pet-service/PetServiceManager";
 import { RecipeServiceManager } from "../../services/recipe-service/RecipeServiceManager";
 import { VaccineServiceManager } from "../../services/vaccine-service/VaccineServiceManager";
@@ -26,6 +26,7 @@ export function PetDetail(){
     const [studyResultsPet,setStudyResultsPet] = useState<Study[]>(Array<Study>)
     const [selectedOption, setSelectedOption] = useState('one');
     const {petID} = useParams()
+    const navigate = useNavigate()
 
     const getPetDetail = async() => {
         const petDetail = await PetServiceManager.getIntance().getPetById(+petID!)
@@ -69,6 +70,10 @@ export function PetDetail(){
 
     const handleSelectChange = (option:string) => {
         setSelectedOption(option);
+    }
+
+    const returnPage = () => {
+        navigate('/pets')
     }
 
     return(
@@ -121,6 +126,9 @@ export function PetDetail(){
                         </div>
                     </div>
                 </div>
+            </div>
+            <div>
+                <button className="content_button" onClick={returnPage}>Volver</button>
             </div>
     </main>
     )
