@@ -11,7 +11,7 @@ export const formContainer = {
   backgroundColor: 'white',
   borderRadius: 2,
   maxHeight: { xs: '97vh', sm: '80vh' },
-  overflow: 'auto'
+  overflowY: { xs: 'scroll', sm: 'hidden' }
 }
 
 export const modalTitle = {

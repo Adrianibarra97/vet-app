@@ -20,24 +20,11 @@ interface PetModalProps {
 
 export const PetModal = (petModalProp: PetModalProps) => {
 
-  const inputTypeText: string = 'text'
-  const inputTypeNumber: string = 'number'
   const baseInputProp: InputBaseComponentProps = JSON.parse('{}')
-  const ageInputProp: InputBaseComponentProps = {
-    min: 0,
-    max: 500,
-    step: 1 // allows only natural numbers.
-  }
-  const weightInputProp: InputBaseComponentProps = {
-    min: 0,
-    max: 500,
-    step: 'any', // allows only integers.
-  }
-  const imageInputProp: InputBaseComponentProps = {
-
-  }
+  const imageInputProp: InputBaseComponentProps = {}
   const sexOptions: string[] = ['Macho', 'Hembra']
   const sterilizedOptions: string[] = ['SI', 'NO']
+  const textFieldTypes: ['text', 'number'] = ['text', 'number']
   const petKeys: (keyof Pet)[] = [
     'id', 'name', 'breed', 'age', 'weight',
     'sterilized', 'photo', 'sex', 'birth', 'specie'
@@ -46,14 +33,29 @@ export const PetModal = (petModalProp: PetModalProps) => {
     'Id', 'Nombre', 'Raza', 'Edad', 'Peso',
     'Castrado', 'Image', 'Sexo', 'Nacimiento', 'Especie'
   ]
-  const [pet, setPet] = useState(new Pet())
+  const [pet, setPet] = useState(new Pet(3, 'adri', 'trucho', 12, 12.5, false, '/src/assets/adri.jfif', 'Macho', '23/12/1997', 'Perro'))
+  const [errorActive, setErrorActive] = useState(false)
 
   const handleCancel = () => {
     setPet(new Pet())
+    setErrorActive(false)
     petModalProp.onClose()
   }
 
+  const hasRequiredFields = (): boolean => {
+    return true
+  }
+
   const handleConfirm = () => {
+    if(hasRequiredFields()) {
+      setErrorActive(true)
+    } else {
+      setErrorActive(false)
+      confirm()
+    }
+  }
+
+  const confirm = () => {
     let msg: string = ''
     if(petModalProp.id >= 0) {
       petModalProp.onUpdate(pet)
@@ -107,8 +109,8 @@ export const PetModal = (petModalProp: PetModalProps) => {
 
   const initModal = async () => {
     if(petModalProp.id >= 0) {
-      const updatePet = PetServiceManager.getIntance().getPetById(petModalProp.id)
-      setPet(await updatePet)
+      const updatePet = await PetServiceManager.getIntance().getPetById(petModalProp.id)
+      setPet(updatePet)
     }
   }
 
@@ -134,23 +136,23 @@ export const PetModal = (petModalProp: PetModalProps) => {
           { pet.id > -1 ? 'Editar Consulta' : 'Crear Consulta' }
         </Typography>
         <PetModalItems
+          errorActive={ errorActive }
+          firstType={ textFieldTypes[0] } secondType={ textFieldTypes[0] }
           firstDefaultValue={ pet.name } secondDefaultValue={ pet.name }
-          firstType={ inputTypeText } secondType={ inputTypeText }
-          firstInputProp={ baseInputProp } secondInputProp={ baseInputProp }
           firstIsActive={ true } secondIsActive={ false } handleLabelColor={ handleLabelColor }
           firstIndex={ 1 } secondIndex={ 0 } handleInputChanges={ handleInputChanges }
         />
         <PetModalItems
+          errorActive={ errorActive }
+          firstType={ textFieldTypes[0] } secondType={ textFieldTypes[0] }
           firstDefaultValue={ pet.specie } secondDefaultValue={ pet.breed }
-          firstType={ inputTypeText } secondType={ inputTypeText }
-          firstInputProp={ baseInputProp } secondInputProp={ baseInputProp }
           firstIsActive={ true } secondIsActive={ true } handleLabelColor={ handleLabelColor }
           firstIndex={ 9 } secondIndex={ 2 } handleInputChanges={ handleInputChanges }
         />
         <PetModalItems
+          errorActive={ errorActive }
+          firstType={ textFieldTypes[1] } secondType={ textFieldTypes[1] }
           firstDefaultValue={ pet.age } secondDefaultValue={ pet.weight }
-          firstType={ inputTypeNumber } secondType={ inputTypeNumber }
-          firstInputProp={ ageInputProp } secondInputProp={ weightInputProp }
           firstIsActive={ true } secondIsActive={ true } handleLabelColor={ handleLabelColor }
           firstIndex={ 3 } secondIndex={ 4 } handleInputChanges={ handleInputChanges }
         />

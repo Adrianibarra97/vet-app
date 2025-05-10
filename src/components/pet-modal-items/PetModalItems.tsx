@@ -1,4 +1,4 @@
-import { Box, InputBaseComponentProps } from '@mui/material'
+import { Box } from '@mui/material'
 import { ChangeEvent } from 'react'
 import { Pet } from '../../domain/Pet'
 import { FormControlModal } from '../form-control-modal/FormControlModal'
@@ -7,14 +7,13 @@ import { modalItems } from './PetModalItemsStyle'
 interface ModalItemsProps {
   firstIsActive: boolean,
   firstIndex: number,
-  firstType: string,
   firstDefaultValue: string | number,
-  firstInputProp: InputBaseComponentProps,
+  firstType: 'text' | 'number',
   secondIsActive: boolean,
   secondIndex: number,
-  secondType: string,
   secondDefaultValue: string | number,
-  secondInputProp: InputBaseComponentProps,
+  secondType: 'text' | 'number',
+  errorActive: boolean,
   handleLabelColor(key: keyof Pet): 'primary' | 'error'
   handleInputChanges(key: keyof Pet, e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
 }
@@ -33,9 +32,9 @@ export const PetModalItems = (modalItemsProps: ModalItemsProps) => {
   return (
     <Box sx={ modalItems }>
       <FormControlModal
-        defaultValue={ modalItemsProps.firstDefaultValue }
         type={ modalItemsProps.firstType }
-        inputProp={ modalItemsProps.firstInputProp }
+        errorActive={ modalItemsProps.errorActive }
+        defaultValue={ modalItemsProps.firstDefaultValue }
         isActive={ modalItemsProps.firstIsActive }
         petKey={ petKeys[modalItemsProps.firstIndex] }
         label={ fieldKyes[modalItemsProps.firstIndex] }
@@ -43,9 +42,9 @@ export const PetModalItems = (modalItemsProps: ModalItemsProps) => {
         handleInputChanges={ modalItemsProps.handleInputChanges }
       />
       <FormControlModal
-        defaultValue={ modalItemsProps.secondDefaultValue }
         type={ modalItemsProps.secondType }
-        inputProp={ modalItemsProps.secondInputProp }
+        errorActive={ modalItemsProps.errorActive }
+        defaultValue={ modalItemsProps.secondDefaultValue }
         isActive={ modalItemsProps.secondIsActive }
         petKey={ petKeys[modalItemsProps.secondIndex] }
         label={ fieldKyes[modalItemsProps.secondIndex] }

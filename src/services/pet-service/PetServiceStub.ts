@@ -151,8 +151,9 @@ export class PetServiceStub implements PetServiceInter {
 	async getPetById(id: number): Promise<Pet> {
 		let pet = new Pet()
 		this.objects.forEach(object => {
-			if(object.id === id) pet = Pet.fromJSON(object)
+			if(object.id == id) pet = Pet.fromJSON(object)
 		})
+		console.log('el name es: ', pet.name)
 		return pet
 	}
 
