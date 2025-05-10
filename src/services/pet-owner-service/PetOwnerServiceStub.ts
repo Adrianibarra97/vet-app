@@ -4,15 +4,23 @@ import { PetOwnerServiceInter } from './PetOwnerServiceInter'
 export class PetOwnerServiceStub implements PetOwnerServiceInter {
   private user = new PetOwner(
     1,
-    40123456,
+    'tam',
+    'Contraseña123',
     'Tamara',
     'Mecozzi',
+    40123456,
     'mecozzite@gmail.com',
-    1133445566,
+    '1144556677',
+    'src/assets/tam.jpg',
     'Sarmiento 2243',
-    'tam',
-    '42334411',
-    'https://cdn-icons-png.flaticon.com/512/2922/2922510.png'
+    '1663',
+    'San Miguel',
+    'Buenos Aires',
+    'Argentina',
+    3,
+    'Gisele',
+
+    '1142334411',
   )
 
   async getAll(): Promise<PetOwner[]> {

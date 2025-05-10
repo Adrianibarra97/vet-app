@@ -20,9 +20,9 @@ export class Pet {
 		public breed: string = '',
 		public age: number = 0,
 		public weight: number = 0,
-		public sterilized: boolean = false,
+		public sterilized: boolean = true,
 		public photo: string = '',
-		public sex: string = '',
+		public sex: string = 'Macho',
 		public birth: string = '',
 		public specie: string = '',
 		public medicalHistoryId:number = -1

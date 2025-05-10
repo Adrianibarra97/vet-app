@@ -1,12 +1,16 @@
+export const modal = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center'
+}
+
 export const formContainer = {
   width: 900,
   maxWidth: '95vw',
-  margin: 'auto',
-  mt: '20vh',
   p: 3,
   backgroundColor: 'white',
   borderRadius: 2,
-  maxHeight: '90vh',
+  maxHeight: { xs: '97vh', sm: '80vh' },
   overflow: 'auto'
 }
 
@@ -15,9 +19,12 @@ export const modalTitle = {
   color: 'var(--primary-color)'
 }
 
-
-
-
+export const modalItems = {
+  display: 'flex',
+  flexDirection: { xs: 'column', sm: 'row' },
+  width: '100%',
+  justifyContent: 'space-between'
+}
 
 export const button__Container = { 
   display: 'flex',

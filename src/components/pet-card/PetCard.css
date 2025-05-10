@@ -42,6 +42,11 @@
     justify-content: center;
 }
 
+.card__item--button {
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 .card__item--label {
     font-weight: bolder;
 }
@@ -63,6 +68,19 @@
 
 .card__content--none {
     display: none;
+}
+
+.button__icon {
+    display: flex;
+    font-size: 1.2em;
+    color: var(--footer-color);
+    background-color: transparent;
+    border: none;
+}
+
+.button__icon:active,
+.button__icon:hover {
+    color: var(--primary-color);
 }
 
 @media screen and (min-width: 768px) {
