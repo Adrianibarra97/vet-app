@@ -10,7 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
-import { formContainer } from "./MedicalShiftModalStyle"
+import { formContainer, formControlStyle, outlinedPickerStyle, textFieldStyle } from "./MedicalShiftModalStyle"
 import { PetFilterValues } from "../../domain/PetFilterValues"
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import MedicalShiftServiceManager from "../../services/medical-shift-service/MedicalShiftServiceManager"
@@ -176,10 +176,11 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
                     ''
                   )
                 }
+                sx={textFieldStyle}
               />
             )
           }
-          <FormControl fullWidth  margin="normal" error={fromTouched && !medicalShift.petMedicalShift} required>
+          <FormControl fullWidth  margin="normal" error={fromTouched && !medicalShift.petMedicalShift} required sx={formControlStyle}>
             <InputLabel color={fromTouched && !medicalShift.petMedicalShift ? "error" : "primary"}>Paciente</InputLabel>
             <Select
               value={medicalShift.petMedicalShift ? medicalShift.petMedicalShift.name : ''}
@@ -204,11 +205,13 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
               onChange={handleDateChange}
               slotProps={{
                   textField: {
-                      error: !!errors.date,
-                      helperText: errors.date,
-                      margin:'normal',
-                      required: true,
-                      fullWidth:true
+                    variant: 'outlined',
+                    error: !!errors.date,
+                    helperText: errors.date,
+                    margin:'normal',
+                    required: true,
+                    fullWidth:true,
+                    sx:outlinedPickerStyle
                   },
               }}
             />
@@ -219,13 +222,15 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
               format="HH:mm" 
               slotProps={{
                 textField: {
+                  variant: 'outlined',
                   error: !!errors.hour,
                   helperText: errors.hour,
                   margin:'normal',
                   required: true,
-                  fullWidth:true
+                  fullWidth:true,
                 },
               }}
+              sx={outlinedPickerStyle}
             />
           </LocalizationProvider>
         </Box>
