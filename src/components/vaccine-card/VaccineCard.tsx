@@ -1,4 +1,5 @@
-import { Vaccine } from "../../domain/Vaccine";
+import dayjs from "dayjs";
+import { convertTypeOfVaccineToASpanishString, Vaccine } from "../../domain/Vaccine";
 
 import './VaccineCard.css'
 
@@ -7,13 +8,15 @@ interface PropsVaccineCard{
 }
 
 export function VaccineCard({vaccine}:PropsVaccineCard){
+    const aplicationDate = dayjs(vaccine.applicationDate).format('DD/MM/YYYY')
+    const expirationDate = dayjs(vaccine.expirationDate).format('DD/MM/YYYY')
+
     return(
         <div className="content__data--item">
             <div className="vaccine__item--title">
                 <h3 className="vaccine--title">Vacuna</h3>
-                <i className="fa-solid fa-paw logo__image recipe--logo"></i>
+                <i className="fa-solid fa-paw logo__image vaccine--logo"></i>
             </div>
-
             <div className="vaccine__container">
                 <div className="vaccine__data">
                     <div className="vaccine__item">
@@ -21,18 +24,18 @@ export function VaccineCard({vaccine}:PropsVaccineCard){
                         <p className="vaccine__item--p">{vaccine.batchNumber}</p>
                     </div>
                     <div className="vaccine__item">
-                        <label className="vaccine__item--label">Nombre</label>
-                        <p className="vaccine__item--p">{vaccine.name}</p>
+                        <label className="vaccine__item--label">Contra</label>
+                        <p className="vaccine__item--p">{convertTypeOfVaccineToASpanishString(vaccine.type)}</p>
                     </div>
                 </div>
                 <div className="vaccine__data">
                     <div className="vaccine__item">
                         <label className="vaccine__item--label">Aplicacion</label>
-                        <p className="vaccine__item--p">{vaccine.aplicationDate}</p>
+                        <p className="vaccine__item--p">{aplicationDate}</p>
                     </div>
                     <div className="vaccine__item">
                         <label className="vaccine__item--label">Vencimiento</label>
-                        <p className="vaccine__item--p">{vaccine.expirationDate}</p>
+                        <p className="vaccine__item--p">{expirationDate}</p>
                     </div>
                 </div>
                 <div className="vaccine__data vaccine__description--container">

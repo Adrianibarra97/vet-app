@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import { Recipe } from "../../domain/Recipe"
 
 import './RecipeCard.css'
@@ -7,6 +8,8 @@ interface PropsRecipeCard{
 }
 
 export function RecipeCard({recipe}:PropsRecipeCard){
+    const date = dayjs(recipe.date).format('DD/MM/YYYY')
+
     return(
         <div className="content__data--item">
             <div className="recipe__item--title">
@@ -17,7 +20,7 @@ export function RecipeCard({recipe}:PropsRecipeCard){
                 <div className="recipe__items">
                     <div className="recipe__item recipe__item-date">
                         <label className="recipe__item--label">Fecha</label>
-                        <p className="recipe__item--p">{recipe.date}</p>
+                        <p className="recipe__item--p">{date}</p>
                     </div>
                     <div className="recipe__item recipe__item-name">
                         <label className="recipe__item--label">Veterinario</label>

@@ -29,12 +29,20 @@
     justify-content: flex-end !important;
 }
 
-.existence__disease--container {
+.disease__container {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 85%;
     padding: 0 0.5em;
+}
+
+.disease__data {
+    display: flex;
+    width: 100%;
+    height: 20%;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .disease__item {

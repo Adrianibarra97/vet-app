@@ -28,3 +28,27 @@ export class Study {
     }
   }
 }
+
+enum TypeOfStudyResult {
+	PHYSIOLOGICAL = "PHYSIOLOGICAL", 
+  PHARMACOLOGICAL = "PHARMACOLOGICAL", 
+  GENETIC = "GENETIC", 
+  PATHOLOGICAL = "PATHOLOGICAL", 
+  CLINICAL = "CLINICAL", 
+  OTHER = "OTHER"
+}
+
+export function convertTypeOfStudyResultToASpanishString(typeOfStudyResult: TypeOfStudyResult | string): string{
+    const typeOfStudyResultStrMap: { [key: string]: string } = {
+      "PHYSIOLOGICAL": 'Fisiologico',
+      "PHARMACOLOGICAL": 'Farmacologico',
+      "GENETIC": 'Genetico',
+      "PATHOLOGICAL": 'Patologico',
+      "CLINICAL": 'Clinico',
+      "OTHER": 'Otro',
+    }
+
+    return typeOfStudyResultStrMap[typeOfStudyResult.toString()] 
+}
+
+export const StudyResultOptions = Object.values(TypeOfStudyResult) as TypeOfStudyResult[]

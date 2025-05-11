@@ -5,14 +5,14 @@ export class StudyResultServiceStub implements StudyResultServiceInter{
     private object:StudyJSON[] = [
         {
             "id":0,
-            "type":"Analisis de orina",
+            "type":"PHYSIOLOGICAL",
             "date":"2025-02-04",
             "description":"Se detecto que tiene bien la orina",
             "medicalHistoryId":0
         },
         {
             "id":1,
-            "type":"Resultados de radiografia",
+            "type":"PHARMACOLOGICAL",
             "date":"2025-01-05",
             "description":"En la radiografia salio todo bien.",
             "medicalHistoryId":1

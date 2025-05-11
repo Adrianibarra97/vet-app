@@ -4,7 +4,7 @@ import { StudyResultServiceStub } from "./StudyResultServiceStub";
 
 export class StudyResultServiceManager{
     private static instance:StudyResultServiceInter
-    private static useStub:boolean = true
+    private static useStub:boolean = false
 
     public static getInstace():StudyResultServiceInter{
         if(!StudyResultServiceManager.instance){

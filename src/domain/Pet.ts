@@ -9,7 +9,7 @@ export type PetJSON = {
 	sex: string,
 	birth: string,
 	specie: string,
-	medicalHistoryId:number
+	idMedicalHistory:number
 }
 
 export class Pet {
@@ -25,14 +25,14 @@ export class Pet {
 		public sex: string = 'Macho',
 		public birth: string = '',
 		public specie: string = '',
-		public medicalHistoryId:number = -1
+		public idMedicalHistory:number = -1
 	) {}
 
 	static fromJSON(petJSON: PetJSON): Pet {
 		return new Pet(
 			petJSON.id, petJSON.name, petJSON.breed, petJSON.age,
 			petJSON.weight, petJSON.sterilized, petJSON.photo, petJSON.sex,
-			petJSON.birth, petJSON.specie, petJSON.medicalHistoryId
+			petJSON.birth, petJSON.specie, petJSON.idMedicalHistory
 		)
 		
 	}
@@ -49,7 +49,7 @@ export class Pet {
 			sex: this.sex,
 			birth: this.birth,
 			specie: this.specie,
-			medicalHistoryId:this.medicalHistoryId
+			idMedicalHistory:this.idMedicalHistory
 		}
 	}
 }
@@ -79,3 +79,33 @@ export type PetMedicalShiftJSON = {
 	id:number,
 	name:string
 }
+
+enum TypeOfPet {
+	CAT = "CAT",
+	DOG = "DOG", 
+	BIRD = "BIRD", 
+	FISH = "FISH", 
+	FARM = "FARM", 
+	RODENT = "RODENT", 
+	REPTILE = "REPTILE", 
+	HORSE = "HORSE", 
+	OTHER = "OTHER"
+}
+
+export function convertTypeOfPetToASpanishString(typeOfPet: TypeOfPet | string): string{
+    const typeOfPetStrMap: { [key: string]: string } = {
+		"CAT": 'Gato',
+		"DOG": 'Perro',
+		"BIRD": 'Ave',	
+		"FISH": 'Pez',
+		"FARM": 'Granja',
+		"RODENT": 'Roedor',
+		"REPTILE": 'Reptil',
+		"HORSE": 'Caballo',
+		"OTHER": 'Otro'
+    }
+
+    return typeOfPetStrMap[typeOfPet.toString()] 
+}
+
+export const PetOptions = Object.values(TypeOfPet) as TypeOfPet[]

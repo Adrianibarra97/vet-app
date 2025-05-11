@@ -43,3 +43,47 @@ export class Disease {
 		}
 	}
 }
+
+enum TypeOfSeverity {
+	Stable = 'Stable',
+	Moderate = 'Moderate',
+	Critical = 'Critical'
+}
+
+export function convertTypeOfSeverityToASpanishString(typeOfSeverity: TypeOfSeverity | string): string{
+    const typeOfSeverityStrMap: { [key: string]: string } = {
+        "Stable": 'Estable',
+        "Moderate": 'Moderada',
+        "Critical": 'Critica'
+    }
+
+    return typeOfSeverityStrMap[typeOfSeverity.toString()] 
+}
+
+export const severityTypeOptions = Object.values(TypeOfSeverity) as TypeOfSeverity[]
+
+enum TypeOfPreExistinceDisease {
+	ASTHMA = "ASTHMA", 
+	DIABETES = "DIABETES", 
+	DISTETER = "DISTETER", 
+	PARVOVIRUS = "PARVOVIRUS", 
+	EPILEPSY = "EPILEPSY",
+	LEUKEMIA = "LEUKEMIA",
+	OTHER = "OTHER"
+}
+
+export function convertTypeOfPreExistinceDiseaseToASpanishString(typeOfPreExistinceDisease: TypeOfPreExistinceDisease | string): string{
+    const typeOfPreExistinceDiseaseStrMap: { [key: string]: string } = {
+        "ASTHMA": 'Asma',
+        "DIABETES": 'Diabetes',
+        "DISTETER": ' Moquillo',
+        "PARVOVIRUS": 'Parvovirus',
+        "EPILEPSY": 'Epilepsia',
+        "LEUKEMIA ": 'Leucemia',
+        "OTHER": 'Otra'
+    }
+
+    return typeOfPreExistinceDiseaseStrMap[typeOfPreExistinceDisease.toString()] 
+}
+
+export const preExistinceDiseaseOptions = Object.values(TypeOfPreExistinceDisease) as TypeOfPreExistinceDisease[]

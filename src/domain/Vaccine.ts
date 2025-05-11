@@ -4,7 +4,7 @@ export type VaccineJSON = {
 	description: string,
 	batchNumber: number,
 	expirationDate: string,
-	aplicationDate: string
+	applicationDate: string
 	medicalHistoryId?: number//Solo lo utilizo para el stub
 }
 
@@ -16,7 +16,7 @@ export class Vaccine {
 		public description: string = '',
 		public batchNumber: number = -1,
 		public expirationDate: string = '',
-		public aplicationDate: string = '',
+		public applicationDate: string = '',
 		public medicalHistoryId?:number//Solo lo utilizo para el stub
 	) {}
 
@@ -27,7 +27,7 @@ export class Vaccine {
 			vaccineJSON.description,
 			vaccineJSON.batchNumber,
 			vaccineJSON.expirationDate,
-			vaccineJSON.aplicationDate,
+			vaccineJSON.applicationDate,
 			vaccineJSON.medicalHistoryId
 		)
 	}
@@ -39,8 +39,35 @@ export class Vaccine {
 			description: this.description,
 			batchNumber: this.batchNumber,
 			expirationDate: this.expirationDate,
-			aplicationDate: this.aplicationDate,
+			applicationDate: this.applicationDate,
 			medicalHistoryId: this.medicalHistoryId
 		} 
 	}
 }
+
+enum TypeOfVaccine {
+	ANTIRABIES = "ANTIRABIES", 
+	DISTEMPER = "DISTEMPER", 
+	PARVOVIRUS = "PARVOVIRUS", 
+	HEPATITIS = "HEPATITIS", 
+	LEPTOSPIROSIS = "LEPTOSPIROSIS", 
+	PARAINFLUENZA = "PARAINFLUENZA", 
+	DEWORMING = "DEWORMING", 
+	OTHER = "OTHER"
+}
+
+export function convertTypeOfVaccineToASpanishString(typeOfVaccine: TypeOfVaccine | string): string{
+    const typeOfVaccineStrMap: { [key: string]: string } = {
+        "ANTIRABIES": 'Rabia',
+        "DISTEMPER": 'Moquillo',
+		"PARVOVIRUS": 'Parvovirus',
+        "HEPATITIS": 'Hepatitis',
+        "LEPTOSPIROSIS": 'Leptospirosis',
+        "PARAINFLUENZA": 'Parainfluenza',
+        "DEWORMING": 'Parasitos'
+    }
+
+    return typeOfVaccineStrMap[typeOfVaccine.toString()] 
+}
+
+export const VaccineOptions = Object.values(TypeOfVaccine) as TypeOfVaccine[]

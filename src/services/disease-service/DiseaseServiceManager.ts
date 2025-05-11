@@ -4,7 +4,7 @@ import { DiseaseServiceStub } from "./DiseaseServiceStub";
 
 export class DiseaseServiceManager{
     private static instance: DiseaseServiceInter
-    private static useStub: boolean = true
+    private static useStub: boolean = false
 
     public static getInstance():DiseaseServiceInter{
         if(!DiseaseServiceManager.instance){

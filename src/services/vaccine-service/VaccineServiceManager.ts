@@ -4,7 +4,7 @@ import { VaccineServiceStub } from "./VaccineServiceStub";
 
 export class VaccineServiceManager{
     private static instance:VaccineServiceInter
-    private static useStub:boolean = true
+    private static useStub:boolean = false
 
     public static getInstance():VaccineServiceInter{
         if(!VaccineServiceManager.instance){

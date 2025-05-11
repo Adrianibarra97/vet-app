@@ -75,3 +75,12 @@
     font-size: 0.9em;
 }
 
+.vaccine--logo {
+    display: flex !important;
+    width: 20% !important;
+    height: 100% !important;
+    font-size: 1.7em !important;
+    color: var(--footer-color) !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+}

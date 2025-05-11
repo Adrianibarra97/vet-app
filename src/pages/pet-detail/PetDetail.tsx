@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Recipe } from "../../domain/Recipe";
-import { Pet } from "../../domain/Pet";
+import { convertTypeOfPetToASpanishString, Pet } from "../../domain/Pet";
 import { Vaccine } from "../../domain/Vaccine";
 import { Disease } from "../../domain/Disease";
 import { Study } from "../../domain/Study";
@@ -17,6 +17,7 @@ import { VaccineGrid } from "../../components/vaccine-grid/VaccineGrid";
 import { RecipeGrid } from "../../components/recipe-grid/RecipeGrid";
 import { DiseaseGrid } from "../../components/disease-grid/DiseaseGrid";
 import { StudyResultGrid } from "../../components/study-result-grid/StudyResultGrid";
+import dayjs from "dayjs";
 
 export function PetDetail(){
     const [pet,setPet] = useState<Pet>(new Pet())
@@ -28,28 +29,31 @@ export function PetDetail(){
     const {petID} = useParams()
     const navigate = useNavigate()
 
+    const birthDate = dayjs(pet.birth).format('DD/MM/YYYY')
+
     const getPetDetail = async() => {
         const petDetail = await PetServiceManager.getIntance().getPetById(+petID!)
         setPet(petDetail)
     }
 
     const getRecipesPet = async() => {
-        const recipes = await RecipeServiceManager.getInstance().getRecipesByMedicalHistoryId(pet.medicalHistoryId)
+        const recipes = await RecipeServiceManager.getInstance().getRecipesByMedicalHistoryId(pet.idMedicalHistory)
         setRecipesPet(recipes)
     }
 
     const getVaccinesPet = async() => {
-        const vaccines = await VaccineServiceManager.getInstance().getVaccineByMedicalHistoryId(pet.medicalHistoryId)
+        const vaccines = await VaccineServiceManager.getInstance().getVaccineByMedicalHistoryId(pet.idMedicalHistory)
+        console.log('Vaccines',vaccines)
         setVaccinesPet(vaccines)
     }
 
     const getDiseasesPet = async() => {
-        const diseases = await DiseaseServiceManager.getInstance().getDiseasesByMedicalHistoryId(pet.medicalHistoryId)
+        const diseases = await DiseaseServiceManager.getInstance().getDiseasesByMedicalHistoryId(pet.idMedicalHistory)
         setDiseasePet(diseases)
     }
 
     const getStudysPet = async() => {
-        const studys = await StudyResultServiceManager.getInstace().getStudyResultByMedicalHistoryId(pet.medicalHistoryId)
+        const studys = await StudyResultServiceManager.getInstace().getStudyResultByMedicalHistoryId(pet.idMedicalHistory)
         setStudyResultsPet(studys)
     }
 
@@ -59,6 +63,7 @@ export function PetDetail(){
 
     useEffect(() => {
         if (pet) { 
+            console.log(`id del pet detail:${pet.idMedicalHistory}`)
             getRecipesPet();
             getVaccinesPet();
             getDiseasesPet();
@@ -92,7 +97,7 @@ export function PetDetail(){
                             <p className="data__item--title">Información general</p>
                         </div>
                         <div className="detail--data">
-                            <p className="data__pet__item">Especie:{pet.specie}</p>
+                            <p className="data__pet__item">Especie:{convertTypeOfPetToASpanishString(pet.specie)}</p>
                             <p className="data__pet__item">Raza:{pet.breed}</p>
                         </div>
                         <div className="detail--data">
@@ -101,7 +106,7 @@ export function PetDetail(){
                         </div>
                         <div className="detail--data">
                             <p className="data__pet__item">Sexo:{pet.sex}</p>
-                            <p className="data__pet__item">Nacimiento:{pet.birth}</p>
+                            <p className="data__pet__item">Nacimiento:{birthDate}</p>
                         </div>
                     </div>
                 </div>

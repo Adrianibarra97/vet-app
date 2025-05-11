@@ -19,7 +19,7 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "Perro",
 			"birth": "15/10/2015",
-			"medicalHistoryId": 0
+			"idMedicalHistory": 0
 		},
 		{
 			"id": 1,
@@ -32,7 +32,7 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "Perro",
 			"birth": "20/02/2021",
-			"medicalHistoryId": 1
+			"idMedicalHistory": 1
 		},
 		{
 			"id": 2,
@@ -45,7 +45,7 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "Perro",
 			"birth": "19/02/2012",
-			"medicalHistoryId": 2
+			"idMedicalHistory": 2
 		},
 		{
 			"id": 3,
@@ -58,7 +58,7 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": false,
 			"specie": "Perro",
 			"birth": "02/07/2020",
-			"medicalHistoryId": 3
+			"idMedicalHistory": 3
 		},
 		{
 			"id": 4,
@@ -71,7 +71,7 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": false,
 			"specie": "Ave",
 			"birth": "01/01/2020",
-			"medicalHistoryId": 4
+			"idMedicalHistory": 4
 		},
 		{
 			"id": 5,
@@ -84,7 +84,7 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "Perro",
 			"birth": "20/05/2011",
-			"medicalHistoryId": 5
+			"idMedicalHistory": 5
 		},
 		{
 			"id": 6,
@@ -97,7 +97,7 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "Gato",
 			"birth": "26/09/2020",
-			"medicalHistoryId": 6
+			"idMedicalHistory": 6
 		},
 		{
 			"id": 7,
@@ -110,7 +110,7 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "Gato",
 			"birth": "11/09/2015",
-			"medicalHistoryId": 7
+			"idMedicalHistory": 7
 		},
 		{
 			"id": 8,
@@ -123,7 +123,7 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "Perro",
 			"birth": "01/10/2016",
-			"medicalHistoryId":8
+			"idMedicalHistory":8
 		},
 		{
 			"id": 9,
@@ -136,7 +136,7 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "Gato",
 			"birth": "30/10/2019",
-			"medicalHistoryId": 9
+			"idMedicalHistory": 9
 		},
 		{
 			"id": 10,
@@ -149,7 +149,7 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "Gato",
 			"birth": "30/10/2019",
-			"medicalHistoryId": 10
+			"idMedicalHistory": 10
 		}
 	]
 	

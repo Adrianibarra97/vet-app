@@ -5,19 +5,19 @@ export class VaccineServiceStub implements VaccineServiceInter{
     private object:VaccineJSON[] = [
         {
             "id":0,
-            "type":"Anti-rabica",
+            "type":"ANTIRABIES",
             "description":"Se le aplico la anti-rabica porque se le encontro rabia",
             "batchNumber":152345,
-            "aplicationDate":"2025-05-01",
+            "applicationDate":"2025-05-01",
             "expirationDate":"2026-05-01",
             "medicalHistoryId":0
         },
         {
             "id":1,
-            "type":"polivalente",
+            "type":"DISTEMPER",
             "description":"Se le aplico la vacuna contra el moquillo",
             "batchNumber":2123123,
-            "aplicationDate":"2025-04-25",
+            "applicationDate":"2025-04-25",
             "expirationDate":"2026-04-25",
             "medicalHistoryId":1
         }
@@ -44,7 +44,7 @@ export class VaccineServiceStub implements VaccineServiceInter{
 
         const newVaccineJSON : VaccineJSON = {
             ...vaccine,
-            aplicationDate:new Date().toISOString().split('T')[0],
+            applicationDate:new Date().toISOString().split('T')[0],
             expirationDate:vaccine.expirationDate,
             medicalHistoryId:idMedicalHistory,
             id:newId
