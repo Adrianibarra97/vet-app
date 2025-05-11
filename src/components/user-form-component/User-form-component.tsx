@@ -94,27 +94,15 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
     user instanceof Vet ? vetPersonalFields : petOwnerPersonalFields
   const [showPassword, setShowPassword] = useState(false)
 
-  const [countries, setCountries] = useState<string[]>([])
   const [provinces, setProvinces] = useState<string[]>([])
   const [localities, setLocalities] = useState<string[]>([])
 
-useEffect(() => {
-  fetch('https://apis.datos.gob.ar/georef/api/provincias')
-    .then(res => res.json())
-    .then(data => setProvinces(data.provincias.map((p: any) => p.nombre)))
-    .catch(err => console.error(err))
-}, [])
-
   useEffect(() => {
-    if (personalForm.country) {
-      fetch(
-        `https://apis.datos.gob.ar/georef/api/provincias?pais=${personalForm.country}`,
-      )
-        .then((res) => res.json())
-        .then((data) => setProvinces(data.provincias.map((p: any) => p.nombre)))
-        .catch((err) => console.error(err))
-    }
-  }, [personalForm.country])
+    fetch('https://apis.datos.gob.ar/georef/api/provincias')
+      .then((res) => res.json())
+      .then((data) => setProvinces(data.provincias.map((p: any) => p.nombre)))
+      .catch((err) => console.error(err))
+  }, [])
 
   useEffect(() => {
     if (personalForm.province) {
@@ -229,16 +217,31 @@ useEffect(() => {
             ? (vetProp ?? key)
             : key
         const isPasswordField = realKey === 'password'
+        if (realKey === 'country') {
+          return (
+            <div className="data__item" key={realKey}>
+              <label className="data__item--label">{label}</label>
+              <TextField
+                fullWidth
+                variant="outlined"
+                size="small"
+                className="data__item--input"
+                value="Argentina"
+                disabled
+              />
+            </div>
+          )
+        }
 
         const isGeorefField = ['country', 'province', 'locality'].includes(
           realKey,
         )
         const options =
-          realKey === 'country'
-            ? countries
-            : realKey === 'province'
-              ? provinces
-              : localities
+          realKey === 'province'
+            ? provinces
+            : realKey === 'locality'
+              ? localities
+              : []
 
         return (
           <div className="data__item" key={realKey}>
