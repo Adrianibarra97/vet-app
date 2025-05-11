@@ -14,7 +14,7 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
     'src/assets/tam.jpg',
     'Sarmiento 2243',
     '1663',
-    'San Miguel',
+    'Villa Libertador San Martin',
     'Buenos Aires',
     'Argentina',
     3,

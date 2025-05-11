@@ -15,22 +15,18 @@ export class VetServiceStub implements VetServiceInter {
     'Av. Balbin 456',
     '1428',
     'Belgrano',
-    'CABA',
+    'Ciudad Autónoma de Buenos Aires',
     'Argentina',
-    1,             
-    '12345',       
+    1,
+    '12345',
     'Cardiología',
     'Lunes a Viernes, 08:00 - 16:00',
     'maria.prof@hospital.com',
     '1133224455',
     'Hospital Central 1000',
     'Belgrano',
-    '1428'
+    '1428',
   )
-  
-  
-  
-
 
   async getAll(): Promise<Vet[]> {
     return [this.user]

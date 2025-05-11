@@ -217,21 +217,6 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
             ? (vetProp ?? key)
             : key
         const isPasswordField = realKey === 'password'
-        if (realKey === 'country') {
-          return (
-            <div className="data__item" key={realKey}>
-              <label className="data__item--label">{label}</label>
-              <TextField
-                fullWidth
-                variant="outlined"
-                size="small"
-                className="data__item--input"
-                value="Argentina"
-                disabled
-              />
-            </div>
-          )
-        }
 
         const isGeorefField = ['country', 'province', 'locality'].includes(
           realKey,
@@ -246,9 +231,16 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
         return (
           <div className="data__item" key={realKey}>
             <label className="data__item--label">{label}</label>
-
-            {/* CAMPO GEOREF */}
-            {isGeorefField ? (
+            {realKey === 'country' ? (
+              <TextField
+                fullWidth
+                variant="outlined"
+                size="small"
+                className="data__item--input"
+                value="Argentina"
+                disabled
+              />
+            ) : isGeorefField ? (
               <TextField
                 select
                 fullWidth
@@ -270,7 +262,6 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
                 ))}
               </TextField>
             ) : (
-              // CAMPO NORMAL / CONTRASEÑA
               <TextField
                 fullWidth
                 variant="outlined"

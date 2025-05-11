@@ -75,7 +75,7 @@ export const ProfilePhotoModal = ({ user, open, onClose, onPhotoChange }: Props)
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={modalStyle}>
-        <Typography variant="h6" sx={modalTitle}>
+        <Typography variant="h6" sx={{color:'var(--footer-color)', fontWeight:'bold'}}>
           Cambiar Foto de Perfil
         </Typography>
 
