@@ -1,5 +1,5 @@
 import { Modal, Box, Button, Typography, SelectChangeEvent } from '@mui/material'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import { PetModalItems } from '../pet-modal-items/PetModalItems'
 import { PetModalItemsSelect } from '../pet-modal-items-select/PetModalItemsSelect'
@@ -46,22 +46,27 @@ export const PetModal = (petModalProp: PetModalProps) => {
     }
   }
 
-  const confirm = () => {
-    const action: string = pet.id >= 0 ? 'actualizado' : 'creado'
+  const confirm = async () => {
+    const action: string = petModalProp.pet.id >= 0 ? 'actualizado' : 'creado'
     const msg: string = `Ha ${action} el perfil de su mascota con éxito!`
-    handleAction()
+    await handleAction()
     petModalProp.onClose()
+    petModalProp.cleanFilter()
     SnackbarUtilities.succes(msg)
   }
 
   const handleAction = async () => {
-    if(pet.id >= 0) PetServiceManager.getIntance().create(pet)
-    else PetServiceManager.getIntance().update(pet)
-    petModalProp.cleanFilter()
+    if(petModalProp.pet.id >= 0) {
+      PetServiceManager.getIntance().update(pet)
+    } else {
+      PetServiceManager.getIntance().create(pet)
+    }
+    setPet(new Pet())
   }
 
   const handleCancel = () => {
     setErrorActive(false)
+    setPet(new Pet())
     petModalProp.onClose()
     petModalProp.cleanFilter()
   }
@@ -110,6 +115,10 @@ export const PetModal = (petModalProp: PetModalProps) => {
     ]
     return requiredFields.some((field) => !pet[field])
   }
+
+  useEffect(() => {
+    setPet(petModalProp.pet)
+  }, [petModalProp.pet])
 
   return (
     <>

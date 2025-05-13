@@ -1,7 +1,7 @@
 import { FormControl, Box, Typography } from '@mui/material'
 import { useState } from 'react'
 import { Pet } from '../../domain/Pet'
-import { formControl, formControlNone, helpText, textField } from './FormControlModalDateStyle'
+import { formControl, formControlNone, helpText, textField, textFieldError } from './FormControlModalDateStyle'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -18,6 +18,7 @@ interface FromControlModalProps {
 
 export const FormControlModalDate = (formControlProps: FromControlModalProps) => {
 
+  const isErrorActive = formControlProps?.errorActive ?? false
   const [value, setValue] = useState<Dayjs | null>(formControlProps.defaultValue)
 
   const handleChange = (date: Dayjs | null) => {
@@ -35,9 +36,9 @@ export const FormControlModalDate = (formControlProps: FromControlModalProps) =>
     <FormControl sx={ formControlProps.isActive ? formControl : formControlNone }>
       <LocalizationProvider dateAdapter={ AdapterDayjs }>
         <DatePicker
-          sx={ textField } label={ formControlProps.label }
+          sx={ isErrorActive ? textField : textFieldError } label={ formControlProps.label }
           format="DD/MM/YYYY" name={ formControlProps.label }
-          onChange={ handleChange} value={ value }
+          onChange={ handleChange } value={ value }
           slotProps={{ textField: {
             error: formControlProps.errorActive && !value,
             helperText: formHelperText(),

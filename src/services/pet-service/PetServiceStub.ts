@@ -157,6 +157,7 @@ export class PetServiceStub implements PetServiceInter {
 	}
 
 	async getAllByFilter(petFilter: PetFilterValues): Promise<Pet[]> {
+		console.log('Se llamaron todos')
 		const pets = this.objects.map<Pet>(petDTO => {
 			return Pet.fromJSON(petDTO)
 		})
@@ -193,21 +194,18 @@ export class PetServiceStub implements PetServiceInter {
 
 	async create(pet: Pet): Promise<void> {
 		pet.id = this.objects.length
-		console.log(pet)
 		this.objects.push(pet.toJSON())
 	}
 
 	async update(pet: Pet): Promise<void> {
-		console.log(pet)
-		this.objects.forEach((object: PetJSON) => {
-			if(object.id === pet.id) {
-				object = pet.toJSON()
+		for(let i=0; i < this.objects.length; i++) {
+			if(this.objects[i].id === pet.id) {
+				this.objects[i] = pet.toJSON()
 			}
-		})
+		}
 	}
 
 	async delete(id: number): Promise<void> {
-		console.log(id)
 		this.objects = this.objects.filter((object: PetJSON) => object.id != id)
 	}
 }

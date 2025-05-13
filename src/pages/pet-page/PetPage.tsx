@@ -25,8 +25,6 @@ export const PetPage = (titleProp: TitleProp) => {
   const [pets, setPets] = useState(new Array<Pet>())
   const [filter, setFilter] = useState(new PetFilterValues('', false, false))
 
-  const cleanFilter = () => setFilter(new PetFilterValues('', false, false))
-
   const getAllPetsByFilter = async (petFilter: PetFilterValues) => {
     const pets: Array<Pet> = await PetServiceManager.getIntance().getAllByFilter(petFilter)
     setPets(pets)
@@ -44,7 +42,7 @@ export const PetPage = (titleProp: TitleProp) => {
           <PetFilter filter={ filterValues } filterFunction={ setFilter }/>
         </div>
         <div className="main__content--data">
-          <PetGrid pets={ pets } clearFilter={ cleanFilter }/>
+          <PetGrid pets={ pets } cleanFilter={ () => setFilter(new PetFilterValues('', false, false)) }/>
         </div>
       </div>
     </main>

@@ -5,10 +5,11 @@ import { ErrorMessage } from '../error-message/ErrorMessage'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import { Pet } from '../../domain/Pet'
 import './PetGrid.css'
+import PetServiceManager from '../../services/pet-service/PetServiceManager'
 
 interface PropPets {
   pets: Array<Pet>,
-  clearFilter(): void
+  cleanFilter(): void
 }
 
 export const PetGrid = (propPets: PropPets) => {
@@ -23,21 +24,10 @@ export const PetGrid = (propPets: PropPets) => {
   }
 
   const handleAction = async (id: number) => {
-    // const newPet: Pet = await PetServiceManager.getIntance().getPetById(id)
-    await setPet(Pet.fromJSON(
-      {
-			"id": id,
-			"photo": '/src/assets/' + "nala.jfif",
-			"name": "Nala",
-			"age": 9,
-			"breed": "Mestizo",
-			"sex": "Hembra",
-			"weight": 17,
-			"sterilized": true,
-			"specie": "Perro",
-			"birth": "2025-04-25"
-		}
-    ))
+    const newPet: Pet = id >= 0
+      ? await PetServiceManager.getIntance().getPetById(id)
+      : new Pet()
+    setPet(newPet)
     setOpenModal(true)
   }
 
@@ -51,7 +41,7 @@ export const PetGrid = (propPets: PropPets) => {
           propPets.pets.length > 0
           ? propPets.pets.map((pet: Pet) => {
             return (<PetCard key={ pet.id.toString() }
-              pet={ pet } handleDelete={ propPets.clearFilter }
+              pet={ pet } handleDelete={ propPets.cleanFilter }
               startUpdate={ (id) => handleAction(id) }
             />)
           })
@@ -60,7 +50,7 @@ export const PetGrid = (propPets: PropPets) => {
       </div>
       <PetModal
         open={ openModal } onClose={ () => setOpenModal(false) }
-        pet={ pet } cleanFilter={ () => propPets.clearFilter }
+        pet={ pet } cleanFilter={ propPets.cleanFilter }
       />
     </>
   )
