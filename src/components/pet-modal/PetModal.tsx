@@ -157,7 +157,7 @@ export const PetModal = (petModalProp: PetModalProps) => {
           />
           <Box sx={ modalItems }>
             <FormControlModalDate
-              errorActive={ errorActive } label={ fieldKyes[8] } defaultValue={ dayjs(pet.birth) }
+              label={ fieldKyes[8] } defaultValue={ dayjs(pet.birth) }
               isActive={ true } petKey={ petKeys[8] } handleInputChanges={ handleDateInputChanges }
             />
             <FormControlModalImage isActive={ true } pet={pet} setPet={ setPet } onPhotoChange={ handlePhotoChange }/>

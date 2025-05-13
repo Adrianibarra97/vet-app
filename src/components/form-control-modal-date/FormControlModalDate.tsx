@@ -8,17 +8,14 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs, { Dayjs } from 'dayjs'
 
 interface FromControlModalProps {
-  isActive: boolean,
-  errorActive: boolean,
-  label: string,
-  defaultValue: Dayjs | null,
-  petKey: keyof Pet,
+  isActive: boolean
+  label: string
+  defaultValue: Dayjs | null
+  petKey: keyof Pet
   handleInputChanges(key: keyof Pet, date: Dayjs): void
 }
 
 export const FormControlModalDate = (formControlProps: FromControlModalProps) => {
-
-  const isErrorActive = formControlProps?.errorActive ?? false
   const [value, setValue] = useState<Dayjs | null>(formControlProps.defaultValue)
 
   const handleChange = (date: Dayjs | null) => {
@@ -36,11 +33,10 @@ export const FormControlModalDate = (formControlProps: FromControlModalProps) =>
     <FormControl sx={ formControlProps.isActive ? formControl : formControlNone }>
       <LocalizationProvider dateAdapter={ AdapterDayjs }>
         <DatePicker
-          sx={ isErrorActive ? textField : textFieldError } label={ formControlProps.label }
+          sx={ value ? textField : textFieldError } label={ formControlProps.label }
           format="DD/MM/YYYY" name={ formControlProps.label }
           onChange={ handleChange } value={ value }
           slotProps={{ textField: {
-            error: formControlProps.errorActive && !value,
             helperText: formHelperText(),
             required: true,
           }}}
