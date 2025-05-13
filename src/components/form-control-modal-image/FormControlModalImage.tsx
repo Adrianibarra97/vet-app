@@ -1,40 +1,30 @@
-import { FormControl, Input, Box, InputBaseComponentProps } from '@mui/material'
-import { ChangeEvent, useState } from 'react'
+import { useState } from 'react'
 import { Pet } from '../../domain/Pet'
-import { formControl, formControlInput, formControlItem, formControlNone } from './FormControlModalImageStyle'
+import { Avatar, Button, FormControl } from '@mui/material'
+import { avatar, formControl, formControlNone, iconButton } from './FormControlModalImageStyle'
+import { ImageModal } from '../image-modal/ImageModal'
 
 interface FromControlModalProps {
-  isActive: boolean,
-  label: string,
-  defaultValue: File | undefined,
-  labelColor: 'primary' | 'error',
-  petKey: keyof Pet,
-  handleInputChanges(key: keyof Pet, e: ChangeEvent<HTMLInputElement>): void,
-  inputProp: InputBaseComponentProps
+  isActive: boolean
+  pet: Pet
+  setPet: (pet: Pet) => void
+  onPhotoChange: (newPhoto: string) => void
 }
 
 export const FormControlModalImage = (formControlProps: FromControlModalProps) => {
 
-  const [file, setFile] = useState(formControlProps.defaultValue)
-
-  const handleChanges = (e: ChangeEvent<HTMLInputElement>) => {
-    formControlProps.handleInputChanges(formControlProps.petKey, e)
-    const file = e.target.files?.[0]
-    if (file) {
-      setFile(file)
-    }
-  }
+  const [openModal, setOpenModal] = useState(false)
 
   return (
-    <FormControl fullWidth margin="normal" variant="filled" sx={ formControlProps.isActive ? formControl : formControlNone }>
-      <Box sx={ formControlItem }>
-        <Input
-          value={ file }
-          type= 'file' sx={ formControlInput }
-          inputProps={ formControlProps.inputProp }
-          onChange={ (e) => handleChanges(e) }
-        />
-      </Box>
-    </FormControl>
+    <>
+      <FormControl sx={ formControlProps.isActive ? formControl : formControlNone }>
+        <Avatar alt="Mascota" src={ formControlProps.pet.photo } sx={ avatar }/>
+        <Button sx={ iconButton } onClick={ () => setOpenModal(true) }>Cambiar</Button>
+      </FormControl>
+      <ImageModal
+        open={ openModal } onPhotoChange={ formControlProps.onPhotoChange }
+        onClose={ () => setOpenModal(false) } pet={ formControlProps.pet }  
+      />
+    </>
   )
 }

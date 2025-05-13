@@ -1,16 +1,27 @@
+import { useState } from 'react'
+import { ConfirmModal } from '../confirm-modal/ConfirmModal'
+import PetServiceManager from '../../services/pet-service/PetServiceManager'
 import { Pet } from '../../domain/Pet'
-
 import './PetCard.css'
 
 interface PropPetCard {
   pet: Pet,
   startUpdate(id: number): void,
-  handleDelete(id:number): void
+  handleDelete(): void
 }
 
 export const PetCard = (propPet: PropPetCard) => {
 
+  const [openConfirm, setOpenConfirm] = useState(false)
+
+  const handleDelete = async () => {
+    PetServiceManager.getIntance().delete(propPet.pet.id)
+    propPet.handleDelete()
+    setOpenConfirm(false)
+  }
+
   return (
+  <>
     <div className="card__content">
       <figure className="card__image">
         <img className="card__image--size" src= { propPet.pet.photo } alt={ "Foto de " + propPet.pet.name } />
@@ -35,10 +46,16 @@ export const PetCard = (propPet: PropPetCard) => {
           ></button>
           <button 
             className="fa-solid fa-trash button__icon"
-            onClick={ () => propPet.handleDelete(propPet.pet.id) }
+            onClick={ () => setOpenConfirm(true) }
           ></button>
         </div>
       </div>     
     </div>
+    <ConfirmModal 
+      open={ openConfirm } text={ 'Seguro que desea eliminar?' }
+      onClose={ () => setOpenConfirm(false) }
+      handleDelete={ handleDelete } 
+    />
+  </>
   )
 }

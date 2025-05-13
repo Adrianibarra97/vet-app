@@ -193,6 +193,7 @@ export class PetServiceStub implements PetServiceInter {
 
 	async create(pet: Pet): Promise<void> {
 		pet.id = this.objects.length
+		console.log(pet)
 		this.objects.push(pet.toJSON())
 	}
 

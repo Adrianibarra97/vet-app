@@ -73,6 +73,7 @@ export const ProfileMenu = ({ user, onPhotoChange }: Props) => {
       setIsUploading(false)
     }
   }
+  
   return (
     <>
       <Box sx={{ position: 'relative', width: 'fit-content' }}>
