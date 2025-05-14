@@ -3,10 +3,15 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import './Header.css'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { User } from '../../domain/User'
+import VetServiceManager from '../../services/vet-service/VetServiceManager'
+import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
+import { getUserID } from '../../services/auth-service/AuthService'
 
 export const Header = () => {
 
+  const [user, setUser] = useState<User | null>(null)
   const[openMenu, setOpenMenu] = useState(false)
   const navigate = useNavigate()
 
@@ -14,6 +19,17 @@ export const Header = () => {
     AuthServiceManager.getIntance().logout()
 		navigate('/auth/login')
   }
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      const fetchedUser: User = AuthServiceManager.getIntance().isVet()
+        ? await VetServiceManager.getInstance().getOneById(getUserID())
+        : await PetOwnerServiceManager.getInstance().getOneById(getUserID())
+      setUser(fetchedUser)
+    }
+
+    fetchProfileData()
+  }, [])
 
   return (
     <header className="header">
@@ -24,7 +40,7 @@ export const Header = () => {
       <figure className="button__content--menu" onClick={ () => setOpenMenu(true) }>
         {
           AuthServiceManager.getIntance().isAuthorized()
-          ? <img className="user__image" src="/src/assets/adri.jfif"/>
+          ? <img className="user__image" src={ user?.photo }/>
           : <i className="fa-solid fa-circle-user header__button--menu"></i>
         }
       </figure>
