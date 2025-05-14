@@ -1,6 +1,5 @@
 .data {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
     width: 100%;
     height: auto;
     padding: 1em;
@@ -121,9 +120,9 @@
     }
 }
 
-@media screen and (min-width: 1080px) {
+@media screen and (min-width: 1024px) {
     .data__section {
-        width: 80%;
+        width: 70%;
         height: 400px;
     }
 

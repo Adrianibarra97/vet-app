@@ -8,7 +8,6 @@ import VetServiceManager from '../../services/vet-service/VetServiceManager'
 import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
 import { getUserID } from '../../services/auth-service/AuthService'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
-import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 
 interface TitleProp {
   name: string
@@ -42,8 +41,6 @@ export const ProfilePage = ({ name }: TitleProp) => {
     } else {
       await PetOwnerServiceManager.getInstance().update(updatedUser as PetOwner)
     }
-    setUser(updatedUser)
-    SnackbarUtilities.succes('Perfil actualizado correctamente')
   }
 
   return (
