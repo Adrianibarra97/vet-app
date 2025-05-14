@@ -35,8 +35,8 @@
 
 .button__content--menu {
     display: flex;
-    height: 4rem;
-    width: 4rem;
+    height: 3em;
+    width: 3em;
     justify-content: center;
     align-items: center;
     border-radius: 100%;
@@ -162,9 +162,6 @@
 }
 
 @media screen and (min-width: 1300px) {
-    .button__content--menu {
-        width: 3.5em;
-    }
     .nav {
         left: 80%;
         width: 20%;
