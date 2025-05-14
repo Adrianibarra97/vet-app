@@ -11,7 +11,7 @@ export const formContainer = {
   backgroundColor: 'white',
   borderRadius: 2,
   maxHeight: { xs: '97vh', sm: '80vh' },
-  overflow: 'auto'
+  overflowY: { xs: 'scroll', sm: 'hidden' }
 }
 
 export const modalTitle = {
@@ -23,7 +23,8 @@ export const modalItems = {
   display: 'flex',
   flexDirection: { xs: 'column', sm: 'row' },
   width: '100%',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  overflow: 'visible'
 }
 
 export const button__Container = { 

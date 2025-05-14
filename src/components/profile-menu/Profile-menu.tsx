@@ -18,6 +18,7 @@ export const ProfileMenu = ({ user, onPhotoChange }: Props) => {
   const handleOpenModal = () => setOpenModal(true)
   const handleCloseModal = () => setOpenModal(false)
 
+
   return (
     <>
       <Box sx={{ position: 'relative', width: 'fit-content' }}>
