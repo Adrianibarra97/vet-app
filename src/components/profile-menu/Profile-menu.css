@@ -55,7 +55,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* text-decoration: none; */
     color: var(--header-color);
 }
 
@@ -89,6 +88,9 @@
       .content__menu {
         height: 40vh;
 
+    }
+      .menu {
+        gap: 2em;
     }
     
 }
