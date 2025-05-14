@@ -20,6 +20,10 @@ export const Header = () => {
 		navigate('/auth/login')
   }
 
+  const handleTitlePet = () => {
+    return AuthServiceManager.getIntance().isVet() ? 'Pacientes' : 'Mascotas'
+  }
+
   useEffect(() => {
     const fetchProfileData = async () => {
       const fetchedUser: User = AuthServiceManager.getIntance().isVet()
@@ -50,7 +54,7 @@ export const Header = () => {
         </div>
         <ul className="nav__ul">
           <Link className="nav__ul--link" to="./profile">Perfil</Link>
-          <Link className="nav__ul--link" id="link-page" to="./pets">{ AuthServiceManager.getIntance().isVet() ? 'Pacientes' : 'Mascotas' }</Link>
+          <Link className="nav__ul--link" id="link-page" to="./pets">{ handleTitlePet() }</Link>
           <Link className="nav__ul--link" to="./medical-shift">Turnos</Link>
           <button
             className="fa-solid fa-right-from-bracket nav__ul--logout nav__ul--link"
