@@ -61,6 +61,7 @@
 
 
 @media screen and (min-width: 768px) {
+ 
     .menu {
         flex-direction: row;
         justify-content: center;
@@ -84,8 +85,19 @@
         margin-bottom: 1em;
     }
 }
+@media screen and (min-width:320px) {
+      .content__menu {
+        height: 40vh;
+
+    }
+    
+}
 
 @media screen and (min-width: 1080px) {
+      .content__menu {
+        height: 70vh;
+
+    }
     .menu {
         flex-direction: column;
         justify-content: flex-start;
