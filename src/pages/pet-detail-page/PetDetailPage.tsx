@@ -12,7 +12,7 @@ import { DiseaseServiceManager } from "../../services/disease-service/DiseaseSer
 import { StudyResultServiceManager } from "../../services/study-result-service/StudyResultServiceManager";
 import { useOnInit } from "../../util/customHooks";
 
-import './PetDetail.css'
+import './PetDetailPage.css'
 import { VaccineGrid } from "../../components/vaccine-grid/VaccineGrid";
 import { RecipeGrid } from "../../components/recipe-grid/RecipeGrid";
 import { DiseaseGrid } from "../../components/disease-grid/DiseaseGrid";
@@ -36,6 +36,10 @@ export function PetDetail(){
         setPet(petDetail)
     }
 
+    useOnInit(()=>{
+        getPetDetail()
+    })
+
     const getRecipesPet = async() => {
         const recipes = await RecipeServiceManager.getInstance().getRecipesByMedicalHistoryId(pet.idMedicalHistory)
         setRecipesPet(recipes)
@@ -43,7 +47,6 @@ export function PetDetail(){
 
     const getVaccinesPet = async() => {
         const vaccines = await VaccineServiceManager.getInstance().getVaccineByMedicalHistoryId(pet.idMedicalHistory)
-        console.log('Vaccines',vaccines)
         setVaccinesPet(vaccines)
     }
 
@@ -57,13 +60,9 @@ export function PetDetail(){
         setStudyResultsPet(studys)
     }
 
-    useOnInit(()=>{
-        getPetDetail()
-    })
 
     useEffect(() => {
-        if (pet) { 
-            console.log(`id del pet detail:${pet.idMedicalHistory}`)
+        if (pet && pet.id !== -1) { 
             getRecipesPet();
             getVaccinesPet();
             getDiseasesPet();

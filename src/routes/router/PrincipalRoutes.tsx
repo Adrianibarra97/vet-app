@@ -8,7 +8,7 @@ import { MedicalShiftPage } from '../../pages/medical-shift-page/MedicalShiftPag
 import { ErrorPage } from '../../pages/error-page/ErrorPage'
 import { AuthLayout } from '../../layouts/auth/AuthLayout'
 import { LoginPage } from '../../pages/login-page/LoginPage'
-import { PetDetail } from '../../pages/pet-detail/PetDetail'
+import { PetDetail } from '../../pages/pet-detail-page/PetDetailPage'
 
 export const PrincipalRoutes = () => {
 
