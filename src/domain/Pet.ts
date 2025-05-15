@@ -54,20 +54,20 @@ export class Pet {
 	}
 }
 
-export class PetMedicalShiftDTO{
+export class PetMedicalShiftDTO {
 	constructor(
 		public id:number = -1,
 		public name:string = ''
 	){}
 
-	static fromJSON(petMedicalShiftJson:PetMedicalShiftJSON):PetMedicalShiftDTO{
+	static fromJSON(petMedicalShiftJson: PetMedicalShiftJSON): PetMedicalShiftDTO {
 		return new PetMedicalShiftDTO(
 			petMedicalShiftJson.id,
 			petMedicalShiftJson.name
 		)
 	}
 
-	toJson():PetMedicalShiftJSON{
+	toJson(): PetMedicalShiftJSON {
 		return{
 			id:this.id,
 			name:this.name
@@ -88,8 +88,7 @@ enum TypeOfPet {
 	FARM = "FARM", 
 	RODENT = "RODENT", 
 	REPTILE = "REPTILE", 
-	HORSE = "HORSE", 
-	OTHER = "OTHER"
+	HORSE = "HORSE"
 }
 
 export function convertTypeOfPetToASpanishString(typeOfPet: TypeOfPet | string): string{
@@ -101,8 +100,7 @@ export function convertTypeOfPetToASpanishString(typeOfPet: TypeOfPet | string):
 		"FARM": 'Granja',
 		"RODENT": 'Roedor',
 		"REPTILE": 'Reptil',
-		"HORSE": 'Caballo',
-		"OTHER": 'Otro'
+		"HORSE": 'Caballo'
     }
 
     return typeOfPetStrMap[typeOfPet.toString()] 

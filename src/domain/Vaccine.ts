@@ -52,8 +52,7 @@ enum TypeOfVaccine {
 	HEPATITIS = "HEPATITIS", 
 	LEPTOSPIROSIS = "LEPTOSPIROSIS", 
 	PARAINFLUENZA = "PARAINFLUENZA", 
-	DEWORMING = "DEWORMING", 
-	OTHER = "OTHER"
+	DEWORMING = "DEWORMING"
 }
 
 export function convertTypeOfVaccineToASpanishString(typeOfVaccine: TypeOfVaccine | string): string{

@@ -17,8 +17,8 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Hembra",
 			"weight": 17,
 			"sterilized": true,
-			"specie": "Perro",
-			"birth": "15/10/2015",
+			"specie": "DOG",
+			"birth": "2025-04-25",
 			"idMedicalHistory": 0
 		},
 		{
@@ -30,8 +30,8 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Macho",
 			"weight": 14,
 			"sterilized": true,
-			"specie": "Perro",
-			"birth": "20/02/2021",
+			"specie": "DOG",
+			"birth": "2025-04-25",
 			"idMedicalHistory": 1
 		},
 		{
@@ -43,8 +43,8 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Hembra",
 			"weight": 15,
 			"sterilized": true,
-			"specie": "Perro",
-			"birth": "19/02/2012",
+			"specie": "DOG",
+			"birth": "2025-04-25",
 			"idMedicalHistory": 2
 		},
 		{
@@ -56,8 +56,8 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Macho",
 			"weight": 25,
 			"sterilized": false,
-			"specie": "Perro",
-			"birth": "02/07/2020",
+			"specie": "DOG",
+			"birth": "2025-04-25",
 			"idMedicalHistory": 3
 		},
 		{
@@ -69,8 +69,8 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Hembra",
 			"weight": 0.119,
 			"sterilized": false,
-			"specie": "Ave",
-			"birth": "01/01/2020",
+			"specie": "BIRD",
+			"birth": "2025-04-25",
 			"idMedicalHistory": 4
 		},
 		{
@@ -82,8 +82,8 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Hembra",
 			"weight": 15,
 			"sterilized": true,
-			"specie": "Perro",
-			"birth": "20/05/2011",
+			"specie": "DOG",
+			"birth": "2025-04-25",
 			"idMedicalHistory": 5
 		},
 		{
@@ -95,8 +95,8 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Hembra",
 			"weight": 2.9,
 			"sterilized": true,
-			"specie": "Gato",
-			"birth": "26/09/2020",
+			"specie": "CAT",
+			"birth": "2025-04-25",
 			"idMedicalHistory": 6
 		},
 		{
@@ -108,8 +108,8 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Macho",
 			"weight": 6,
 			"sterilized": true,
-			"specie": "Gato",
-			"birth": "11/09/2015",
+			"specie": "CAT",
+			"birth": "2025-04-25",
 			"idMedicalHistory": 7
 		},
 		{
@@ -121,8 +121,8 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Macho",
 			"weight": 19,
 			"sterilized": true,
-			"specie": "Perro",
-			"birth": "01/10/2016",
+			"specie": "DOG",
+			"birth": "2025-04-25",
 			"idMedicalHistory":8
 		},
 		{
@@ -134,9 +134,10 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Hembra",
 			"weight": 5,
 			"sterilized": true,
-			"specie": "Gato",
-			"birth": "30/10/2019",
+			"specie": "CAT",
+			"birth": "2025-04-25",
 			"idMedicalHistory": 9
+
 		},
 		{
 			"id": 10,
@@ -147,8 +148,8 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Hembra",
 			"weight": 4,
 			"sterilized": true,
-			"specie": "Gato",
-			"birth": "30/10/2019",
+			"specie": "CAT",
+			"birth": "2025-04-25",
 			"idMedicalHistory": 10
 		}
 	]
@@ -159,7 +160,16 @@ export class PetServiceStub implements PetServiceInter {
 		})
 	}
 
+	async getPetById(id: number): Promise<Pet> {
+		let pet = new Pet()
+		this.objects.forEach(object => {
+			if(object.id == id) pet = Pet.fromJSON(object)
+		})
+		return pet
+	}
+
 	async getAllByFilter(petFilter: PetFilterValues): Promise<Pet[]> {
+		console.log('Se llamaron todos')
 		const pets = this.objects.map<Pet>(petDTO => {
 			return Pet.fromJSON(petDTO)
 		})
@@ -200,22 +210,15 @@ export class PetServiceStub implements PetServiceInter {
 	}
 
 	async update(pet: Pet): Promise<void> {
-		console.log(pet)
-		this.objects.forEach((object: PetJSON) => {
-			if(object.id === pet.id) {
-				object = pet.toJSON()
+		for(let i=0; i < this.objects.length; i++) {
+			if(this.objects[i].id === pet.id) {
+				this.objects[i] = pet.toJSON()
 			}
-		})
+		}
 	}
 
 	async delete(id: number): Promise<void> {
-		console.log(id)
 		this.objects = this.objects.filter((object: PetJSON) => object.id != id)
 	}
 
-	async getPetById(id: number): Promise<Pet> {
-		const petJSON:PetJSON = this.objects[id]
-		const pet:Pet = Pet.fromJSON(petJSON)
-		return pet
-	}
 }

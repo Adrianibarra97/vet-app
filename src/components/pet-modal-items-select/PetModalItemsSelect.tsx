@@ -5,10 +5,12 @@ import { FormControlModalSelect } from '../form-control-modal-select/FormControl
 
 interface ModalItemsProps {
   firstIsActive: boolean,
-  secondIsActive: boolean,
   firstIndex: number,
-  secondIndex: number,
+  firstdefaultValue: string,
   firstArrayOptions: string[],
+  secondIsActive: boolean,
+  secondIndex: number,
+  seconddefaultValue: string,
   secondArrayOptions: string[],
   handleLabelColor(key: keyof Pet): 'primary' | 'error'
   handleSelectChanges(key: keyof Pet, e: SelectChangeEvent): void
@@ -28,6 +30,7 @@ export const PetModalItemsSelect = (modalItemsProps: ModalItemsProps) => {
   return (
     <Box sx={ modalItems }>
       <FormControlModalSelect
+        defaultValue={ modalItemsProps.firstdefaultValue }
         options={ modalItemsProps.firstArrayOptions }
         isActive={ modalItemsProps.firstIsActive }
         petKey={ petKeys[modalItemsProps.firstIndex] }
@@ -36,6 +39,7 @@ export const PetModalItemsSelect = (modalItemsProps: ModalItemsProps) => {
         handleInputChanges={ modalItemsProps.handleSelectChanges }
       />
       <FormControlModalSelect
+        defaultValue={ modalItemsProps.seconddefaultValue }
         options={ modalItemsProps.secondArrayOptions }
         isActive={ modalItemsProps.secondIsActive }
         petKey={ petKeys[modalItemsProps.secondIndex] }

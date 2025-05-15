@@ -1,27 +1,30 @@
-import { FormControl, Input, Box, InputLabel, InputBaseComponentProps } from '@mui/material'
-import { ChangeEvent } from 'react'
+import { useState } from 'react'
 import { Pet } from '../../domain/Pet'
-import { formControl, formControlInput, formControlItem, formControlLabel, formControlNone } from './FormControlModalImageStyle'
+import { Avatar, Button, FormControl } from '@mui/material'
+import { avatar, formControl, formControlNone, iconButton } from './FormControlModalImageStyle'
+import { ImageModal } from '../image-modal/ImageModal'
 
 interface FromControlModalProps {
-  isActive: boolean,
-  label: string,
-  labelColor: 'primary' | 'error',
-  petKey: keyof Pet,
-  handleInputChanges(key: keyof Pet, e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void,
-  inputProp: InputBaseComponentProps
+  isActive: boolean
+  pet: Pet
+  setPet: (pet: Pet) => void
+  onPhotoChange: (newPhoto: string) => void
 }
 
 export const FormControlModalImage = (formControlProps: FromControlModalProps) => {
+
+  const [openModal, setOpenModal] = useState(false)
+
   return (
-    <FormControl fullWidth margin="normal" variant="filled" sx={ formControlProps.isActive ? formControl : formControlNone }>
-      <Box sx={ formControlItem }>
-        <Input
-          type= 'file' sx={ formControlInput }
-          inputProps={ formControlProps.inputProp }
-          onChange={ (e) => formControlProps.handleInputChanges(formControlProps.petKey, e) }
-        />
-      </Box>
-    </FormControl>
+    <>
+      <FormControl sx={ formControlProps.isActive ? formControl : formControlNone }>
+        <Avatar alt="Mascota" src={ formControlProps.pet.photo } sx={ avatar }/>
+        <Button sx={ iconButton } onClick={ () => setOpenModal(true) }>Cambiar</Button>
+      </FormControl>
+      <ImageModal
+        open={ openModal } onPhotoChange={ formControlProps.onPhotoChange }
+        onClose={ () => setOpenModal(false) } pet={ formControlProps.pet }  
+      />
+    </>
   )
 }

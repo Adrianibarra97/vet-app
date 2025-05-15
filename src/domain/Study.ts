@@ -34,8 +34,7 @@ enum TypeOfStudyResult {
   PHARMACOLOGICAL = "PHARMACOLOGICAL", 
   GENETIC = "GENETIC", 
   PATHOLOGICAL = "PATHOLOGICAL", 
-  CLINICAL = "CLINICAL", 
-  OTHER = "OTHER"
+  CLINICAL = "CLINICAL"
 }
 
 export function convertTypeOfStudyResultToASpanishString(typeOfStudyResult: TypeOfStudyResult | string): string{
@@ -44,8 +43,7 @@ export function convertTypeOfStudyResultToASpanishString(typeOfStudyResult: Type
       "PHARMACOLOGICAL": 'Farmacologico',
       "GENETIC": 'Genetico',
       "PATHOLOGICAL": 'Patologico',
-      "CLINICAL": 'Clinico',
-      "OTHER": 'Otro',
+      "CLINICAL": 'Clinico'
     }
 
     return typeOfStudyResultStrMap[typeOfStudyResult.toString()] 

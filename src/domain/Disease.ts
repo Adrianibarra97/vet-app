@@ -79,8 +79,7 @@ export function convertTypeOfPreExistinceDiseaseToASpanishString(typeOfPreExisti
         "DISTETER": ' Moquillo',
         "PARVOVIRUS": 'Parvovirus',
         "EPILEPSY": 'Epilepsia',
-        "LEUKEMIA ": 'Leucemia',
-        "OTHER": 'Otra'
+        "LEUKEMIA ": 'Leucemia'
     }
 
     return typeOfPreExistinceDiseaseStrMap[typeOfPreExistinceDisease.toString()] 
