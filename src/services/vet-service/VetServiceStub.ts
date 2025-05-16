@@ -2,6 +2,20 @@ import { NotificationModel } from '../../domain/Notification'
 import { Vet } from '../../domain/Vet'
 import { VetServiceInter } from './VetServiceInter'
 
+const vetMockNotifications: NotificationModel[] = [
+  new NotificationModel(
+    3,
+    'appointment',
+    'Turno cancelado por el dueño Juan Pérez para su mascota Rocky',
+    new Date().toISOString(),
+    true,
+    'Nala',
+    'Tamara Mecozzi',
+    'María Gómez',
+    '2024-05-21T15:00:00Z',
+  ),
+]
+
 export class VetServiceStub implements VetServiceInter {
   private user = new Vet(
     1,
@@ -38,24 +52,14 @@ export class VetServiceStub implements VetServiceInter {
   }
 
   async update(vet: Vet): Promise<void> {
-    console.log('Stub: actualizando datos...')
     this.user = vet
-    console.log('Nuevo estado:', this.user)
   }
 
   async delete(id: number): Promise<void> {
-  console.log(`Stub: usuario con ID ${id} eliminado`)
-}
+    console.log(`Stub: usuario con ID ${id} eliminado`)
+  }
 
-  async getNotificationsByUserId(id: number): Promise<NotificationModel[]> {
-    console.log(`Obteniendo notificaciones para el vet con ID ${id}`)
-    return [
-      new NotificationModel(
-        'appointment',
-        'El turno con Mileva ha sido cancelado',
-        new Date().toISOString(),
-        true
-      )
-    ]
+  async getNotificationsByUserId(_id: number): Promise<NotificationModel[]> {
+    return vetMockNotifications
   }
 }

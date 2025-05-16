@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { ProfileMenu } from '../../components/profile-menu/Profile-menu'
 import { PetOwner } from '../../domain/PetOwner'
@@ -8,10 +8,15 @@ import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerSer
 import VetServiceManager from '../../services/vet-service/VetServiceManager'
 import { getUserID } from '../../services/auth-service/AuthService'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
-import './ProfilePage.css'
 
 export const ProfileLayout = () => {
   const [user, setUser] = useState<User | Vet | PetOwner | null>(null)
+
+  const location = useLocation()
+
+  const title = location.pathname.includes('notifications')
+    ? 'Notificaciones'
+    : 'Mi Perfil'
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -31,7 +36,7 @@ export const ProfileLayout = () => {
 
   return (
     <main className="main">
-      <h1 className="main__title">Mi Perfil</h1>
+      <h1 className="main__title">{title}</h1>
       <div className="main__content">
         <div className="main__content--filter">
           <div className="content__menu">

@@ -2,6 +2,51 @@ import { NotificationModel } from '../../domain/Notification'
 import { PetOwner } from '../../domain/PetOwner'
 import { PetOwnerServiceInter } from './PetOwnerServiceInter'
 
+const petOwnerMockNotifications: NotificationModel[] = [
+  new NotificationModel(
+    1,
+    'appointment',
+    'Tu turno del 20/05 fue cancelado por la Dra. Gómez',
+    new Date().toISOString(),
+    true,
+    'Cleopatra',
+    'Tamara Mecozzi',
+    'María Gómez',
+    '2024-05-20T10:00:00Z',
+  ),
+  new NotificationModel(
+    2,
+    'vaccine',
+    'La vacuna de rabia de Simba vence el 25/05',
+    new Date().toISOString(),
+    true,
+    'Napoleon',
+    'Tamara Mecozzi',
+  ),
+  new NotificationModel(
+    3,
+    'appointment',
+    'Nuevo turno asignado con la mascota Luna de Carla Díaz',
+    new Date().toISOString(),
+    false,
+    'Freya',
+    'Tamara Mecozzi',
+    'María Gómez',
+    '2024-05-25T09:30:00Z',
+  ),
+  new NotificationModel(
+    4,
+    'appointment',
+    'Tu turno fue modificado por la veterinaria',
+    new Date().toISOString(),
+    false,
+    'Nala',
+    'Tamara Mecozzi',
+    'María Gómez',
+    '2024-05-28T11:30:00Z',
+  ),
+]
+
 export class PetOwnerServiceStub implements PetOwnerServiceInter {
   private user = new PetOwner(
     1,
@@ -20,7 +65,6 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
     'Argentina',
     3,
     'Gisele',
-
     '1142334411',
   )
 
@@ -33,31 +77,14 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
   }
 
   async update(petOwner: PetOwner): Promise<void> {
-    console.log('Stub: actualizando datos...')
     this.user = petOwner
-    console.log('Nuevo estado:', this.user)
   }
 
   async delete(id: number): Promise<void> {
     console.log(`Stub: pet owner con ID ${id} eliminado`)
   }
- async getNotificationsByUserId(id: number): Promise<NotificationModel[]> {
-  console.log(`Simulando fetch de notificaciones para ID ${id}`)
 
-  return [
-    new NotificationModel(
-      'appointment',
-      'Tu turno del 20/05 fue cancelado',
-      new Date().toISOString(),
-      true
-    ),
-    new NotificationModel(
-      'vaccine',
-      'Vacuna antirrábica vence el 25/05',
-      new Date().toISOString(),
-      true
-    )
-  ]
-}
-
+  async getNotificationsByUserId(_id: number): Promise<NotificationModel[]> {
+    return petOwnerMockNotifications
+  }
 }
