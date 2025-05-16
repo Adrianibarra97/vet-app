@@ -5,15 +5,17 @@ import {
   List,
   Button,
   Stack,
-  useMediaQuery,
+
 } from '@mui/material'
-import {  WhatsApp, Email } from '@mui/icons-material'
+import { WhatsApp, Email } from '@mui/icons-material'
 import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
 import VetServiceManager from '../../services/vet-service/VetServiceManager'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import { getUserID } from '../../services/auth-service/AuthService'
 import { NotificationModel } from '../../domain/Notification'
 import { NotificationCard } from '../../components/notification-card/NotificationCard'
+import { MedicalShift } from '../../domain/MedicalShift'
+
 export const NotificationsPage = () => {
   const [notifications, setNotifications] = useState<NotificationModel[]>([])
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
@@ -21,21 +23,47 @@ export const NotificationsPage = () => {
   const service = isVet
     ? VetServiceManager.getInstance()
     : PetOwnerServiceManager.getInstance()
-  const isMobile = useMediaQuery('(max-width:600px)')
 
   useEffect(() => {
     const fetchNotifications = async () => {
       const id = getUserID()
       const notes = await service.getNotificationsByUserId(id)
-      setNotifications(notes)
+
+      let shifts: MedicalShift[] = []
+
+      if (isVet && 'getShiftsByVetId' in service) {
+        shifts = await service.getShiftsByVetId(id)
+      } else if (!isVet && 'getShiftsByPetOwnerId' in service) {
+        shifts = await service.getShiftsByPetOwnerId(id)
+      }
+
+      const today = new Date().toISOString().slice(0, 10) 
+      const hasShiftToday = shifts.some(
+        (shift: MedicalShift) => shift.date === today,
+      )
+
+      const updatedNotifications = hasShiftToday
+        ? [
+            new NotificationModel(
+              Date.now(),
+              'system',
+              'Tenés turnos para hoy',
+              new Date().toISOString(),
+              false,
+            ),
+            ...notes,
+          ]
+        : notes
+
+      setNotifications(updatedNotifications)
     }
+
     fetchNotifications()
   }, [])
 
   const toggleExpand = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index)
   }
-
   return (
     <Box
       sx={{
@@ -57,7 +85,6 @@ export const NotificationsPage = () => {
         ))}
       </List>
 
-      {/* Bloque de contacto general SOLO para pet owner */}
       {!isVet && (
         <Box
           sx={{
@@ -83,11 +110,7 @@ export const NotificationsPage = () => {
             Si necesitás comunicarte con tu veterinario, podés hacerlo a través
             de:
           </Typography>
-          <Stack
-            direction={isMobile ? 'column' : 'row'}
-            spacing={2}
-            justifyContent="center"
-          >
+          <Stack spacing={2} justifyContent="center">
             <Button
               variant="contained"
               startIcon={<WhatsApp />}

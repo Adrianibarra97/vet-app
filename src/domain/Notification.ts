@@ -1,19 +1,21 @@
+export type NotificationType = 'vaccine' | 'appointment' | 'system';
+
 export type NotificationJSON = {
-  id: number
-  type: 'vaccine' | 'appointment'
-  message: string
-  date: string
-  urgent: boolean
-  petName?: string
-  petOwnerName?: string
-  vetName?: string
-  appointmentDate?: string
-}
+  id: number;
+  type: NotificationType;
+  message: string;
+  date: string;
+  urgent: boolean;
+  petName?: string;
+  petOwnerName?: string;
+  vetName?: string;
+  appointmentDate?: string;
+};
 
 export class NotificationModel {
   constructor(
     public id: number,
-    public type: 'vaccine' | 'appointment',
+    public type: NotificationType,
     public message: string,
     public date: string,
     public urgent: boolean,
@@ -34,7 +36,7 @@ export class NotificationModel {
       json.petOwnerName,
       json.vetName,
       json.appointmentDate
-    )
+    );
   }
 
   toJSON(): NotificationJSON {
@@ -48,6 +50,6 @@ export class NotificationModel {
       petOwnerName: this.petOwnerName,
       vetName: this.vetName,
       appointmentDate: this.appointmentDate
-    }
+    };
   }
 }

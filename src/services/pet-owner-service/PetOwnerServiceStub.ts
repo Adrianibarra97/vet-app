@@ -1,4 +1,6 @@
+import { MedicalShift } from '../../domain/MedicalShift';
 import { NotificationModel } from '../../domain/Notification'
+import { PetMedicalShiftDTO } from '../../domain/Pet';
 import { PetOwner } from '../../domain/PetOwner'
 import { PetOwnerServiceInter } from './PetOwnerServiceInter'
 
@@ -6,7 +8,7 @@ const petOwnerMockNotifications: NotificationModel[] = [
   new NotificationModel(
     1,
     'appointment',
-    'Tu turno del 20/05 fue cancelado por la Dra. Gómez',
+    'Tu turno del 20/05 fue cancelado:',
     new Date().toISOString(),
     true,
     'Cleopatra',
@@ -17,7 +19,7 @@ const petOwnerMockNotifications: NotificationModel[] = [
   new NotificationModel(
     2,
     'vaccine',
-    'La vacuna de rabia de Simba vence el 25/05',
+    'La vacuna de rabia de vence el 25/05',
     new Date().toISOString(),
     true,
     'Napoleon',
@@ -26,7 +28,7 @@ const petOwnerMockNotifications: NotificationModel[] = [
   new NotificationModel(
     3,
     'appointment',
-    'Nuevo turno asignado con la mascota Luna de Carla Díaz',
+    'Nuevo turno asignado con la mascota de Carla Díaz',
     new Date().toISOString(),
     false,
     'Freya',
@@ -46,7 +48,15 @@ const petOwnerMockNotifications: NotificationModel[] = [
     '2024-05-28T11:30:00Z',
   ),
 ]
-
+const petOwnerMockShifts: MedicalShift[] = [
+  new MedicalShift(
+    1,
+    'María Gómez',
+    new PetMedicalShiftDTO(1, 'Cleopatra'),
+    new Date().toISOString().split('T')[0], 
+    '09:00'
+  )
+];
 export class PetOwnerServiceStub implements PetOwnerServiceInter {
   private user = new PetOwner(
     1,
@@ -86,5 +96,8 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
 
   async getNotificationsByUserId(_id: number): Promise<NotificationModel[]> {
     return petOwnerMockNotifications
+  }
+   async getShiftsByPetOwnerId(_id: number): Promise<MedicalShift[]> {
+    return petOwnerMockShifts;
   }
 }

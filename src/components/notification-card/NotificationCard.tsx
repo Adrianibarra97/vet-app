@@ -24,6 +24,7 @@ import {
 } from '@mui/icons-material'
 import { NotificationModel } from '../../domain/Notification'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
   notification: NotificationModel
@@ -48,20 +49,86 @@ export const NotificationCard: React.FC<Props> = ({
   expanded = false,
   onToggleExpand,
 }) => {
-  const { message, date, petName, vetName, appointmentDate } = notification
+  const { message, date, petName, vetName, appointmentDate, type } =
+    notification
 
   const isVet = AuthServiceManager.getIntance().isVet()
   const msg = message.toLowerCase()
   const isCancelByOwner = msg.includes('cancelado') && msg.includes('dueño')
+  const isMobile = useMediaQuery('(max-width:600px)')
+  const navigate = useNavigate()
 
-  if (isVet && !isCancelByOwner) return null
-
-  const { icon, color } = getIconAndColor(message)
   const vetEmail = vetName
     ? `${vetName.toLowerCase().replace(' ', '.')}@veterinaria.com`
     : ''
   const whatsappNumber = '5491144556677'
-  const isMobile = useMediaQuery('(max-width:600px)')
+
+  if (isVet && !isCancelByOwner && type !== 'system') return null
+
+  if (type === 'system') {
+    return (
+      <Paper
+        elevation={3}
+        sx={{
+          padding: '1.5em',
+          marginBottom: '1.2em',
+          backgroundColor: '#e8f5e9',
+          borderLeft: '6px solid #4caf50',
+          borderRadius: 2,
+          width: '100%',
+          textAlign: 'center',
+        }}
+      >
+        <Stack
+          direction="row"
+          spacing={1}
+          alignItems="center"
+          justifyContent="center"
+          sx={{ mb: 1 }}
+        >
+          <EventAvailable sx={{ color: '#4caf50' }} />
+          <Typography
+            variant="subtitle1"
+            fontWeight="bold"
+            sx={{ color: '#2e7d32' }}
+          >
+            Tenés turnos para hoy
+          </Typography>
+        </Stack>
+
+        <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
+          Recordá que podés verlos y filtrarlos por fecha en tu panel de turnos.
+        </Typography>
+
+        <Button
+          variant="contained"
+          onClick={() => navigate('/medical-shift')}
+          sx={{
+            backgroundColor: '#4caf50',
+            '&:hover': { backgroundColor: '#43a047' },
+            textTransform: 'none',
+          }}
+        >
+          Ver turnos
+        </Button>
+
+        <Stack
+          direction="row"
+          spacing={1}
+          mt={3}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Pets sx={{ fontSize: 18, color: '#888' }} />
+          <Typography variant="caption" color="#888" fontWeight="bold">
+            VetApp
+          </Typography>
+        </Stack>
+      </Paper>
+    )
+  }
+
+  const { icon, color } = getIconAndColor(message)
 
   return (
     <Paper
@@ -135,7 +202,6 @@ export const NotificationCard: React.FC<Props> = ({
             </Typography>
           )}
 
-          {/* Bloque de contacto */}
           {!isVet && vetName && (
             <Box
               sx={{
@@ -182,7 +248,6 @@ export const NotificationCard: React.FC<Props> = ({
             </Box>
           )}
 
-          {/* Firma */}
           <Stack
             direction="row"
             spacing={1}
