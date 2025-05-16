@@ -1,3 +1,4 @@
+import { NotificationModel } from '../../domain/Notification'
 import { PetOwner } from '../../domain/PetOwner'
 import { PetOwnerServiceInter } from './PetOwnerServiceInter'
 
@@ -40,4 +41,23 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
   async delete(id: number): Promise<void> {
     console.log(`Stub: pet owner con ID ${id} eliminado`)
   }
+ async getNotificationsByUserId(id: number): Promise<NotificationModel[]> {
+  console.log(`Simulando fetch de notificaciones para ID ${id}`)
+
+  return [
+    new NotificationModel(
+      'appointment',
+      'Tu turno del 20/05 fue cancelado',
+      new Date().toISOString(),
+      true
+    ),
+    new NotificationModel(
+      'vaccine',
+      'Vacuna antirrábica vence el 25/05',
+      new Date().toISOString(),
+      true
+    )
+  ]
+}
+
 }

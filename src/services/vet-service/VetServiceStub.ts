@@ -1,3 +1,4 @@
+import { NotificationModel } from '../../domain/Notification'
 import { Vet } from '../../domain/Vet'
 import { VetServiceInter } from './VetServiceInter'
 
@@ -43,6 +44,18 @@ export class VetServiceStub implements VetServiceInter {
   }
 
   async delete(id: number): Promise<void> {
-    console.log(`Stub: usuario con ID ${id} eliminado`)
+  console.log(`Stub: usuario con ID ${id} eliminado`)
+}
+
+  async getNotificationsByUserId(id: number): Promise<NotificationModel[]> {
+    console.log(`Obteniendo notificaciones para el vet con ID ${id}`)
+    return [
+      new NotificationModel(
+        'appointment',
+        'El turno con Mileva ha sido cancelado',
+        new Date().toISOString(),
+        true
+      )
+    ]
   }
 }
