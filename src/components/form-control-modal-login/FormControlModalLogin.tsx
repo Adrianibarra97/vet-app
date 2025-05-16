@@ -1,25 +1,23 @@
 import { FormControl, Box, Typography, TextField } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
-import { Pet } from '../../domain/Pet'
-import { formControl, formControlNone, helpText, textField } from './FormControlModalStyle'
+import { formControl, formControlNone, helpText, textField } from './FormControlModalLoginStyle'
 
 interface FromControlModalProps {
-  isActive: boolean,
-  errorActive: boolean,
-  label: string,
-  type: 'text' | 'number',
-  defaultValue: string | number,
-  labelColor: 'primary' | 'error',
-  petKey: keyof Pet,
-  handleInputChanges(key: keyof Pet, e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
+  isActive: boolean
+  errorActive: boolean
+  label: string
+  type: 'text' | 'number' | 'password'
+  defaultValue: string
+  labelColor: 'primary' | 'error'
+  handleInputChanges(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
 }
 
-export const FormControlModal = (formControlProps: FromControlModalProps) => {
+export const FormControlModalLogin = (formControlProps: FromControlModalProps) => {
 
   const [value, setValue] = useState(formControlProps.defaultValue)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    formControlProps.handleInputChanges(formControlProps.petKey, e)
+    formControlProps.handleInputChanges(e)
     setValue(e.target.value)
   }
 
@@ -33,7 +31,7 @@ export const FormControlModal = (formControlProps: FromControlModalProps) => {
     <FormControl sx={ formControlProps.isActive ? formControl : formControlNone }>
       <TextField
         sx={ textField } type={ formControlProps.type } error={ !value && formControlProps.errorActive }
-        label={ formControlProps.label } color={ formControlProps.labelColor }
+        label={ formControlProps.label } color="success"
         name={ formControlProps.label } value={ value }
         onChange={ (e) => handleChange(e) } helperText={ formHelperText() }
       />

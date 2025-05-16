@@ -1,4 +1,4 @@
-import { AuthCredentialsLoginDTO } from '../../domain/User'
+import { AuthCredentialsLoginDTO, AuthCredentialsResponseDTO } from '../../domain/User'
 import { PETOWNER_TYPE, USER_ID_TOKEN, VET_TYPE } from '../config'
 export abstract class AuthServiceInter {
 
@@ -22,5 +22,25 @@ export abstract class AuthServiceInter {
 
 	isOwner(): boolean {
 		return this.userType === PETOWNER_TYPE
+	}
+
+	searchUserWithLogin(authCredentialsLoginDTO: AuthCredentialsLoginDTO): AuthCredentialsResponseDTO | null {
+		return { authCredentialsID: -1, typeOfUser: '' }
+	}
+
+	existUser(authCredentialsLoginDTO: AuthCredentialsLoginDTO): boolean {
+		return false
+	}
+
+	async validCode(code: string): Promise<boolean> {
+		return false
+	}
+
+	validNewPassword(password: string, confirmPassword: string): boolean {
+		return !password || !confirmPassword || password != confirmPassword
+	}
+
+	async changePassword(password: string): Promise<void> {
+		throw Error('Hubo problemas al setear la contraseña: ' + password)
 	}
 }

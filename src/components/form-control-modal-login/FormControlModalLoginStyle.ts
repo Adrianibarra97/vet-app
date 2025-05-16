@@ -1,0 +1,21 @@
+export const formControl = {
+  display: 'flex',
+  height: '3em',
+  width: '95%',
+  overflow: 'visible'
+}
+
+export const formControlNone = {
+  display: 'none'
+}
+
+export const textField = {
+  display: 'flex',
+  height: 'auto',
+  overflow: 'visible'
+}
+
+export const helpText = {
+  display: 'flex',
+  justifyContent: 'flex-end'
+}

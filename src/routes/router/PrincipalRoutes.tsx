@@ -9,6 +9,10 @@ import { ErrorPage } from '../../pages/error-page/ErrorPage'
 import { AuthLayout } from '../../layouts/auth/AuthLayout'
 import { LoginPage } from '../../pages/login-page/LoginPage'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
+import { ResetPasswordPage } from '../../pages/reset-password-page/ResetPasswordPage'
+import { CreateUserPage } from '../../pages/create-user-page/CreateUserPage'
+import { ChangePasswordPage } from '../../pages/change-password-page/ChangePasswordPage'
+import { ValidChangePage } from '../../pages/valid-change-page/ValidChangePage'
 
 export const PrincipalRoutes = () => {
 
@@ -21,6 +25,10 @@ export const PrincipalRoutes = () => {
       <Routes>
         <Route path = "/auth" element = { <AuthLayout /> }>
           <Route path = "login" element = { <LoginPage /> }/>
+          <Route path = "reset-password" element = { <ResetPasswordPage /> }/>
+          <Route path = "valid-change" element = { <ValidChangePage/> }/>
+          <Route path = "change-password" element = { <ChangePasswordPage /> }/>
+          <Route path = "create-user" element = { <CreateUserPage /> }/>
         </Route>
         <Route element = { <ProtectedRoutes /> }>
           <Route path = "/" element = { <MainLayout /> } >

@@ -9,6 +9,7 @@ import dayjs, { Dayjs } from 'dayjs'
 
 interface FromControlModalProps {
   isActive: boolean
+  errorActive: boolean
   label: string
   defaultValue: Dayjs | null
   petKey: keyof Pet
