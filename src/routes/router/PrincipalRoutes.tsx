@@ -9,6 +9,7 @@ import { ErrorPage } from '../../pages/error-page/ErrorPage'
 import { AuthLayout } from '../../layouts/auth/AuthLayout'
 import { LoginPage } from '../../pages/login-page/LoginPage'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
+import { PetDetail } from '../../pages/pet-detail-page/PetDetailPage'
 
 export const PrincipalRoutes = () => {
 
@@ -26,6 +27,7 @@ export const PrincipalRoutes = () => {
           <Route path = "/" element = { <MainLayout /> } >
             <Route path = "profile" element={<ProfilePage name="Perfil" />} />
             <Route path = "pets" element = { <PetPage name={ handleTitlePet() } /> } />
+             <Route path = 'pet-detail/:petID' element = {<PetDetail/>}/>
             <Route path = "medical-shift" element = { <MedicalShiftPage /> } />
             <Route path = "*" element = { <ErrorPage /> } />
           </Route>

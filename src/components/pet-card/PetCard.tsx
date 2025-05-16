@@ -3,6 +3,7 @@ import { ConfirmModal } from '../confirm-modal/ConfirmModal'
 import PetServiceManager from '../../services/pet-service/PetServiceManager'
 import { Pet } from '../../domain/Pet'
 import './PetCard.css'
+import { useNavigate } from 'react-router-dom'
 
 interface PropPetCard {
   pet: Pet,
@@ -13,11 +14,16 @@ interface PropPetCard {
 export const PetCard = (propPet: PropPetCard) => {
 
   const [openConfirm, setOpenConfirm] = useState(false)
+  const navigate = useNavigate()
 
   const handleDelete = async () => {
     PetServiceManager.getIntance().delete(propPet.pet.id)
     propPet.handleDelete()
     setOpenConfirm(false)
+  }
+
+  const goToPetDetail = () => {
+    navigate(`/pet-detail/${propPet.pet.id}`)
   }
 
   return (
@@ -43,6 +49,10 @@ export const PetCard = (propPet: PropPetCard) => {
           <button
             className="fa-solid fa-pen button__icon"
             onClick={ () => propPet.startUpdate(propPet.pet.id) }
+          ></button>
+          <button
+            className="fa-solid fa-paw button__icon"
+            onClick={goToPetDetail}
           ></button>
           <button 
             className="fa-solid fa-trash button__icon"
