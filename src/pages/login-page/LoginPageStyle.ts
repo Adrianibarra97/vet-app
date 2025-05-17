@@ -1,7 +1,12 @@
 export const modalItem = {
+  // display: 'flex',
+  // height: '3.5em',
+  // width: '95%',
+  // overflow: 'visible'
   display: 'flex',
   height: '3.5em',
   width: '95%',
+  margin: '0.1em auto',
   overflow: 'visible'
 }
 
