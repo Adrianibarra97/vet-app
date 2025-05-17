@@ -4,7 +4,7 @@ import { RecipeServiceStub } from "./RecipeServiceStub";
 
 export class RecipeServiceManager{
     private static instance:RecipeServiceInter
-    private static useStub:boolean = true
+    static useStub:boolean = true
 
     public static getInstance():RecipeServiceInter{
         if(!RecipeServiceManager.instance){
