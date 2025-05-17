@@ -31,12 +31,17 @@ export const ValidChangePage = () => {
     }
   }
 
+  const handleCancel = () => {
+    AuthServiceManager.getIntance().cancelResetPassword()
+    navigate('/auth/login')
+  }
+
   return (
-    <main className="auth__main">
-      <div className="login">
-        <h1 className="main__title">Validación</h1>
-        <form className="login__form">
-          <label className="auth__text">Ingrese el código que le enviamos por correo para continuar.</label>
+    <main className="auth__valid">
+      <div className="login--valid">
+        <h1 className="main__title--valid">Validación</h1>
+        <form className="login__form--valid">
+          <label className="auth__text--valid">Ingrese el código que le enviamos por correo para continuar.</label>
           <Box sx={ modalItem }>
             <FormControlModal
               isActive={ true } errorActive={ errorActive } label={ 'Código de validación' }
@@ -46,9 +51,9 @@ export const ValidChangePage = () => {
           </Box>
           <Box sx={ buttonContent }>
             <ButtonsModal
-              confirLabel={ 'Validar Código' } cancelLabel={ 'Cancelar' }
-              confirm={ () => navigate('/auth/login') }
-              cancel={ () => handleValidation() } 
+              confirLabel={ 'Validar' } cancelLabel={ 'Cancelar' }
+              confirm={ () => handleValidation() }
+              cancel={ () => handleCancel() } 
             />
           </Box>
         </form>
