@@ -29,7 +29,7 @@ export function DiseaseCard({disease, onClickEdit, onClickDelete}:PropsDiseaseCa
             <div className="content__data--item">
                 <div className="disease__item--title">
                     <h3 className="disease--title">Enfermedad</h3>
-                    <i className="fa-solid fa-paw logo__image disease--logo" onClick={() => {setModalEditOrViewDiseaseOpen(true); setViewMode(true)}}></i>
+                    <i className="fa-solid fa-paw logo__image disease--logo cursor_pointer" onClick={() => {setModalEditOrViewDiseaseOpen(true); setViewMode(true)}}></i>
                 </div>
                 <div className="disease__container">
                     <div className="disease__data">
@@ -59,9 +59,9 @@ export function DiseaseCard({disease, onClickEdit, onClickDelete}:PropsDiseaseCa
                         <p className="disease__item-description disease__item--p">{disease.observation}</p>
                     </div>
                     {AuthServiceManager.getIntance().isVet() &&
-                        <div className="disease_item disease__item--button">
-                            <button className="fa-solid fa-pen button__icon" onClick={() => {setModalEditOrViewDiseaseOpen(true); setViewMode(false)}}/>
-                            <button className="fa-solid fa-trash button__icon" onClick={() => setModalDeleteDiseaseState(true)}/>
+                        <div className="disease__item disease__item--content__button">
+                            <button className="fa-solid fa-pen disease__item--button__icon" onClick={() => {setModalEditOrViewDiseaseOpen(true); setViewMode(false)}}/>
+                            <button className="fa-solid fa-trash disease__item--button__icon" onClick={() => setModalDeleteDiseaseState(true)}/>
                         </div>
                     }
                 </div>

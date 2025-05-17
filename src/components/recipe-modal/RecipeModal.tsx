@@ -12,7 +12,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Textarea from "@mui/joy/Textarea";
 
 interface RecipeModalProps{
-    recipe:Recipe
+    recipe?:Recipe
     open:boolean
     onClose:() => void
     onConfirm:(recipe:Recipe) => void
@@ -23,7 +23,7 @@ interface RecipeModalProps{
 export function RecipeModal({recipe:initialRecipe, open, onClose, onConfirm, idRecipe, viewMode}:RecipeModalProps){
     const [recipe,setRecipe] = useState<Recipe>(new Recipe())
     const [fromTouched,setFromTouched] = useState<boolean>(false)
-    const [recipeDate, setRecipeDate] = useState<Dayjs|null>(initialRecipe.date ? dayjs(initialRecipe.date) : null)
+    const [recipeDate, setRecipeDate] = useState<Dayjs|null>(initialRecipe?.date ? dayjs(initialRecipe.date) : null)
     const [errorDate, setErrorDate ] = useState<string|null>(null)
 
     dayjs.extend(customParseFormat)

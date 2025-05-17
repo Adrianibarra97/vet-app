@@ -17,7 +17,7 @@ export function DiseaseGrid({diseases, onEditOrCreateDisease, onClickDelete}:Pro
     
     const showNewDisease = (): string => {    
         return AuthServiceManager.getIntance().isVet()
-            ? 'content__data--item'
+            ? 'content__data--item cursor_pointer'
             : 'card__content--none'
     }
 
@@ -47,6 +47,7 @@ export function DiseaseGrid({diseases, onEditOrCreateDisease, onClickDelete}:Pro
                 onClose={() => setModalCreateDiseaseOpen(false)}
                 onConfirm={handleOnCreateDisease}
                 idDisease={-1}
+                viewMode={false}
             />
         </div>
     )

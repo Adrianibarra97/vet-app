@@ -27,7 +27,6 @@
     color: var(--footer-color) !important;
     align-items: center !important;
     justify-content: flex-end !important;
-    cursor: pointer;
 }
 
 .disease__container {
@@ -66,12 +65,12 @@
 .disease__item-description {
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     overflow: hidden;
-    text-align: justify;
     text-overflow: ellipsis;
-    height: 5em;
+    line-height: 1.5em;
+    min-height: calc(1.5em * 3);
 }
 
 .disease__item--label {
@@ -83,14 +82,14 @@
     font-size: 0.9em;
 }
 
-.disease__item--button {
+.disease__item--content__button {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     margin-top: 1em;
 }
 
-.button__icon {
+.disease__item--button__icon {
     display: flex;
     font-size: 1.2em;
     color: var(--footer-color);

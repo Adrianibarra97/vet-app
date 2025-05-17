@@ -85,6 +85,21 @@ export function PetDetail(){
         getDiseasesPet()
     }
 
+    const handleEditOrCreateRecipe = (recipe:Recipe) => {
+        if(recipe.id > -1) {
+            RecipeServiceManager.getInstance().editExistRecipe(recipe,pet.idMedicalHistory)
+            getRecipesPet()
+        }else{
+            RecipeServiceManager.getInstance().createNewRecipe(recipe,pet.idMedicalHistory)
+            getRecipesPet()
+        }
+    }
+
+    const handleRecipeDelete = (idRecipe:number) => {
+        RecipeServiceManager.getInstance().deleteExistRecipe(idRecipe)
+        getRecipesPet()
+    }
+
     const handleSelectChange = (option:string) => {
         setSelectedOption(option);
     }
@@ -137,7 +152,7 @@ export function PetDetail(){
                         </div>
                         <div className="content__history--data">
                             {selectedOption === 'one' && <VaccineGrid vaccines={vaccinesPet} />}
-                            {selectedOption === 'two' && <RecipeGrid recipes={recipesPet}/>}
+                            {selectedOption === 'two' && <RecipeGrid recipes={recipesPet} onEditOrCreateRecipe={handleEditOrCreateRecipe} onClickDelete={handleRecipeDelete}/>}
                             {selectedOption === 'three' && <DiseaseGrid diseases={diseasePet} onEditOrCreateDisease={handleEditOrCreateDisease} onClickDelete={handleDiseaseDelete}/>}
                             {selectedOption === 'four' && <StudyResultGrid studysResult={studyResultsPet}/>}
                         </div>
