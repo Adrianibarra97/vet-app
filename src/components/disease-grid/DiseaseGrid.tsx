@@ -9,9 +9,10 @@ import './DiseaseGrid.css'
 interface PropsDiseaseGrid{
     diseases:Disease[]
     onEditOrCreateDisease:(disease:Disease) => void
+    onClickDelete: (idDisease:number) => void
 }
 
-export function DiseaseGrid({diseases, onEditOrCreateDisease}:PropsDiseaseGrid){
+export function DiseaseGrid({diseases, onEditOrCreateDisease, onClickDelete}:PropsDiseaseGrid){
     const [modalCreateDiseaseOpen, setModalCreateDiseaseOpen] = useState<boolean>(false)
     
     const showNewDisease = (): string => {    
@@ -38,7 +39,7 @@ export function DiseaseGrid({diseases, onEditOrCreateDisease}:PropsDiseaseGrid){
             {
                 diseases.length > 0 ?
                     diseases.map((disease: Disease) => {
-                        return (<DiseaseCard disease={disease} key={disease.id.toString()} onClickEdit={onEditOrCreateDisease}/>)})
+                        return (<DiseaseCard disease={disease} key={disease.id.toString()} onClickEdit={onEditOrCreateDisease} onClickDelete={onClickDelete}/>)})
                 : <ErrorMessage errorMessage="No hay información para mostrar!" />
             }
             <DiseaseModal

@@ -80,6 +80,11 @@ export function PetDetail(){
         }
     }
 
+    const handleDiseaseDelete = (idDisease:number) => {
+        DiseaseServiceManager.getInstance().deleteExistDiseaseById(idDisease)
+        getDiseasesPet()
+    }
+
     const handleSelectChange = (option:string) => {
         setSelectedOption(option);
     }
@@ -133,7 +138,7 @@ export function PetDetail(){
                         <div className="content__history--data">
                             {selectedOption === 'one' && <VaccineGrid vaccines={vaccinesPet} />}
                             {selectedOption === 'two' && <RecipeGrid recipes={recipesPet}/>}
-                            {selectedOption === 'three' && <DiseaseGrid diseases={diseasePet} onEditOrCreateDisease={handleEditOrCreateDisease}/>}
+                            {selectedOption === 'three' && <DiseaseGrid diseases={diseasePet} onEditOrCreateDisease={handleEditOrCreateDisease} onClickDelete={handleDiseaseDelete}/>}
                             {selectedOption === 'four' && <StudyResultGrid studysResult={studyResultsPet}/>}
                         </div>
                     </div>

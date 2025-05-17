@@ -4,14 +4,17 @@ import { convertTypeOfPreExistinceDiseaseToASpanishString, convertTypeOfSeverity
 import './DiseaseCard.css'
 import { DiseaseModal } from "../disease-modal/DiseaseModal";
 import { useState } from "react";
+import { DeleteModalElement } from "../delete-modal-element/DeleteModalElement";
 
 interface PropsDiseaseCard{
     disease:Disease
     onClickEdit:(disease:Disease) => void
+    onClickDelete:(idDisease:number) => void
 }
 
-export function DiseaseCard({disease, onClickEdit}:PropsDiseaseCard){
+export function DiseaseCard({disease, onClickEdit, onClickDelete}:PropsDiseaseCard){
     const [modalEditDiseaseOpen, setModalEditDiseaseOpen] = useState<boolean>(false)
+    const [modalDeleteDiseaseState, setModalDeleteDiseaseState] = useState<boolean>(false)
     const date = dayjs(disease.diagnosisDate).format('DD/MM/YYYY')
     
     const handleOnEdit = (disease:Disease) => {
@@ -55,7 +58,7 @@ export function DiseaseCard({disease, onClickEdit}:PropsDiseaseCard){
                     </div>
                     <div className="disease_item disease__item--button">
                         <button className="fa-solid fa-pen button__icon" onClick={() => setModalEditDiseaseOpen(true)}/>
-                        <button className="fa-solid fa-trash button__icon"/>
+                        <button className="fa-solid fa-trash button__icon" onClick={() => setModalDeleteDiseaseState(true)}/>
                     </div>
                 </div>
             </div>
@@ -65,6 +68,12 @@ export function DiseaseCard({disease, onClickEdit}:PropsDiseaseCard){
                 onConfirm={handleOnEdit}
                 disease={disease}
                 idDisease={disease.id}
+            />
+            <DeleteModalElement
+                open={modalDeleteDiseaseState}
+                onClose={() => setModalDeleteDiseaseState(false)}
+                onConfirm={() => onClickDelete(disease.id)}
+                element="Enfermedad Pre-existente"
             />
         </>
     )
