@@ -19,7 +19,7 @@ export function DiseaseCard({disease}:PropsDiseaseCard){
             <div className="disease__container">
                 <div className="disease__data">
                     <div className="disease__item">
-                        <label className="disease__item--label">Nombre</label>
+                        <label className="disease__item--label">Tipo</label>
                         <p className="disease__item--p ">{convertTypeOfPreExistinceDiseaseToASpanishString(disease.type)}</p>
                     </div>
                     <div className="disease__item">

@@ -37,7 +37,7 @@ export const MedicalShiftPage = () => {
     setMedicalShifts(shifts)
   }
 
-  const handleEditOrCreateMedicalShift = async (medicalShift: MedicalShift, idMedicalShift: number) => {
+  const handleEditOrCreateMedicalShift = (medicalShift: MedicalShift, idMedicalShift: number) => {
     if(idMedicalShift > -1) {
       medicalShift.id = idMedicalShift
       MedicalShiftServiceManager

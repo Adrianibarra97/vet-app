@@ -68,21 +68,21 @@ enum TypeOfPreExistinceDisease {
 	DISTETER = "DISTETER", 
 	PARVOVIRUS = "PARVOVIRUS", 
 	EPILEPSY = "EPILEPSY",
-	LEUKEMIA = "LEUKEMIA",
-	OTHER = "OTHER"
+	LEUKEMIA = "LEUKEMIA"
 }
 
-export function convertTypeOfPreExistinceDiseaseToASpanishString(typeOfPreExistinceDisease: TypeOfPreExistinceDisease | string): string{
+export function convertTypeOfPreExistinceDiseaseToASpanishString(typeOfPreExistinceDisease: TypeOfPreExistinceDisease | string): string {
     const typeOfPreExistinceDiseaseStrMap: { [key: string]: string } = {
         "ASTHMA": 'Asma',
         "DIABETES": 'Diabetes',
-        "DISTETER": ' Moquillo',
+        "DISTETER": 'Moquillo',
         "PARVOVIRUS": 'Parvovirus',
         "EPILEPSY": 'Epilepsia',
-        "LEUKEMIA ": 'Leucemia'
+        "LEUKEMIA": 'Leucemia'
     }
 
-    return typeOfPreExistinceDiseaseStrMap[typeOfPreExistinceDisease.toString()] 
+    return typeOfPreExistinceDiseaseStrMap[typeOfPreExistinceDisease.toString()] ?? typeOfPreExistinceDisease.toString();
 }
+
 
 export const preExistinceDiseaseOptions = Object.values(TypeOfPreExistinceDisease) as TypeOfPreExistinceDisease[]
