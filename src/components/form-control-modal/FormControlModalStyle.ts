@@ -1,7 +1,6 @@
 export const formControl = {
   display: 'flex',
-  height: '5em',
-  mb: '0.4em',
+  height: '100%',
   width: '100%',
   overflow: 'visible'
 }

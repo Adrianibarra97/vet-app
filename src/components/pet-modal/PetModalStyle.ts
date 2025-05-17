@@ -30,6 +30,7 @@ export const modalItems = {
 export const modalItem = {
   display: 'flex',
   height: 'auto',
+  margin: '0.2em auto',
   width: { xs: '100%', sm: '45%' },
   overflow: 'visible'
 }

@@ -1,37 +1,78 @@
 export const formContainer = {
-  display: 'flex',
-  flexDirection: 'column',
-  width: 900,
+  display: 'grid',
   maxHeight: { xs: '90vh', sm: '80vh' },
-  maxWidth: '95vw',
+  width: { xs: '95%', sm: '80%' },
   p: 2,
-  backgroundColor: 'var(--header-color)',
+  gap: 2,
   borderRadius: 2,
-  overflowY: { xs: 'scroll', sm: 'hidden' }
+  backgroundColor: 'var(--header-color)',
+  overflowY: 'scroll'
 }
 
 export const formItemTitle = {
   display: 'flex',
   flexDirection: 'column',
-  width: '100%',
+  width: { xs: '95%', sm: '35em' },
   height: '15vh',
-  border: '1px solid red'
+  margin: 'auto'
 }
 
-export const modalTitle = {
-
+export const sectionMainTitle = {
+  display: 'flex',
+  width: '100%',
+  height: '30%',
+  mb: '1em',
+  justifyContent: 'center',
+  alignItem: 'center'
 }
-
-export const modalItems = {
-  
-}
-
 
 export const formItem = {
   display: 'flex',
   flexDirection: 'column',
-  height: '20vh'
+  height: 'auto',
+  justifyContent: 'center',
+  overflow: 'visible'
 }
+
+export const sectionItems = {
+  display: 'flex',
+  flexDirection: { xs: 'column', sm: 'row' },
+  width: '100%',
+  height: { xs: '20vh', sm: '10vh' },
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  overflow: 'visible'
+}
+
+export const sectionTitle = {
+  display: 'flex',
+  width: '100%',
+  height: '5vh',
+  mb: '1em',
+  justifyContent: 'center',
+  alignItems: 'center'
+}
+
+export const sectionItemImage = {
+  display: 'flex',
+  height: '5em',
+  width: { xs: '100%', sm: '45%' },
+  overflow: 'visible',
+  border: '1px solid blue'
+}
+
+export const sectionItem = {
+  display: 'flex',
+  height: 'auto',
+  width: { xs: '100%', sm: '45%' },
+  overflow: 'visible',
+  border: '1px solid blue'
+}
+
+
+
+
+
 
 
 export const button__Container = { 
@@ -41,7 +82,7 @@ export const button__Container = {
   margin: 0,
   justifyContent: 'space-around',
   alignItems: 'center',
-  overFlow: 'hidden'
+  overFlow: 'visible'
 }
 
 export const BkgButton = {

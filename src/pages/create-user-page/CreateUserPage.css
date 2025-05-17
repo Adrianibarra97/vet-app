@@ -1,4 +1,4 @@
-.auth__main {
+.auth__main--create {
   display: flex;
   flex-direction: column;
   background-color: var(--secondary-color);
