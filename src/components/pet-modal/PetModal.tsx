@@ -1,8 +1,7 @@
-import { Modal, Box, Button, Typography, SelectChangeEvent } from '@mui/material'
+import { Modal, Box, Button, Typography } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import { PetModalItems } from '../pet-modal-items/PetModalItems'
-import { PetModalItemsSelect } from '../pet-modal-items-select/PetModalItemsSelect'
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 import PetServiceManager from '../../services/pet-service/PetServiceManager'
 import { Pet } from '../../domain/Pet'
@@ -12,6 +11,7 @@ import {
 } from './PetModalStyle'
 import { FormControlModalDate } from '../form-control-modal-date/FormControlModalDate'
 import { FormControlModalImage } from '../form-control-modal-image/FormControlModalImage'
+import { FormControlModalSelect } from '../form-control-modal-select/FormControlModalSelect'
 
 interface PetModalProps {
   open: boolean
@@ -81,13 +81,13 @@ export const PetModal = (petModalProp: PetModalProps) => {
     newStatusPet(pet)
   }
 
-  const handleSelectChanges = (key: keyof Pet, e: SelectChangeEvent) => {
-    if(sterilizedOptions.some((value: string) => value == e.target.value)) {
-      (pet as unknown as Record<keyof Pet, boolean | undefined>)[key] = e.target.value == sterilizedOptions[0]
+  const handleSelectChanges = (key: keyof Pet, value: string) => {
+    if(sterilizedOptions.some((OldValue: string) => OldValue == value)) {
+      (pet as unknown as Record<keyof Pet, boolean | undefined>)[key] = value === sterilizedOptions[0]
     }
-    if(sexOptions.some((value: string) => value == e.target.value)) {
-      (pet as unknown as Record<keyof Pet, string | undefined>)[key] = e.target.value
-    }   
+    if(sexOptions.some((OldValue: string) => OldValue === value)) {
+      (pet as unknown as Record<keyof Pet, string | undefined>)[key] = value
+    }
     newStatusPet(pet)
   }
 
@@ -96,12 +96,9 @@ export const PetModal = (petModalProp: PetModalProps) => {
     newStatusPet(pet)
   }
 
-  const handlePhotoChange = (newPhoto: string) => {
-    const updated = Object.assign(
-      Object.create(Object.getPrototypeOf(pet)),
-      { ...pet, photo: newPhoto },
-    )
-    setPet(updated)
+  const handlePhotoChange = (value: string) => {
+    (pet as unknown as Record<keyof Pet, string | undefined>)['photo'] = value
+    newStatusPet(pet)
   }
 
   const handleLabelColor = (key: keyof Pet): 'success' | 'error' => {
@@ -127,6 +124,7 @@ export const PetModal = (petModalProp: PetModalProps) => {
           <Typography variant="h6" sx={ modalTitle }>
             { pet.id > -1 ? 'Editar Consulta' : 'Crear Consulta' }
           </Typography>
+          
           <PetModalItems
             errorActive={ errorActive }
             firstType={ textFieldTypes[0] } secondType={ textFieldTypes[0] }
@@ -134,6 +132,7 @@ export const PetModal = (petModalProp: PetModalProps) => {
             firstIsActive={ true } secondIsActive={ false } handleLabelColor={ handleLabelColor }
             firstIndex={ 1 } secondIndex={ 0 } handleInputChanges={ handleInputChanges }
           />
+
           <PetModalItems
             errorActive={ errorActive }
             firstType={ textFieldTypes[0] } secondType={ textFieldTypes[0] }
@@ -141,6 +140,7 @@ export const PetModal = (petModalProp: PetModalProps) => {
             firstIsActive={ true } secondIsActive={ true } handleLabelColor={ handleLabelColor }
             firstIndex={ 9 } secondIndex={ 2 } handleInputChanges={ handleInputChanges }
           />
+
           <PetModalItems
             errorActive={ errorActive }
             firstType={ textFieldTypes[1] } secondType={ textFieldTypes[1] }
@@ -148,20 +148,29 @@ export const PetModal = (petModalProp: PetModalProps) => {
             firstIsActive={ true } secondIsActive={ true } handleLabelColor={ handleLabelColor }
             firstIndex={ 3 } secondIndex={ 4 } handleInputChanges={ handleInputChanges }
           />
-          <PetModalItemsSelect
-            firstdefaultValue={ pet.sterilized ? sterilizedOptions[0] : sterilizedOptions[1] }
-            seconddefaultValue={ pet.sex } firstArrayOptions={ sterilizedOptions }
-            secondArrayOptions={ sexOptions } firstIsActive={ true } secondIsActive={ true }
-            handleLabelColor={ handleLabelColor } firstIndex={ 5 } secondIndex={ 7 }
-            handleSelectChanges={ handleSelectChanges }
-          />
+
+          <Box sx={ modalItems }>
+            <FormControlModalSelect
+              defaultValue={ pet.sterilized ? sterilizedOptions[0] : sterilizedOptions[1] }
+              options={ sterilizedOptions } isActive={ true } label={ fieldKyes[5] }
+              labelColor={ handleLabelColor(petKeys[5]) }
+              handleInputChanges={ (value) => handleSelectChanges(petKeys[5], value) }
+            />
+            <FormControlModalSelect
+              defaultValue={ pet.sex } options={ sexOptions } isActive={ true }
+              label={ fieldKyes[7] } labelColor={ handleLabelColor(petKeys[7]) }
+              handleInputChanges={ (value) => handleSelectChanges(petKeys[7], value) }
+            />
+          </Box>
+
           <Box sx={ modalItems }>
             <FormControlModalDate
               label={ fieldKyes[8] } defaultValue={ dayjs(pet.birth) } errorActive={ errorActive }
               isActive={ true } petKey={ petKeys[8] } handleInputChanges={ handleDateInputChanges }
             />
-            <FormControlModalImage isActive={ true } pet={pet} setPet={ setPet } onPhotoChange={ handlePhotoChange }/>
+            <FormControlModalImage isActive={ true } pet={ pet } onPhotoChange={ handlePhotoChange }/>
           </Box>
+
           <Box sx={ button__Container }>
             <Button variant="contained" sx={ BkgCancelButton } onClick={ handleCancel }>Cancelar</Button>
             <Button variant="contained" sx={ BkgConfirmButton } onClick={ handleConfirm }>Confirmar</Button>
