@@ -16,8 +16,8 @@ import {
   professionalSchema,
 } from '../../util/ValidateFormByFields'
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
-import { Vet } from '../../domain/Vet'
-import { PetOwner } from '../../domain/PetOwner'
+import { Vet, VetJSON } from '../../domain/Vet'
+import { PetOwner, PetOwnerJSON } from '../../domain/PetOwner'
 import { User } from '../../domain/User'
 import {
   buttonContained,
@@ -138,17 +138,24 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
       if (section === 'personal') {
         await ValidateFormByFields.validate(personalForm, { abortEarly: false })
         setPersonalErrors({})
+
         if (user instanceof Vet) {
-          const vetData = {
+          const fullVetForm: VetJSON = {
+            ...user.toJSON(),
             ...personalForm,
             ...(editProfessional ? professionalForm : {}),
             typeOfUser: 'vet',
           }
-          await onSave(Vet.fromJSON(vetData))
-        } else {
-          const petOwnerData = { ...personalForm, typeOfUser: 'petOwner' }
-          await onSave(PetOwner.fromJSON(petOwnerData))
+          await onSave(Vet.fromJSON(fullVetForm))
+        } else if (user instanceof PetOwner) {
+          const fullPetOwnerForm: PetOwnerJSON = {
+            ...user.toJSON(),
+            ...personalForm,
+            typeOfUser: 'petOwner',
+          }
+          await onSave(PetOwner.fromJSON(fullPetOwnerForm))
         }
+
         setEditPersonal(false)
         SnackbarUtilities.succes(
           'Información personal actualizada correctamente',
@@ -158,12 +165,15 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
           abortEarly: false,
         })
         setProfessionalErrors({})
-        const vetData = {
+
+        const updatedVetForm: VetJSON = {
+          ...user.toJSON(),
           ...personalForm,
           ...professionalForm,
           typeOfUser: 'vet',
         }
-        await onSave(Vet.fromJSON(vetData))
+
+        await onSave(Vet.fromJSON(updatedVetForm))
         setEditProfessional(false)
         SnackbarUtilities.succes(
           'Información profesional actualizada correctamente',
@@ -181,6 +191,7 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
       section === 'personal'
         ? setPersonalErrors(errors)
         : setProfessionalErrors(errors)
+
       SnackbarUtilities.error(
         'Por favor completá todos los campos obligatorios correctamente.',
       )
@@ -254,9 +265,8 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
                 helperText={errors[realKey]}
                 SelectProps={{ native: true }}
               >
-                <option value="">Seleccione una opción</option>
-                {options.map((opt) => (
-                  <option key={opt} value={opt}>
+                {options.map((opt, index) => (
+                  <option key={`${opt}-${index}`} value={opt}>
                     {opt}
                   </option>
                 ))}

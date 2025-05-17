@@ -18,7 +18,7 @@ import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 import {
   avatarStyle,
   modalStyle,
-  modalTitle,
+  
   previewImage,
   inputButtonStyle,
   buttonGroup,

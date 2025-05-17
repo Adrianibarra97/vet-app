@@ -35,15 +35,15 @@ const useNotificationsData = () => {
 
     if (!isVet && 'getShiftsByPetOwnerId' in service) {
       shifts = await service.getShiftsByPetOwnerId(id)
-      const firstVetName = shifts[0]?.nameVet
-      if (firstVetName) {
+
+      const petOwner = await service.getOneById(id)
+      if ('vetName' in petOwner && petOwner.vetName) {
         const allVets = await VetServiceManager.getInstance().getAll()
-        const foundVet = allVets.find((v) => v.name === firstVetName)
+        const foundVet = allVets.find((v) => v.name === petOwner.vetName)
         if (foundVet) setVetData(foundVet)
       }
-    } else if (isVet && 'getShiftsByVetId' in service) {
-      shifts = await service.getShiftsByVetId(id)
     }
+
     const stripTime = (date: Date) => new Date(date.toISOString().split('T')[0])
     const isOutdated = (notification: NotificationModel): boolean => {
       if (!notification.appointmentDate) return false
@@ -92,7 +92,7 @@ export const NotificationsPage = () => {
 
   return (
     <PageWrapper>
-      <List sx={{ width: '100%', maxWidth: '800px' }}>
+      <List>
         {notifications.map((n, i) => (
           <NotificationCard
             key={n.id}
@@ -103,7 +103,7 @@ export const NotificationsPage = () => {
         ))}
       </List>
 
-      {!isVet && vetData && (
+      {!isVet && (
         <ContactCard>
           <ContactTitle variant="h6" gutterBottom>
             Datos de contacto

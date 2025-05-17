@@ -1,0 +1,31 @@
+.main {
+  padding: 40px 20px;
+}
+
+.main__content {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.main__content--filter {
+  width: 260px; /* más ancho que antes */
+  min-width: 260px;
+}
+
+.main__content--data {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.main__content--data > * {
+  width: 100%;
+  max-width: 1000px; /* mayor ancho para formularios y notificaciones */
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}

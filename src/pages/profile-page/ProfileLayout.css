@@ -1,0 +1,35 @@
+.main__content--data {
+  width: 100%;
+  display: flex;
+  justify-content: center; 
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.main__content--data > * {
+  width: 100%;
+  max-width: 800px; 
+}
+.main__content {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.main__content--filter {
+  width: 260px;
+  flex-shrink: 0; 
+}
+
+.main__content--data {
+  flex: 1; 
+  display: flex;
+  justify-content: flex-start; 
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.main__content--data > * {
+  width: 100%; 
+  max-width: none; 
+}

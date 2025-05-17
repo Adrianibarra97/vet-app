@@ -8,6 +8,7 @@ import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerSer
 import VetServiceManager from '../../services/vet-service/VetServiceManager'
 import { getUserID } from '../../services/auth-service/AuthService'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
+import './ProfileLayout.css'
 
 export const ProfileLayout = () => {
   const [user, setUser] = useState<User | Vet | PetOwner | null>(null)
@@ -58,7 +59,9 @@ export const ProfileLayout = () => {
           </div>
         </div>
         <div className="main__content--data">
-          {user && <Outlet context={user} />}
+          <div className="main__data-wrapper">
+            {user && <Outlet context={user} />}
+          </div>
         </div>
       </div>
     </main>
