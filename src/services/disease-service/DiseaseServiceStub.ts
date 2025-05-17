@@ -126,6 +126,7 @@ export class DiseaseServiceStub implements DiseaseServiceInter{
 
         const newDiseaseJSON : DiseaseJSON = {
             ...disease,
+            isActive:true,
             medicalHistoryId:idMedicalHistory,
             id:newId
         }

@@ -1,14 +1,13 @@
-import { useState } from "react";
-import { convertTypeOfPreExistinceDiseaseToASpanishString, convertTypeOfSeverityToASpanishString, Disease, preExistinceDiseaseOptions, severityTypeOptions } from "../../domain/Disease";
-import dayjs, { Dayjs } from "dayjs";
+import { useEffect, useState } from "react"
+import { convertTypeOfPreExistinceDiseaseToASpanishString, convertTypeOfSeverityToASpanishString, Disease, preExistinceDiseaseOptions, severityTypeOptions } from "../../domain/Disease"
+import dayjs, { Dayjs } from "dayjs"
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import { useOnInit } from "../../util/customHooks";
-import { SnackbarUtilities } from "../../util/snackbar/SnackbarManager";
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Typography } from "@mui/material";
-import { formContainer } from "../medical-shift-modal/MedicalShiftModalStyle";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { SnackbarUtilities } from "../../util/snackbar/SnackbarManager"
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Typography } from "@mui/material"
+import { formContainer } from "../medical-shift-modal/MedicalShiftModalStyle"
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
+import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 import Textarea from '@mui/joy/Textarea'
 
 interface propsDiseaseModal{
@@ -27,16 +26,16 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
 
     dayjs.extend(customParseFormat)
 
-    useOnInit(() => {
+    useEffect(() => {
         cleanStates()
         if(initialDisease){
-            setDisease(initialDisease)
+            setDisease(Object.assign(new Disease(), initialDisease))
             setDiagnosisDate(initialDisease.diagnosisDate ? dayjs(initialDisease.diagnosisDate, "YYYY-MM-DD") : null)
         } else if(idDisease === -1){
             setDisease(new Disease())
             setDiagnosisDate(null)
         }
-    })
+    }, [initialDisease, idDisease])
 
     const handleDiseaseCreationOrEdition = (name: keyof Disease, value:string | boolean | undefined): void => {
         (disease as unknown as Record<keyof Disease, string | boolean | undefined>)[name] = value
@@ -79,10 +78,6 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
     const hasMissingRequiredFields = ():boolean => {
         const requiredFields: (keyof Disease)[] = ['diagnosisDate','observation','type','severity']
 
-        if(idDisease !== -1){
-            requiredFields.unshift('isActive')
-        }
-
         return requiredFields.some((field)=> !disease[field])
     }
 
@@ -95,6 +90,9 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
         if(idDisease === -1){
             setDisease(new Disease())
             setDiagnosisDate(null)
+        } else if (initialDisease) {
+            setDisease(Object.assign(new Disease(), initialDisease)) 
+            setDiagnosisDate(initialDisease.diagnosisDate ? dayjs(initialDisease.diagnosisDate) : null)
         }
         setErrorDate(null)
         setFromTouched(false)
@@ -104,7 +102,7 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
         <Dialog onClose={handleCancel} open={open} fullWidth sx={{maxHeight:'90vh', overflow:'auto'}}>
             <DialogTitle component="div">
                 <Typography variant="h6" sx={{color:'var(--footer-color)', fontWeight:'bold'}}>
-                    Nueva Enfermedad
+                    {idDisease !== -1 ? 'Editar Enfermedad':'Nueva Enfermedad'}
                 </Typography>
             </DialogTitle>
             <DialogContent>
@@ -157,6 +155,15 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
                             sx={{overflow:'visible'}}
                         />
                     </LocalizationProvider>
+                    {idDisease  !== -1 && 
+                        <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
+                            <Typography>Esta activa</Typography>
+                            <Checkbox
+                                checked={!!disease.isActive}
+                                onChange={event => handleDiseaseCreationOrEdition('isActive', event.target.checked)}
+                            />
+                        </Box>
+                    }
                     <Textarea 
                         placeholder="Escribe tu observacion aca..."
                         minRows={4}

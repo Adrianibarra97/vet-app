@@ -49,7 +49,7 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
 
   useEffect(() => {
     if (initialMedicalShift) {
-      setMedicalShift(initialMedicalShift)
+      setMedicalShift(Object.assign(new MedicalShift(),initialMedicalShift))
       setDate(initialMedicalShift.date ? dayjs(initialMedicalShift.date, "YYYY-MM-DD") : null)
       setTime(initialMedicalShift.hour ? dayjs(initialMedicalShift.hour, "HH:mm") : null)
     } else if (idMedicalShift === -1) { 
@@ -138,6 +138,10 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
       setMedicalShift(new MedicalShift())
       setDate(null)
       setTime(null)
+    } else if (initialMedicalShift){
+      setMedicalShift(Object.assign(new MedicalShift(),initialMedicalShift))
+      setDate(initialMedicalShift.date ? dayjs(initialMedicalShift.date, "YYYY-MM-DD") : null)
+      setTime(initialMedicalShift.hour ? dayjs(initialMedicalShift.hour, "HH:mm") : null)
     }
     setErrors({...errors, hour:null, date:null})
     setFromTouched(false)
@@ -176,10 +180,11 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
                     ''
                   )
                 }
+                sx={{overflow:'visible'}}
               />
             )
           }
-          <FormControl fullWidth  margin="normal" error={fromTouched && !medicalShift.petMedicalShift} required>
+          <FormControl fullWidth  margin="normal" error={fromTouched && !medicalShift.petMedicalShift} required sx={{overflow:'visible'}}>
             <InputLabel color={fromTouched && !medicalShift.petMedicalShift ? "error" : "primary"}>Paciente</InputLabel>
             <Select
               value={medicalShift.petMedicalShift ? medicalShift.petMedicalShift.name : ''}
@@ -208,9 +213,10 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
                       helperText: errors.date,
                       margin:'normal',
                       required: true,
-                      fullWidth:true
+                      fullWidth:true,
                   },
               }}
+              sx={{overflow:'visible'}}
             />
             <TimePicker
               label="Hora"
@@ -226,6 +232,7 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
                   fullWidth:true
                 },
               }}
+              sx={{overflow:'visible'}}
             />
           </LocalizationProvider>
         </Box>

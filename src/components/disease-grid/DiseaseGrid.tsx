@@ -38,7 +38,7 @@ export function DiseaseGrid({diseases, onEditOrCreateDisease}:PropsDiseaseGrid){
             {
                 diseases.length > 0 ?
                     diseases.map((disease: Disease) => {
-                        return (<DiseaseCard disease={disease} key={disease.id.toString()} />)})
+                        return (<DiseaseCard disease={disease} key={disease.id.toString()} onClickEdit={onEditOrCreateDisease}/>)})
                 : <ErrorMessage errorMessage="No hay información para mostrar!" />
             }
             <DiseaseModal
