@@ -1,17 +1,15 @@
-import { FormControl, Box, Typography, TextField } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
-import { Pet } from '../../domain/Pet'
+import { FormControl, Box, Typography, TextField } from '@mui/material'
 import { formControl, formControlNone, helpText, textField } from './FormControlModalStyle'
 
 interface FromControlModalProps {
-  isActive: boolean,
-  errorActive: boolean,
-  label: string,
-  type: 'text' | 'number',
-  defaultValue: string | number,
-  labelColor: 'primary' | 'error',
-  petKey: keyof Pet,
-  handleInputChanges(key: keyof Pet, e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
+  isActive: boolean
+  errorActive: boolean
+  label: string
+  defaultValue: string | number
+  type: 'text' | 'number' | 'password'
+  labelColor: 'success' | 'error'
+  handleInputChanges(value: string | number): void
 }
 
 export const FormControlModal = (formControlProps: FromControlModalProps) => {
@@ -19,8 +17,9 @@ export const FormControlModal = (formControlProps: FromControlModalProps) => {
   const [value, setValue] = useState(formControlProps.defaultValue)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    formControlProps.handleInputChanges(formControlProps.petKey, e)
-    setValue(e.target.value)
+    const newValue: string | number = e.target.value
+    formControlProps.handleInputChanges(newValue)
+    setValue(newValue)
   }
 
   const formHelperText = () => {

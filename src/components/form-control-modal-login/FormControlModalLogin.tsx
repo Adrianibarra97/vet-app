@@ -8,7 +8,7 @@ interface FromControlModalProps {
   label: string
   type: 'text' | 'number' | 'password'
   defaultValue: string
-  labelColor: 'primary' | 'error'
+  labelColor: 'success' | 'error'
   handleInputChanges(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
 }
 
