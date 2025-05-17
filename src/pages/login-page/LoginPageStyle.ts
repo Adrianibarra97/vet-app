@@ -1,17 +1,14 @@
 export const modalItem = {
   display: 'flex',
-  height: 'auto',
+  height: '3.5em',
   width: '95%',
   overflow: 'visible'
 }
 
-export const button__Container = { 
-  display: 'flex',
-  width: '100%',
-  height: 'auto',
-  margin: 0,
-  justifyContent: 'space-around',
-  alignItems: 'center'
+export const buttonContent = { 
+  width: '90%',
+  height: '4em',
+  margin: 0
 }
 
 export const passButton = {
@@ -22,9 +19,4 @@ export const passButton = {
   mt: '1em',
   fontSize: '0.8em',
   color: 'var(--footer-color)'
-}
-
-export const BkgButton = {
-  width: '6em',
-  backgroundColor: 'var(--footer-color)'
 }

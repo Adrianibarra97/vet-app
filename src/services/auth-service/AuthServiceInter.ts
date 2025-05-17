@@ -43,4 +43,8 @@ export abstract class AuthServiceInter {
 	async changePassword(password: string): Promise<void> {
 		throw Error('Hubo problemas al setear la contraseña: ' + password)
 	}
+
+	cancelResetPassword(): void {
+		localStorage.clear()
+	}
 }

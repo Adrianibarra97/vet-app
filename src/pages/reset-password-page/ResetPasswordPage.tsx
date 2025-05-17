@@ -1,12 +1,13 @@
 
-import { ChangeEvent, MouseEvent, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button } from '@mui/material'
-import { FormControlModalLogin } from '../../components/form-control-modal-login/FormControlModalLogin'
+import { Box } from '@mui/material'
+import { FormControlModal } from '../../components/form-control-modal/FormControlModal'
+import { ButtonsModal } from '../../components/buttons-modal/ButtonsModal'
+import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import { AuthCredentialsLoginDTO } from '../../domain/User'
-import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
-import { BkgButton } from './ResetPasswordPageStyle'
+import { buttonContent, modalItem } from './ResetPasswordPageStyle'
 import './ResetPasswordPage.css'
 
 export const ResetPasswordPage = () => {
@@ -15,10 +16,9 @@ export const ResetPasswordPage = () => {
   const [errorActive, setErrorActive] = useState(false)
   const navigate = useNavigate()
 
-
-  const handleUsername = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleUsername = (value: string) => {
     const authCredentialsLoginDTO: AuthCredentialsLoginDTO = {
-      username: e.target.value,
+      username: value,
       password: userLogin.password
     }
     setUserLogin(authCredentialsLoginDTO)
@@ -32,8 +32,7 @@ export const ResetPasswordPage = () => {
     }
   }
 
-  const handleReset = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
-    e.preventDefault()
+  const handleReset = () => {
     if(!userLogin.username) {
       setErrorActive(true)
     } else {
@@ -42,17 +41,31 @@ export const ResetPasswordPage = () => {
     }
   }
 
+  const handleCancel = () => {
+    AuthServiceManager.getIntance().cancelResetPassword()
+    navigate('/auth/login')
+  }
+
   return (
-    <main className="auth__main">
-      <div className="login">
-        <h1 className="main__title">Cambiar Contraseña</h1>
-        <form className="login__form">
-          <label className="auth__text">Ingrese su nombre de usuario para continuar.</label>
-          <FormControlModalLogin
-            isActive={ true } errorActive={ errorActive } label={ 'Usuario' } type={ 'text' }
-            defaultValue={ '' } labelColor={ 'primary' } handleInputChanges={ handleUsername }
-          />
-          <Button sx={ BkgButton } onClick={ handleReset }>Validar usuario</Button>
+    <main className="auth__reset">
+      <div className="login--reset">
+        <h1 className="main__title--reset">Cambiar Contraseña</h1>
+        <form className="login__form--reset">
+          <label className="auth__text--reset">Ingrese su nombre de usuario para continuar.</label>
+          <Box sx={ modalItem }>
+            <FormControlModal
+              isActive={ true } errorActive={ errorActive } label={ 'Usuario' }
+              type={ 'text' } defaultValue={ '' } labelColor={ 'success' }
+              handleInputChanges={ (e) => handleUsername(e.toString()) }
+            />
+          </Box>
+          <Box sx={ buttonContent }>
+            <ButtonsModal
+              confirLabel={ 'Validar' } cancelLabel={ 'Cancelar' }
+              confirm={ () => handleReset() }
+              cancel={ () => handleCancel() }
+            />
+          </Box>
         </form>
       </div>
     </main>

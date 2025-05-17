@@ -1,7 +1,6 @@
 import { MouseEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
-import { FormControlModalLogin } from '../../components/form-control-modal-login/FormControlModalLogin'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 import { BkgButton } from './ChangePasswordPageStyle'
@@ -41,14 +40,14 @@ export const ChangePasswordPage = () => {
         <h1 className="main__title">Cambiar Contraseña</h1>
         <form className="login__form">
           <label className={ errorActive ? "auth__text" : "auth__text--none" }>Las contraseñas no coninciden!</label>
-          <FormControlModalLogin
+          {/* <FormControlModalLogin
             isActive={ true } errorActive={ errorActive } label={ 'Nueva Contraseña' } type={ 'password' }
             defaultValue={ '' } labelColor={ 'primary' } handleInputChanges={ (e) => setPassword(e.target.value) }
           />
           <FormControlModalLogin
             isActive={ true } errorActive={ errorActive } label={ 'Confirmar Contraseña' } type={ 'password' }
             defaultValue={ '' } labelColor={ 'primary' } handleInputChanges={ (e) => setConfirmPassword(e.target.value) }
-          />
+          /> */}
           <Button sx={ BkgButton } onClick={ handleChangePassword }>Cambiar</Button>
         </form>
       </div>

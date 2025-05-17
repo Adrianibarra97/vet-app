@@ -1,11 +1,13 @@
-import { MouseEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Button } from '@mui/material'
+import { FormControlModal } from '../../components/form-control-modal/FormControlModal'
+import { ButtonsModal } from '../../components/buttons-modal/ButtonsModal'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import { AuthCredentialsLoginDTO } from '../../domain/User'
-import { button__Container, BkgButton, modalItem } from './LoginPageStyle'
+import { modalItem, buttonContent, passButton } from './LoginPageStyle'
 import './LoginPage.css'
-import { FormControlModal } from '../../components/form-control-modal/FormControlModal'
+
 
 export const LoginPage = () => {
 
@@ -31,8 +33,7 @@ export const LoginPage = () => {
     setUserLogin(authCredentialsLoginDTO)
   }
 
-  const handleLogin = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
-    e.preventDefault()
+  const handleLogin = () => {
     if(hasRequiredFields()) {
       setErrorActive(false)
       AuthServiceManager.getIntance().login(userLogin)
@@ -63,9 +64,14 @@ export const LoginPage = () => {
               defaultValue={ userLogin.password } labelColor={ 'success' } handleInputChanges={ handlePassword }
             />
           </Box>
-          <Box sx={ button__Container }>
-            <Button variant="contained" sx={ BkgButton } onClick={ handleLogin }>Ingresar</Button>
-            <Button variant="contained" sx={ BkgButton } onClick={ () => navigate('/auth/create-user') }>Crear</Button>
+          <Button
+            sx={ passButton } onClick={ () => navigate('/auth/reset-password') }
+          >Olvidó su contraseña?</Button>
+          <Box sx={ buttonContent }>
+            <ButtonsModal
+              confirLabel={ 'Crear' } cancelLabel={ 'Ingresar' }
+              confirm={ () => navigate('/auth/create-user') } cancel={ () => handleLogin() } 
+            />
           </Box>
         </form>
       </div>

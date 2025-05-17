@@ -1,18 +1,24 @@
 import { Box, Button } from '@mui/material'
-import {
-  buttonContainer, BkgConfirmButton, BkgCancelButton
-} from './ButtonsModalStyle'
+import { buttonContainer, BkgButton } from './ButtonsModalStyle'
 
 interface ButtonsModalProps {
-  confirm: () => void,
-  cancel: () => void
+  confirLabel: string
+  cancelLabel: string
+  confirm: (e: unknown) => void,
+  cancel: (e: unknown) => void
 }
 
 export const ButtonsModal = (buttonsProp: ButtonsModalProps) => {
   return (
     <Box sx={ buttonContainer }>
-      <Button variant="contained" sx={ BkgCancelButton } onClick={ () => buttonsProp.cancel() }>Cancelar</Button>
-      <Button variant="contained" sx={ BkgConfirmButton } onClick={ () => buttonsProp.confirm() }>Confirmar</Button>
+      <Button
+        variant="contained" sx={ BkgButton }
+        onClick={ (e) => buttonsProp.cancel(e) }
+      >{ buttonsProp.cancelLabel }</Button>
+      <Button
+        variant="contained" sx={ BkgButton }
+        onClick={ (e) => buttonsProp.confirm(e) }
+      >{ buttonsProp.confirLabel }</Button>
     </Box>
   )
 }

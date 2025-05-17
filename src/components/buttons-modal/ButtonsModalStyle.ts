@@ -1,14 +1,12 @@
 export const buttonContainer = { 
   display: 'flex',
-  mt: 2,
-  width: { xs: '100%', sm: 'auto' },
-  justifyContent: 'space-between'
+  height: '100%',
+  width: '100%',
+  justifyContent: 'space-between',
+  alignItems: 'center'
 }
 
-export const BkgCancelButton = {
-  backgroundColor: 'var(--primary-color)'
-}
-
-export const BkgConfirmButton = {
-  backgroundColor: 'var(--footer-color)'
+export const BkgButton = {
+  backgroundColor: 'var(--footer-color)',
+  width: '8em'
 }

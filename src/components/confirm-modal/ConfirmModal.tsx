@@ -1,13 +1,11 @@
-import { Modal, Box, Button, Typography } from '@mui/material'
-import { 
-  BkgCancelButton, BkgConfirmButton, buttonContainer, modal, modalItem,
-  textContainer
-} from './ConfirmModalStyle'
+import { Modal, Box, Typography } from '@mui/material'
+import { buttonContent, modal, modalItem, textContainer } from './ConfirmModalStyle'
+import { ButtonsModal } from '../buttons-modal/ButtonsModal'
 
 interface ConfirmModalProps {
-  open: boolean,
-  text: string,
-  onClose: () => void,
+  open: boolean
+  text: string
+  onClose: () => void
   handleDelete: () => void
 }
 
@@ -16,17 +14,12 @@ export const ConfirmModal = (confirmModalProp: ConfirmModalProps) => {
     <Modal open={ confirmModalProp.open } onClose={ confirmModalProp.onClose } sx={ modal }>
       <Box sx={ modalItem }>
         <Typography sx={ textContainer }>{ confirmModalProp.text }</Typography>
-        <Box sx={ buttonContainer }>
-          <Button
-            variant="contained"
-            sx={ BkgCancelButton }
-            onClick={ () => confirmModalProp.onClose() }
-          >Cancelar</Button>
-          <Button
-            variant="contained"
-            sx={ BkgConfirmButton }
-            onClick={ () => confirmModalProp.handleDelete() }
-          >Confirmar</Button>
+        <Box sx={ buttonContent }>
+          <ButtonsModal
+            confirLabel={ 'Confirmar' } cancelLabel={ 'Cancelar' }
+            confirm={ () => confirmModalProp.handleDelete() }
+            cancel={ () => confirmModalProp.onClose() }
+          />
         </Box>
       </Box>
     </Modal>

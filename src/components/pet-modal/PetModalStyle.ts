@@ -33,3 +33,9 @@ export const modalItem = {
   width: { xs: '100%', sm: '45%' },
   overflow: 'visible'
 }
+
+export const buttonContent = { 
+  width: '90%',
+  height: '5em',
+  margin: 'auto'
+}

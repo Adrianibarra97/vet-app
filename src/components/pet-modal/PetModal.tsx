@@ -10,7 +10,7 @@ import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 import PetServiceManager from '../../services/pet-service/PetServiceManager'
 import { Pet } from '../../domain/Pet'
 import dayjs, { Dayjs } from 'dayjs'
-import { formContainer, modal, modalItems, modalTitle, modalItem } from './PetModalStyle'
+import { formContainer, modal, modalItems, modalTitle, modalItem, buttonContent } from './PetModalStyle'
 
 interface PetModalProps {
   open: boolean
@@ -186,7 +186,12 @@ export const PetModal = (petModalProp: PetModalProps) => {
             />
           </Box>
         </Box>
-        <ButtonsModal confirm={ handleConfirm } cancel={ handleCancel }/>
+        <Box sx={ buttonContent }>
+          <ButtonsModal
+            confirLabel={ 'Confirmar' } cancelLabel={ 'Cancelar' }
+            confirm={ handleConfirm } cancel={ handleCancel }
+          />
+        </Box>
       </Box>
     </Modal>
   )
