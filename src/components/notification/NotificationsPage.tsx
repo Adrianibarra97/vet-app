@@ -1,12 +1,5 @@
-import { useEffect, useState } from 'react'
-import {
-  Box,
-  Typography,
-  List,
-  Button,
-  Stack,
-
-} from '@mui/material'
+import { useEffect, useState, useCallback } from 'react'
+import { List, Button } from '@mui/material'
 import { WhatsApp, Email } from '@mui/icons-material'
 import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
 import VetServiceManager from '../../services/vet-service/VetServiceManager'
@@ -15,65 +8,90 @@ import { getUserID } from '../../services/auth-service/AuthService'
 import { NotificationModel } from '../../domain/Notification'
 import { NotificationCard } from '../../components/notification-card/NotificationCard'
 import { MedicalShift } from '../../domain/MedicalShift'
+import { Vet } from '../../domain/Vet'
+import {
+  PageWrapper,
+  ContactCard,
+  ContactTitle,
+  ContactText,
+  ContactStack,
+  WhatsAppStyledButton,
+} from './NotificationsPAgeStyle'
 
-export const NotificationsPage = () => {
+const useNotificationsData = () => {
   const [notifications, setNotifications] = useState<NotificationModel[]>([])
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const [vetData, setVetData] = useState<Vet | null>(null)
+
   const isVet = AuthServiceManager.getIntance().isVet()
   const service = isVet
     ? VetServiceManager.getInstance()
     : PetOwnerServiceManager.getInstance()
 
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      const id = getUserID()
-      const notes = await service.getNotificationsByUserId(id)
+  const loadData = useCallback(async () => {
+    const id = getUserID()
+    const notes = await service.getNotificationsByUserId(id)
 
-      let shifts: MedicalShift[] = []
+    let shifts: MedicalShift[] = []
 
-      if (isVet && 'getShiftsByVetId' in service) {
-        shifts = await service.getShiftsByVetId(id)
-      } else if (!isVet && 'getShiftsByPetOwnerId' in service) {
-        shifts = await service.getShiftsByPetOwnerId(id)
+    if (!isVet && 'getShiftsByPetOwnerId' in service) {
+      shifts = await service.getShiftsByPetOwnerId(id)
+      const firstVetName = shifts[0]?.nameVet
+      if (firstVetName) {
+        const allVets = await VetServiceManager.getInstance().getAll()
+        const foundVet = allVets.find((v) => v.name === firstVetName)
+        if (foundVet) setVetData(foundVet)
       }
-
-      const today = new Date().toISOString().slice(0, 10) 
-      const hasShiftToday = shifts.some(
-        (shift: MedicalShift) => shift.date === today,
-      )
-
-      const updatedNotifications = hasShiftToday
-        ? [
-            new NotificationModel(
-              Date.now(),
-              'system',
-              'Tenés turnos para hoy',
-              new Date().toISOString(),
-              false,
-            ),
-            ...notes,
-          ]
-        : notes
-
-      setNotifications(updatedNotifications)
+    } else if (isVet && 'getShiftsByVetId' in service) {
+      shifts = await service.getShiftsByVetId(id)
+    }
+    const stripTime = (date: Date) => new Date(date.toISOString().split('T')[0])
+    const isOutdated = (notification: NotificationModel): boolean => {
+      if (!notification.appointmentDate) return false
+      const today = stripTime(new Date())
+      const appointment = stripTime(new Date(notification.appointmentDate))
+      return appointment < today
     }
 
-    fetchNotifications()
-  }, [])
+    const filteredNotes = notes.filter((n) => !isOutdated(n))
+
+    const todayStr = new Date().toISOString().slice(0, 10)
+    const hasShiftToday = shifts.some((shift) => shift.date === todayStr)
+
+    const todayNotice = hasShiftToday
+      ? [
+          new NotificationModel(
+            Date.now(),
+            'system',
+            'Tenés turnos para hoy',
+            new Date().toISOString(),
+            false,
+          ),
+        ]
+      : []
+
+    setNotifications([...todayNotice, ...filteredNotes])
+  }, [isVet, service])
+
+  useEffect(() => {
+    loadData()
+  }, [loadData])
+
+  return { notifications, vetData, isVet }
+}
+
+export const NotificationsPage = () => {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const { notifications, vetData, isVet } = useNotificationsData()
 
   const toggleExpand = (index: number) => {
-    setExpandedIndex(expandedIndex === index ? null : index)
+    setExpandedIndex((prev) => (prev === index ? null : index))
   }
+
+  const vetEmail = vetData?.professionalEmail || 'sin-email@veterinaria.com'
+  const vetPhone = vetData?.professionalTelephone || '000000000'
+
   return (
-    <Box
-      sx={{
-        padding: '2em 1em',
-        minHeight: '80vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
+    <PageWrapper>
       <List sx={{ width: '100%', maxWidth: '800px' }}>
         {notifications.map((n, i) => (
           <NotificationCard
@@ -85,55 +103,37 @@ export const NotificationsPage = () => {
         ))}
       </List>
 
-      {!isVet && (
-        <Box
-          sx={{
-            mt: 4,
-            backgroundColor: 'var(--secondary-color)',
-            padding: '1.5em',
-            borderRadius: '12px',
-            maxWidth: 500,
-            width: '100%',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-            textAlign: 'center',
-          }}
-        >
-          <Typography
-            variant="h6"
-            fontWeight="bold"
-            gutterBottom
-            color="var(--footer-color)"
-          >
+      {!isVet && vetData && (
+        <ContactCard>
+          <ContactTitle variant="h6" gutterBottom>
             Datos de contacto
-          </Typography>
-          <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
+          </ContactTitle>
+          <ContactText variant="body2">
             Si necesitás comunicarte con tu veterinario, podés hacerlo a través
             de:
-          </Typography>
-          <Stack spacing={2} justifyContent="center">
-            <Button
+          </ContactText>
+          <ContactStack spacing={2}>
+            <WhatsAppStyledButton
+              component="a"
+              rel="noopener noreferrer"
+              href={`https://wa.me/549${vetPhone}`}
               variant="contained"
               startIcon={<WhatsApp />}
-              href="https://wa.me/5491144556677"
-              target="_blank"
-              sx={{
-                backgroundColor: '#25D366',
-                '&:hover': { backgroundColor: '#1ebe5d' },
-              }}
             >
               WhatsApp
-            </Button>
+            </WhatsAppStyledButton>
+
             <Button
               variant="outlined"
               startIcon={<Email />}
-              href="mailto:maria.gomez@veterinaria.com"
+              href={`mailto:${vetEmail}`}
               sx={{ textTransform: 'none' }}
             >
-              maria.gomez@veterinaria.com
+              {vetEmail}
             </Button>
-          </Stack>
-        </Box>
+          </ContactStack>
+        </ContactCard>
       )}
-    </Box>
+    </PageWrapper>
   )
 }

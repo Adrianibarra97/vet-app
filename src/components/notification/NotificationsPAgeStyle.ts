@@ -1,25 +1,45 @@
-import { SxProps, Theme } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import { Box, Typography, Stack, ButtonProps, Button } from '@mui/material'
 
-export const notificationWrapperStyle: SxProps<Theme> = {
-  width: '100%',
+export const PageWrapper = styled(Box)({
+  padding: '2em 1em',
+  minHeight: '80vh',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: { xs: '1rem', md: '2rem' },
-  boxSizing: 'border-box',
-}
+})
 
-export const notificationTitleStyle: SxProps<Theme> = {
-  fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
-  fontWeight: 800,
-  background: 'linear-gradient(to right, var(--footer-color), var(--primary-color))',
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-  textAlign: 'center',
-  textShadow: '1px 1px 4px rgba(0,0,0,0.1)',
-  marginBottom: '2rem',
-  borderBottom: '3px solid var(--primary-color)',
-  paddingBottom: '0.3rem',
+export const ContactCard = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(4),
+  backgroundColor: 'var(--secondary-color)',
+  padding: '1.5em',
+  borderRadius: '12px',
+  maxWidth: 500,
   width: '100%',
-  maxWidth: '600px',
-}
+  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+  textAlign: 'center',
+}))
+
+export const ContactTitle = styled(Typography)(({ theme }) => ({
+  fontWeight: 'bold',
+  marginBottom: theme.spacing(2),
+  color: 'var(--footer-color)',
+}))
+
+export const ContactText = styled(Typography)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+  color: theme.palette.text.secondary,
+}))
+
+export const ContactStack = styled(Stack)(({ theme }) => ({
+  spacing: theme.spacing(2),
+  justifyContent: 'center',
+}))
+
+export const WhatsAppStyledButton = styled(Button)<ButtonProps>({
+  backgroundColor: '#25D366',
+  '&:hover': {
+    backgroundColor: '#1ebe5d',
+  },
+  textTransform: 'none',
+})
