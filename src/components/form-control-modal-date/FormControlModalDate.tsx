@@ -1,6 +1,5 @@
 import { FormControl } from '@mui/material'
 import { useState } from 'react'
-import { Pet } from '../../domain/Pet'
 import { formControl, formControlNone, textField } from './FormControlModalDateStyle'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -12,15 +11,14 @@ interface FromControlModalProps {
   errorActive: boolean
   label: string
   defaultValue: Dayjs | null
-  petKey: keyof Pet
-  handleInputChanges(key: keyof Pet, date: Dayjs): void
+  handleInputChanges(date: Dayjs): void
 }
 
 export const FormControlModalDate = (formControlProps: FromControlModalProps) => {
   const [value, setValue] = useState<Dayjs | null>(formControlProps.defaultValue)
 
   const handleChange = (date: Dayjs | null) => {
-    formControlProps.handleInputChanges(formControlProps.petKey, dayjs(date))
+    formControlProps.handleInputChanges(dayjs(date))
     setValue(dayjs(date))
   }
 

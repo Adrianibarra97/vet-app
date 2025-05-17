@@ -162,15 +162,13 @@ export const PetModal = (petModalProp: PetModalProps) => {
               handleInputChanges={ (value) => handleSelectChanges(petKeys[7], value) }
             />
           </Box>
-
           <Box sx={ modalItems }>
             <FormControlModalDate
               label={ fieldKyes[8] } defaultValue={ dayjs(pet.birth) } errorActive={ errorActive }
-              isActive={ true } petKey={ petKeys[8] } handleInputChanges={ handleDateInputChanges }
+              isActive={ true } handleInputChanges={ (value) => handleDateInputChanges(petKeys[8], value) }
             />
             <FormControlModalImage isActive={ true } pet={ pet } onPhotoChange={ handlePhotoChange }/>
           </Box>
-
           <Box sx={ button__Container }>
             <Button variant="contained" sx={ BkgCancelButton } onClick={ handleCancel }>Cancelar</Button>
             <Button variant="contained" sx={ BkgConfirmButton } onClick={ handleConfirm }>Confirmar</Button>
