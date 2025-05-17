@@ -49,4 +49,4 @@ export function convertTypeOfStudyResultToASpanishString(typeOfStudyResult: Type
     return typeOfStudyResultStrMap[typeOfStudyResult.toString()] 
 }
 
-export const StudyResultOptions = Object.values(TypeOfStudyResult) as TypeOfStudyResult[]
+export const studyResultOptions = Object.values(TypeOfStudyResult) as TypeOfStudyResult[]

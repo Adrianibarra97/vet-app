@@ -100,6 +100,21 @@ export function PetDetail(){
         getRecipesPet()
     }
 
+    const handleEditOrCreateStudy = (study:Study) => {
+        if(study.id > -1){
+            StudyResultServiceManager.getInstace().editExistStudyResult(study,pet.idMedicalHistory)
+            getStudysPet()
+        }else{
+            StudyResultServiceManager.getInstace().createNewStudyResult(study, pet.idMedicalHistory)
+            getStudysPet()
+        }
+    }
+
+    const handleStudyDelete = (idStudy:number) => {
+        StudyResultServiceManager.getInstace().deleteExistStudyResult(idStudy)
+        getStudysPet()
+    }
+
     const handleSelectChange = (option:string) => {
         setSelectedOption(option);
     }
@@ -154,7 +169,7 @@ export function PetDetail(){
                             {selectedOption === 'one' && <VaccineGrid vaccines={vaccinesPet} />}
                             {selectedOption === 'two' && <RecipeGrid recipes={recipesPet} onEditOrCreateRecipe={handleEditOrCreateRecipe} onClickDelete={handleRecipeDelete}/>}
                             {selectedOption === 'three' && <DiseaseGrid diseases={diseasePet} onEditOrCreateDisease={handleEditOrCreateDisease} onClickDelete={handleDiseaseDelete}/>}
-                            {selectedOption === 'four' && <StudyResultGrid studysResult={studyResultsPet}/>}
+                            {selectedOption === 'four' && <StudyResultGrid studysResult={studyResultsPet} onEditOrCreateStudy={handleEditOrCreateStudy} onClickDelete={handleStudyDelete}/>}
                         </div>
                     </div>
                 </div>

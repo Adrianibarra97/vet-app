@@ -58,11 +58,37 @@
     height: 20%;
 }
 
-.study__item-description {
-    height: 80%;
+.study__item--description__title{
+    display: flex;
     align-items: center;
-    justify-content: flex-start;
-    text-align: justify;
+    justify-content: center;
+}
+
+.study__item--description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5em;
+    min-height: calc(1.5em * 5);
+}
+
+.study__item--content__button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 1em;
+}
+
+.study__item--button__icon {
+    display: flex;
+    font-size: 1.2em;
+    color: var(--footer-color);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 }
 
 .study__item--label {
