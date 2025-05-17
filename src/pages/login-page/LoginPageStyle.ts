@@ -1,3 +1,10 @@
+export const modalItem = {
+  display: 'flex',
+  height: 'auto',
+  width: '95%',
+  overflow: 'visible'
+}
+
 export const button__Container = { 
   display: 'flex',
   width: '100%',

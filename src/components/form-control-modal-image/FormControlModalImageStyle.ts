@@ -1,7 +1,7 @@
 export const formControl = {
   display: 'flex',
   flexDirection: 'row',
-  width: { xs: '100%', sm: '45%' },
+  width: '100%',
   height: '5em',
   mb: '0.1em',
   padding: '1em',

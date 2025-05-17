@@ -26,3 +26,10 @@ export const modalItems = {
   justifyContent: 'space-between',
   overflow: 'visible'
 }
+
+export const modalItem = {
+  display: 'flex',
+  height: 'auto',
+  width: { xs: '100%', sm: '45%' },
+  overflow: 'visible'
+}

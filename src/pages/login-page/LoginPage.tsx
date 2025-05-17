@@ -1,11 +1,11 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
+import { MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Button } from '@mui/material'
-import { FormControlModalLogin } from '../../components/form-control-modal-login/FormControlModalLogin'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import { AuthCredentialsLoginDTO } from '../../domain/User'
-import { button__Container, BkgButton, passButton } from './LoginPageStyle'
+import { button__Container, BkgButton, modalItem } from './LoginPageStyle'
 import './LoginPage.css'
+import { FormControlModal } from '../../components/form-control-modal/FormControlModal'
 
 export const LoginPage = () => {
 
@@ -15,18 +15,18 @@ export const LoginPage = () => {
 
   const hasRequiredFields = (): boolean => userLogin.username != '' && userLogin.password != ''
 
-  const handleUsername = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleUsername = (value: string) => {
     const authCredentialsLoginDTO: AuthCredentialsLoginDTO = {
-      username: e.target.value,
+      username: value,
       password: userLogin.password
     }
     setUserLogin(authCredentialsLoginDTO)
   }
 
-  const handlePassword = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handlePassword = (value: string) => {
     const authCredentialsLoginDTO: AuthCredentialsLoginDTO = {
       username: userLogin.username,
-      password: e.target.value
+      password: value
     }
     setUserLogin(authCredentialsLoginDTO)
   }
@@ -51,15 +51,18 @@ export const LoginPage = () => {
       <div className="login">
         <h1 className="title__login">VetApp <i className="fa-solid fa-paw logo__login"></i></h1>
         <form className="login__form">
-          <FormControlModalLogin
-            isActive={ true } errorActive={ errorActive } label={ 'Usuario' } type={ 'text' }
-            defaultValue={ userLogin.username } labelColor={ 'primary' } handleInputChanges={ handleUsername }
-          />
-          <FormControlModalLogin
-            isActive={ true } errorActive={ errorActive } label={ 'Contraseña' } type={ 'password' }
-            defaultValue={ userLogin.password } labelColor={ 'primary' } handleInputChanges={ handlePassword }
-          />
-          <Button sx={ passButton } onClick={ () => navigate('/auth/reset-password') }>Olvidó su contraseña?</Button>
+          <Box sx={ modalItem }>
+            <FormControlModal
+              isActive={ true } errorActive={ errorActive } label={ 'Usuario' } type={ 'text' }
+              defaultValue={ userLogin.username } labelColor={ 'success' } handleInputChanges={ handleUsername }
+            />
+          </Box>
+          <Box sx={ modalItem }>
+            <FormControlModal
+              isActive={ true } errorActive={ errorActive } label={ 'Contraseña' } type={ 'password' }
+              defaultValue={ userLogin.password } labelColor={ 'success' } handleInputChanges={ handlePassword }
+            />
+          </Box>
           <Box sx={ button__Container }>
             <Button variant="contained" sx={ BkgButton } onClick={ handleLogin }>Ingresar</Button>
             <Button variant="contained" sx={ BkgButton } onClick={ () => navigate('/auth/create-user') }>Crear</Button>
