@@ -24,7 +24,7 @@ export class VaccineService implements VaccineServiceInter{
             type:vaccine.type,
             description:vaccine.description,
             batchNumber:vaccine.batchNumber,
-            aplicationDate:new Date().toISOString().split('T')[0],
+            aplicationDate:vaccine.applicationDate,
             expirationDate:vaccine.expirationDate,
             medicalHistoryId:idMedicalHistory
         }
@@ -38,6 +38,8 @@ export class VaccineService implements VaccineServiceInter{
             type:vaccine.type,
             description:vaccine.description,
             batchNumber:vaccine.batchNumber,
+            aplicationDate:vaccine.applicationDate,
+            expirationDate:vaccine.expirationDate,
             medicalHistoryId:idMedicalHistory
         }
 

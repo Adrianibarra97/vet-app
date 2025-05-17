@@ -115,6 +115,21 @@ export function PetDetail(){
         getStudysPet()
     }
 
+    const handleEditOrCreateVaccine = (vaccine:Vaccine) => {
+        if(vaccine.id > -1){
+            VaccineServiceManager.getInstance().editExistVaccine(vaccine, pet.idMedicalHistory)
+            getVaccinesPet()
+        }else{
+            VaccineServiceManager.getInstance().createNewVaccine(vaccine, pet.idMedicalHistory)
+            getVaccinesPet()
+        }
+    }
+
+    const handleVaccineDelete = (idVaccine:number) => {
+        VaccineServiceManager.getInstance().deleteExistVaccine(idVaccine)
+        getVaccinesPet()
+    }
+
     const handleSelectChange = (option:string) => {
         setSelectedOption(option);
     }
@@ -166,7 +181,7 @@ export function PetDetail(){
                             </select>
                         </div>
                         <div className="content__history--data">
-                            {selectedOption === 'one' && <VaccineGrid vaccines={vaccinesPet} />}
+                            {selectedOption === 'one' && <VaccineGrid vaccines={vaccinesPet} onEditOrCreateVaccine={handleEditOrCreateVaccine} onClickDelete={handleVaccineDelete}/>}
                             {selectedOption === 'two' && <RecipeGrid recipes={recipesPet} onEditOrCreateRecipe={handleEditOrCreateRecipe} onClickDelete={handleRecipeDelete}/>}
                             {selectedOption === 'three' && <DiseaseGrid diseases={diseasePet} onEditOrCreateDisease={handleEditOrCreateDisease} onClickDelete={handleDiseaseDelete}/>}
                             {selectedOption === 'four' && <StudyResultGrid studysResult={studyResultsPet} onEditOrCreateStudy={handleEditOrCreateStudy} onClickDelete={handleStudyDelete}/>}

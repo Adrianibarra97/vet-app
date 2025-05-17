@@ -44,8 +44,6 @@ export class VaccineServiceStub implements VaccineServiceInter{
 
         const newVaccineJSON : VaccineJSON = {
             ...vaccine,
-            applicationDate:new Date().toISOString().split('T')[0],
-            expirationDate:vaccine.expirationDate,
             medicalHistoryId:idMedicalHistory,
             id:newId
         }

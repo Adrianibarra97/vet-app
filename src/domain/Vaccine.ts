@@ -68,4 +68,4 @@ export function convertTypeOfVaccineToASpanishString(typeOfVaccine: TypeOfVaccin
     return typeOfVaccineStrMap[typeOfVaccine.toString()] 
 }
 
-export const VaccineOptions = Object.values(TypeOfVaccine) as TypeOfVaccine[]
+export const vaccineOptions = Object.values(TypeOfVaccine) as TypeOfVaccine[]
