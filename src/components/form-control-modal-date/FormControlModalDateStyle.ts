@@ -16,15 +16,6 @@ export const textField = {
   overflow: 'visible'
 }
 
-export const textFieldError = {
-  display: 'flex',
-  height: 'auto',
-  overflow: 'visible',
-  color: 'red',
-  borderRadius: 1,
-  border: '1px solid red'
-}
-
 export const helpText = {
   display: 'flex',
   alignItems: 'center',

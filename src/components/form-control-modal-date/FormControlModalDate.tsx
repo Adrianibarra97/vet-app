@@ -1,7 +1,7 @@
-import { FormControl, Box, Typography } from '@mui/material'
+import { FormControl } from '@mui/material'
 import { useState } from 'react'
 import { Pet } from '../../domain/Pet'
-import { formControl, formControlNone, helpText, textField, textFieldError } from './FormControlModalDateStyle'
+import { formControl, formControlNone, textField } from './FormControlModalDateStyle'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -24,22 +24,17 @@ export const FormControlModalDate = (formControlProps: FromControlModalProps) =>
     setValue(dayjs(date))
   }
 
-  const formHelperText = () => {
-    return formControlProps.errorActive && !value
-      ? (<Box sx={ helpText }><Typography color="red">Campo obligatorio</Typography></Box>)
-      : ('')
-  }
-
   return (
     <FormControl sx={ formControlProps.isActive ? formControl : formControlNone }>
       <LocalizationProvider dateAdapter={ AdapterDayjs }>
         <DatePicker
-          sx={ value ? textField : textFieldError } label={ formControlProps.label }
+          sx={ textField } label={ formControlProps.label }
           format="DD/MM/YYYY" name={ formControlProps.label }
           onChange={ handleChange } value={ value }
           slotProps={{ textField: {
-            helperText: formHelperText(),
-            required: true,
+            color: 'success',
+            error: formControlProps.errorActive,
+            required: true
           }}}
         />
       </LocalizationProvider>

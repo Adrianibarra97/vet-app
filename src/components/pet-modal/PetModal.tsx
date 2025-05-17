@@ -104,8 +104,8 @@ export const PetModal = (petModalProp: PetModalProps) => {
     setPet(updated)
   }
 
-  const handleLabelColor = (key: keyof Pet): 'primary' | 'error' => {
-    return pet[key] ? 'primary' : 'error'
+  const handleLabelColor = (key: keyof Pet): 'success' | 'error' => {
+    return pet[key] ? 'success' : 'error'
   }
 
   const hasRequiredFields = (): boolean => {

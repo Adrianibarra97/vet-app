@@ -49,7 +49,7 @@ export const LoginPage = () => {
   return (
     <main className="auth__main">
       <div className="login">
-        <h1 className="main__title">Login</h1>
+        <h1 className="title__login">VetApp <i className="fa-solid fa-paw logo__login"></i></h1>
         <form className="login__form">
           <FormControlModalLogin
             isActive={ true } errorActive={ errorActive } label={ 'Usuario' } type={ 'text' }
