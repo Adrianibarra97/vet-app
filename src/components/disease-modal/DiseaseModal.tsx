@@ -16,9 +16,10 @@ interface propsDiseaseModal{
     onConfirm:(disease:Disease) => void
     idDisease:number
     disease?:Disease
+    viewMode:boolean
 }
 
-export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, idDisease}:propsDiseaseModal){
+export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, idDisease, viewMode}:propsDiseaseModal){
     const [disease,setDisease] = useState<Disease>(new Disease)
     const [fromTouched,setFromTouched] = useState<boolean>(false)
     const [diagnosisDate,setDiagnosisDate] = useState<Dayjs|null>(initialDisease?.diagnosisDate ? dayjs(initialDisease.diagnosisDate) : null )
@@ -38,11 +39,13 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
     }, [initialDisease, idDisease])
 
     const handleDiseaseCreationOrEdition = (name: keyof Disease, value:string | boolean | undefined): void => {
+        if (viewMode) return
         (disease as unknown as Record<keyof Disease, string | boolean | undefined>)[name] = value
         generateNewDisease(disease)
     }
 
     const handleDiagnosisDateChange = (newDiagnosisDate:Dayjs | null) => {
+        if (viewMode) return
         if(newDiagnosisDate && newDiagnosisDate.isValid()){
             setErrorDate(null)
             setDiagnosisDate(newDiagnosisDate)
@@ -61,10 +64,14 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
     const generateNewDisease = (disease:Disease) => {
         const newDisease = Object.assign(new Disease(), disease)
         setDisease(newDisease)
-        console.log("Creacion enfermedad:",disease)
     }
 
     const handleOnConfirm = () => {
+        if (viewMode) {
+            onClose();
+            return;
+        }
+
         setFromTouched(true)
         if(hasMissingRequiredFields()){
             SnackbarUtilities.error('Campos incompletos')
@@ -98,16 +105,21 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
         setFromTouched(false)
     }
 
+    const getTitle = () => {
+        if (viewMode) return 'Detalle de Enfermedad';
+        return idDisease !== -1 ? 'Editar Enfermedad' : 'Nueva Enfermedad';
+    }
+
     return(
         <Dialog onClose={handleCancel} open={open} fullWidth sx={{maxHeight:'90vh', overflow:'auto'}}>
             <DialogTitle component="div">
                 <Typography variant="h6" sx={{color:'var(--footer-color)', fontWeight:'bold'}}>
-                    {idDisease !== -1 ? 'Editar Enfermedad':'Nueva Enfermedad'}
+                    {getTitle()}
                 </Typography>
             </DialogTitle>
             <DialogContent>
                 <Box component={'form'} sx={formContainer}>
-                    <FormControl fullWidth margin="normal" error={fromTouched && !disease.type} required sx={{overflow:'visible'}}>
+                    <FormControl fullWidth margin="normal" error={fromTouched && !disease.type} required sx={{overflow:'visible'}} disabled={viewMode}>
                         <InputLabel color={fromTouched && !disease.type ? "error" : "primary"}>
                             Tipo Enfermedad
                         </InputLabel>
@@ -123,7 +135,7 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
                             ))}
                         </Select>
                     </FormControl>
-                    <FormControl fullWidth margin="normal" error={fromTouched && !disease.severity} required sx={{overflow:'visible'}}>
+                    <FormControl fullWidth margin="normal" error={fromTouched && !disease.severity} required sx={{overflow:'visible'}} disabled={viewMode}>
                         <InputLabel color={fromTouched && !disease.severity ? "error" : "primary"}>Severidad</InputLabel>
                         <Select 
                             value={disease.severity ? disease.severity : ''}
@@ -143,6 +155,7 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
                             label="Fecha"
                             format="DD/MM/YYYY"
                             onChange={handleDiagnosisDateChange}
+                            disabled={viewMode}
                             slotProps={{
                                 textField: {
                                     error: !!errorDate,
@@ -161,6 +174,7 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
                             <Checkbox
                                 checked={!!disease.isActive}
                                 onChange={event => handleDiseaseCreationOrEdition('isActive', event.target.checked)}
+                                disabled={viewMode}
                             />
                         </Box>
                     }
@@ -171,6 +185,7 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
                         onChange={event => handleDiseaseCreationOrEdition('observation',event.target.value)}
                         sx={{mt:2}}
                         variant="outlined"
+                        disabled={viewMode}
                     />
                 </Box>
             </DialogContent>
@@ -180,15 +195,17 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
                     onClick={handleCancel}
                     sx={{ backgroundColor: 'var(--primary-color)' }}
                 >
-                    Cancelar
+                    {viewMode ? 'Cerrar':'Cancelar'}
                 </Button>
-                <Button
-                    variant="contained"
-                    onClick={handleOnConfirm}
-                    sx={{ backgroundColor: 'var(--footer-color)' }}
-                >
-                    Confirmar
-                </Button>
+                {!viewMode &&
+                    <Button
+                        variant="contained"
+                        onClick={handleOnConfirm}
+                        sx={{ backgroundColor: 'var(--footer-color)' }}
+                    >
+                        Confirmar
+                    </Button>
+                }
             </DialogActions>
         </Dialog>
     )
