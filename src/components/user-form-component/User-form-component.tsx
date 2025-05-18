@@ -8,6 +8,7 @@ import {
 } from '@mui/material'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import {Autocomplete} from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { FaPen } from 'react-icons/fa'
 import './User-form-component.css'
@@ -107,7 +108,7 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
   useEffect(() => {
     if (personalForm.province) {
       fetch(
-        `https://apis.datos.gob.ar/georef/api/localidades?provincia=${personalForm.province}&max=100`,
+        `https://apis.datos.gob.ar/georef/api/localidades?provincia=${personalForm.province}&max=1500`,
       )
         .then((res) => res.json())
         .then((data) =>
@@ -214,97 +215,109 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
     }
   }
 
-  const renderFields = (
-    fields: { label: string; key: string; vetProp?: string }[],
-    form: any,
-    edit: boolean,
-    section: 'personal' | 'professional',
-    errors: { [key: string]: string },
-  ) => (
-    <>
-      {fields.map(({ label, key, vetProp }) => {
-        const realKey =
-          section === 'professional' && user instanceof Vet
-            ? (vetProp ?? key)
-            : key
-        const isPasswordField = realKey === 'password'
+const renderFields = (
+  fields: { label: string; key: string; vetProp?: string }[],
+  form: any,
+  edit: boolean,
+  section: 'personal' | 'professional',
+  errors: { [key: string]: string },
+) => (
+  <>
+    {fields.map(({ label, key, vetProp }) => {
+      const realKey =
+        section === 'professional' && user instanceof Vet
+          ? (vetProp ?? key)
+          : key
+      const isPasswordField = realKey === 'password'
 
-        const isGeorefField = ['country', 'province', 'locality'].includes(
-          realKey,
-        )
-        const options =
-          realKey === 'province'
-            ? provinces
-            : realKey === 'locality'
-              ? localities
-              : []
-
-        return (
-          <div className="data__item" key={realKey}>
-            <label className="data__item--label">{label}</label>
-            {realKey === 'country' ? (
-              <TextField
-                fullWidth
-                variant="outlined"
-                size="small"
-                className="data__item--input"
-                value="Argentina"
-                disabled
-              />
-            ) : isGeorefField ? (
-              <TextField
-                select
-                fullWidth
-                variant="outlined"
-                size="small"
-                className="data__item--input"
-                value={form[realKey] ?? ''}
-                onChange={(e) => handleChange(section, realKey, e.target.value)}
-                disabled={!edit}
-                error={!!errors[realKey]}
-                helperText={errors[realKey]}
-                SelectProps={{ native: true }}
-              >
-                {options.map((opt, index) => (
-                  <option key={`${opt}-${index}`} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </TextField>
-            ) : (
-              <TextField
-                fullWidth
-                variant="outlined"
-                size="small"
-                className="data__item--input"
-                value={form[realKey] ?? ''}
-                type={isPasswordField && !showPassword ? 'password' : 'text'}
-                onChange={(e) => handleChange(section, realKey, e.target.value)}
-                disabled={!edit}
-                error={!!errors[realKey]}
-                helperText={errors[realKey]}
-                InputProps={
-                  isPasswordField
-                    ? {
-                        endAdornment: (
-                          <IconButton
-                            onClick={() => setShowPassword(!showPassword)}
-                            edge="end"
-                            size="small"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        ),
-                      }
-                    : undefined
-                }
-              />
-            )}
-          </div>
-        )
-      })}
-    </>
-  )
+   return (
+        <div className="data__item" key={realKey}>
+          <label className="data__item--label">{label}</label>
+          {realKey === 'country' ? (
+            <TextField
+              fullWidth
+              variant="outlined"
+              size="small"
+              className="data__item--input"
+              value="Argentina"
+              disabled
+            />
+          ) : realKey === 'locality' ? (
+            <Autocomplete
+              freeSolo
+              options={localities}
+              value={form[realKey] ?? ''}
+              onInputChange={(_, newInputValue) =>
+                handleChange(section, realKey, newInputValue)
+              }
+              disabled={!edit}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  fullWidth
+                  variant="outlined"
+                  size="small"
+                  className="data__item--input"
+                  disabled={!edit}
+                  error={!!errors[realKey]}
+                  helperText={errors[realKey]}
+                />
+              )}
+            />
+          ) : realKey === 'province' ? (
+            <TextField
+              select
+              fullWidth
+              variant="outlined"
+              size="small"
+              className="data__item--input"
+              value={form[realKey] ?? ''}
+              onChange={(e) => handleChange(section, realKey, e.target.value)}
+              disabled={!edit}
+              error={!!errors[realKey]}
+              helperText={errors[realKey]}
+              SelectProps={{ native: true }}
+            >
+              {provinces.map((opt, index) => (
+                <option key={`${opt}-${index}`} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </TextField>
+          ) : (
+            <TextField
+              fullWidth
+              variant="outlined"
+              size="small"
+              className="data__item--input"
+              value={form[realKey] ?? ''}
+              type={isPasswordField && !showPassword ? 'password' : 'text'}
+              onChange={(e) => handleChange(section, realKey, e.target.value)}
+              disabled={!edit}
+              error={!!errors[realKey]}
+              helperText={errors[realKey]}
+              InputProps={
+                isPasswordField
+                  ? {
+                      endAdornment: (
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                          size="small"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      ),
+                    }
+                  : undefined
+              }
+            />
+          )}
+        </div>
+      )
+    })}
+  </>
+)
   return (
     <form className="data">
       <Box className="data__section" sx={sectionContainer}>
