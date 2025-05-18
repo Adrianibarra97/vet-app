@@ -28,8 +28,9 @@ import {
   DescriptionText,
   GreenButton,
   WhatsAppButton,
+  typeLabels,
 } from './NotificationCardStyle'
-import { getIconAndColor } from './NotificationCardStyle'
+import { getIconAndColorByType } from './NotificationCardStyle'
 
 import {
   Button,
@@ -44,6 +45,8 @@ interface Props {
   notification: NotificationModel
   expanded?: boolean
   onToggleExpand?: () => void
+  vetEmail?: string
+  vetPhone?: string
 }
 
 const iconMap = {
@@ -58,6 +61,8 @@ export const NotificationCard: React.FC<Props> = ({
   notification,
   expanded = false,
   onToggleExpand,
+  vetEmail,
+  vetPhone,
 }) => {
   const { message, date, petName, vetName, appointmentDate, type } =
     notification
@@ -67,15 +72,13 @@ export const NotificationCard: React.FC<Props> = ({
   const isCancelByOwner = msg.includes('cancelado') && msg.includes('dueño')
   const navigate = useNavigate()
 
-  const { icon, color } = getIconAndColor(message) as {
+  const { icon, color } = getIconAndColorByType(type) as {
     icon: keyof typeof iconMap
     color: string
   }
 
-  const vetEmail = vetName
-    ? `${vetName.toLowerCase().replace(' ', '.')}@veterinaria.com`
-    : ''
-  const whatsappNumber = '5491144556677'
+  const emailToShow = vetEmail || ''
+  const phoneToShow = vetPhone || ''
 
   if (isVet && !isCancelByOwner && type !== 'system') return null
 
@@ -119,7 +122,7 @@ export const NotificationCard: React.FC<Props> = ({
         <StackGrow direction="row" spacing={1} alignItems="center">
           <IconBox color={color}>{iconMap[icon]}</IconBox>
           <MessageTypography variant="subtitle1" fontWeight="bold">
-            {message}
+            {typeLabels[type] ?? 'Notificación'} para {petName}
           </MessageTypography>
         </StackGrow>
 
@@ -137,16 +140,15 @@ export const NotificationCard: React.FC<Props> = ({
             <strong>Fecha:</strong> {new Date(date).toLocaleDateString()}
           </Typography>
           {appointmentDate && (
-  <Typography variant="body2" color="textSecondary">
-    <strong>Turno:</strong>{' '}
-    {new Date(appointmentDate).toLocaleDateString()} a las{' '}
-    {new Date(appointmentDate).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    })}
-  </Typography>
-)}
-
+            <Typography variant="body2" color="textSecondary">
+              <strong>Turno:</strong>{' '}
+              {new Date(appointmentDate).toLocaleDateString()} a las{' '}
+              {new Date(appointmentDate).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
+            </Typography>
+          )}
 
           {petName && (
             <Typography variant="body2" color="textSecondary">
@@ -171,7 +173,7 @@ export const NotificationCard: React.FC<Props> = ({
                 variant="contained"
                 startIcon={<WhatsApp />}
                 component="a"
-                href={`https://wa.me/${whatsappNumber}`}
+                href={`https://wa.me/549${phoneToShow}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -181,10 +183,10 @@ export const NotificationCard: React.FC<Props> = ({
               <Button
                 variant="outlined"
                 startIcon={<Email />}
-                href={`mailto:${vetEmail}`}
+                href={`mailto:${emailToShow}`}
                 sx={{ textTransform: 'none' }}
               >
-                {vetEmail}
+                {emailToShow}
               </Button>
             </Stack>
           </ContactBox>

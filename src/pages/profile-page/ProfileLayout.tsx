@@ -58,10 +58,9 @@ export const ProfileLayout = () => {
             </nav>
           </div>
         </div>
-        <div className="main__content--data">
-          <div className="main__data-wrapper">
-            {user && <Outlet context={user} />}
-          </div>
+
+        <div className="main__data-wrapper">
+          {user && <Outlet context={user} />}
         </div>
       </div>
     </main>

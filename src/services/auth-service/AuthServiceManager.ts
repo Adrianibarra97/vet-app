@@ -5,7 +5,7 @@ import { AuthServiceStub } from "./AuthServiceStub"
 class AuthServiceManager {
 
     private static instance: AuthServiceInter
-	private static useStub: boolean = true
+	private static useStub: boolean = false
 
 	public static getIntance(): AuthServiceInter {
 		if(!AuthServiceManager.instance) {

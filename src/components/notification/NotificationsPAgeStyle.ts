@@ -14,8 +14,8 @@ export const ContactCard = styled(Box)(({ theme }) => ({
   backgroundColor: 'var(--secondary-color)',
   padding: '1.5em',
   borderRadius: '12px',
-  maxWidth: 500,
-  width: '100%',
+  maxWidth: '40rem',
+  width: '90%',
   boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
   textAlign: 'center',
 }))
@@ -42,4 +42,20 @@ export const WhatsAppStyledButton = styled(Button)<ButtonProps>({
     backgroundColor: '#1ebe5d',
   },
   textTransform: 'none',
+})
+export const NotificationsWrapper = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  width: '100%',
+})
+
+
+
+export const NotificationsContent = styled(Box)({
+  width: '100%',
+  maxWidth: '900px',
+  margin: '0 auto',
+  padding: '1rem',
+  boxSizing: 'border-box',
 })
