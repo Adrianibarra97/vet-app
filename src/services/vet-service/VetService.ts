@@ -3,7 +3,6 @@ import { Vet } from '../../domain/Vet'
 import { URL_BE } from '../config'
 import { VetServiceInter } from './VetServiceInter'
 import { NotificationJSON, NotificationModel } from '../../domain/Notification'
-import { MedicalShift } from '../../domain/MedicalShift'
 
 export class VetService implements VetServiceInter {
   async getAll(): Promise<Vet[]> {
@@ -28,18 +27,12 @@ export class VetService implements VetServiceInter {
   })
 }
 
- async getNotificationsByUserId(id: number): Promise<NotificationModel[]> {
-  const res = await axios.get<NotificationJSON[]>(`${URL_BE}/vet/notifications`, {
-    params: { idVet: id }
+ async getNotificationsByVetId(id: number): Promise<NotificationModel[]> {
+   const res = await axios.get<NotificationJSON[]>(`${URL_BE}/vet/get-all-notifications`, { params: { idVet: id }
   })
   return res.data.map(NotificationModel.fromJSON)
 }
 
-  async getShiftsByVetId(id: number): Promise<MedicalShift[]> {
-    const res = await axios.get(`${URL_BE}/vet/shifts`, {
-      params: { idVet: id }
-    });
-    return res.data; 
-  }
+  
 }
 

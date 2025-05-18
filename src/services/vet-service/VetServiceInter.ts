@@ -1,4 +1,3 @@
-import { MedicalShift } from "../../domain/MedicalShift"
 import { NotificationModel } from "../../domain/Notification"
 import { Vet } from "../../domain/Vet"
 
@@ -7,7 +6,6 @@ export interface VetServiceInter {
   getOneById(id: number): Promise<Vet>
   update(vet: Vet): Promise<void>
   delete(id: number): Promise<void>
-  getNotificationsByUserId(id: number): Promise<NotificationModel[]> 
-  getShiftsByVetId(id: number): Promise<MedicalShift[]>;
+  getNotificationsByVetId(id: number): Promise<NotificationModel[]> 
 
 }

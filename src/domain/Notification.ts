@@ -1,57 +1,60 @@
 export type NotificationType = 'vaccine' | 'appointment' | 'system'
 
 export type NotificationJSON = {
-  id: number
-  type: NotificationType
-  message: string
-  date: string
-  urgent: boolean
-  petName?: string
-  petOwnerName?: string
-  vetName?: string
-  appointmentDate?: string
-}
+  id: number;
+  namePet: string;
+  nameVet: string;
+  namePetOwner: string;
+  date: string; 
+  hour: string; 
+  notificationDate: string; 
+  type: string; 
+};
+
 
 export class NotificationModel {
   constructor(
     public id: number,
-    public type: NotificationType,
+    public type: string,
     public message: string,
     public date: string,
     public urgent: boolean,
     public petName?: string,
     public petOwnerName?: string,
     public vetName?: string,
-    public vetEmail?: string,
-    public appointmentDate?: string,
+    public appointmentDate?: string
   ) {}
 
   static fromJSON(json: NotificationJSON): NotificationModel {
+    const type = json.type;
+    const appointmentDate = `${json.date}T${json.hour}`;
+    const message = `Notificación de tipo ${type} para ${json.namePet}`;
+    const urgent = ["SHIFT_DELETE", "SHIFT_TODAY"].includes(type);
+
     return new NotificationModel(
       json.id,
-      json.type,
-      json.message,
-      json.date,
-      json.urgent,
-      json.petName,
-      json.petOwnerName,
-      json.vetName,
-      json.vetName,
-      json.appointmentDate,
-    )
+      type,
+      message,
+      json.notificationDate,
+      urgent,
+      json.namePet,
+      json.namePetOwner,
+      json.nameVet,
+      appointmentDate
+    );
   }
 
   toJSON(): NotificationJSON {
+    const [datePart, hourPart] = this.appointmentDate?.split("T") ?? ["", ""];
     return {
       id: this.id,
       type: this.type,
-      message: this.message,
-      date: this.date,
-      urgent: this.urgent,
-      petName: this.petName,
-      petOwnerName: this.petOwnerName,
-      vetName: this.vetName,
-      appointmentDate: this.appointmentDate,
-    }
+      namePet: this.petName ?? "",
+      nameVet: this.vetName ?? "",
+      namePetOwner: this.petOwnerName ?? "",
+      date: datePart,
+      hour: hourPart,
+      notificationDate: this.date
+    };
   }
 }

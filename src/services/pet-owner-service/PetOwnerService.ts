@@ -3,7 +3,6 @@ import { PetOwner } from "../../domain/PetOwner"
 import { URL_BE } from "../config"
 import { PetOwnerServiceInter } from "./PetOwnerServiceInter"
 import { NotificationJSON, NotificationModel } from "../../domain/Notification"
-import { MedicalShift, MedicalShiftJSON } from "../../domain/MedicalShift"
 
 export class PetOwnerService implements PetOwnerServiceInter {
   async getAll(): Promise<PetOwner[]> {
@@ -30,16 +29,12 @@ export class PetOwnerService implements PetOwnerServiceInter {
       params: { idPetOwner: id }
     })
   }
-async getNotificationsByUserId(id: number): Promise<NotificationModel[]> {
-  const res = await axios.get<NotificationJSON[]>(`${URL_BE}/pet-owner/notifications`, {
+async getNotificationsByPetOwnerId(id: number): Promise<NotificationModel[]> {
+  const res = await axios.get<NotificationJSON[]>(`${URL_BE}/pet-owner/get-all-notifications`, {
     params: { idPetOwner: id }
   })
   return res.data.map(NotificationModel.fromJSON)
 }
-async getShiftsByPetOwnerId(id: number): Promise<MedicalShift[]> {
-  const res = await axios.get<MedicalShiftJSON[]>(`${URL_BE}/pet-owner/shifts`, {
-    params: { idPetOwner: id }
-  });
-  return res.data.map(MedicalShift.fromJSON);
-}
+
+
 }

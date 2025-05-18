@@ -7,7 +7,6 @@ import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import { getUserID } from '../../services/auth-service/AuthService'
 import { NotificationModel } from '../../domain/Notification'
 import { NotificationCard } from '../../components/notification-card/NotificationCard'
-import { MedicalShift } from '../../domain/MedicalShift'
 import { Vet } from '../../domain/Vet'
 import {
   PageWrapper,
@@ -17,6 +16,8 @@ import {
   ContactStack,
   WhatsAppStyledButton,
 } from './NotificationsPAgeStyle'
+import { VetServiceInter } from '../../services/vet-service/VetServiceInter'
+import { PetOwnerServiceInter } from '../../services/pet-owner-service/PetOwnerServiceInter'
 
 const useNotificationsData = () => {
   const [notifications, setNotifications] = useState<NotificationModel[]>([])
@@ -27,50 +28,29 @@ const useNotificationsData = () => {
     ? VetServiceManager.getInstance()
     : PetOwnerServiceManager.getInstance()
 
-  const loadData = useCallback(async () => {
-    const id = getUserID()
-    const notes = await service.getNotificationsByUserId(id)
+const loadData = useCallback(async () => {
+  const id = getUserID()
 
-    let shifts: MedicalShift[] = []
+  let notes: NotificationModel[] = []
 
-    if (!isVet && 'getShiftsByPetOwnerId' in service) {
-      shifts = await service.getShiftsByPetOwnerId(id)
+  if (AuthServiceManager.getIntance().isVet()) {
+    const vetService = service as VetServiceInter
+    notes = await vetService.getNotificationsByVetId(id)
+  } else {
+    const petOwnerService = service as PetOwnerServiceInter
+    notes = await petOwnerService.getNotificationsByPetOwnerId(id)
 
-      const petOwner = await service.getOneById(id)
-      if ('vetName' in petOwner && petOwner.vetName) {
-        const allVets = await VetServiceManager.getInstance().getAll()
-        const foundVet = allVets.find((v) => v.name === petOwner.vetName)
-        if (foundVet) setVetData(foundVet)
-      }
+    const petOwner = await petOwnerService.getOneById(id)
+    if ('vetName' in petOwner && petOwner.vetName) {
+      const allVets = await VetServiceManager.getInstance().getAll()
+      const foundVet = allVets.find((v) => v.name === petOwner.vetName)
+      if (foundVet) setVetData(foundVet)
     }
+  }
 
-    const stripTime = (date: Date) => new Date(date.toISOString().split('T')[0])
-    const isOutdated = (notification: NotificationModel): boolean => {
-      if (!notification.appointmentDate) return false
-      const today = stripTime(new Date())
-      const appointment = stripTime(new Date(notification.appointmentDate))
-      return appointment < today
-    }
+  setNotifications(notes)
+}, [service])
 
-    const filteredNotes = notes.filter((n) => !isOutdated(n))
-
-    const todayStr = new Date().toISOString().slice(0, 10)
-    const hasShiftToday = shifts.some((shift) => shift.date === todayStr)
-
-    const todayNotice = hasShiftToday
-      ? [
-          new NotificationModel(
-            Date.now(),
-            'system',
-            'Tenés turnos para hoy',
-            new Date().toISOString(),
-            false,
-          ),
-        ]
-      : []
-
-    setNotifications([...todayNotice, ...filteredNotes])
-  }, [isVet, service])
 
   useEffect(() => {
     loadData()

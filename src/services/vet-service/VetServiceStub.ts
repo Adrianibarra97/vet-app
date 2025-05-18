@@ -1,8 +1,6 @@
 import { NotificationModel } from '../../domain/Notification';
 import { Vet } from '../../domain/Vet';
 import { VetServiceInter } from './VetServiceInter';
-import { MedicalShift } from '../../domain/MedicalShift';
-import { PetMedicalShiftDTO } from '../../domain/Pet';
 
 const vetMockNotifications: NotificationModel[] = [
   new NotificationModel(
@@ -18,15 +16,20 @@ const vetMockNotifications: NotificationModel[] = [
   )
 ];
 
-const vetMockShifts: MedicalShift[] = [
-  new MedicalShift(
-    1,
-    'Dra. Gómez',
-    new PetMedicalShiftDTO(1, 'Rocky'),
-    new Date().toISOString().split('T')[0], 
-    '10:00'
+vetMockNotifications.push(
+  new NotificationModel(
+    4,
+    'SHIFT_TODAY',
+    'Recordatorio: tenés un turno hoy con Rocky',
+    new Date().toISOString(),
+    true,
+    'Rocky',
+    'Juan Pérez',
+    'María Gómez',
+    new Date().toISOString().split('T')[0] + 'T10:00:00Z'
   )
-];
+)
+
 
 export class VetServiceStub implements VetServiceInter {
   private user = new Vet(
@@ -71,11 +74,10 @@ export class VetServiceStub implements VetServiceInter {
     console.log(`Stub: usuario con ID ${id} eliminado`);
   }
 
-  async getNotificationsByUserId(_id: number): Promise<NotificationModel[]> {
-    return vetMockNotifications;
-  }
+ async getNotificationsByVetId(_id: number): Promise<NotificationModel[]> {
+  return vetMockNotifications;
+}
 
-  async getShiftsByVetId(_id: number): Promise<MedicalShift[]> {
-    return vetMockShifts;
-  }
+
+
 }

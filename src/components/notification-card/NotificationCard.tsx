@@ -1,6 +1,5 @@
 import React from 'react'
 import {
- 
   Email,
   WhatsApp,
   Pets,
@@ -29,11 +28,17 @@ import {
   DescriptionText,
   GreenButton,
   WhatsAppButton,
-  
 } from './NotificationCardStyle'
-import { getIconAndColor } from './NotificationCardStyle';
+import { getIconAndColor } from './NotificationCardStyle'
 
-import { Button, Collapse, Divider, IconButton, Stack, Typography } from '@mui/material'
+import {
+  Button,
+  Collapse,
+  Divider,
+  IconButton,
+  Stack,
+  Typography,
+} from '@mui/material'
 
 interface Props {
   notification: NotificationModel
@@ -54,7 +59,8 @@ export const NotificationCard: React.FC<Props> = ({
   expanded = false,
   onToggleExpand,
 }) => {
-  const { message, date, petName, vetName, appointmentDate, type } = notification
+  const { message, date, petName, vetName, appointmentDate, type } =
+    notification
 
   const isVet = AuthServiceManager.getIntance().isVet()
   const msg = message.toLowerCase()
@@ -76,11 +82,14 @@ export const NotificationCard: React.FC<Props> = ({
   if (type === 'system') {
     return (
       <SystemPaper elevation={3}>
-        <TopSpacing direction="row" spacing={1} alignItems="center" justifyContent="center">
+        <TopSpacing
+          direction="row"
+          spacing={1}
+          alignItems="center"
+          justifyContent="center"
+        >
           <EventAvailable sx={{ color: '#4caf50' }} />
-          <GreenTitle variant="subtitle1">
-            Tenés turnos para hoy
-          </GreenTitle>
+          <GreenTitle variant="subtitle1">Tenés turnos para hoy</GreenTitle>
         </TopSpacing>
 
         <DescriptionText variant="body2" color="textSecondary">
@@ -128,10 +137,17 @@ export const NotificationCard: React.FC<Props> = ({
             <strong>Fecha:</strong> {new Date(date).toLocaleDateString()}
           </Typography>
           {appointmentDate && (
-            <Typography variant="body2" color="textSecondary">
-              <strong>Turno:</strong> {new Date(appointmentDate).toLocaleDateString()}
-            </Typography>
-          )}
+  <Typography variant="body2" color="textSecondary">
+    <strong>Turno:</strong>{' '}
+    {new Date(appointmentDate).toLocaleDateString()} a las{' '}
+    {new Date(appointmentDate).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    })}
+  </Typography>
+)}
+
+
           {petName && (
             <Typography variant="body2" color="textSecondary">
               <strong>Mascota:</strong> {petName}
@@ -150,21 +166,17 @@ export const NotificationCard: React.FC<Props> = ({
               ¿Necesitás hablar con {vetName}?
             </Typography>
 
-            <Stack
-              spacing={2}
-              justifyContent="center"
-              alignItems="center"
-            >
-        <WhatsAppButton
-  variant="contained"
-  startIcon={<WhatsApp />}
-  component="a"
-  href={`https://wa.me/${whatsappNumber}`}
-  target="_blank"
-  rel="noopener noreferrer"
->
-  WhatsApp
-</WhatsAppButton>
+            <Stack spacing={2} justifyContent="center" alignItems="center">
+              <WhatsAppButton
+                variant="contained"
+                startIcon={<WhatsApp />}
+                component="a"
+                href={`https://wa.me/${whatsappNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                WhatsApp
+              </WhatsAppButton>
 
               <Button
                 variant="outlined"
