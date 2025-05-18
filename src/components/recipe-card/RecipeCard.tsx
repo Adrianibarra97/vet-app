@@ -17,7 +17,7 @@ export function RecipeCard({recipe, onClickEdit, onClickDelete}:PropsRecipeCard)
     const [modalEditOrViewRecipeOpen, setModalEditOrViewRecipeOpen] = useState<boolean>(false)
     const [modalDeleteRecipeState, setModalDeleteRecipeState] = useState<boolean>(false)
     const [viewMode, setViewMode] = useState<boolean>(false)
-    const date = dayjs(recipe.date).format('DD/MM/YYYY')
+    const date = dayjs(recipe.dateRecipe).format('DD/MM/YYYY')
 
     const handleOnEdit = (recipe:Recipe) => {
         onClickEdit(recipe)
@@ -39,7 +39,7 @@ export function RecipeCard({recipe, onClickEdit, onClickDelete}:PropsRecipeCard)
                         </div>
                         <div className="recipe__item recipe__item-name">
                             <label className="recipe__item--label">Veterinario</label>
-                            <p className="recipe__item--p">{recipe.vet}</p>
+                            <p className="recipe__item--p">{recipe.nameVet}</p>
                         </div>
                     </div>
                     <div className="disease__item">

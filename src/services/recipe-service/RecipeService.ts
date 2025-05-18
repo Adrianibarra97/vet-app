@@ -22,7 +22,7 @@ export class RecipeService implements RecipeServiceInter{
 
     async createNewRecipe(recipe: Recipe, idMedicalHistory: number): Promise<void> {
         const newRecipeDTO = {
-            vet:getUserID(),
+            vetId:getUserID(),
             description:recipe.description,
             date:new Date().toISOString().split('T')[0],
             medicalHistoryId:idMedicalHistory
@@ -32,7 +32,8 @@ export class RecipeService implements RecipeServiceInter{
 
     async editExistRecipe(recipe: Recipe, idMedicalHistory: number): Promise<void> {
         const newRecipeDTO = {
-            vet:getUserID(),
+            id:recipe.id,
+            vetId:getUserID(),
             description:recipe.description,
             date:new Date().toISOString().split('T')[0],//Consultar si cuando se edita una receta tambien se tendria que editar la fecha en la que se hizo esta misma
             medicalHistoryId:idMedicalHistory

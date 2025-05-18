@@ -24,12 +24,12 @@ export class VaccineService implements VaccineServiceInter{
             type:vaccine.type,
             description:vaccine.description,
             batchNumber:vaccine.batchNumber,
-            aplicationDate:vaccine.applicationDate,
+            applicationDate:vaccine.applicationDate,
             expirationDate:vaccine.expirationDate,
             medicalHistoryId:idMedicalHistory
         }
-
-        await axios.post(`${URL_BE}/vaccine/create`, newVaccineDTO)
+        console.log('Vacuna creada:',newVaccineDTO)
+        await axios.post(`${URL_BE}/vaccines/create`, newVaccineDTO)
     }
 
     async editExistVaccine(vaccine: Vaccine, idMedicalHistory: number): Promise<void> {
@@ -38,11 +38,11 @@ export class VaccineService implements VaccineServiceInter{
             type:vaccine.type,
             description:vaccine.description,
             batchNumber:vaccine.batchNumber,
-            aplicationDate:vaccine.applicationDate,
+            applicationDate:vaccine.applicationDate,
             expirationDate:vaccine.expirationDate,
             medicalHistoryId:idMedicalHistory
         }
-
+        console.log('Vacuna editada:',newVaccineDTO)
         await axios.put(`${URL_BE}/vaccines/update`,newVaccineDTO)
     }
 

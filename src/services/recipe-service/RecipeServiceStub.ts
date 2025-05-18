@@ -5,44 +5,44 @@ export class RecipeServiceStub implements RecipeServiceInter{
     private object:RecipeJSON[] = [
         {
             "id":0,
-            "vet":"Ezequiel",
+            "nameVet":"Ezequiel",
             "description":"El perro debera comer arroz hervido con zanahoria durante unos dias.",
-            "date":"2025-02-05",
+            "dateRecipe":"2025-02-05",
             "medicalHistoryId":0
         },
         {
             "id":1,
-            "vet":"Adrian",
+            "nameVet":"Adrian",
             "description":"El perro tiene que hacerse una radiografia.",
-            "date":"2025-04-05",
+            "dateRecipe":"2025-04-05",
             "medicalHistoryId":1
         },
         {
             "id":2,
-            "vet":"Tamara",
+            "nameVet":"Tamara",
             "description":"La mascota necesita un mes de reposo.",
-            "date":"2025-03-01",
+            "dateRecipe":"2025-03-01",
             "medicalHistoryId":2
         },
         {
             "id":3,
-            "vet":"Carolina",
+            "nameVet":"Carolina",
             "description":"La mascota tiene que usar collar anti-pulgas durante 30 dias.",
-            "date":"2025-05-01",
+            "dateRecipe":"2025-05-01",
             "medicalHistoryId":3
         },
         {
             "id":4,
-            "vet":"Lucas C",
+            "nameVet":"Lucas C",
             "description":"La mascota tiene que tomar pastillas anti-garrapatas durante 3 meses.",
-            "date":"2025-04-10",
+            "dateRecipe":"2025-04-10",
             "medicalHistoryId": 4
         },
         {
             "id":5,
-            "vet":"Lucas R",
+            "nameVet":"Lucas R",
             "description":"La mascota tiene que ponerse un cono durante 30 dias para que no  se rasque.",
-            "date":"2025-01-12",
+            "dateRecipe":"2025-01-12",
             "medicalHistoryId":5
         }
     ]

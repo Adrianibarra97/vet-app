@@ -23,6 +23,8 @@ export class StudyResultService implements StudyResultServiceInter{
         const newStudyResultDTO = {
             type:studyResult.type,
             description:studyResult.description,
+            date:studyResult.date,
+            fileUrl:'',
             medicalHistoryId:idMedicalHistory
         }
 
@@ -34,7 +36,9 @@ export class StudyResultService implements StudyResultServiceInter{
             id:studyResult.id,
             type:studyResult.type,
             description:studyResult.description,
-            medicalHistory:idMedicalHistory
+            date:studyResult.date,
+            fileUrl:'',
+            medicalHistoryId:idMedicalHistory
         }
 
         await axios.put(`${URL_BE}/study-result/update`, newStudyResultDTO)

@@ -23,7 +23,7 @@ interface RecipeModalProps{
 export function RecipeModal({recipe:initialRecipe, open, onClose, onConfirm, idRecipe, viewMode}:RecipeModalProps){
     const [recipe,setRecipe] = useState<Recipe>(new Recipe())
     const [fromTouched,setFromTouched] = useState<boolean>(false)
-    const [recipeDate, setRecipeDate] = useState<Dayjs|null>(initialRecipe?.date ? dayjs(initialRecipe.date) : null)
+    const [recipeDate, setRecipeDate] = useState<Dayjs|null>(initialRecipe?.dateRecipe ? dayjs(initialRecipe.dateRecipe) : null)
     const [errorDate, setErrorDate ] = useState<string|null>(null)
 
     dayjs.extend(customParseFormat)
@@ -32,7 +32,7 @@ export function RecipeModal({recipe:initialRecipe, open, onClose, onConfirm, idR
         cleanStates()
         if(initialRecipe){
             setRecipe(Object.assign(new Recipe(), initialRecipe))
-            setRecipeDate(initialRecipe.date ? dayjs(initialRecipe.date, "YYYY-MM-DD") : null)
+            setRecipeDate(initialRecipe.dateRecipe ? dayjs(initialRecipe.dateRecipe, "YYYY-MM-DD") : null)
         }else if(idRecipe === -1){
             setRecipe(new Recipe())
             setRecipeDate(null)
@@ -51,14 +51,14 @@ export function RecipeModal({recipe:initialRecipe, open, onClose, onConfirm, idR
             setErrorDate(null)
             setRecipeDate(newRecipeDate)
             const RecipeDateFormat = newRecipeDate.format('YYYY-MM-DD')
-            handleRecipeCreationOrEdition('date', RecipeDateFormat)
+            handleRecipeCreationOrEdition('dateRecipe', RecipeDateFormat)
         }else{
             if(!newRecipeDate?.isValid()){
                 setErrorDate('Por favor, seleccione un dia valido')
             }else{
                 setErrorDate('Por favor, ingrese una fecha de receta')
             }
-            setRecipeDate(dayjs(recipe.date))
+            setRecipeDate(dayjs(recipe.dateRecipe))
         }
     }
 
@@ -84,7 +84,7 @@ export function RecipeModal({recipe:initialRecipe, open, onClose, onConfirm, idR
     }
 
     const hasMissingRequiredFields = ():boolean => {
-        const requiredFields: (keyof Recipe)[] = ['date','description']
+        const requiredFields: (keyof Recipe)[] = ['dateRecipe','description']
 
         return requiredFields.some((field)=> !recipe[field])
     }
@@ -100,7 +100,7 @@ export function RecipeModal({recipe:initialRecipe, open, onClose, onConfirm, idR
             setRecipeDate(null)
         } else if (initialRecipe) {
             setRecipe(Object.assign(new Recipe(), initialRecipe)) 
-            setRecipeDate(initialRecipe.date ? dayjs(initialRecipe.date) : null)
+            setRecipeDate(initialRecipe.dateRecipe ? dayjs(initialRecipe.dateRecipe) : null)
         }
         setErrorDate(null)
         setFromTouched(false)
@@ -127,13 +127,13 @@ export function RecipeModal({recipe:initialRecipe, open, onClose, onConfirm, idR
                         margin="normal"
                         color="primary"
                         required
-                        value={recipe.vet}
+                        value={recipe.nameVet}
                         onChange={(event) =>
-                            handleRecipeCreationOrEdition('vet', event.target.value)
+                            handleRecipeCreationOrEdition('nameVet', event.target.value)
                         }
-                        error={fromTouched && !recipe.vet}
+                        error={fromTouched && !recipe.nameVet}
                         helperText={
-                            fromTouched && !recipe.vet ? (
+                            fromTouched && !recipe.nameVet ? (
                             <Box display="flex" alignItems="center" gap={1}>
                                 <Typography color="red">
                                 El veterinario es obligatorio

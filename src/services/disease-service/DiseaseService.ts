@@ -21,8 +21,11 @@ export class DiseaseService implements DiseaseServiceInter{
 
     async createNewDisease(disease: Disease, idMedicalHistory:number): Promise<void> {
         const PreExistenceDiseaseDTO = {
+            isActive:true,
             type:disease.type,
             observation:disease.observation,
+            diagnosisDate:disease.diagnosisDate,
+            severity:disease.severity,
             medicalHistoryId:idMedicalHistory
         }
         await axios.post(`${URL_BE}/pre-existence-disease/create`,PreExistenceDiseaseDTO)
