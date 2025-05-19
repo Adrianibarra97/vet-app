@@ -13,17 +13,24 @@ export const formItemTitle = {
   display: 'flex',
   flexDirection: 'column',
   width: { xs: '95%', sm: '35em' },
-  height: '15vh',
-  margin: 'auto'
+  height: 'auto',
+  margin: '2em auto'
 }
 
 export const sectionMainTitle = {
   display: 'flex',
   width: '100%',
-  height: '30%',
-  mb: '1em',
+  height: '4vh',
   justifyContent: 'center',
   alignItem: 'center'
+}
+
+export const sectionType = {
+  display: 'flex',
+  width: '100%',
+  height: '9vh',
+  mt: '2vh',
+  overflow: 'visible'
 }
 
 export const formItem = {
@@ -34,58 +41,38 @@ export const formItem = {
   overflow: 'visible'
 }
 
-export const sectionItems = {
-  display: 'flex',
-  flexDirection: { xs: 'column', sm: 'row' },
-  width: '100%',
-  height: { xs: '20vh', sm: '10vh' },
-  justifyContent: 'space-around',
-  alignItems: 'center',
-  overflow: 'visible'
+export const formItemNone = {
+  display: 'none'
 }
 
 export const sectionTitle = {
   display: 'flex',
   width: '100%',
   height: '5vh',
-  mb: '1em',
   justifyContent: 'center',
   alignItems: 'center'
+}
+
+export const sectionItems = {
+  display: 'flex',
+  flexDirection: { xs: 'column', sm: 'row' },
+  width: '100%',
+  height: { xs: '30vh', sm: '15vh' },
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  overflow: 'visible'
 }
 
 export const sectionItemImage = {
   display: 'flex',
   height: '5em',
   width: { xs: '100%', sm: '45%' },
-  overflow: 'visible',
-  border: '1px solid blue'
+  overflow: 'visible'
 }
 
 export const sectionItem = {
   display: 'flex',
   height: 'auto',
   width: { xs: '100%', sm: '45%' },
-  overflow: 'visible',
-  border: '1px solid blue'
-}
-
-
-
-
-
-
-
-export const button__Container = { 
-  display: 'flex',
-  width: '100%',
-  height: 'auto',
-  margin: 0,
-  justifyContent: 'space-around',
-  alignItems: 'center',
-  overFlow: 'visible'
-}
-
-export const BkgButton = {
-  width: '6em',
-  backgroundColor: 'var(--footer-color)'
+  overflow: 'visible'
 }

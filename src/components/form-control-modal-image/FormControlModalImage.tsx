@@ -18,7 +18,9 @@ export const FormControlModalImage = (formControlProps: FromControlModalProps) =
     <>
       <FormControl sx={ formControlProps.isActive ? formControl : formControlNone }>
         <Avatar alt="Mascota" src={ formControlProps.pet.photo } sx={ avatar }/>
-        <Button sx={ iconButton } onClick={ () => setOpenModal(true) }>Cambiar</Button>
+        <Button sx={ iconButton } onClick={ () => setOpenModal(true) }>
+          { formControlProps.pet.photo ? 'Cambiar' : 'Ingresar' }
+        </Button>
       </FormControl>
       <ImageModal
         open={ openModal } onPhotoChange={ formControlProps.onPhotoChange }

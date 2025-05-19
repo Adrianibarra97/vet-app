@@ -1,7 +1,6 @@
-import { ChangeEvent, useState } from 'react'
+import { useState } from 'react'
 import { Box, Typography } from '@mui/material'
-import dayjs, { Dayjs } from 'dayjs'
-import { FormControlModalDate } from '../../components/form-control-modal-date/FormControlModalDate'
+import { Dayjs } from 'dayjs'
 import { FormControlModalSelect } from '../../components/form-control-modal-select/FormControlModalSelect'
 import { FormControlModalImage } from '../../components/form-control-modal-image/FormControlModalImage'
 import { FormControlModal } from '../../components/form-control-modal/FormControlModal'
@@ -9,201 +8,309 @@ import { Vet } from '../../domain/Vet'
 import { PetOwner } from '../../domain/PetOwner'
 import { Pet } from '../../domain/Pet'
 import {
-  formContainer, formItem, formItemTitle, sectionItem, sectionItemImage, sectionItems, sectionMainTitle, sectionTitle
+  formContainer, formItem, formItemNone, formItemTitle, sectionItem, sectionItemImage, sectionItems, sectionMainTitle, sectionTitle,
+  sectionType
 } from './CreateUserPageStyle'
 import './CreateUserPage.css'
+import { User } from '../../domain/User'
+import { ButtonsModal } from '../../components/buttons-modal/ButtonsModal'
+import { useNavigate } from 'react-router-dom'
 
 export const CreateUserPage = () => {
 
   const textFieldTypes: ['text', 'number'] = ['text', 'number']
   const userTypes: ['VET', 'PETOWNER'] = ['VET', 'PETOWNER']
-
-  
-  const [errorActive, setErrorActive] = useState(false)
-  const [user, setUser] = useState<Vet | PetOwner | null>(null)
-
-  const [pet, setPet] = useState(new Pet())
-  const sexOptions: string[] = ['Macho', 'Hembra']
-  const sterilizedOptions: string[] = ['SI', 'NO']
-  const petKeys: (keyof Pet)[] = [
-    'id', 'name', 'breed', 'age', 'weight',
-    'sterilized', 'photo', 'sex', 'birth', 'specie'
+  const userKeys: (keyof User)[] = [
+    'id', 'username', 'password', 'name', 'surname',
+    'dni', 'email', 'telephone', 'photo', 'address',
+    'postalCode', 'locality', 'province', 'country'
   ]
   const fieldKyes: (string)[] = [
-    'Id', 'Nombre', 'Raza', 'Edad', 'Peso',
-    'Castrado', 'Image', 'Sexo', 'Nacimiento', 'Especie'
+    'Id', 'Usuario', 'Contraseña', 'Nombre', 'Apellido',
+    'DNI', 'E-mail', 'Teléfono', 'Imagen', 'Dirección',
+    'Código Postal', 'Localidad', 'Provincia', 'País'
   ]
+  const userPetOwnerKeys: (keyof PetOwner)[] = [
+    'emergencyContactName', 'emergencyContactPhone'
+  ]
+  const fieldPetOwnerKeys: (string)[] = [
+    'Nombre del contacto', 'Contacto de Emergencia'
+  ]
+  const userVetKeys: (keyof Vet)[] = [
+    'licence', 'speciality', 'businessHours', 'professionalEmail', 'professionalTelephone',
+    'professionalAddress', 'professionalLocality', 'professionalPostalCode'
+  ]
+  const fieldVetKyes: (string)[] = [
+    'Licencia', 'Especialidad', 'Horario', 'E-mail Profesional', 'Teléfono Profesional',
+    'Dirección laboral', 'Localidad Laboral', 'CP Loboral'
+  ]
+  const navigate = useNavigate()
+  const [errorActive, setErrorActive] = useState(false)
+  const [user, setUser] = useState<Vet | PetOwner | null>(null)
+  const [pet, setPet] = useState(new Pet())
 
+  const handleUserLabelColor = (key: keyof User): 'success' | 'error' => {
+    console.log(key)
+    return user ? 'success' : 'error'
+  }
 
-  const handleInputChanges = (key: keyof Pet, e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleVetLabelColor = (key: keyof Vet): 'success' | 'error' => {
+    console.log(key)
+    return user ? 'success' : 'error'
+  }
+
+  const handlePetOwnerLabelColor = (key: keyof PetOwner): 'success' | 'error' => {
+    console.log(key)
+    return user ? 'success' : 'error'
+  }
+  
+  const handleInputUserChanges = (key: keyof User, value: string | number) => {
+    console.log(key, value)
+  }
+
+  const handleInputVetChanges = (key: keyof Vet, value: string | number) => {
+    console.log(key, value)
+  }
+
+  const handleInputPetOwnerChanges = (key: keyof PetOwner, value: string | number) => {
+    console.log(key, value)
   }
 
   const handleSelectChanges = (value: string) => {
-    console.log(value)
-  }
-
-  const handleDateInputChanges = (key: keyof Pet, date: Dayjs) => {
-   
+    const updated = Object.assign(
+      Object.create(Object.getPrototypeOf(user)),
+      { ...user, typeOfUser: value },
+    )
+    setUser(updated)
   }
 
   const handlePhotoChange = (newPhoto: string) => {
     const updated = Object.assign(
-      Object.create(Object.getPrototypeOf(pet)),
-      { ...pet, photo: newPhoto },
+      Object.create(Object.getPrototypeOf(user)),
+      { ...user, photo: newPhoto },
     )
     setPet(updated)
   }
 
-  const handleLabelColor = (key: keyof Pet): 'primary' | 'error' => {
-    return pet[key] ? 'primary' : 'error'
+  const handleConfirm = () => {
+    alert('Creo un nuevo usuario')
   }
 
-  const handleCancel = () => {}
-  const handleConfirm = () => {}
+  const handleCancel = () => {
+    navigate('/auth/login')
+  }
 
   return (
     <main className="auth__main--create">
       <Box sx={ formContainer }>
         <Box sx={ formItemTitle }>
           <Typography variant="h6" sx={ sectionMainTitle }>Tipo de usuario</Typography>
-          <FormControlModalSelect isActive={ true } label={ 'tipo de usuario' }
-            options={ userTypes } defaultValue={ userTypes[0] } labelColor={ 'success' }
-            handleInputChanges={ (value) => handleSelectChanges(value) }            
-          />
+          <Box sx={ sectionType }>
+            <FormControlModalSelect isActive={ true } label={ 'tipo de usuario' }
+              options={ userTypes } defaultValue={ userTypes[0] } labelColor={ 'success' }
+              handleInputChanges={ (value) => handleSelectChanges(value) }            
+            />
+          </Box>
         </Box>
-
-
-
         <Box sx={ formItem }>
           <Typography variant="h6" sx={ sectionTitle }>Datos generales</Typography>
-
           <Box sx={ sectionItems }>
             <Box sx={ sectionItemImage }>
               <FormControlModalImage
                 isActive={ true } pet={ pet }
-                onPhotoChange={ (value) => handleInputChanges(petKeys[6], value) }
-              />
-            </Box>
-            <Box sx={ sectionItem }>
-              <FormControlModalDate
-                label={ fieldKyes[8] } defaultValue={ dayjs(pet.birth) } errorActive={ errorActive }
-                isActive={ true } handleInputChanges={ (value) => handleDateInputChanges(petKeys[8], value) }
+                onPhotoChange={ (value) => handlePhotoChange(value) }
               />
             </Box>
           </Box>
-
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
                 type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
-                isActive={ true } label={ fieldKyes[1] } labelColor={ handleLabelColor(petKeys[1]) }
-                handleInputChanges={ (value) => handleInputChanges(petKeys[1], value) }
+                isActive={ true } label={ fieldKyes[3] } labelColor={ handleUserLabelColor(userKeys[3]) }
+                handleInputChanges={ (value) => handleInputUserChanges(userKeys[3], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
                 type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
-                isActive={ true } label={ fieldKyes[1] } labelColor={ handleLabelColor(petKeys[1]) }
-                handleInputChanges={ (value) => handleInputChanges(petKeys[1], value) }
+                isActive={ true } label={ fieldKyes[4] } labelColor={ handleUserLabelColor(userKeys[4]) }
+                handleInputChanges={ (value) => handleInputUserChanges(userKeys[4], value) }
               />
             </Box>
           </Box>
-
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
                 type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
-                isActive={ true } label={ fieldKyes[1] } labelColor={ handleLabelColor(petKeys[1]) }
-                handleInputChanges={ (value) => handleInputChanges(petKeys[1], value) }
+                isActive={ true } label={ fieldKyes[1] } labelColor={ handleUserLabelColor(userKeys[1]) }
+                handleInputChanges={ (value) => handleInputUserChanges(userKeys[1], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
                 type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
-                isActive={ true } label={ fieldKyes[1] } labelColor={ handleLabelColor(petKeys[1]) }
-                handleInputChanges={ (value) => handleInputChanges(petKeys[1], value) }
+                isActive={ true } label={ fieldKyes[2] } labelColor={ handleUserLabelColor(userKeys[2]) }
+                handleInputChanges={ (value) => handleInputUserChanges(userKeys[2], value) }
               />
             </Box>
           </Box>
-
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
                 type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
-                isActive={ true } label={ fieldKyes[1] } labelColor={ handleLabelColor(petKeys[1]) }
-                handleInputChanges={ (value) => handleInputChanges(petKeys[1], value) }
+                isActive={ true } label={ fieldKyes[5] } labelColor={ handleUserLabelColor(userKeys[5]) }
+                handleInputChanges={ (value) => handleInputUserChanges(userKeys[5], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
                 type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
-                isActive={ true } label={ fieldKyes[1] } labelColor={ handleLabelColor(petKeys[1]) }
-                handleInputChanges={ (value) => handleInputChanges(petKeys[1], value) }
+                isActive={ true } label={ fieldKyes[6] } labelColor={ handleUserLabelColor(userKeys[6]) }
+                handleInputChanges={ (value) => handleInputUserChanges(userKeys[6], value) }
               />
             </Box>
           </Box>
-
-
-
-
-          {/* <Box sx={ modalItems }>
-            <Box sx={ modalItem }>
+          <Box sx={ sectionItems }>
+            <Box sx={ sectionItem }>
               <FormControlModal
                 type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
-                isActive={ true } label={ fieldKyes[1] } labelColor={ handleLabelColor(petKeys[1]) }
-                handleInputChanges={ (value) => handleInputChanges(petKeys[1], value) }
+                isActive={ true } label={ fieldKyes[7] } labelColor={ handleUserLabelColor(userKeys[7]) }
+                handleInputChanges={ (value) => handleInputUserChanges(userKeys[7], value) }
               />
             </Box>
-            <Box sx={ modalItem }>
+            <Box sx={ sectionItem }>
               <FormControlModal
                 type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
-                isActive={ false } label={ fieldKyes[1] } labelColor={ handleLabelColor(petKeys[1]) }
-                handleInputChanges={ (value) => handleInputChanges(petKeys[1], value) }
+                isActive={ true } label={ fieldKyes[10] } labelColor={ handleUserLabelColor(userKeys[10]) }
+                handleInputChanges={ (value) => handleInputUserChanges(userKeys[10], value) }
               />
             </Box>
-          </Box> */}
-
+          </Box>
+          <Box sx={ sectionItems }>
+            <Box sx={ sectionItem }>
+              <FormControlModal
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                isActive={ true } label={ fieldKyes[9] } labelColor={ handleUserLabelColor(userKeys[9]) }
+                handleInputChanges={ (value) => handleInputUserChanges(userKeys[9], value) }
+              />
+            </Box>
+            <Box sx={ sectionItem }>
+              <FormControlModal
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                isActive={ true } label={ fieldKyes[11] } labelColor={ handleUserLabelColor(userKeys[11]) }
+                handleInputChanges={ (value) => handleInputUserChanges(userKeys[11], value) }
+              />
+            </Box>
+          </Box>
+          <Box sx={ sectionItems }>
+            <Box sx={ sectionItem }>
+              <FormControlModal
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                isActive={ true } label={ fieldKyes[12] } labelColor={ handleUserLabelColor(userKeys[12]) }
+                handleInputChanges={ (value) => handleInputUserChanges(userKeys[12], value) }
+              />
+            </Box>
+            <Box sx={ sectionItem }>
+              <FormControlModal
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                isActive={ true } label={ fieldKyes[13] } labelColor={ handleUserLabelColor(userKeys[13]) }
+                handleInputChanges={ (value) => handleInputUserChanges(userKeys[13], value) }
+              />
+            </Box>
+          </Box>
         </Box>
-
-
-        {/* <Box sx={ formItem }>
-          <Typography variant="h6" sx={ modalTitle }>PETOWNER</Typography>
-          <Box sx={ modalItems }>
-            <FormControlModalSelect
-              defaultValue={ pet.sterilized ? sterilizedOptions[0] : sterilizedOptions[1] }
-              options={ sterilizedOptions } isActive={ true } label={ fieldKyes[5] }
-              labelColor={ handleLabelColor(petKeys[5]) }
-              handleInputChanges={ (value) => handleInputChanges(petKeys[5], value) }
-            />
-            <FormControlModalSelect
-              defaultValue={ pet.sex } options={ sexOptions } isActive={ true }
-              label={ fieldKyes[7] } labelColor={ handleLabelColor(petKeys[7]) }
-              handleInputChanges={ (value) => handleInputChanges(petKeys[7], value) }
-            />
+        <Box sx={ user?.typeOfUser === 'PETOWNER' ? formItem : formItemNone }>
+          <Typography variant="h6" sx={ sectionTitle }>Dueño de Mascota</Typography>
+          <Box sx={ sectionItems }>
+            <Box sx={ sectionItem }>
+              <FormControlModal
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                isActive={ true } label={ fieldPetOwnerKeys[1] } labelColor={ handlePetOwnerLabelColor(userPetOwnerKeys[1]) }
+                handleInputChanges={ (value) => handleInputPetOwnerChanges(userPetOwnerKeys[1], value) }
+              />
+            </Box>
+            <Box sx={ sectionItem }>
+              <FormControlModal
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                isActive={ true } label={ fieldPetOwnerKeys[0] } labelColor={ handlePetOwnerLabelColor(userPetOwnerKeys[0]) }
+                handleInputChanges={ (value) => handleInputPetOwnerChanges(userPetOwnerKeys[0], value) }
+              />
+            </Box>
           </Box>
         </Box>
-
+        <Box sx={ user?.typeOfUser === 'VET' ? formItem : formItemNone }>
+          <Typography variant="h6" sx={ sectionTitle }>Veterinario</Typography>
+          <Box sx={ sectionItems }>
+            <Box sx={ sectionItem }>
+              <FormControlModal
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                isActive={ true } label={ fieldVetKyes[0] } labelColor={ handleVetLabelColor(userVetKeys[0]) }
+                handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[0], value) }
+              />
+            </Box>
+            <Box sx={ sectionItem }>
+              <FormControlModal
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                isActive={ true } label={ fieldVetKyes[1] } labelColor={ handleVetLabelColor(userVetKeys[1]) }
+                handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[1], value) }
+              />
+            </Box>
+          </Box>
+          <Box sx={ sectionItems }>
+            <Box sx={ sectionItem }>
+              <FormControlModal
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                isActive={ true } label={ fieldVetKyes[2] } labelColor={ handleVetLabelColor(userVetKeys[2]) }
+                handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[2], value) }
+              />
+            </Box>
+            <Box sx={ sectionItem }>
+              <FormControlModal
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                isActive={ true } label={ fieldVetKyes[3] } labelColor={ handleVetLabelColor(userVetKeys[3]) }
+                handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[3], value) }
+              />
+            </Box>
+          </Box>
+          <Box sx={ sectionItems }>
+            <Box sx={ sectionItem }>
+              <FormControlModal
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                isActive={ true } label={ fieldVetKyes[5] } labelColor={ handleVetLabelColor(userVetKeys[5]) }
+                handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[5], value) }
+              />
+            </Box>
+            <Box sx={ sectionItem }>
+              <FormControlModal
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                isActive={ true } label={ fieldVetKyes[7] } labelColor={ handleVetLabelColor(userVetKeys[7]) }
+                handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[7], value) }
+              />
+            </Box>
+          </Box>
+          <Box sx={ sectionItems }>
+            <Box sx={ sectionItem }>
+              <FormControlModal
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                isActive={ true } label={ fieldVetKyes[6] } labelColor={ handleVetLabelColor(userVetKeys[6]) }
+                handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[6], value) }
+              />
+            </Box>
+            <Box sx={ sectionItem }>
+              <FormControlModal
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                isActive={ true } label={ fieldVetKyes[4] } labelColor={ handleVetLabelColor(userVetKeys[4]) }
+                handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[4], value) }
+              />
+            </Box>
+          </Box>
+        </Box>
         <Box sx={ formItem }>
-          <Typography variant="h6" sx={ modalTitle }>VET</Typography>
-          <Box sx={ modalItems }>
-            <FormControlModalSelect
-              defaultValue={ pet.sterilized ? sterilizedOptions[0] : sterilizedOptions[1] }
-              options={ sterilizedOptions } isActive={ true } label={ fieldKyes[5] }
-              labelColor={ handleLabelColor(petKeys[5]) }
-              handleInputChanges={ (value) => handleInputChanges(petKeys[5], value) }
-            />
-            <FormControlModalSelect
-              defaultValue={ pet.sex } options={ sexOptions } isActive={ true }
-              label={ fieldKyes[7] } labelColor={ handleLabelColor(petKeys[7]) }
-              handleInputChanges={ (value) => handleInputChanges(petKeys[7], value) }
-            />
-          </Box>
+          <ButtonsModal
+            confirLabel={ 'Crear' } cancelLabel={ 'Cancelar' }
+            confirm={ () => handleConfirm() } cancel={ () => handleCancel() }
+          />
         </Box>
-
-        <Box sx={ button__Container }>
-          <Button variant="contained" sx={ BkgButton } onClick={ handleCancel }>Cancelar</Button>
-          <Button variant="contained" sx={ BkgButton } onClick={ handleConfirm }>Confirmar</Button>
-        </Box> */}
       </Box>
     </main>
   )
