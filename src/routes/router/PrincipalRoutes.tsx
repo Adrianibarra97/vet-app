@@ -9,10 +9,9 @@ import { ErrorPage } from '../../pages/error-page/ErrorPage'
 import { AuthLayout } from '../../layouts/auth/AuthLayout'
 import { LoginPage } from '../../pages/login-page/LoginPage'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
-import { ProfileLayout } from '../../pages/profile-page/ProfileLayout'
+import { ProfileLayout } from '../../layouts/profile/ProfileLayout'
 import { NotificationsPage } from '../../components/notification/NotificationsPage'
 export const PrincipalRoutes = () => {
-
   const handleTitlePet = () => {
     return AuthServiceManager.getIntance().isVet() ? 'Pacientes' : 'Mascotas'
   }
@@ -20,19 +19,18 @@ export const PrincipalRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path = "/auth" element = { <AuthLayout /> }>
-          <Route path = "login" element = { <LoginPage /> }/>
+        <Route path="/auth" element={<AuthLayout />}>
+          <Route path="login" element={<LoginPage />} />
         </Route>
-        <Route element = { <ProtectedRoutes /> }>
-          <Route path = "/" element = { <MainLayout /> } >
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/" element={<MainLayout />}>
             <Route path="profile" element={<ProfileLayout />}>
-  <Route index element={<ProfilePage />} />
-<Route path="notifications" element={<NotificationsPage />} />
-
-</Route>
-           <Route path = "pets" element = { <PetPage name={ handleTitlePet() } /> } />
-            <Route path = "medical-shift" element = { <MedicalShiftPage /> } />
-            <Route path = "*" element = { <ErrorPage /> } />
+              <Route index element={<ProfilePage />} />
+              <Route path="notifications" element={<NotificationsPage />} />
+            </Route>
+            <Route path="pets" element={<PetPage name={handleTitlePet()} />} />
+            <Route path="medical-shift" element={<MedicalShiftPage />} />
+            <Route path="*" element={<ErrorPage />} />
           </Route>
         </Route>
       </Routes>
