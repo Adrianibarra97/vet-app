@@ -1,12 +1,13 @@
 import { NotificationModel } from '../../domain/Notification'
 import { PetOwner } from '../../domain/PetOwner'
+import { sharedMockNotifications } from '../vet-service/VetServiceStub'
 import { PetOwnerServiceInter } from './PetOwnerServiceInter'
 
 const petOwnerMockNotifications: NotificationModel[] = [
   new NotificationModel(
     1,
-    'appointment',
-    'Tu turno fue cancelado:',
+    'SHIFT_DELETE',
+    'Tu turno fue cancelado por la veterinaria',
     new Date().toISOString(),
     true,
     'Cleopatra',
@@ -17,7 +18,7 @@ const petOwnerMockNotifications: NotificationModel[] = [
   new NotificationModel(
     2,
     'vaccine',
-    'La vacuna de rabia esta por vencer ',
+    'La vacuna de rabia de Napoleon está próxima a vencer',
     new Date().toISOString(),
     true,
     'Napoleon',
@@ -26,7 +27,7 @@ const petOwnerMockNotifications: NotificationModel[] = [
   new NotificationModel(
     3,
     'appointment',
-    'Nuevo turno asignado ',
+    'Nuevo turno asignado para Freya',
     new Date().toISOString(),
     false,
     'Freya',
@@ -36,7 +37,7 @@ const petOwnerMockNotifications: NotificationModel[] = [
   ),
   new NotificationModel(
     4,
-    'appointment',
+    'SHIFT_UPDATE',
     'Tu turno fue modificado por la veterinaria',
     new Date().toISOString(),
     false,
@@ -45,22 +46,18 @@ const petOwnerMockNotifications: NotificationModel[] = [
     'María Gómez',
     '2024-05-28T11:30:00Z',
   ),
-]
-petOwnerMockNotifications.push(
   new NotificationModel(
     5,
     'SHIFT_TODAY',
-    'Recordatorio: tenés un turno hoy ',
+    'Recordatorio: tenés un turno hoy con Cleopatra',
     new Date().toISOString(),
     true,
     'Cleopatra',
     'Tamara Mecozzi',
     'María Gómez',
-    '2025-05-19T09:00:00Z'
-  )
-)
-
-
+    '2025-05-19T09:00:00Z',
+  ),
+]
 
 export class PetOwnerServiceStub implements PetOwnerServiceInter {
   private user = new PetOwner(
@@ -100,7 +97,10 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
   }
 
   async getNotificationsByPetOwnerId(_id: number): Promise<NotificationModel[]> {
-  return petOwnerMockNotifications;
-}
+    const vetNotifications = sharedMockNotifications.filter((n) =>
+      n.petOwnerName?.includes(this.user.name)
+    )
 
+    return [...petOwnerMockNotifications, ...vetNotifications]
+  }
 }

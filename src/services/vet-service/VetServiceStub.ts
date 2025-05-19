@@ -2,10 +2,10 @@ import { NotificationModel } from '../../domain/Notification';
 import { Vet } from '../../domain/Vet';
 import { VetServiceInter } from './VetServiceInter';
 
-const vetMockNotifications: NotificationModel[] = [
+export const sharedMockNotifications: NotificationModel[] = [
   new NotificationModel(
-    3,
-    'appointment',
+    1,
+    'SHIFT_DELETE',
     'Turno cancelado por el dueño Juan Pérez para su mascota Rocky',
     new Date().toISOString(),
     true,
@@ -13,12 +13,9 @@ const vetMockNotifications: NotificationModel[] = [
     'Juan Pérez',
     'María Gómez',
     '2024-05-21T15:00:00Z'
-  )
-];
-
-vetMockNotifications.push(
+  ),
   new NotificationModel(
-    4,
+    2,
     'SHIFT_TODAY',
     'Recordatorio: tenés un turno hoy con Rocky',
     new Date().toISOString(),
@@ -27,9 +24,8 @@ vetMockNotifications.push(
     'Juan Pérez',
     'María Gómez',
     new Date().toISOString().split('T')[0] + 'T10:00:00Z'
-  )
-)
-
+  ),
+]
 
 export class VetServiceStub implements VetServiceInter {
   private user = new Vet(
@@ -74,10 +70,17 @@ export class VetServiceStub implements VetServiceInter {
     console.log(`Stub: usuario con ID ${id} eliminado`);
   }
 
- async getNotificationsByVetId(_id: number): Promise<NotificationModel[]> {
-  return vetMockNotifications;
-}
+   async getNotificationsByVetId(_id: number): Promise<NotificationModel[]> {
+    return sharedMockNotifications.filter(
+      (n) =>
+        n.type === 'SHIFT_TODAY' ||
+        (n.type === 'SHIFT_DELETE' &&
+          n.message.toLowerCase().includes('cancelado') &&
+          n.message.toLowerCase().includes('dueño'))
+    )
+  }
 
-
-
+  addMockNotification(notification: NotificationModel): void {
+    sharedMockNotifications.push(notification)
+  }
 }
