@@ -70,64 +70,64 @@ export function PetDetail(){
         }
     }, [pet])
 
-    const handleEditOrCreateDisease = (disease:Disease) => {
+    const handleEditOrCreateDisease = async (disease:Disease) => {
         if (disease.id > -1) {
             DiseaseServiceManager.getInstance().editExistDisease(disease,pet.idMedicalHistory)
-            getDiseasesPet()
+            await getDiseasesPet()
         }else{
             DiseaseServiceManager.getInstance().createNewDisease(disease,pet.idMedicalHistory)
-            getDiseasesPet()
+            await getDiseasesPet()
         }
     }
 
-    const handleDiseaseDelete = (idDisease:number) => {
+    const handleDiseaseDelete = async (idDisease:number) => {
         DiseaseServiceManager.getInstance().deleteExistDiseaseById(idDisease)
-        getDiseasesPet()
+        await getDiseasesPet()
     }
 
-    const handleEditOrCreateRecipe = (recipe:Recipe) => {
+    const handleEditOrCreateRecipe = async (recipe:Recipe) => {
         if(recipe.id > -1) {
             RecipeServiceManager.getInstance().editExistRecipe(recipe,pet.idMedicalHistory)
-            getRecipesPet()
+            await getRecipesPet()
         }else{
             RecipeServiceManager.getInstance().createNewRecipe(recipe,pet.idMedicalHistory)
-            getRecipesPet()
+            await getRecipesPet()
         }
     }
 
-    const handleRecipeDelete = (idRecipe:number) => {
+    const handleRecipeDelete = async (idRecipe:number) => {
         RecipeServiceManager.getInstance().deleteExistRecipe(idRecipe)
-        getRecipesPet()
+        await getRecipesPet()
     }
 
-    const handleEditOrCreateStudy = (study:Study) => {
+    const handleEditOrCreateStudy = async(study:Study) => {
         if(study.id > -1){
             StudyResultServiceManager.getInstace().editExistStudyResult(study,pet.idMedicalHistory)
-            getStudysPet()
+            await getStudysPet()
         }else{
             StudyResultServiceManager.getInstace().createNewStudyResult(study, pet.idMedicalHistory)
-            getStudysPet()
+            await getStudysPet()
         }
     }
 
-    const handleStudyDelete = (idStudy:number) => {
+    const handleStudyDelete = async(idStudy:number) => {
         StudyResultServiceManager.getInstace().deleteExistStudyResult(idStudy)
-        getStudysPet()
+        await getStudysPet()
     }
 
-    const handleEditOrCreateVaccine = (vaccine:Vaccine) => {
+    const handleEditOrCreateVaccine = async(vaccine:Vaccine) => {
         if(vaccine.id > -1){
             VaccineServiceManager.getInstance().editExistVaccine(vaccine, pet.idMedicalHistory)
-            getVaccinesPet()
+            await getVaccinesPet()
         }else{
             VaccineServiceManager.getInstance().createNewVaccine(vaccine, pet.idMedicalHistory)
-            getVaccinesPet()
+            await getVaccinesPet()
         }
     }
 
-    const handleVaccineDelete = (idVaccine:number) => {
+    const handleVaccineDelete = async(idVaccine:number) => {
         VaccineServiceManager.getInstance().deleteExistVaccine(idVaccine)
-        getVaccinesPet()
+        await getVaccinesPet()
     }
 
     const handleSelectChange = (option:string) => {
