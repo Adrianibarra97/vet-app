@@ -145,10 +145,10 @@ export function PetDetail(){
                 <p className="title__item">{pet.age} Años</p>
             </div>
             <div className="detail-content">
-                <div className="content__data">
+                <div className="content__data__info">
                     <div className="content__image">
-                        <figure className="data__image">
-                            <img className="data_image--size" src={pet.photo} alt=""/>
+                        <figure className="card__image__detail">
+                            <img className="card__image__detail--size" src={pet.photo} alt=""/>
                         </figure>
                     </div>
                     <div className="data__detail">
@@ -156,22 +156,22 @@ export function PetDetail(){
                             <p className="data__item--title">Información general</p>
                         </div>
                         <div className="detail--data">
-                            <p className="data__pet__item">Especie:{convertTypeOfPetToASpanishString(pet.specie)}</p>
-                            <p className="data__pet__item">Raza:{pet.breed}</p>
+                            <p className="data__pet__item"><span className="data__label">Especie:</span>{convertTypeOfPetToASpanishString(pet.specie)}</p>
+                            <p className="data__pet__item"><span className="data__label">Raza:</span>{pet.breed}</p>
                         </div>
                         <div className="detail--data">
-                            <p className="data__pet__item">Castracion:{pet.sterilized?'Castrado':'No castrado'}</p>
-                            <p className="data__pet__item">Peso:{pet.weight} Kg</p>
+                            <p className="data__pet__item"><span className="data__label">Castracion:</span>{pet.sterilized?'Castrado':'No castrado'}</p>
+                            <p className="data__pet__item"><span className="data__label">Peso:</span>{pet.weight} Kg</p>
                         </div>
                         <div className="detail--data">
-                            <p className="data__pet__item">Sexo:{pet.sex}</p>
-                            <p className="data__pet__item">Nacimiento:{birthDate}</p>
+                            <p className="data__pet__item"><span className="data__label">Sexo:</span>{pet.sex}</p>
+                            <p className="data__pet__item"><span className="data__label">Nacimiento:</span>{birthDate}</p>
                         </div>
                     </div>
                 </div>
-                <div className="content__data2">
-                    <h2 className="content__data2--title">Historial Médico</h2>
-                    <div className="content__data2--section">
+                <div className="content__data__history">
+                    <h2 className="content__data__history--title">Historial Médico</h2>
+                    <div className="content__data__history--section">
                         <div className="content--title">
                             <select className="content--selection" value={selectedOption} onChange={(event)=>handleSelectChange(event.target.value)}>
                                 <option value="one">Vacunas</option>
