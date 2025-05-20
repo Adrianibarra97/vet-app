@@ -25,14 +25,17 @@ export abstract class AuthServiceInter {
 	}
 
 	searchUserWithLogin(authCredentialsLoginDTO: AuthCredentialsLoginDTO): AuthCredentialsResponseDTO | null {
+		console.log(authCredentialsLoginDTO)
 		return { authCredentialsID: -1, typeOfUser: '' }
 	}
 
 	existUser(authCredentialsLoginDTO: AuthCredentialsLoginDTO): boolean {
+		console.log(authCredentialsLoginDTO)
 		return false
 	}
 
 	async validCode(code: string): Promise<boolean> {
+		console.log(code)
 		return false
 	}
 
