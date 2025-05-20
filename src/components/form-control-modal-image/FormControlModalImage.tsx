@@ -7,7 +7,6 @@ import { ImageModal } from '../image-modal/ImageModal'
 interface FromControlModalProps {
   isActive: boolean
   pet: Pet
-  setPet: (pet: Pet) => void
   onPhotoChange: (newPhoto: string) => void
 }
 
@@ -19,11 +18,13 @@ export const FormControlModalImage = (formControlProps: FromControlModalProps) =
     <>
       <FormControl sx={ formControlProps.isActive ? formControl : formControlNone }>
         <Avatar alt="Mascota" src={ formControlProps.pet.photo } sx={ avatar }/>
-        <Button sx={ iconButton } onClick={ () => setOpenModal(true) }>Cambiar</Button>
+        <Button sx={ iconButton } onClick={ () => setOpenModal(true) }>
+          { formControlProps.pet.photo ? 'Cambiar' : 'Ingresar' }
+        </Button>
       </FormControl>
       <ImageModal
         open={ openModal } onPhotoChange={ formControlProps.onPhotoChange }
-        onClose={ () => setOpenModal(false) } pet={ formControlProps.pet }  
+        onClose={ () => setOpenModal(false) } pet={ formControlProps.pet }
       />
     </>
   )

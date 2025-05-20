@@ -1,10 +1,8 @@
 export const formControl = {
   display: 'flex',
   flexDirection: 'row',
-  width: { xs: '100%', sm: '45%' },
-  height: '5em',
-  mb: '0.1em',
-  padding: '1em',
+  width: '100%',
+  height: '100%',
   alignItems: 'center',
   justifyContent: 'space-around'
 }
@@ -22,7 +20,7 @@ export const avatar = {
 export const iconButton = {
   display: 'flex',
   width: 'auto',
-  height: '80%',
+  height: '3em',
   fontWeight:'bolder',
   borderRadius: 1,
   color: 'var(--header-color)',
