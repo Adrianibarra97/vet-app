@@ -46,7 +46,9 @@ export const CreateUserPage = () => {
   ]
   const navigate = useNavigate()
   const [errorActive, setErrorActive] = useState(false)
-  const [user, setUser] = useState<Vet | PetOwner | null>(null)
+  const [user, setUser] = useState<Vet | PetOwner | null>(
+    new Vet(-1, '', '', '', '', -1, '', '', '', '', '', '', '', '', -1, '', '', '', '', '', '', '', '')
+  )
   const [pet, setPet] = useState(new Pet())
 
   const handleUserLabelColor = (key: keyof User): 'success' | 'error' => {
@@ -77,11 +79,14 @@ export const CreateUserPage = () => {
   }
 
   const handleSelectChanges = (value: string) => {
-    const updated = Object.assign(
-      Object.create(Object.getPrototypeOf(user)),
-      { ...user, typeOfUser: value },
-    )
-    setUser(updated)
+    const vet: Vet = new Vet(-1, '', '', '', '', -1, '', '', '', '', '', '', '', '', -1, '', '', '', '', '', '', '', '')
+    const petOwner: PetOwner = new PetOwner(-1, '', '', '', '', -1, '', '', '', '', '', '', '', '', -1, '', '')
+    
+    if(value === 'VET') {
+      setUser(vet)
+    } else {
+      setUser(petOwner)
+    }
   }
 
   const handlePhotoChange = (newPhoto: string) => {
@@ -219,7 +224,7 @@ export const CreateUserPage = () => {
             </Box>
           </Box>
         </Box>
-        <Box sx={ user?.typeOfUser === 'PETOWNER' ? formItem : formItemNone }>
+        <Box sx={ user?.typeOfUser === 'petOwner' ? formItem : formItemNone }>
           <Typography variant="h6" sx={ sectionTitle }>Dueño de Mascota</Typography>
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
@@ -238,7 +243,7 @@ export const CreateUserPage = () => {
             </Box>
           </Box>
         </Box>
-        <Box sx={ user?.typeOfUser === 'VET' ? formItem : formItemNone }>
+        <Box sx={ user?.typeOfUser === 'vet' ? formItem : formItemNone }>
           <Typography variant="h6" sx={ sectionTitle }>Veterinario</Typography>
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
