@@ -120,14 +120,6 @@ export const CreateUserPage = () => {
         <Box sx={ formItem }>
           <Typography variant="h6" sx={ sectionTitle }>Datos generales</Typography>
           <Box sx={ sectionItems }>
-            <Box sx={ sectionItemImage }>
-              <FormControlModalImage
-                isActive={ true } pet={ pet }
-                onPhotoChange={ (value) => handlePhotoChange(value) }
-              />
-            </Box>
-          </Box>
-          <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
                 type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
@@ -220,6 +212,14 @@ export const CreateUserPage = () => {
                 type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
                 isActive={ true } label={ fieldKyes[13] } labelColor={ handleUserLabelColor(userKeys[13]) }
                 handleInputChanges={ (value) => handleInputUserChanges(userKeys[13], value) }
+              />
+            </Box>
+          </Box>
+          <Box sx={ sectionItems }>
+            <Box sx={ sectionItemImage }>
+              <FormControlModalImage
+                isActive={ true } pet={ pet }
+                onPhotoChange={ (value) => handlePhotoChange(value) }
               />
             </Box>
           </Box>

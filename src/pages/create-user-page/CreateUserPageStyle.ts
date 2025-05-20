@@ -4,8 +4,10 @@ export const formContainer = {
   width: { xs: '95%', sm: '80%' },
   p: 2,
   gap: 2,
-  borderRadius: 2,
   backgroundColor: 'var(--header-color)',
+  border: '1px solid var(--primary-color)',
+  borderRadius: 2,
+  boxShadow: '1px 1px 10px var(--primary-color)',
   overflowY: 'scroll'
 }
 
@@ -14,7 +16,7 @@ export const formItemTitle = {
   flexDirection: 'column',
   width: { xs: '95%', sm: '35em' },
   height: 'auto',
-  margin: '2em auto'
+  margin: '1em auto'
 }
 
 export const sectionMainTitle = {
