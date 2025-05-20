@@ -162,6 +162,7 @@ export function VaccineModal({vaccine:initialVaccine,open,onClose,onConfirm,idVa
                     </FormControl>
                     <TextField
                         label="Numero de lote"
+                        type="number"
                         fullWidth
                         margin="normal"
                         color="primary"

@@ -29,7 +29,7 @@ export function StudyResultCard({study, onClickEdit, onClickDelete}:PropsStudyRe
             <div className="content__data--item">
                 <div className="study__item--title">
                     <h3 className="study--title">Estudios</h3>
-                    <i className="fa-solid fa-paw logo__image study--logo cursor_pointer" onClick={() => {setModalEditOrViewStudyResultOpen(true);setViewMode(true)}}></i>
+                    <i className="fa-solid fa-paw logo__image study--logo cursor_pointer" title="Detalle de estudio" onClick={() => {setModalEditOrViewStudyResultOpen(true);setViewMode(true)}}></i>
                 </div>
                 <div className="existence__study--container">
                     <div className="study__data">

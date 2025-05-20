@@ -30,7 +30,7 @@ export function VaccineCard({vaccine, onClickEdit, onClickDelete}:PropsVaccineCa
             <div className="content__data--item">
                 <div className="vaccine__item--title">
                     <h3 className="vaccine--title">Vacuna</h3>
-                    <i className="fa-solid fa-paw logo__image vaccine--logo cursor_pointer" onClick={() => {setModalEditOrViewVaccineOpen(true);setViewMode(true)}}></i>
+                    <i className="fa-solid fa-paw logo__image vaccine--logo cursor_pointer" title="Detalle de vacuna" onClick={() => {setModalEditOrViewVaccineOpen(true);setViewMode(true)}}></i>
                 </div>
                 <div className="vaccine__container">
                     <div className="vaccine__data">

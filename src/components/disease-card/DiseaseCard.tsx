@@ -29,7 +29,7 @@ export function DiseaseCard({disease, onClickEdit, onClickDelete}:PropsDiseaseCa
             <div className="content__data--item">
                 <div className="disease__item--title">
                     <h3 className="disease--title">Enfermedad</h3>
-                    <i className="fa-solid fa-paw logo__image disease--logo cursor_pointer" onClick={() => {setModalEditOrViewDiseaseOpen(true); setViewMode(true)}}></i>
+                    <i className="fa-solid fa-paw logo__image disease--logo cursor_pointer" title="Detalle de enfermedad" onClick={() => {setModalEditOrViewDiseaseOpen(true); setViewMode(true)}}></i>
                 </div>
                 <div className="disease__container">
                     <div className="disease__data">

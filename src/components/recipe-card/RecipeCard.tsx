@@ -29,7 +29,7 @@ export function RecipeCard({recipe, onClickEdit, onClickDelete}:PropsRecipeCard)
             <div className="content__data--item">
                 <div className="recipe__item--title">
                     <h3 className="recipe--title">Receta</h3>
-                    <i className="fa-solid fa-paw logo__image recipe--logo cursor_pointer" onClick={() => {setModalEditOrViewRecipeOpen(true); setViewMode(true)}}></i>
+                    <i className="fa-solid fa-paw logo__image recipe--logo cursor_pointer" title="Detalle de receta" onClick={() => {setModalEditOrViewRecipeOpen(true); setViewMode(true)}}></i>
                 </div>
                 <div className="recipe__container">
                     <div className="recipe__items">
