@@ -3,10 +3,9 @@ import dayjs from "dayjs"
 import { useEffect, useState } from "react"
 import { MedicalShift } from "../../domain/MedicalShift"
 import { MedicalShiftModal } from "../medical-shift-modal/MedicalShiftModal"
-
 import './MedicalShiftCard.css'
 import AuthServiceManager from "../../services/auth-service/AuthServiceManager"
-import CancelModalMedicalShift from "../cancel-modal-medical-shift/CancelModalMedicalShift"
+import { ConfirmOrCancelModalMedicalShift } from "../confirm-cancel-modal-medical-shift/ConfirmOrCancelModalMedicalShift"
 
 interface MedicalShiftCardProps {
   medicalShift: MedicalShift,
@@ -99,10 +98,12 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
         medicalShift={medicalShift}
         idMedicalShift={ medicalShift.id }
       />
-      <CancelModalMedicalShift
+      <ConfirmOrCancelModalMedicalShift
         open={modalCancelMedicalShiftState}
         onClose={() => setModalCancelMedicalShiftState(false)}
         onConfirm={() => onClickCancel(medicalShift.id)}
+        medicalShift={medicalShift}
+        title='¿Estas seguro que quieres cancelar este turno?'
       />
     </>
   )

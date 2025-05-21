@@ -7,6 +7,7 @@ import MedicalShiftServiceManager from "../../services/medical-shift-service/Med
 import { Filter } from "../../domain/Filter"
 
 import './MedicalShiftPage.css'
+import { SnackbarUtilities } from "../../util/snackbar/SnackbarManager"
 
 const filterValues = new Filter(
   'Por fecha',
@@ -35,6 +36,7 @@ export const MedicalShiftPage = () => {
     MedicalShiftServiceManager.getInstance().cancelMedicalShift(idMedicalShift)
     const shifts = await MedicalShiftServiceManager.getInstance().getAllByFilter(filter)
     setMedicalShifts(shifts)
+    SnackbarUtilities.succes(`Se cancelo con exito el medical shift.`)
   }
 
   const handleEditOrCreateMedicalShift = async(medicalShift: MedicalShift, idMedicalShift: number) => {
@@ -44,10 +46,12 @@ export const MedicalShiftPage = () => {
         .getInstance()
         .editExistMedicalShift(medicalShift)
       await getAllMedicalShiftsByFilter(filter)
+      SnackbarUtilities.succes(`Se edito con exito el medical shift de ${medicalShift.petMedicalShift.name}.` )
     }
     else{
       MedicalShiftServiceManager.getInstance().createNewMedicalShift(medicalShift)
       await getAllMedicalShiftsByFilter(filter)
+      SnackbarUtilities.succes(`Se creo con exito el medical shift de ${medicalShift.petMedicalShift.name}.`)
     }
   }
 

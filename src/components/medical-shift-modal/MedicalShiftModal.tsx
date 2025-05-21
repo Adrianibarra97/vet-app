@@ -14,7 +14,7 @@ import { formContainer } from "./MedicalShiftModalStyle"
 import { PetFilterValues } from "../../domain/PetFilterValues"
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import MedicalShiftServiceManager from "../../services/medical-shift-service/MedicalShiftServiceManager"
-import { ConfirmModalMedicalShift } from "../confirm-modal-medical-shift/ConfirmModalMedicalShift"
+import { ConfirmOrCancelModalMedicalShift } from "../confirm-cancel-modal-medical-shift/ConfirmOrCancelModalMedicalShift"
 
 interface MedicalShiftModalProps {
   open: boolean
@@ -262,7 +262,7 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
             </Button>
         </DialogActions>
       </Dialog>
-      <ConfirmModalMedicalShift
+      <ConfirmOrCancelModalMedicalShift
         open={stateModalConfirm}
         onClose={() => setStateModalConfirm(false)}
         onConfirm={handleOnConfirm}

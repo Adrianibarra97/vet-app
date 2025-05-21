@@ -3,7 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography }
 import { MedicalShift } from "../../domain/MedicalShift";
 import dayjs from "dayjs";
 
-interface ConfirmModalMedicalShiftProps{
+interface ConfirmOrModalMedicalShiftProps{
     open:boolean
     onClose: () => void
     onConfirm:() => void
@@ -11,7 +11,7 @@ interface ConfirmModalMedicalShiftProps{
     title:string
 }
 
-export function ConfirmModalMedicalShift({open, onClose, onConfirm, medicalShift,title}:ConfirmModalMedicalShiftProps){
+export function ConfirmOrCancelModalMedicalShift({open, onClose, onConfirm, medicalShift,title}:ConfirmOrModalMedicalShiftProps){
     const date = dayjs(medicalShift.date).format('DD/MM/YYYY')
 
     return(
