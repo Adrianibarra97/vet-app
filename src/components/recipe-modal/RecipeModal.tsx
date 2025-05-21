@@ -151,6 +151,7 @@ export function RecipeModal({recipe:initialRecipe, open, onClose, onConfirm, idR
                             value={recipeDate}
                             label="Fecha"
                             format="DD/MM/YYYY"
+                            minDate={dayjs()}
                             onChange={handleRecipeDateChange}
                             disabled={viewMode}
                             slotProps={{

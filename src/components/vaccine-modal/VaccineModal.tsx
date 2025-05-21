@@ -191,6 +191,7 @@ export function VaccineModal({vaccine:initialVaccine,open,onClose,onConfirm,idVa
                             value={applicationDate}
                             label="Fecha de aplicacion"
                             format="DD/MM/YYYY"
+                            minDate={dayjs()}
                             onChange={handleVaccineApplicationDateChange}
                             disabled={viewMode}
                             slotProps={{
@@ -210,6 +211,7 @@ export function VaccineModal({vaccine:initialVaccine,open,onClose,onConfirm,idVa
                             value={expirationDate}
                             label="Fecha de expiracion"
                             format="DD/MM/YYYY"
+                            minDate={dayjs()}
                             onChange={handleVaccineExpirationDateChange}
                             disabled={viewMode}
                             slotProps={{

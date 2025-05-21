@@ -140,6 +140,7 @@ export function StudyResultModal({study:initialStudy,open,onClose,onConfirm,idSt
                             value={studyDate}
                             label="Fecha"
                             format="DD/MM/YYYY"
+                            minDate={dayjs()}
                             onChange={handleStudyDateChange}
                             disabled={viewMode}
                             slotProps={{

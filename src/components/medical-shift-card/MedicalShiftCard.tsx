@@ -1,6 +1,6 @@
 import { Card, Box, Typography } from "@mui/material"
 import dayjs from "dayjs"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MedicalShift } from "../../domain/MedicalShift"
 import { MedicalShiftModal } from "../medical-shift-modal/MedicalShiftModal"
 
@@ -16,6 +16,8 @@ interface MedicalShiftCardProps {
 export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickEdit }: MedicalShiftCardProps) {
   const [modalEditMedicalShiftOpen,setModalEditMedicalShiftOpen]=useState(false)
   const [modalCancelMedicalShiftState, setModalCancelMedicalShiftState] = useState(false);
+  const [isPastDate, setIsPastDate] = useState<boolean>(false)
+  const [isPastTime, setIsPastTime] = useState<boolean>(false)
   const fecha = dayjs(medicalShift.date).format('DD/MM/YYYY')
 
   const handleOnEdit = (medicalShift: MedicalShift, idMedicalShift: number) => {
@@ -23,12 +25,38 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
     setModalEditMedicalShiftOpen(false)
   }
 
+  const compareDates = (inputDate: string, inputTime: string) => {
+    const now = new Date();
+    const currentDate = now.toISOString().split('T')[0]
+    const currentTime = now.toTimeString().substring(0, 5)
+
+    setIsPastDate(inputDate < currentDate);
+
+    if (inputDate === currentDate) {
+      setIsPastTime(inputTime < currentTime);
+    } else {
+      setIsPastTime(false);
+    }
+    console.log(isPastDate)
+    console.log(isPastTime)
+  }
+
+  const isPastMedicalShift = ():string => {
+    return !isPastDate && !isPastTime ?
+      'content__item'
+      : 'content__height content__item'
+  }
+
+  useEffect(()=>{
+    compareDates(medicalShift.date,medicalShift.hour)
+  },[medicalShift])
+
   return (
     <>
       <Card className="content__items">
         <h4 className="content__items--title" >CONSULTA</h4>
         <main className="content__items--data">
-          <div className="content__item">
+          <div className={isPastMedicalShift()}>
             <Box className="content__item--data">
               <p className="item--label">Veterinario</p>
               <Typography className="item-data">{medicalShift.nameVet}</Typography>
@@ -48,18 +76,20 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
               <Typography className="item-data">{medicalShift.hour}</Typography>
             </Box>
           </Box>
-          <Box className="content__item--button">
-            {AuthServiceManager.getIntance().isVet() &&
-              <button className="content__button content__button--edit"
-                onClick={()=>setModalEditMedicalShiftOpen(true)}
-              >
-                Editar
-              </button>
-            }
-            <button className="content__button content__button--cancel"
-              onClick={() => setModalCancelMedicalShiftState(true)}
-            >Cancelar</button>
-          </Box>
+          {!isPastDate && !isPastTime &&
+            <Box className="content__item--button">
+              {AuthServiceManager.getIntance().isVet() &&
+                <button className="content__button content__button--edit"
+                  onClick={()=>setModalEditMedicalShiftOpen(true)}
+                >
+                  Editar
+                </button>
+              }
+              <button className="content__button content__button--cancel"
+                onClick={() => setModalCancelMedicalShiftState(true)}
+              >Cancelar</button>
+            </Box>
+          }
         </main>
       </Card>
       <MedicalShiftModal

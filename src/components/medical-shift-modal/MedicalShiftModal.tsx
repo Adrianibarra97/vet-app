@@ -14,6 +14,7 @@ import { formContainer } from "./MedicalShiftModalStyle"
 import { PetFilterValues } from "../../domain/PetFilterValues"
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import MedicalShiftServiceManager from "../../services/medical-shift-service/MedicalShiftServiceManager"
+import { ConfirmModalMedicalShift } from "../confirm-modal-medical-shift/ConfirmModalMedicalShift"
 
 interface MedicalShiftModalProps {
   open: boolean
@@ -33,6 +34,8 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
   })
   const [date, setDate] = useState<Dayjs | null>(initialMedicalShift?.date ? dayjs(initialMedicalShift.date) : null)
   const [time, setTime] = useState<Dayjs | null>(initialMedicalShift?.hour ? dayjs(initialMedicalShift.hour) : null)
+  const [stateModalConfirm,setStateModalConfirm] = useState<boolean>(false)
+  const [title, setTitle] = useState<string>('')
 
   const getVetPatientsAll = async () => {
     const filterPetBlanck = new PetFilterValues("",false,false)
@@ -52,10 +55,12 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
       setMedicalShift(Object.assign(new MedicalShift(),initialMedicalShift))
       setDate(initialMedicalShift.date ? dayjs(initialMedicalShift.date, "YYYY-MM-DD") : null)
       setTime(initialMedicalShift.hour ? dayjs(initialMedicalShift.hour, "HH:mm") : null)
+      setTitle('¿Estas seguro que quieres editar este turno?')
     } else if (idMedicalShift === -1) { 
       setMedicalShift(new MedicalShift())
       setDate(null)
       setTime(null)
+      setTitle('¿Estas seguro que quieres confirmar este turno?')
     }
   }, [initialMedicalShift, open,idMedicalShift])
 
@@ -144,115 +149,126 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
       setTime(initialMedicalShift.hour ? dayjs(initialMedicalShift.hour, "HH:mm") : null)
     }
     setErrors({...errors, hour:null, date:null})
+    setStateModalConfirm(false)
     setFromTouched(false)
   }
 
   return(
-    <Dialog onClose={handleCancel} open={open} fullWidth sx={{maxHeight:'90vh', overflow:'auto'}}>
-      <DialogTitle component="div">
-        <Typography variant="h6" sx={{color:'var(--footer-color)', fontWeight:'bold'}}>
-          {idMedicalShift !== -1 ? 'Editar consulta' : 'Nueva consulta'}
-        </Typography>
-      </DialogTitle>
-      <DialogContent>
-        <Box component='form' sx={formContainer}>
-          {MedicalShiftServiceManager.useStub && idMedicalShift === -1 && (
-              <TextField
-                label="Nombre de Veterinario"
-                fullWidth
-                margin="normal"
-                color="primary"
-                name="vetName"
-                required
-                value={medicalShift.nameVet}
-                onChange={(event) =>
-                  handleMedicalShiftCreationOrEdition('nameVet', event.target.value)
-                }
-                error={fromTouched && !medicalShift.nameVet}
-                helperText={
-                  fromTouched && !medicalShift.nameVet ? (
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <Typography color="red">
-                        El veterinario es obligatorio
-                      </Typography>
-                    </Box>
-                  ) : (
-                    ''
-                  )
-                }
+    <>
+      <Dialog onClose={handleCancel} open={open} fullWidth sx={{maxHeight:'90vh', overflow:'auto'}}>
+        <DialogTitle component="div">
+          <Typography variant="h6" sx={{color:'var(--footer-color)', fontWeight:'bold'}}>
+            {idMedicalShift !== -1 ? 'Editar consulta' : 'Nueva consulta'}
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Box component='form' sx={formContainer}>
+            {MedicalShiftServiceManager.useStub && idMedicalShift === -1 && (
+                <TextField
+                  label="Nombre de Veterinario"
+                  fullWidth
+                  margin="normal"
+                  color="primary"
+                  name="vetName"
+                  required
+                  value={medicalShift.nameVet}
+                  onChange={(event) =>
+                    handleMedicalShiftCreationOrEdition('nameVet', event.target.value)
+                  }
+                  error={fromTouched && !medicalShift.nameVet}
+                  helperText={
+                    fromTouched && !medicalShift.nameVet ? (
+                      <Box display="flex" alignItems="center" gap={1}>
+                        <Typography color="red">
+                          El veterinario es obligatorio
+                        </Typography>
+                      </Box>
+                    ) : (
+                      ''
+                    )
+                  }
+                  sx={{overflow:'visible'}}
+                />
+              )
+            }
+            <FormControl fullWidth  margin="normal" error={fromTouched && !medicalShift.petMedicalShift} required sx={{overflow:'visible'}}>
+              <InputLabel color={fromTouched && !medicalShift.petMedicalShift ? "error" : "primary"}>Paciente</InputLabel>
+              <Select
+                value={medicalShift.petMedicalShift ? medicalShift.petMedicalShift.name : ''}
+                onChange={(event)=> handlePatientChange(event.target.value)}
+                input={<OutlinedInput label="Paciente"/>}
+              >
+                {vetPatients.map(pet =>
+                  <MenuItem value={pet.name} key={pet.name}>{pet.name}</MenuItem>
+                )}
+              </Select>
+              {fromTouched && !medicalShift.petMedicalShift && (
+                <Box display="flex" alignItems="center" gap={1}  >
+                  <Typography color="red">El paciente es obligatorio</Typography>
+                </Box>
+              )}
+            </FormControl>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                value={date}
+                label="Fecha"
+                format="DD/MM/YYYY"
+                onChange={handleDateChange}
+                minDate={dayjs()}
+                slotProps={{
+                    textField: {
+                        error: !!errors.date,
+                        helperText: errors.date,
+                        margin:'normal',
+                        required: true,
+                        fullWidth:true,
+                    },
+                }}
                 sx={{overflow:'visible'}}
               />
-            )
-          }
-          <FormControl fullWidth  margin="normal" error={fromTouched && !medicalShift.petMedicalShift} required sx={{overflow:'visible'}}>
-            <InputLabel color={fromTouched && !medicalShift.petMedicalShift ? "error" : "primary"}>Paciente</InputLabel>
-            <Select
-              value={medicalShift.petMedicalShift ? medicalShift.petMedicalShift.name : ''}
-              onChange={(event)=> handlePatientChange(event.target.value)}
-              input={<OutlinedInput label="Paciente"/>}
-            >
-              {vetPatients.map(pet =>
-                <MenuItem value={pet.name} key={pet.name}>{pet.name}</MenuItem>
-              )}
-            </Select>
-            {fromTouched && !medicalShift.petMedicalShift && (
-              <Box display="flex" alignItems="center" gap={1}  >
-                <Typography color="red">El paciente es obligatorio</Typography>
-              </Box>
-            )}
-          </FormControl>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              value={date}
-              label="Fecha"
-              format="DD/MM/YYYY"
-              onChange={handleDateChange}
-              slotProps={{
+              <TimePicker
+                label="Hora"
+                value={time}
+                onChange={handleTimeChange}
+                format="HH:mm" 
+                slotProps={{
                   textField: {
-                      error: !!errors.date,
-                      helperText: errors.date,
-                      margin:'normal',
-                      required: true,
-                      fullWidth:true,
+                    error: !!errors.hour,
+                    helperText: errors.hour,
+                    margin:'normal',
+                    required: true,
+                    fullWidth:true
                   },
-              }}
-              sx={{overflow:'visible'}}
-            />
-            <TimePicker
-              label="Hora"
-              value={time}
-              onChange={handleTimeChange}
-              format="HH:mm" 
-              slotProps={{
-                textField: {
-                  error: !!errors.hour,
-                  helperText: errors.hour,
-                  margin:'normal',
-                  required: true,
-                  fullWidth:true
-                },
-              }}
-              sx={{overflow:'visible'}}
-            />
-          </LocalizationProvider>
-        </Box>
-      </DialogContent>
-      <DialogActions sx={{width:'100%', display:'flex',justifyContent:'space-around',alignItems:'center'}}>
-          <Button
-            variant="contained"
-            onClick={handleCancel}
-            sx={{ backgroundColor: 'var(--primary-color)' }}
-          >
-            Cancelar
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleOnConfirm}
-            sx={{ backgroundColor: 'var(--footer-color)' }}
-          >
-            Confirmar
-          </Button>
-      </DialogActions>
-    </Dialog>
+                }}
+                sx={{overflow:'visible'}}
+              />
+            </LocalizationProvider>
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{width:'100%', display:'flex',justifyContent:'space-around',alignItems:'center'}}>
+            <Button
+              variant="contained"
+              onClick={handleCancel}
+              sx={{ backgroundColor: 'var(--primary-color)' }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => setStateModalConfirm(true)}
+              sx={{ backgroundColor: 'var(--footer-color)' }}
+            >
+              Confirmar
+            </Button>
+        </DialogActions>
+      </Dialog>
+      <ConfirmModalMedicalShift
+        open={stateModalConfirm}
+        onClose={() => setStateModalConfirm(false)}
+        onConfirm={handleOnConfirm}
+        medicalShift={medicalShift}
+        title={title}
+      />
+    </>
   )
 }

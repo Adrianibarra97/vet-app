@@ -154,6 +154,7 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
                             value={diagnosisDate}
                             label="Fecha"
                             format="DD/MM/YYYY"
+                            minDate={dayjs()}
                             onChange={handleDiagnosisDateChange}
                             disabled={viewMode}
                             slotProps={{
