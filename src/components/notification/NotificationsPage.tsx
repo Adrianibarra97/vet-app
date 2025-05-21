@@ -46,7 +46,9 @@ export const useNotificationsData = () => {
 
     if (isVet) {
       const vetService = service as VetServiceInter
+
       notes = await vetService.getNotificationsByVetId(id)
+
     } else {
       const petOwnerService = service as PetOwnerServiceInter
       notes = await petOwnerService.getNotificationsByPetOwnerId(id)
