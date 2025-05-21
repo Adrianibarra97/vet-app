@@ -17,16 +17,14 @@ export class PetService implements PetServiceInter {
 
 	async getAllByFilter(petFilter: PetFilterValues): Promise<Pet[]> {
 		if(AuthServiceManager.getIntance().isVet()) {
-			const response = await axios.post(URL_BE + `/vet/get-all-pets-by-filter?idVet=${getUserID()}`, petFilter.toJSON());
-			const promise: PetJSON[] = response.data; // Extraemos solo los datos
-			return promise.map((petDTO: PetJSON) => Pet.fromJSON(petDTO));
-
+			const response = await axios.post(URL_BE + `/vet/get-all-pets-by-filter?idVet=${getUserID()}`, petFilter.toJSON())
+			const promise: PetJSON[] = response.data
+			return promise.map((petDTO: PetJSON) => Pet.fromJSON(petDTO))
 		} else {
 			const response = await axios.post(URL_BE + `/pet-owner/get-all-pets-by-filter?idPetOwner=${getUserID()}`, petFilter.toJSON())
-			const promise: PetJSON[] = response.data; // Extraemos solo los datos
-			return promise.map((petDTO: PetJSON) => Pet.fromJSON(petDTO));
+			const promise: PetJSON[] = response.data
+			return promise.map((petDTO: PetJSON) => Pet.fromJSON(petDTO))
 		}
-			
 	}
 
 	async getPetById(id: number): Promise<Pet> {

@@ -1,10 +1,11 @@
 import { VetService } from './VetService'
 import { VetServiceStub } from './VetServiceStub'
 import { VetServiceInter } from './VetServiceInter'
+import { VET_SERVICE_USE_STUB } from '../config'
 
 class VetServiceManager {
   private static instance: VetServiceInter
-  private static useStub: boolean = true
+  private static useStub: boolean = VET_SERVICE_USE_STUB
 
   public static getInstance(): VetServiceInter{
     if (!VetServiceManager.instance) {

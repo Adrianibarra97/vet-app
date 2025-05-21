@@ -1,5 +1,10 @@
 export const URL_BE: string = 'http://localhost:8080'
-export const VET_TYPE = "VET"
-export const PETOWNER_TYPE = "PETOWNER"
-export const USER_ID_TOKEN = "authCredentialsID"
-export const USER_TYPE_TOKEN = "typeOfUser"
+export const VET_TYPE: string = 'VET'
+export const PETOWNER_TYPE: string = 'PETOWNER'
+export const USER_ID_TOKEN: string = 'authCredentialsID'
+export const USER_TYPE_TOKEN: string = 'typeOfUser'
+export const AUTH_SERVICE_USE_STUB: boolean = true
+export const VET_SERVICE_USE_STUB: boolean = true
+export const PET_OWNER_SERVICE_USE_STUB: boolean = true
+export const MEDICAL_SHIFT_SERVICE_USE_STUB: boolean = true
+export const PET_SERVICE_USE_STUB: boolean = false
