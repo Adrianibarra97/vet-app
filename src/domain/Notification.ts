@@ -35,7 +35,7 @@ export class NotificationModel {
       json.notificationDate,
       urgent,
       json.namePet,
-      `${json.namePetOwner}`, // si necesitás apellido, ajustá según DTO
+      `${json.namePetOwner}`, 
       json.nameVet,
       appointmentDate,
     )

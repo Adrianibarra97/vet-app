@@ -30,13 +30,15 @@ export class VetService implements VetServiceInter {
     })
   }
 
-  async getNotificationsByVetId(id: number): Promise<NotificationModel[]> {
-    const res = await axios.get<NotificationResponseDTO[]>(
-      `${URL_BE}/vet/get-all-notifications`,
-      {
-        params: { idVet: id },
-      },
-    )
-    return res.data.map(NotificationModel.fromJSON)
-  }
+async getNotificationsByVetId(id: number): Promise<NotificationModel[]> {
+  const res = await axios.get<NotificationResponseDTO[]>(
+    `${URL_BE}/vet/get-all-notifications`,
+    {
+      params: { idVet: id },
+    }
+    
+  )
+  return res.data.map(NotificationModel.fromJSON)
+}
+
 }
