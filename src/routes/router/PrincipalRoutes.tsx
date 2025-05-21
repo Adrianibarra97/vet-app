@@ -11,6 +11,7 @@ import { LoginPage } from '../../pages/login-page/LoginPage'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import { ProfileLayout } from '../../layouts/profile/ProfileLayout'
 import { NotificationsPage } from '../../components/notification/NotificationsPage'
+
 export const PrincipalRoutes = () => {
   const handleTitlePet = () => {
     return AuthServiceManager.getIntance().isVet() ? 'Pacientes' : 'Mascotas'
@@ -19,8 +20,8 @@ export const PrincipalRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/auth" element={<AuthLayout />}>
-          <Route path="login" element={<LoginPage />} />
+        <Route path = "/auth" element = { <AuthLayout /> }>
+          <Route path = "login" element = { <LoginPage /> }/>
         </Route>
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<MainLayout />}>

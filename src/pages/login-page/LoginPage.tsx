@@ -1,57 +1,78 @@
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AuthCredentialsLoginDTO } from '../../domain/User'
+import { Box, Button } from '@mui/material'
+import { FormControlModal } from '../../components/form-control-modal/FormControlModal'
+import { ButtonsModal } from '../../components/buttons-modal/ButtonsModal'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
+import { AuthCredentialsLoginDTO } from '../../domain/User'
+import { modalItem, buttonContent, passButton } from './LoginPageStyle'
 import './LoginPage.css'
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
+
 
 export const LoginPage = () => {
 
   const navigate = useNavigate()
-  const [userLogin, setUserLogin] = useState({
-    username: '',
-    password: ''
-  })
+  const [userLogin, setUserLogin] = useState({ username: '', password: '' })
+  const [errorActive, setErrorActive] = useState(false)
 
-  useEffect(() => {
-    localStorage.clear()
-  },[])
+  const hasRequiredFields = (): boolean => userLogin.username != '' && userLogin.password != ''
 
-  const handleLogin = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
-    e.preventDefault()
-    AuthServiceManager.getIntance().login(userLogin)
-    navigate('/pets')
-  }
-
-  const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleUsername = (value: string) => {
     const authCredentialsLoginDTO: AuthCredentialsLoginDTO = {
-      username: e.target.value,
+      username: value,
       password: userLogin.password
     }
     setUserLogin(authCredentialsLoginDTO)
   }
 
-  const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
+  const handlePassword = (value: string) => {
     const authCredentialsLoginDTO: AuthCredentialsLoginDTO = {
       username: userLogin.username,
-      password: e.target.value
+      password: value
     }
     setUserLogin(authCredentialsLoginDTO)
   }
 
+  const handleLogin = () => {
+    if(hasRequiredFields()) {
+      setErrorActive(false)
+      AuthServiceManager.getIntance().login(userLogin)
+      navigate('/pets')
+    } else {
+      setErrorActive(true)
+    }
+  }
+
+  useEffect(() => {
+    localStorage.clear()
+  },[])
+
   return (
     <main className="auth__main">
-      <div className='login'>
-        <h1 className="main__title">Login</h1>
-        <form className='login__form'>
-          <div className='login__item'>
-            <label>Username</label>
-            <input type="text" onChange={ (e) => { handleUsername(e) } } />
-          </div>
-          <div className='login__item'>
-            <label>Password</label>
-            <input type="text" onChange={ (e) => { handlePassword(e) } } />
-          </div>
-          <button onClick={ (e) => handleLogin(e) }>Ingresar</button>
+      <div className="login">
+        <h1 className="title__login">VetApp <i className="fa-solid fa-paw logo__login"></i></h1>
+        <form className="login__form">
+          <Box sx={ modalItem }>
+            <FormControlModal
+              isActive={ true } errorActive={ errorActive } label={ 'Usuario' } type={ 'text' }
+              defaultValue={ userLogin.username } labelColor={ 'success' } handleInputChanges={ handleUsername }
+            />
+          </Box>
+          <Box sx={ modalItem }>
+            <FormControlModal
+              isActive={ true } errorActive={ errorActive } label={ 'Contraseña' } type={ 'password' }
+              defaultValue={ userLogin.password } labelColor={ 'success' } handleInputChanges={ handlePassword }
+            />
+          </Box>
+          <Button
+            sx={ passButton } onClick={ () => navigate('/auth/reset-password') }
+          >Olvidó su contraseña?</Button>
+          <Box sx={ buttonContent }>
+            <ButtonsModal
+              confirLabel={ 'Crear' } cancelLabel={ 'Ingresar' }
+              confirm={ () => navigate('/auth/create-user') } cancel={ () => handleLogin() } 
+            />
+          </Box>
         </form>
       </div>
     </main>

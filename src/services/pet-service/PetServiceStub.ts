@@ -157,7 +157,6 @@ export class PetServiceStub implements PetServiceInter {
 	}
 
 	async getAllByFilter(petFilter: PetFilterValues): Promise<Pet[]> {
-		console.log('Se llamaron todos')
 		const pets = this.objects.map<Pet>(petDTO => {
 			return Pet.fromJSON(petDTO)
 		})
