@@ -7,7 +7,9 @@ export interface PetServiceInter {
 
 	getAllByFilter(petFilter: PetFilterValues): Promise<Pet[]>
 
-	create(newPet: Pet): void
+	getPetById(id: number): Promise<Pet>
+
+	create(pet: Pet): void
 
 	update(pet: Pet): void
 

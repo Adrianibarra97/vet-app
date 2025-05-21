@@ -1,25 +1,45 @@
+import { Pet, PetMedicalShiftDTO, PetMedicalShiftJSON } from "./Pet"
+
 export type MedicalShiftJSON = {
 	id: number,
-	vetName: string,
-	petName: string,
-	date: string
+	nameVet: string,
+	petMedicalShift:PetMedicalShiftJSON,
+	date: string,
+	hour: string
 }
 
 export class MedicalShift {
     
 	constructor(
 		public id: number = -1,
-		public vetName: string = '',
-		public petName: string = '',
-		public date: string = ''
+		public nameVet: string = '',
+		public petMedicalShift: PetMedicalShiftDTO = new PetMedicalShiftDTO(),
+		public date: string = '',
+		public hour: string = ''
 	) {}
+
+	static fromJSON(medicalShiftJSON: MedicalShiftJSON): MedicalShift {
+		return new MedicalShift(
+			medicalShiftJSON.id,
+			medicalShiftJSON.nameVet,
+			PetMedicalShiftDTO.fromJSON(medicalShiftJSON.petMedicalShift),
+			medicalShiftJSON.date,
+			medicalShiftJSON.hour
+		)
+	}
 
 	toJSON(): MedicalShiftJSON {
 		return {
 			id: this.id,
-			vetName: this.vetName,
-			petName: this.petName,
-			date: this.date
+			nameVet: this.nameVet,
+			petMedicalShift: this.petMedicalShift.toJson(),
+			date: this.date,
+			hour: this.hour
 		}
+	}
+
+	assignPatient(newPatient:Pet){
+		const newPetMedicalShiftDTO = new PetMedicalShiftDTO(newPatient.id,newPatient.name)
+		this.petMedicalShift = newPetMedicalShiftDTO
 	}
 }

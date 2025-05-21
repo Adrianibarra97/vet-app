@@ -42,7 +42,7 @@ export const MedicalShiftPage = () => {
       medicalShift.id = idMedicalShift
       MedicalShiftServiceManager
         .getInstance()
-        .editExistMedicalShift(idMedicalShift, medicalShift)
+        .editExistMedicalShift(medicalShift)
       getAllMedicalShiftsByFilter(filter)
     }
     else{
