@@ -79,6 +79,7 @@ export type PetMedicalShiftJSON = {
 	name:string
 }
 
+//Enum de especies que esta en el back
 enum TypeOfPet {
 	CAT = "CAT",
 	DOG = "DOG", 
@@ -90,6 +91,7 @@ enum TypeOfPet {
 	HORSE = "HORSE"
 }
 
+//Funcion que nos sirve para traducir el tipo de especie que nos viene del back al español a traves de un map.
 export function convertTypeOfPetToASpanishString(typeOfPet: TypeOfPet | string): string{
     const typeOfPetStrMap: { [key: string]: string } = {
 		"CAT": 'Gato',
@@ -105,4 +107,12 @@ export function convertTypeOfPetToASpanishString(typeOfPet: TypeOfPet | string):
     return typeOfPetStrMap[typeOfPet.toString()] 
 }
 
-export const PetOptions = Object.values(TypeOfPet) as TypeOfPet[]
+//Constante que va a tener todos las especies que hay dentro del TypeOfPet
+export const petOptions = Object.values(TypeOfPet) as TypeOfPet[]
+
+//Ejemplo de uso dentro de un select
+// {petOptions.map(petOption => (
+// 	<MenuItem value={petOption} key={petOption}>
+// 		{convertTypeOfPetToASpanishString(petOption)}
+// 	</MenuItem>
+// ))}
