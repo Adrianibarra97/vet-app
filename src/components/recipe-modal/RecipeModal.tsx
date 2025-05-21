@@ -5,11 +5,11 @@ import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { SnackbarUtilities } from "../../util/snackbar/SnackbarManager";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
 import { formContainer } from "../medical-shift-modal/MedicalShiftModalStyle";
-import { RecipeServiceManager } from "../../services/recipe-service/RecipeServiceManager";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Textarea from "@mui/joy/Textarea";
+import { RECIPE_SERVICE_USE_STUB } from "../../services/config";
 
 interface RecipeModalProps{
     recipe?:Recipe
@@ -120,7 +120,7 @@ export function RecipeModal({recipe:initialRecipe, open, onClose, onConfirm, idR
             </DialogTitle>
             <DialogContent>
                 <Box component='form' sx={formContainer}>
-                    {RecipeServiceManager.useStub && idRecipe === -1 && (
+                    {RECIPE_SERVICE_USE_STUB && idRecipe === -1 && (
                         <TextField
                         label="Nombre de Veterinario"
                         fullWidth

@@ -13,8 +13,8 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import { formContainer } from "./MedicalShiftModalStyle"
 import { PetFilterValues } from "../../domain/PetFilterValues"
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import MedicalShiftServiceManager from "../../services/medical-shift-service/MedicalShiftServiceManager"
 import { ConfirmOrCancelModalMedicalShift } from "../confirm-cancel-modal-medical-shift/ConfirmOrCancelModalMedicalShift"
+import { MEDICAL_SHIFT_SERVICE_USE_STUB } from "../../services/config"
 
 interface MedicalShiftModalProps {
   open: boolean
@@ -126,7 +126,7 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
   const hasMissingRequiredFields = (): boolean => {
     const requiredFields: (keyof MedicalShift)[] = ['petMedicalShift','date','hour']
 
-    if(MedicalShiftServiceManager.useStub){
+    if(MEDICAL_SHIFT_SERVICE_USE_STUB){
       requiredFields.unshift('nameVet')
     }
 
@@ -163,7 +163,7 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
         </DialogTitle>
         <DialogContent>
           <Box component='form' sx={formContainer}>
-            {MedicalShiftServiceManager.useStub && idMedicalShift === -1 && (
+            {MEDICAL_SHIFT_SERVICE_USE_STUB && idMedicalShift === -1 && (
                 <TextField
                   label="Nombre de Veterinario"
                   fullWidth
