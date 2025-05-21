@@ -27,17 +27,16 @@ export const modalItems = {
   overflow: 'visible'
 }
 
-export const button__Container = { 
+export const modalItem = {
   display: 'flex',
-  mt: 2,
-  width: { xs: '100%', sm: 'auto' },
-  justifyContent: 'space-between'
+  height: 'auto',
+  margin: '0.2em auto',
+  width: { xs: '100%', sm: '45%' },
+  overflow: 'visible'
 }
 
-export const BkgCancelButton = {
-  backgroundColor: 'var(--primary-color)'
-}
-
-export const BkgConfirmButton = {
-  backgroundColor: 'var(--footer-color)'
+export const buttonContent = { 
+  width: '90%',
+  height: '5em',
+  margin: 'auto'
 }
