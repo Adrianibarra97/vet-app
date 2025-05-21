@@ -5,11 +5,10 @@ import { VET_SERVICE_USE_STUB } from '../config'
 
 class VetServiceManager {
   private static instance: VetServiceInter
-  private static useStub: boolean = VET_SERVICE_USE_STUB
 
   public static getInstance(): VetServiceInter{
     if (!VetServiceManager.instance) {
-      VetServiceManager.instance = this.useStub ? new VetServiceStub() : new VetService()
+      VetServiceManager.instance = VET_SERVICE_USE_STUB ? new VetServiceStub() : new VetService()
     }
     return VetServiceManager.instance
   }
