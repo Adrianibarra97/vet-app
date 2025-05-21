@@ -1,22 +1,22 @@
 export type PetFilterValuesJSON = {
 	name: string,
-	withMedicalShift: boolean,
-	pendingVaccine: boolean,
+	hasMedicalShift: boolean,
+	hasPendingVaccine: boolean,
 }
 
 export class PetFilterValues {
 
 	constructor(
 		public name: string,
-		public withMedicalShift: boolean,
-		public pendingVaccine: boolean
+		public hasMedicalShift: boolean,
+		public hasPendingVaccine: boolean
 	) {}
 
 	toJSON(): PetFilterValuesJSON {
 		return {
 			name: this.name,
-			withMedicalShift: this.withMedicalShift,
-			pendingVaccine: this.pendingVaccine
+			hasMedicalShift: this.hasMedicalShift,
+			hasPendingVaccine: this.hasPendingVaccine
 		}
 	}
 }

@@ -5,11 +5,12 @@ import { Pet, PetJSON } from '../../domain/Pet'
 import { capitalize } from '@mui/material'
 
 export class PetServiceStub implements PetServiceInter {
-  
+
+	private standardPath: string = '/src/assets/'
 	private objects: Array<PetJSON> = [
 		{
 			"id": 0,
-			"photo": "./src/assets/nala.jfif",
+			"photo": this.standardPath + "nala.jfif",
 			"name": "Nala",
 			"age": 9,
 			"breed": "Mestizo",
@@ -17,11 +18,11 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 17,
 			"sterilized": true,
 			"specie": "Perro",
-			"birth": "15/10/2015"
+			"birth": "2025-04-25"
 		},
 		{
 			"id": 1,
-			"photo": "../../../src/assets/oli.jfif",
+			"photo": this.standardPath + "oli.jfif",
 			"name": "Oli",
 			"age": 4,
 			"breed": "Mestizo",
@@ -29,11 +30,11 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 14,
 			"sterilized": true,
 			"specie": "Perro",
-			"birth": "20/02/2021"
+			"birth": "2025-04-25"
 		},
 		{
 			"id": 2,
-			"photo": "../../../src/assets/owie.jfif",
+			"photo": this.standardPath + "owie.jfif",
 			"name": "Owie",
 			"age": 13,
 			"breed": "Mestizo",
@@ -41,11 +42,11 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 15,
 			"sterilized": true,
 			"specie": "Perro",
-			"birth": "19/02/2012"
+			"birth": "2025-04-25"
 		},
 		{
 			"id": 3,
-			"photo": "../../../src/assets/rocky.jfif",
+			"photo": this.standardPath + "rocky.jfif",
 			"name": "Rocky",
 			"age": 5,
 			"breed": "Mestizo",
@@ -53,11 +54,11 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 25,
 			"sterilized": false,
 			"specie": "Perro",
-			"birth": "02/07/2020"
+			"birth": "2025-04-25"
 		},
 		{
 			"id": 4,
-			"photo": "../../../src/assets/pipi.jfif",
+			"photo": this.standardPath + "pipi.jfif",
 			"name": "Pipi",
 			"age": 5,
 			"breed": "Torcaza",
@@ -65,11 +66,11 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 0.119,
 			"sterilized": false,
 			"specie": "Ave",
-			"birth": "01/01/2020"
+			"birth": "2025-04-25"
 		},
 		{
 			"id": 5,
-			"photo": "../../../src/assets/morena.jfif",
+			"photo": this.standardPath + "morena.jfif",
 			"name": "Morena",
 			"age": 14,
 			"breed": "Mestizo",
@@ -77,11 +78,11 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 15,
 			"sterilized": true,
 			"specie": "Perro",
-			"birth": "20/05/2011"
+			"birth": "2025-04-25"
 		},
 		{
 			"id": 6,
-			"photo": "../../../src/assets/mileva.jfif",
+			"photo": this.standardPath + "mileva.jfif",
 			"name": "Mileva",
 			"age": 4,
 			"breed": "Mestizo",
@@ -89,11 +90,11 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 2.9,
 			"sterilized": true,
 			"specie": "Gato",
-			"birth": "26/09/2020"
+			"birth": "2025-04-25"
 		},
 		{
 			"id": 7,
-			"photo": "../../../src/assets/napoleon.jfif",
+			"photo": this.standardPath + "napoleon.jfif",
 			"name": "Napoleón",
 			"age": 9,
 			"breed": "Mestizo",
@@ -101,11 +102,11 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 6,
 			"sterilized": true,
 			"specie": "Gato",
-			"birth": "11/09/2015"
+			"birth": "2025-04-25"
 		},
 		{
 			"id": 8,
-			"photo": "../../../src/assets/burpee.jfif",
+			"photo": this.standardPath + "burpee.jfif",
 			"name": "Burpee",
 			"age": 8,
 			"breed": "Sharpei",
@@ -113,11 +114,11 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 19,
 			"sterilized": true,
 			"specie": "Perro",
-			"birth": "01/10/2016"
+			"birth": "2025-04-25"
 		},
 		{
 			"id": 9,
-			"photo": "../../../src/assets/freya.jfif",
+			"photo": this.standardPath + "freya.jfif",
 			"name": "Freya",
 			"age": 5,
 			"breed": "Mestizo",
@@ -125,11 +126,11 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 5,
 			"sterilized": true,
 			"specie": "Gato",
-			"birth": "30/10/2019"
+			"birth": "2025-04-25"
 		},
 		{
 			"id": 10,
-			"photo": "../../../src/assets/cleopatra.jfif",
+			"photo": this.standardPath + "cleopatra.jfif",
 			"name": "Cleopatra",
 			"age": 5,
 			"breed": "Mestizo",
@@ -137,68 +138,74 @@ export class PetServiceStub implements PetServiceInter {
 			"weight": 4,
 			"sterilized": true,
 			"specie": "Gato",
-			"birth": "30/10/2019"
+			"birth": "2025-04-25"
 		}
 	]
 	
 	async getAll(): Promise<Pet[]> {
 		return this.objects.map<Pet>(petDTO => {
-			return new Pet(
-				petDTO.id, petDTO.name, petDTO.breed,
-				petDTO.age, petDTO.weight, petDTO.sterilized,
-				petDTO.photo, petDTO.sex, new Date(), petDTO.specie
-			)
+			return Pet.fromJSON(petDTO)
 		})
 	}
 
+	async getPetById(id: number): Promise<Pet> {
+		let pet = new Pet()
+		this.objects.forEach(object => {
+			if(object.id == id) pet = Pet.fromJSON(object)
+		})
+		return pet
+	}
+
 	async getAllByFilter(petFilter: PetFilterValues): Promise<Pet[]> {
+		console.log('Se llamaron todos')
 		const pets = this.objects.map<Pet>(petDTO => {
-			return new Pet(
-				petDTO.id, petDTO.name, petDTO.breed,
-				petDTO.age, petDTO.weight, petDTO.sterilized,
-				petDTO.photo, petDTO.sex, new Date(), petDTO.specie
-			)
+			return Pet.fromJSON(petDTO)
 		})
 
-		if(petFilter.name != '' && petFilter.pendingVaccine && petFilter.withMedicalShift) {
+		if(petFilter.name != '' && petFilter.hasPendingVaccine && petFilter.hasMedicalShift) {
 			return pets.filter((pet) => pet.name.startsWith(petFilter.name))
 		}
 
-		if(petFilter.name != '' && petFilter.pendingVaccine && !petFilter.withMedicalShift) {
+		if(petFilter.name != '' && petFilter.hasPendingVaccine && !petFilter.hasMedicalShift) {
 			return pets.filter((pet) => pet.name.startsWith(petFilter.name))
 		}
 
-		if(petFilter.name != '' && !petFilter.pendingVaccine && petFilter.withMedicalShift) {
+		if(petFilter.name != '' && !petFilter.hasPendingVaccine && petFilter.hasMedicalShift) {
 			return pets.filter((pet) => pet.name.startsWith(petFilter.name))
 		}
 
-		if(petFilter.name != '' && !petFilter.pendingVaccine && !petFilter.withMedicalShift) {
+		if(petFilter.name != '' && !petFilter.hasPendingVaccine && !petFilter.hasMedicalShift) {
 			return pets.filter((pet) => capitalize(pet.name).startsWith(capitalize(petFilter.name)))
 		}
 
-		if(petFilter.name == '' && petFilter.pendingVaccine && petFilter.withMedicalShift) {
+		if(petFilter.name == '' && petFilter.hasPendingVaccine && petFilter.hasMedicalShift) {
 			return pets.slice(0,6)
 		}
 
-		if(petFilter.name == '' && !petFilter.pendingVaccine && petFilter.withMedicalShift) {
+		if(petFilter.name == '' && !petFilter.hasPendingVaccine && petFilter.hasMedicalShift) {
 			return pets.slice(0,3)
 		}
 
-		if(petFilter.name == '' && petFilter.pendingVaccine && !petFilter.withMedicalShift) {
+		if(petFilter.name == '' && petFilter.hasPendingVaccine && !petFilter.hasMedicalShift) {
 			return pets.slice(0,4)
 		}
 		return pets
 	}
 
-	async create(newPet: Pet): Promise<void> {
-		console.log(newPet)
+	async create(pet: Pet): Promise<void> {
+		pet.id = this.objects.length
+		this.objects.push(pet.toJSON())
 	}
 
-	async update(newPet: Pet): Promise<void> {
-		console.log(newPet)
+	async update(pet: Pet): Promise<void> {
+		for(let i=0; i < this.objects.length; i++) {
+			if(this.objects[i].id === pet.id) {
+				this.objects[i] = pet.toJSON()
+			}
+		}
 	}
 
 	async delete(id: number): Promise<void> {
-		console.log(id)
+		this.objects = this.objects.filter((object: PetJSON) => object.id != id)
 	}
 }

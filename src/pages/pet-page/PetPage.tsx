@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react'
-
 import { PetGrid } from '../../components/pet-grid/PetGrid'
 import { PetFilter } from '../../components/pet-filter/PetFilter'
-
-import { Pet } from '../../domain/Pet'
-import { Filter } from '../../domain/Filter'
-
-import './PetPage.css'
 import PetServiceManager from '../../services/pet-service/PetServiceManager'
 import { PetFilterValues } from '../../domain/PetFilterValues'
+import { Filter } from '../../domain/Filter'
+import { Pet } from '../../domain/Pet'
+import './PetPage.css'
 
 interface TitleProp {
   name: string
@@ -33,10 +30,6 @@ export const PetPage = (titleProp: TitleProp) => {
     setPets(pets)
   }
 
-  const handleChangesFilter = (petFilter: PetFilterValues) => {
-    setFilter(petFilter)
-  }
-
   useEffect(() => {
     getAllPetsByFilter(filter)
   }, [filter])
@@ -46,10 +39,10 @@ export const PetPage = (titleProp: TitleProp) => {
       <h1 className="main__title">{ titleProp.name }</h1>
       <div className="main__content">
         <div className="main__content--filter">
-          <PetFilter filter={ filterValues } filterFunction={ handleChangesFilter }/>
+          <PetFilter filter={ filterValues } filterFunction={ setFilter }/>
         </div>
         <div className="main__content--data">
-          <PetGrid pets={ pets } />
+          <PetGrid pets={ pets } cleanFilter={ () => setFilter(new PetFilterValues('', false, false)) }/>
         </div>
       </div>
     </main>

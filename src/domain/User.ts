@@ -1,41 +1,69 @@
-export type UserJSON = {
-	id: number,
-	dni: number,
-	name: string,
-	surname: string,
-	email: string,
-	telephone: number,
-	adress: string,
+export type AuthCredentialsLoginDTO = {
 	username: string,
-	landline: string
+	password: string
 }
 
-export class User {
-    
-	constructor(
-		public id: number,
-		public dni: number,
-		public name: string,
-		public surname: string,
-		public email: string,
-		public telephone: number,
-		public adress: string,
-		public username: string,
-		public landline: string,
-		public photoUrl?: string
-	) {}
+export type AuthCredentialsResponseDTO = {
+	authCredentialsID: number,
+	typeOfUser: string
+}
 
-	toJSON(): UserJSON {
+export type UserJSON = {
+	id: number;
+	username: string;
+	password: string;
+	name: string;
+	surname: string;
+	dni: number;
+	email: string;
+	telephone: string ;
+	photo: string;
+	address: string;
+	postalCode: string;
+	locality: string;
+	province: string;
+	country: string;
+	typeOfUser: string;
+	
+  }
+  export class User {
+	constructor(
+	  public id: number,
+	  public username: string,
+	  public password: string,
+	  public name: string,
+	  public surname: string,
+	  public dni: number,
+	  public email: string,
+	  public telephone: string,
+	  public photo: string,
+	  public address: string,
+	  public postalCode: string,
+	  public locality: string,
+	  public province: string,
+	  public country: string,
+	  public typeOfUser: string,
+	  public idAuthCredentials: number
+	) {}
+  
+	toJSON() {
 		return {
-			id: this.id,
-			dni: this.dni,
-			name: this.name,
-			surname: this.surname,
-			email: this.email,
-			telephone: this.telephone,
-			adress: this.adress,
-			username: this.username,
-			landline: this.landline
+		  id: this.id,
+		  username: this.username,
+		  password: this.password,
+		  name: this.name,
+		  surname: this.surname,
+		  dni: this.dni,
+		  email: this.email,
+		  telephone: this.telephone,
+		  photo: this.photo,
+		  address: this.address,
+		  postalCode: this.postalCode,
+		  locality: this.locality,
+		  province: this.province,
+		  country: this.country,
+		  typeOfUser: this.typeOfUser,
+		  idAuthCredentials: this.idAuthCredentials
 		}
 	}
-}
+  }

@@ -1,36 +1,39 @@
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import './Header.css'
-
+import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
+import { useEffect, useState } from 'react'
+import { User } from '../../domain/User'
+import VetServiceManager from '../../services/vet-service/VetServiceManager'
+import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
+import { getUserID } from '../../services/auth-service/AuthService'
 
 export const Header = () => {
 
-  // const navigate = useNavigate()
-
-  const menuOpenHandler = (setLayoutName: string) => {
-    const nav: HTMLElement | null = document.getElementById('nav')
-    const linkPage: HTMLElement | null = document.getElementById('link-page')
-    if(nav != null) {
-      nav.style.display = 'flex'
-    }
-    if(linkPage != null) {
-      linkPage.innerHTML = setLayoutName
-    }
-  }
-  
-  const menuCloseHandler = () => {
-    const nav: HTMLElement | null = document.getElementById('nav')
-    if(nav != null) {
-      nav.style.display = 'none'
-    }
-  }
+  const [user, setUser] = useState<User | null>(null)
+  const[openMenu, setOpenMenu] = useState(false)
+  const navigate = useNavigate()
 
   const logoutApp = () => {
-    // authService.logout()
-		// navigate('/auth/login')
-    alert('Está funcionalidad de momento no se encuentra disponible!')
+    AuthServiceManager.getIntance().logout()
+		navigate('/auth/login')
   }
+
+  const handleTitlePet = () => {
+    return AuthServiceManager.getIntance().isVet() ? 'Pacientes' : 'Mascotas'
+  }
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      const fetchedUser: User = AuthServiceManager.getIntance().isVet()
+        ? await VetServiceManager.getInstance().getOneById(getUserID())
+        : await PetOwnerServiceManager.getInstance().getOneById(getUserID())
+      setUser(fetchedUser)
+    }
+
+    fetchProfileData()
+  }, [])
 
   return (
     <header className="header">
@@ -38,14 +41,20 @@ export const Header = () => {
         <i className="fa-solid fa-paw logo__image"></i>
         <label className="logo__label">VetApp</label>
       </figure>
-      <button className="fa-solid fa-circle-user header__button--menu" onClick={ () => menuOpenHandler('Pacientes') }></button>
-      <nav id="nav" className="nav">
+      <figure className="button__content--menu" onClick={ () => setOpenMenu(true) }>
+        {
+          AuthServiceManager.getIntance().isAuthorized()
+          ? <img className="user__image" src={ user?.photo }/>
+          : <i className="fa-solid fa-circle-user header__button--menu"></i>
+        }
+      </figure>
+      <nav className={ openMenu ? "nav" : "nav nav__none" }>
         <div className="nav__button">
-          <button className="fa-solid fa-xmark nav__button--close" onClick={ () => menuCloseHandler() }></button>
+          <button className="fa-solid fa-xmark nav__button--close" onClick={ () => setOpenMenu(false) }></button>
         </div>
         <ul className="nav__ul">
           <Link className="nav__ul--link" to="./profile">Perfil</Link>
-          <Link className="nav__ul--link" id="link-page" to="./pets">Xxxxxx</Link>
+          <Link className="nav__ul--link" id="link-page" to="./pets">{ handleTitlePet() }</Link>
           <Link className="nav__ul--link" to="./medical-shift">Turnos</Link>
           <button
             className="fa-solid fa-right-from-bracket nav__ul--logout nav__ul--link"

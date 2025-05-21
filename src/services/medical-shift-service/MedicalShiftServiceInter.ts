@@ -6,6 +6,6 @@ export interface MedicalShiftServiceInter {
 	getAllByFilter(filter: FilterTurn): Promise<MedicalShift[]>
 	cancelMedicalShift(idMedicalShift: number): Promise<void>
 	getMedicalShiftById(idMedicalShift: number):  Promise<MedicalShift>
-	editExistMedicalShift(idMedicalShift: number, medicalShift:MedicalShift): Promise<void>
+	editExistMedicalShift(medicalShift:MedicalShift): Promise<void>
 	createNewMedicalShift(medicalShift:MedicalShift): Promise<void>
 }
