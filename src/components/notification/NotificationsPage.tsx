@@ -18,9 +18,23 @@ import {
 import { VetServiceInter } from '../../services/vet-service/VetServiceInter'
 import { PetOwnerServiceInter } from '../../services/pet-owner-service/PetOwnerServiceInter'
 
-const useNotificationsData = () => {
-  const [notifications, setNotifications] = useState<NotificationModel[]>([])
+const notificationPriority: Record<string, number> = {
+  system: 0,
+  SHIFT_TODAY: 1,
+  SHIFT_DELETE: 2,
+  SHIFT_UPDATE: 3,
+  SHIFT_CREATE: 4,
+  vaccine: 5,
+  appointment: 6,
+  info: 7,
+}
+
+export const useNotificationsData = () => {
+  const [notificationList, setNotificationList] = useState<NotificationModel[]>(
+    [],
+  )
   const [vetData, setVetData] = useState<Vet | null>(null)
+  const refresh = async () => await loadData()
 
   const isVet = AuthServiceManager.getIntance().isVet()
   const service = isVet
@@ -51,14 +65,14 @@ const useNotificationsData = () => {
       if (foundVet) setVetData(foundVet)
     }
 
-    setNotifications(notes)
+    setNotificationList(notes)
   }, [service, isVet])
 
   useEffect(() => {
     loadData()
   }, [loadData])
 
-  return { notifications, vetData, isVet }
+  return { notifications: notificationList, vetData, isVet, refresh }
 }
 
 export const NotificationsPage = () => {
@@ -77,23 +91,36 @@ export const NotificationsPage = () => {
       sx={{
         width: '100%',
         maxWidth: '1100px',
-         justifyContent: 'center',
+        justifyContent: 'center',
         px: 3,
         py: 2,
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '100%',
+        }}
+      >
         <List sx={{ width: '100%' }}>
-          {notifications.map((n, i) => (
-            <NotificationCard
-              key={n.id}
-              notification={n}
-              expanded={expandedIndex === i}
-              onToggleExpand={() => toggleExpand(i)}
-              vetEmail={vetEmail}
-              vetPhone={vetPhone}
-            />
-          ))}
+          {[...notifications]
+            .sort((a, b) => {
+              const priorityA = notificationPriority[a.type] ?? 99
+              const priorityB = notificationPriority[b.type] ?? 99
+              return priorityA - priorityB
+            })
+            .map((n, i) => (
+              <NotificationCard
+                key={n.id}
+                notification={n}
+                expanded={expandedIndex === i}
+                onToggleExpand={() => toggleExpand(i)}
+                vetEmail={vetEmail}
+                vetPhone={vetPhone}
+              />
+            ))}
         </List>
 
         {!isVet && (
@@ -102,8 +129,8 @@ export const NotificationsPage = () => {
               Datos de contacto
             </ContactTitle>
             <ContactText variant="body2">
-              Si necesitás comunicarte con tu veterinario, podés hacerlo a través
-              de:
+              Si necesitás comunicarte con tu veterinario, podés hacerlo a
+              través de:
             </ContactText>
             <ContactStack spacing={2}>
               <WhatsAppStyledButton

@@ -1,6 +1,6 @@
-import { NotificationModel } from '../../domain/Notification';
-import { Vet } from '../../domain/Vet';
-import { VetServiceInter } from './VetServiceInter';
+import { NotificationModel } from '../../domain/Notification'
+import { Vet } from '../../domain/Vet'
+import { VetServiceInter } from './VetServiceInter'
 
 export const sharedMockNotifications: NotificationModel[] = [
   new NotificationModel(
@@ -12,7 +12,7 @@ export const sharedMockNotifications: NotificationModel[] = [
     'Rocky',
     'Juan Pérez',
     'María Gómez',
-    '2024-05-21T15:00:00Z'
+    '2024-05-21T15:00:00Z',
   ),
   new NotificationModel(
     2,
@@ -23,7 +23,7 @@ export const sharedMockNotifications: NotificationModel[] = [
     'Rocky',
     'Juan Pérez',
     'María Gómez',
-    new Date().toISOString().split('T')[0] + 'T10:00:00Z'
+    new Date().toISOString().split('T')[0] + 'T10:00:00Z',
   ),
 ]
 
@@ -51,34 +51,37 @@ export class VetServiceStub implements VetServiceInter {
     '1133224455',
     'Hospital Central 1000',
     'Belgrano',
-    '1428'
-  );
+    '1428',
+  )
 
   async getAll(): Promise<Vet[]> {
-    return [this.user];
+    return [this.user]
   }
 
   async getOneById(): Promise<Vet> {
-    return this.user;
+    return this.user
   }
 
   async update(vet: Vet): Promise<void> {
-    this.user = vet;
+    this.user = vet
   }
 
   async delete(id: number): Promise<void> {
-    console.log(`Stub: usuario con ID ${id} eliminado`);
+    console.log(`Stub: usuario con ID ${id} eliminado`)
   }
 
-   async getNotificationsByVetId(_id: number): Promise<NotificationModel[]> {
-    return sharedMockNotifications.filter(
-      (n) =>
-        n.type === 'SHIFT_TODAY' ||
-        (n.type === 'SHIFT_DELETE' &&
-          n.message.toLowerCase().includes('cancelado') &&
-          n.message.toLowerCase().includes('dueño'))
+async getNotificationsByVetId(_id: number): Promise<NotificationModel[]> {
+  const fullVetName = `${this.user.name} ${this.user.surname}`
+  
+  return sharedMockNotifications.filter(n =>
+    n.vetName === fullVetName &&
+    (
+      n.type === 'SHIFT_TODAY' ||
+      n.type === 'SHIFT_DELETE'
     )
-  }
+  )
+}
+
 
   addMockNotification(notification: NotificationModel): void {
     sharedMockNotifications.push(notification)

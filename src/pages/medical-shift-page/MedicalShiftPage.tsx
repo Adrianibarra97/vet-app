@@ -5,6 +5,7 @@ import { FilterTurn } from "../../domain/Filterturn"
 import { MedicalShift } from "../../domain/MedicalShift"
 import MedicalShiftServiceManager from "../../services/medical-shift-service/MedicalShiftServiceManager"
 import { Filter } from "../../domain/Filter"
+import { useNotificationsData } from "../../components/notification/NotificationsPage";
 
 import './MedicalShiftPage.css'
 
@@ -21,6 +22,7 @@ export const MedicalShiftPage = () => {
 
   const[medicalShifts, setMedicalShifts] = useState(new Array<MedicalShift>())
   const [filter, setFilter] = useState<FilterTurn>(new FilterTurn('', false, false))
+const { refresh: refreshNotifications } = useNotificationsData();
 
   const handleChangesFilter = (filter: FilterTurn) => {
     setFilter(filter)
@@ -35,6 +37,7 @@ export const MedicalShiftPage = () => {
     MedicalShiftServiceManager.getInstance().cancelMedicalShift(idMedicalShift)
     const shifts = await MedicalShiftServiceManager.getInstance().getAllByFilter(filter)
     setMedicalShifts(shifts)
+    await refreshNotifications()
   }
 
   const handleEditOrCreateMedicalShift = async (medicalShift: MedicalShift, idMedicalShift: number) => {
@@ -48,6 +51,7 @@ export const MedicalShiftPage = () => {
     else{
       MedicalShiftServiceManager.getInstance().createNewMedicalShift(medicalShift)
       getAllMedicalShiftsByFilter(filter)
+      await refreshNotifications()
     }
   }
 

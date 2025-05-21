@@ -95,12 +95,18 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
   async delete(id: number): Promise<void> {
     console.log(`Stub: pet owner con ID ${id} eliminado`)
   }
+  async getNotificationsByPetOwnerId(
+    _id: number,
+  ): Promise<NotificationModel[]> {
+    const base = petOwnerMockNotifications
 
-  async getNotificationsByPetOwnerId(_id: number): Promise<NotificationModel[]> {
-    const vetNotifications = sharedMockNotifications.filter((n) =>
-      n.petOwnerName?.includes(this.user.name)
+    const extra = sharedMockNotifications.filter(
+      (n) =>
+        (n.petOwnerName === this.user.name && n.type !== 'SHIFT_DELETE') ||
+        n.type === 'SHIFT_CREATE' ||
+        n.type === 'SHIFT_UPDATE',
     )
 
-    return [...petOwnerMockNotifications, ...vetNotifications]
+    return [...base, ...extra]
   }
 }
