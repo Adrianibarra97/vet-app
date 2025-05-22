@@ -112,12 +112,16 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
     setMedicalShift(newMedicalShift)
   }
 
-  const handleOnConfirm = () => {
+  const handleOnClickConfirm = () => {
     setFromTouched(true)
     if (hasMissingRequiredFields()) {
       SnackbarUtilities.error('campos incompletos')
       return
     }
+    setStateModalConfirm(true)
+  }
+
+  const handleOnConfirm = () => {
     onConfirm(medicalShift, medicalShift.id)
     cleanStates()
     onClose()
@@ -257,7 +261,7 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
             </Button>
             <Button
               variant="contained"
-              onClick={() => setStateModalConfirm(true)}
+              onClick={handleOnClickConfirm}
               sx={{ backgroundColor: 'var(--footer-color)' }}
             >
               Confirmar
