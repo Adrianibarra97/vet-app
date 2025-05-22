@@ -8,7 +8,14 @@ export type PetJSON = {
 	photo: string,
 	sex: string,
 	birth: string,
-	specie: string
+	specie: string,
+
+	//Medical History
+  idMedicalHistory: number,
+  summary: string,
+  createdAt: string,
+  updatedAt: string,
+  petOwnerId: number
 }
 
 export class Pet {
@@ -23,14 +30,24 @@ export class Pet {
 		public photo: string = '',
 		public sex: string = 'Macho',
 		public birth: string = '',
-		public specie: string = ''
+		public specie: string = 'CAT',
+
+		//Medical History
+    public idMedicalHistory: number = -1,
+    public summary: string = '',
+    public createdAt: string = '',
+    public updatedAt: string = '',
+    public petOwnerId: number = -1
 	) {}
 
 	static fromJSON(petJSON: PetJSON): Pet {
 		return new Pet(
 			petJSON.id, petJSON.name, petJSON.breed, petJSON.age,
 			petJSON.weight, petJSON.sterilized, petJSON.photo, petJSON.sex,
-			petJSON.birth, petJSON.specie
+			petJSON.birth, petJSON.specie,
+
+			petJSON.idMedicalHistory, petJSON.summary, petJSON.createdAt,
+			petJSON.updatedAt, petJSON.petOwnerId
 		)
 	}
 
@@ -46,6 +63,12 @@ export class Pet {
 			sex: this.sex,
 			birth: this.birth,
 			specie: this.specie,
+
+			idMedicalHistory: this.idMedicalHistory,
+			summary: this.summary,
+			createdAt: this.createdAt,
+			updatedAt: this.updatedAt,
+			petOwnerId: this.petOwnerId
 		}
 	}
 }

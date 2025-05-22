@@ -42,7 +42,11 @@ export const PetPage = (titleProp: TitleProp) => {
           <PetFilter filter={ filterValues } filterFunction={ setFilter }/>
         </div>
         <div className="main__content--data">
-          <PetGrid pets={ pets } cleanFilter={ () => setFilter(new PetFilterValues('', false, false)) }/>
+          <PetGrid
+            pets={ pets }
+            cleanFilter={ () => setFilter(new PetFilterValues('', false, false)) }
+            handleDeletePet={ () => setFilter(new PetFilterValues('', false, false)) }
+          />
         </div>
       </div>
     </main>
