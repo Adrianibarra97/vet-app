@@ -36,8 +36,6 @@ export default function MedicalShiftCard({ medicalShift, onClickCancel, onClickE
     } else {
       setIsPastTime(false);
     }
-    console.log(isPastDate)
-    console.log(isPastTime)
   }
 
   const isPastMedicalShift = ():string => {
