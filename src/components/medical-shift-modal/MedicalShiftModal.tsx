@@ -191,23 +191,25 @@ export function MedicalShiftModal({open,onClose,onConfirm,medicalShift:initialMe
                 />
               )
             }
-            <FormControl fullWidth  margin="normal" error={fromTouched && !medicalShift.petMedicalShift} required sx={{overflow:'visible'}}>
-              <InputLabel color={fromTouched && !medicalShift.petMedicalShift ? "error" : "primary"}>Paciente</InputLabel>
-              <Select
-                value={medicalShift.petMedicalShift ? medicalShift.petMedicalShift.name : ''}
-                onChange={(event)=> handlePatientChange(event.target.value)}
-                input={<OutlinedInput label="Paciente"/>}
-              >
-                {vetPatients.map(pet =>
-                  <MenuItem value={pet.name} key={pet.name}>{pet.name}</MenuItem>
+            {idMedicalShift === -1 &&
+              <FormControl fullWidth  margin="normal" error={fromTouched && !medicalShift.petMedicalShift} required sx={{overflow:'visible'}}>
+                <InputLabel color={fromTouched && !medicalShift.petMedicalShift ? "error" : "primary"}>Paciente</InputLabel>
+                <Select
+                  value={medicalShift.petMedicalShift ? medicalShift.petMedicalShift.name : ''}
+                  onChange={(event)=> handlePatientChange(event.target.value)}
+                  input={<OutlinedInput label="Paciente"/>}
+                >
+                  {vetPatients.map(pet =>
+                    <MenuItem value={pet.name} key={pet.name}>{pet.name}</MenuItem>
+                  )}
+                </Select>
+                {fromTouched && !medicalShift.petMedicalShift && (
+                  <Box display="flex" alignItems="center" gap={1}  >
+                    <Typography color="red">El paciente es obligatorio</Typography>
+                  </Box>
                 )}
-              </Select>
-              {fromTouched && !medicalShift.petMedicalShift && (
-                <Box display="flex" alignItems="center" gap={1}  >
-                  <Typography color="red">El paciente es obligatorio</Typography>
-                </Box>
-              )}
-            </FormControl>
+              </FormControl>
+            }
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 value={date}

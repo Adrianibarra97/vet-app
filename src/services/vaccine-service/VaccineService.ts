@@ -26,6 +26,7 @@ export class VaccineService implements VaccineServiceInter{
             batchNumber:vaccine.batchNumber,
             applicationDate:vaccine.applicationDate,
             expirationDate:vaccine.expirationDate,
+            completed:false,
             medicalHistoryId:idMedicalHistory
         }
         console.log('Vacuna creada:',newVaccineDTO)
@@ -40,6 +41,7 @@ export class VaccineService implements VaccineServiceInter{
             batchNumber:vaccine.batchNumber,
             applicationDate:vaccine.applicationDate,
             expirationDate:vaccine.expirationDate,
+            completed:false,
             medicalHistoryId:idMedicalHistory
         }
         console.log('Vacuna editada:',newVaccineDTO)
