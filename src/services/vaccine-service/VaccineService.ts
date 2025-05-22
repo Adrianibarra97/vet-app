@@ -29,7 +29,6 @@ export class VaccineService implements VaccineServiceInter{
             completed:false,
             medicalHistoryId:idMedicalHistory
         }
-        console.log('Vacuna creada:',newVaccineDTO)
         await axios.post(`${URL_BE}/vaccines/create`, newVaccineDTO)
     }
 
@@ -44,7 +43,6 @@ export class VaccineService implements VaccineServiceInter{
             completed:vaccine.completed,
             medicalHistoryId:idMedicalHistory
         }
-        console.log('Vacuna editada:',newVaccineDTO)
         await axios.put(`${URL_BE}/vaccines/update`,newVaccineDTO)
     }
 
