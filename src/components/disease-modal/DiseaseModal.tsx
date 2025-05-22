@@ -9,6 +9,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 import Textarea from '@mui/joy/Textarea'
+import { ConfirmDeleteModalDisease } from "../confirm-delete-modal-disease/ConfirmDeleteModalDisease"
 
 interface propsDiseaseModal{
     open:boolean
@@ -24,6 +25,8 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
     const [fromTouched,setFromTouched] = useState<boolean>(false)
     const [diagnosisDate,setDiagnosisDate] = useState<Dayjs|null>(initialDisease?.diagnosisDate ? dayjs(initialDisease.diagnosisDate) : null )
     const [errorDate,setErrorDate] = useState<string|null>(null)
+    const [stateModalConfirm,setStateModalConfirm] = useState<boolean>(false)
+    const [title, setTitle] = useState<string>('')
 
     dayjs.extend(customParseFormat)
 
@@ -32,9 +35,11 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
         if(initialDisease){
             setDisease(Object.assign(new Disease(), initialDisease))
             setDiagnosisDate(initialDisease.diagnosisDate ? dayjs(initialDisease.diagnosisDate, "YYYY-MM-DD") : null)
+            setTitle('¿Estas seguro de que quieres editar esta enfermedad?')
         } else if(idDisease === -1){
             setDisease(new Disease())
             setDiagnosisDate(null)
+            setTitle('¿Estas seguro de que quieres crear esta enfermedad?')
         }
     }, [initialDisease, idDisease])
 
@@ -66,7 +71,7 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
         setDisease(newDisease)
     }
 
-    const handleOnConfirm = () => {
+    const handleOnClickConfirm = () => {
         if (viewMode) {
             onClose();
             return;
@@ -77,6 +82,10 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
             SnackbarUtilities.error('Campos incompletos')
             return
         }
+        setStateModalConfirm(true)
+    }
+
+    const handleOnConfirm = () => {
         onConfirm(disease)
         cleanStates()
         onClose()
@@ -111,103 +120,112 @@ export function DiseaseModal({disease:initialDisease,open, onClose, onConfirm, i
     }
 
     return(
-        <Dialog onClose={handleCancel} open={open} fullWidth sx={{maxHeight:'90vh', overflow:'auto'}}>
-            <DialogTitle component="div">
-                <Typography variant="h6" sx={{color:'var(--footer-color)', fontWeight:'bold'}}>
-                    {getTitle()}
-                </Typography>
-            </DialogTitle>
-            <DialogContent>
-                <Box component={'form'} sx={formContainer}>
-                    <FormControl fullWidth margin="normal" error={fromTouched && !disease.type} required sx={{overflow:'visible'}} disabled={viewMode}>
-                        <InputLabel color={fromTouched && !disease.type ? "error" : "primary"}>
-                            Tipo Enfermedad
-                        </InputLabel>
-                        <Select
-                            value={disease.type ? disease.type : ''}
-                            onChange={(event) => handleDiseaseCreationOrEdition('type', event.target.value)}
-                            input={<OutlinedInput label="Tipo Enfermedad" />}
-                        >
-                            {preExistinceDiseaseOptions.map(diseaseOption => (
-                                <MenuItem value={diseaseOption} key={diseaseOption}>
-                                    {convertTypeOfPreExistinceDiseaseToASpanishString(diseaseOption)}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <FormControl fullWidth margin="normal" error={fromTouched && !disease.severity} required sx={{overflow:'visible'}} disabled={viewMode}>
-                        <InputLabel color={fromTouched && !disease.severity ? "error" : "primary"}>Severidad</InputLabel>
-                        <Select 
-                            value={disease.severity ? disease.severity : ''}
-                            onChange={(event) => handleDiseaseCreationOrEdition('severity',event.target.value)}
-                            input={<OutlinedInput label="Severidad"/>}
-                        >
-                            {severityTypeOptions.map(severityOptions => (
-                                <MenuItem value={severityOptions} key={severityOptions}>
-                                    {convertTypeOfSeverityToASpanishString(severityOptions)}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            value={diagnosisDate}
-                            label="Fecha"
-                            format="DD/MM/YYYY"
-                            minDate={dayjs()}
-                            onChange={handleDiagnosisDateChange}
-                            disabled={viewMode}
-                            slotProps={{
-                                textField: {
-                                    error: !!errorDate,
-                                    helperText: errorDate,
-                                    margin:'normal',
-                                    required: true,
-                                    fullWidth:true
-                                },
-                            }}
-                            sx={{overflow:'visible'}}
-                        />
-                    </LocalizationProvider>
-                    {idDisease  !== -1 && 
-                        <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
-                            <Typography>Esta activa</Typography>
-                            <Checkbox
-                                checked={!!disease.isActive}
-                                onChange={event => handleDiseaseCreationOrEdition('isActive', event.target.checked)}
+        <>
+            <Dialog onClose={handleCancel} open={open} fullWidth sx={{maxHeight:'90vh', overflow:'auto'}}>
+                <DialogTitle component="div">
+                    <Typography variant="h6" sx={{color:'var(--footer-color)', fontWeight:'bold'}}>
+                        {getTitle()}
+                    </Typography>
+                </DialogTitle>
+                <DialogContent>
+                    <Box component={'form'} sx={formContainer}>
+                        <FormControl fullWidth margin="normal" error={fromTouched && !disease.type} required sx={{overflow:'visible'}} disabled={viewMode}>
+                            <InputLabel color={fromTouched && !disease.type ? "error" : "primary"}>
+                                Tipo Enfermedad
+                            </InputLabel>
+                            <Select
+                                value={disease.type ? disease.type : ''}
+                                onChange={(event) => handleDiseaseCreationOrEdition('type', event.target.value)}
+                                input={<OutlinedInput label="Tipo Enfermedad" />}
+                            >
+                                {preExistinceDiseaseOptions.map(diseaseOption => (
+                                    <MenuItem value={diseaseOption} key={diseaseOption}>
+                                        {convertTypeOfPreExistinceDiseaseToASpanishString(diseaseOption)}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth margin="normal" error={fromTouched && !disease.severity} required sx={{overflow:'visible'}} disabled={viewMode}>
+                            <InputLabel color={fromTouched && !disease.severity ? "error" : "primary"}>Severidad</InputLabel>
+                            <Select 
+                                value={disease.severity ? disease.severity : ''}
+                                onChange={(event) => handleDiseaseCreationOrEdition('severity',event.target.value)}
+                                input={<OutlinedInput label="Severidad"/>}
+                            >
+                                {severityTypeOptions.map(severityOptions => (
+                                    <MenuItem value={severityOptions} key={severityOptions}>
+                                        {convertTypeOfSeverityToASpanishString(severityOptions)}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                value={diagnosisDate}
+                                label="Fecha"
+                                format="DD/MM/YYYY"
+                                minDate={dayjs()}
+                                onChange={handleDiagnosisDateChange}
                                 disabled={viewMode}
+                                slotProps={{
+                                    textField: {
+                                        error: !!errorDate,
+                                        helperText: errorDate,
+                                        margin:'normal',
+                                        required: true,
+                                        fullWidth:true
+                                    },
+                                }}
+                                sx={{overflow:'visible'}}
                             />
-                        </Box>
-                    }
-                    <Textarea 
-                        placeholder="Escribe tu observacion aca..."
-                        minRows={4}
-                        value={disease.observation}
-                        onChange={event => handleDiseaseCreationOrEdition('observation',event.target.value)}
-                        sx={{mt:2}}
-                        variant="outlined"
-                        disabled={viewMode}
-                    />
-                </Box>
-            </DialogContent>
-            <DialogActions sx={{width:'100%', display:'flex',justifyContent:'space-around',alignItems:'center'}}>
-                <Button
-                    variant="contained"
-                    onClick={handleCancel}
-                    sx={{ backgroundColor: 'var(--primary-color)' }}
-                >
-                    {viewMode ? 'Cerrar':'Cancelar'}
-                </Button>
-                {!viewMode &&
+                        </LocalizationProvider>
+                        {idDisease  !== -1 && 
+                            <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
+                                <Typography>Esta activa</Typography>
+                                <Checkbox
+                                    checked={disease.isActive}
+                                    onChange={event => handleDiseaseCreationOrEdition('isActive', event.target.checked)}
+                                    disabled={viewMode}
+                                />
+                            </Box>
+                        }
+                        <Textarea 
+                            placeholder="Escribe tu observacion aca..."
+                            minRows={4}
+                            value={disease.observation}
+                            onChange={event => handleDiseaseCreationOrEdition('observation',event.target.value)}
+                            sx={{mt:2}}
+                            variant="outlined"
+                            disabled={viewMode}
+                        />
+                    </Box>
+                </DialogContent>
+                <DialogActions sx={{width:'100%', display:'flex',justifyContent:'space-around',alignItems:'center'}}>
                     <Button
                         variant="contained"
-                        onClick={handleOnConfirm}
-                        sx={{ backgroundColor: 'var(--footer-color)' }}
+                        onClick={handleCancel}
+                        sx={{ backgroundColor: 'var(--primary-color)' }}
                     >
-                        Confirmar
+                        {viewMode ? 'Cerrar':'Cancelar'}
                     </Button>
-                }
-            </DialogActions>
-        </Dialog>
+                    {!viewMode &&
+                        <Button
+                            variant="contained"
+                            onClick={handleOnClickConfirm}
+                            sx={{ backgroundColor: 'var(--footer-color)' }}
+                        >
+                            Confirmar
+                        </Button>
+                    }
+                </DialogActions>
+            </Dialog>
+            <ConfirmDeleteModalDisease
+                open={stateModalConfirm}
+                onClose={() => setStateModalConfirm(false)}
+                onConfirm={handleOnConfirm}
+                disease={disease}
+                title={title}
+            />
+        </>
     )
 }

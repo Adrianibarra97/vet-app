@@ -45,7 +45,6 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 			"vetId":getUserID(),
 			"petId":medicalShift.petMedicalShift.id
 		}
-		console.log(MedicalShiftRequestDTO)
 		await axios.put(` ${URL_BE}/medical-shift/update`, MedicalShiftRequestDTO)
 	}
 
@@ -56,7 +55,6 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 			"vetId":getUserID(),
 			"petId":medicalShift.petMedicalShift.id
 		}
-		console.log(MedicalShiftRequestDTO)
 		await axios.post(` ${URL_BE}/medical-shift/create`, MedicalShiftRequestDTO)
 	}
 }
