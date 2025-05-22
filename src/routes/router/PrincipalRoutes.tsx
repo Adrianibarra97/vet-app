@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-
 import { ProtectedRoutes } from '../guards/ProtectedRoutes'
 import { MainLayout } from '../../layouts/main/MainLayout'
 import { ProfilePage } from '../../pages/profile-page/ProfilePage'
@@ -8,7 +7,6 @@ import { MedicalShiftPage } from '../../pages/medical-shift-page/MedicalShiftPag
 import { ErrorPage } from '../../pages/error-page/ErrorPage'
 import { AuthLayout } from '../../layouts/auth/AuthLayout'
 import { LoginPage } from '../../pages/login-page/LoginPage'
-import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import { PetDetail } from '../../pages/pet-detail-page/PetDetailPage'
 import { ResetPasswordPage } from '../../pages/reset-password-page/ResetPasswordPage'
 import { CreateUserPage } from '../../pages/create-user-page/CreateUserPage'
@@ -16,11 +14,6 @@ import { ChangePasswordPage } from '../../pages/change-password-page/ChangePassw
 import { ValidChangePage } from '../../pages/valid-change-page/ValidChangePage'
 
 export const PrincipalRoutes = () => {
-
-  const handleTitlePet = () => {
-    return AuthServiceManager.getIntance().isVet() ? 'Pacientes' : 'Mascotas'
-  }
-
   return (
     <BrowserRouter>
       <Routes>
@@ -34,7 +27,7 @@ export const PrincipalRoutes = () => {
         <Route element = { <ProtectedRoutes /> }>
           <Route path = "/" element = { <MainLayout /> } >
             <Route path = "profile" element={<ProfilePage name="Perfil" />} />
-            <Route path = "pets" element = { <PetPage name={ handleTitlePet() } /> } />
+            <Route path = "pets" element = { <PetPage /> } />
             <Route path = 'pet-detail/:petID' element = {<PetDetail/>}/>
             <Route path = "medical-shift" element = { <MedicalShiftPage /> } />
             <Route path = "*" element = { <ErrorPage /> } />
