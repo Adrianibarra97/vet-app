@@ -24,6 +24,7 @@ export class PetService implements PetServiceInter {
 		} else {
 			const response = await axios.post(URL_BE + `/pet-owner/get-all-pets-by-filter?idPetOwner=${getUserID()}`, petFilter.toJSON())
 			const promise: PetJSON[] = response.data
+			console.log(promise)
 			return promise.map((petDTO: PetJSON) => Pet.fromJSON(petDTO))
 		}
 	}

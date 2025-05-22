@@ -31,7 +31,7 @@ export const PetPage = (titleProp: TitleProp) => {
   }
 
   useEffect(() => {
-    getAllPetsByFilter(filter)
+    setTimeout(() => { getAllPetsByFilter(filter) }, 100)
   }, [filter])
 
   return (
