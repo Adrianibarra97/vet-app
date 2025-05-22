@@ -4,9 +4,12 @@ export const PETOWNER_TYPE: string = 'PETOWNER'
 export const USER_ID_TOKEN: string = 'authCredentialsID'
 export const USER_TYPE_TOKEN: string = 'typeOfUser'
 export const AUTH_SERVICE_USE_STUB: boolean = true
+export const NOTIFICATION_SERVICE_USE_STUB: boolean = true
 export const VET_SERVICE_USE_STUB: boolean = true
 export const PET_OWNER_SERVICE_USE_STUB: boolean = true
 export const MEDICAL_SHIFT_SERVICE_USE_STUB: boolean = true
 export const PET_SERVICE_USE_STUB: boolean = true
-export const NOTIFICATION_SERVICE_USE_STUB: boolean = true
-
+export const DISEASE_SERVICE_USE_STUB: boolean = true
+export const RECIPE_SERVICE_USE_STUB: boolean = true
+export const STUDY_RESULT_SERVICE_USE_STUB: boolean = true
+export const VACCINE_SERVICE_USE_STUB: boolean = true

@@ -7,12 +7,12 @@ import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 export class AuthServiceStub extends AuthServiceInter {
 
 	private systemUsers: [AuthCredentialsLoginDTO, AuthCredentialsResponseDTO][] = [
-		[{ username: 'Eche', password: '1234' }, { authCredentialsID: 0, typeOfUser: "PETOWNER" }],
-		[{ username: 'Caro', password: '1234' }, { authCredentialsID: 1, typeOfUser: "PETOWNER" }],
-		[{ username: 'Tami', password: '1234' }, { authCredentialsID: 2, typeOfUser: "PETOWNER" }],
-		[{ username: 'LuckR', password: '1234' }, { authCredentialsID: 3, typeOfUser: "PETOWNER" }],
-		[{ username: 'LuckC', password: '123' }, { authCredentialsID: 4, typeOfUser: "VET" }],
-		[{ username: 'Adrian', password: '123' }, { authCredentialsID: 5, typeOfUser: "VET" }]
+		[{ username: 'Eche', password: '1234' }, { authCredentialsID: 1, typeOfUser: "PETOWNER" }],
+		[{ username: 'Caro', password: '1234' }, { authCredentialsID: 2, typeOfUser: "PETOWNER" }],
+		[{ username: 'Tami', password: '1234' }, { authCredentialsID: 3, typeOfUser: "PETOWNER" }],
+		[{ username: 'LuckR', password: '1234' }, { authCredentialsID: 4, typeOfUser: "PETOWNER" }],
+		[{ username: 'Adrian', password: '123' }, { authCredentialsID: 5, typeOfUser: "VET" }],
+		[{ username: 'LuckC', password: '123' }, { authCredentialsID: 6, typeOfUser: "VET" }]
 	]
 
 	constructor() { super() }

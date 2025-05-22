@@ -25,7 +25,6 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 			const promise: MedicalShiftJSON[] = response.data
 			return promise.map((medicalShiftDTO: MedicalShiftJSON) => MedicalShift.fromJSON(medicalShiftDTO))
 		}
-
 	}
 
 
@@ -43,7 +42,7 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 			"id":medicalShift.id,
 			"date":medicalShift.date,
 			"hour":medicalShift.hour,
-			"vetId":await getUserID(),
+			"vetId":getUserID(),
 			"petId":medicalShift.petMedicalShift.id
 		}
 		console.log(MedicalShiftRequestDTO)
@@ -54,7 +53,7 @@ export class MedicalShiftService implements MedicalShiftServiceInter {
 		const MedicalShiftRequestDTO = {
 			"date":medicalShift.date,
 			"hour":medicalShift.hour,
-			"vetId": await getUserID(),
+			"vetId":getUserID(),
 			"petId":medicalShift.petMedicalShift.id
 		}
 		console.log(MedicalShiftRequestDTO)

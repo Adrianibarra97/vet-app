@@ -185,7 +185,7 @@ const petOwnerMockNotifications: NotificationModel[] = [
 export class PetOwnerServiceStub implements PetOwnerServiceInter {
   private petOwners: PetOwner[] = [
     new PetOwner(
-      0,
+      1,
       'Eche',
       '1234',
       'Ezequiel',
@@ -199,12 +199,12 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
       'Avellaneda',
       'Buenos Aires',
       'Argentina',
-      1,
+      0,
       'Lucas Cejas',
       '1142334411',
     ),
     new PetOwner(
-      1,
+      2,
       'Caro',
       '1234',
       'Caro',
@@ -223,7 +223,7 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
       '1142334411',
     ),
     new PetOwner(
-      2,
+      3,
       'Tami',
       '1234',
       'Tamara',
@@ -242,7 +242,7 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
       '1142334411',
     ),
     new PetOwner(
-      3,
+      4,
       'LuckR',
       '1234',
       'Lucas',

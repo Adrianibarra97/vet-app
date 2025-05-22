@@ -11,6 +11,7 @@ import { LoginPage } from '../../pages/login-page/LoginPage'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import { ProfileLayout } from '../../layouts/profile/ProfileLayout'
 import { NotificationsPage } from '../../components/notification/NotificationsPage'
+import { PetDetail } from '../../pages/pet-detail-page/PetDetailPage'
 
 export const PrincipalRoutes = () => {
   const handleTitlePet = () => {
@@ -23,15 +24,16 @@ export const PrincipalRoutes = () => {
         <Route path = "/auth" element = { <AuthLayout /> }>
           <Route path = "login" element = { <LoginPage /> }/>
         </Route>
-        <Route element={<ProtectedRoutes />}>
-          <Route path="/" element={<MainLayout />}>
-            <Route path="profile" element={<ProfileLayout />}>
+        <Route element = { <ProtectedRoutes /> }>
+          <Route path = "/" element = { <MainLayout /> } >
+          <Route path="profile" element={<ProfileLayout />}>
               <Route index element={<ProfilePage />} />
               <Route path="notifications" element={<NotificationsPage />} />
             </Route>
-            <Route path="pets" element={<PetPage name={handleTitlePet()} />} />
-            <Route path="medical-shift" element={<MedicalShiftPage />} />
-            <Route path="*" element={<ErrorPage />} />
+            <Route path = "pets" element = { <PetPage name={ handleTitlePet() } /> } />
+            <Route path = 'pet-detail/:petID' element = {<PetDetail/>}/>
+            <Route path = "medical-shift" element = { <MedicalShiftPage /> } />
+            <Route path = "*" element = { <ErrorPage /> } />
           </Route>
         </Route>
       </Routes>

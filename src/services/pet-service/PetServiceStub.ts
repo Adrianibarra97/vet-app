@@ -17,8 +17,13 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Hembra",
 			"weight": 17,
 			"sterilized": true,
-			"specie": "Perro",
-			"birth": "2025-04-25"
+			"specie": "DOG",
+			"birth": "2025-04-25",
+			"idMedicalHistory": 0,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 1,
@@ -29,8 +34,13 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Macho",
 			"weight": 14,
 			"sterilized": true,
-			"specie": "Perro",
-			"birth": "2025-04-25"
+			"specie": "DOG",
+			"birth": "2025-04-25",
+			"idMedicalHistory": 1,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 2,
@@ -41,8 +51,13 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Hembra",
 			"weight": 15,
 			"sterilized": true,
-			"specie": "Perro",
-			"birth": "2025-04-25"
+			"specie": "DOG",
+			"birth": "2025-04-25",
+			"idMedicalHistory": 2,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 3,
@@ -53,8 +68,13 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Macho",
 			"weight": 25,
 			"sterilized": false,
-			"specie": "Perro",
-			"birth": "2025-04-25"
+			"specie": "DOG",
+			"birth": "2025-04-25",
+			"idMedicalHistory": 3,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 4,
@@ -65,8 +85,13 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Hembra",
 			"weight": 0.119,
 			"sterilized": false,
-			"specie": "Ave",
-			"birth": "2025-04-25"
+			"specie": "BIRD",
+			"birth": "2025-04-25",
+			"idMedicalHistory": 4,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 5,
@@ -77,8 +102,13 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Hembra",
 			"weight": 15,
 			"sterilized": true,
-			"specie": "Perro",
-			"birth": "2025-04-25"
+			"specie": "DOG",
+			"birth": "2025-04-25",
+			"idMedicalHistory": 5,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 6,
@@ -89,8 +119,13 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Hembra",
 			"weight": 2.9,
 			"sterilized": true,
-			"specie": "Gato",
-			"birth": "2025-04-25"
+			"specie": "CAT",
+			"birth": "2025-04-25",
+			"idMedicalHistory": 6,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 7,
@@ -101,8 +136,13 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Macho",
 			"weight": 6,
 			"sterilized": true,
-			"specie": "Gato",
-			"birth": "2025-04-25"
+			"specie": "CAT",
+			"birth": "2025-04-25",
+			"idMedicalHistory": 7,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 8,
@@ -113,8 +153,13 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Macho",
 			"weight": 19,
 			"sterilized": true,
-			"specie": "Perro",
-			"birth": "2025-04-25"
+			"specie": "DOG",
+			"birth": "2025-04-25",
+			"idMedicalHistory":8,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 9,
@@ -125,8 +170,13 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Hembra",
 			"weight": 5,
 			"sterilized": true,
-			"specie": "Gato",
-			"birth": "2025-04-25"
+			"specie": "CAT",
+			"birth": "2025-04-25",
+			"idMedicalHistory": 9,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 10,
@@ -137,8 +187,13 @@ export class PetServiceStub implements PetServiceInter {
 			"sex": "Hembra",
 			"weight": 4,
 			"sterilized": true,
-			"specie": "Gato",
-			"birth": "2025-04-25"
+			"specie": "CAT",
+			"birth": "2025-04-25",
+			"idMedicalHistory": 10,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		}
 	]
 	
