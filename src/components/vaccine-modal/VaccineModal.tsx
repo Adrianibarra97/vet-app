@@ -9,6 +9,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Textarea from "@mui/joy/Textarea";
+import { ConfirmDeleteModalVaccine } from "../confirm-delete-modal-vaccine/ConfirmDeleteModalVaccine";
 
 interface VaccineModalProps{
     vaccine?:Vaccine
@@ -28,6 +29,8 @@ export function VaccineModal({vaccine:initialVaccine,open,onClose,onConfirm,idVa
         applicationDate: null as string | null,
         expirationDate: null as string | null
     })
+    const [stateModalConfirm,setStateModalConfirm] = useState<boolean>(false)
+    const [title, setTitle] = useState<string>('')
 
     dayjs.extend(customParseFormat)
 
@@ -37,10 +40,12 @@ export function VaccineModal({vaccine:initialVaccine,open,onClose,onConfirm,idVa
             setVaccine(Object.assign(new Vaccine(), initialVaccine))
             setApplicationDate(initialVaccine.applicationDate ? dayjs(initialVaccine.applicationDate,"YYYY-MM-DD"):null)
             setExpirationDate(initialVaccine.expirationDate? dayjs(initialVaccine.expirationDate,"YYYY-MM-DD"):null)
+            setTitle('¿Estas seguro de que quieres editar esta vacuna?')
         }else if(idVaccine === -1){
             setVaccine(new Vaccine())
             setApplicationDate(null)
             setExpirationDate(null)
+            setTitle('¿Estas seguro de que quieres crear esta vacuna?')
         }
     },[initialVaccine,idVaccine])
 
@@ -89,7 +94,7 @@ export function VaccineModal({vaccine:initialVaccine,open,onClose,onConfirm,idVa
         setVaccine(newVaccine)
     }
 
-    const handleOnConfirm = () => {
+    const handleOnClickConfirm = () => {
         if (viewMode) {
             onClose();
             return;
@@ -100,6 +105,11 @@ export function VaccineModal({vaccine:initialVaccine,open,onClose,onConfirm,idVa
             SnackbarUtilities.error('Campos incompletos')
             return
         }
+
+        setStateModalConfirm(true)
+    }
+
+    const handleOnConfirm = () => {
         onConfirm(vaccine)
         cleanStates()
         onClose()
@@ -127,6 +137,7 @@ export function VaccineModal({vaccine:initialVaccine,open,onClose,onConfirm,idVa
             setExpirationDate(initialVaccine.expirationDate ? dayjs(initialVaccine.expirationDate):null)
         }
         setErrors({...errors, applicationDate:null, expirationDate:null})
+        idVaccine = -1
         setFromTouched(false)
     }
 
@@ -136,135 +147,144 @@ export function VaccineModal({vaccine:initialVaccine,open,onClose,onConfirm,idVa
     }
 
     return(
-        <Dialog onClose={handleCancel} open={open} fullWidth sx={{overflow:'auto'}}>
-            <DialogTitle component='div'>
-                <Typography variant="h6" sx={{color:'var(--footer-color)', fontWeight:'bold'}}>
-                    {getTitle()}
-                </Typography>
-            </DialogTitle>
-            <DialogContent>
-                <Box component='form' sx={formContainer}>
-                    <FormControl fullWidth margin="normal" error={formTouched && !vaccine.type} required sx={{overflow:'visible'}} disabled={viewMode} >
-                        <InputLabel color={formTouched && !vaccine.type ? "error" : "primary"}>
-                            Vacuna contra
-                        </InputLabel>
-                        <Select
-                            value={vaccine.type ? vaccine.type : ''}
-                            onChange={(event) => handleVaccineCreationOrEdition('type', event.target.value)}
-                            input={<OutlinedInput label="Vacuna contra"/>}
-                        >
-                            {vaccineOptions.map(vaccineOption =>
-                                <MenuItem value={vaccineOption} key={vaccineOption}>
-                                    {convertTypeOfVaccineToASpanishString(vaccineOption)}
-                                </MenuItem>
-                            )}
-                        </Select>
-                    </FormControl>
-                    <TextField
-                        label="Numero de lote"
-                        type="number"
-                        fullWidth
-                        margin="normal"
-                        color="primary"
-                        required
-                        value={vaccine.batchNumber !== -1 ? vaccine.batchNumber : ''}
-                        onChange={(event) =>
-                            handleVaccineCreationOrEdition('batchNumber', event.target.value)
-                        }
-                        error={formTouched && !vaccine.batchNumber}
-                        helperText={
-                            formTouched && !vaccine.batchNumber ? (
-                            <Box display="flex" alignItems="center" gap={1}>
-                                <Typography color="red">
-                                El numero de lote es obligatorio
-                                </Typography>
-                            </Box>
-                            ) : (
-                            ''
-                            )
-                        }
-                        sx={{overflow:'visible'}}
-                        disabled={viewMode}
-                    />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            value={applicationDate}
-                            label="Fecha de aplicacion"
-                            format="DD/MM/YYYY"
-                            minDate={dayjs()}
-                            onChange={handleVaccineApplicationDateChange}
-                            disabled={viewMode}
-                            slotProps={{
-                                textField: {
-                                    error: !!errors.applicationDate,
-                                    helperText: errors.applicationDate,
-                                    margin:'normal',
-                                    required: true,
-                                    fullWidth:true
-                                },
-                            }}
+        <>
+            <Dialog onClose={handleCancel} open={open} fullWidth sx={{overflow:'auto'}}>
+                <DialogTitle component='div'>
+                    <Typography variant="h6" sx={{color:'var(--footer-color)', fontWeight:'bold'}}>
+                        {getTitle()}
+                    </Typography>
+                </DialogTitle>
+                <DialogContent>
+                    <Box component='form' sx={formContainer}>
+                        <FormControl fullWidth margin="normal" error={formTouched && !vaccine.type} required sx={{overflow:'visible'}} disabled={viewMode} >
+                            <InputLabel color={formTouched && !vaccine.type ? "error" : "primary"}>
+                                Vacuna contra
+                            </InputLabel>
+                            <Select
+                                value={vaccine.type ? vaccine.type : ''}
+                                onChange={(event) => handleVaccineCreationOrEdition('type', event.target.value)}
+                                input={<OutlinedInput label="Vacuna contra"/>}
+                            >
+                                {vaccineOptions.map(vaccineOption =>
+                                    <MenuItem value={vaccineOption} key={vaccineOption}>
+                                        {convertTypeOfVaccineToASpanishString(vaccineOption)}
+                                    </MenuItem>
+                                )}
+                            </Select>
+                        </FormControl>
+                        <TextField
+                            label="Numero de lote"
+                            type="number"
+                            fullWidth
+                            margin="normal"
+                            color="primary"
+                            required
+                            value={vaccine.batchNumber !== -1 ? vaccine.batchNumber : ''}
+                            onChange={(event) =>
+                                handleVaccineCreationOrEdition('batchNumber', event.target.value)
+                            }
+                            error={formTouched && !vaccine.batchNumber}
+                            helperText={
+                                formTouched && !vaccine.batchNumber ? (
+                                <Box display="flex" alignItems="center" gap={1}>
+                                    <Typography color="red">
+                                    El numero de lote es obligatorio
+                                    </Typography>
+                                </Box>
+                                ) : (
+                                ''
+                                )
+                            }
                             sx={{overflow:'visible'}}
-                        />
-                    </LocalizationProvider>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            value={expirationDate}
-                            label="Fecha de expiracion"
-                            format="DD/MM/YYYY"
-                            minDate={dayjs()}
-                            onChange={handleVaccineExpirationDateChange}
                             disabled={viewMode}
-                            slotProps={{
-                                textField: {
-                                    error: !!errors.expirationDate,
-                                    helperText: errors.expirationDate,
-                                    margin:'normal',
-                                    required: true,
-                                    fullWidth:true
-                                },
-                            }}
-                            sx={{overflow:'visible'}}
                         />
-                    </LocalizationProvider>
-                    {idVaccine  !== -1 && 
-                        <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
-                            <Typography>Esta completada</Typography>
-                            <Checkbox
-                                checked={vaccine.completed}
-                                onChange={event => handleVaccineCreationOrEdition('completed', event.target.checked)}
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                value={applicationDate}
+                                label="Fecha de aplicacion"
+                                format="DD/MM/YYYY"
+                                minDate={dayjs()}
+                                onChange={handleVaccineApplicationDateChange}
                                 disabled={viewMode}
+                                slotProps={{
+                                    textField: {
+                                        error: !!errors.applicationDate,
+                                        helperText: errors.applicationDate,
+                                        margin:'normal',
+                                        required: true,
+                                        fullWidth:true
+                                    },
+                                }}
+                                sx={{overflow:'visible'}}
                             />
-                        </Box>
-                    }
-                    <Textarea 
-                        placeholder="Escribe tu descripcion aca..."
-                        minRows={4}
-                        value={vaccine.description}
-                        onChange={event => handleVaccineCreationOrEdition('description',event.target.value)}
-                        sx={{mt:2}}
-                        variant="outlined"
-                        disabled={viewMode}
-                    />
-                </Box>
-            </DialogContent>
-            <DialogActions sx={{width:'100%', display:'flex',justifyContent:'space-around',alignItems:'center'}}>
-                <Button
-                    variant="contained"
-                    onClick={handleCancel}
-                    sx={{ backgroundColor: 'var(--primary-color)' }}
-                >
-                    {viewMode ? 'Cerrar':'Cancelar'}
-                </Button>
-                {!viewMode &&
+                        </LocalizationProvider>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                value={expirationDate}
+                                label="Fecha de expiracion"
+                                format="DD/MM/YYYY"
+                                minDate={dayjs()}
+                                onChange={handleVaccineExpirationDateChange}
+                                disabled={viewMode}
+                                slotProps={{
+                                    textField: {
+                                        error: !!errors.expirationDate,
+                                        helperText: errors.expirationDate,
+                                        margin:'normal',
+                                        required: true,
+                                        fullWidth:true
+                                    },
+                                }}
+                                sx={{overflow:'visible'}}
+                            />
+                        </LocalizationProvider>
+                        {idVaccine  !== -1 && 
+                            <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
+                                <Typography>Esta completada</Typography>
+                                <Checkbox
+                                    checked={vaccine.completed}
+                                    onChange={event => handleVaccineCreationOrEdition('completed', event.target.checked)}
+                                    disabled={viewMode}
+                                />
+                            </Box>
+                        }
+                        <Textarea 
+                            placeholder="Escribe tu descripcion aca..."
+                            minRows={4}
+                            value={vaccine.description}
+                            onChange={event => handleVaccineCreationOrEdition('description',event.target.value)}
+                            sx={{mt:2}}
+                            variant="outlined"
+                            disabled={viewMode}
+                        />
+                    </Box>
+                </DialogContent>
+                <DialogActions sx={{width:'100%', display:'flex',justifyContent:'space-around',alignItems:'center'}}>
                     <Button
                         variant="contained"
-                        onClick={handleOnConfirm}
-                        sx={{ backgroundColor: 'var(--footer-color)' }}
+                        onClick={handleCancel}
+                        sx={{ backgroundColor: 'var(--primary-color)' }}
                     >
-                        Confirmar
+                        {viewMode ? 'Cerrar':'Cancelar'}
                     </Button>
-                }
-            </DialogActions>
-        </Dialog>
+                    {!viewMode &&
+                        <Button
+                            variant="contained"
+                            onClick={handleOnClickConfirm}
+                            sx={{ backgroundColor: 'var(--footer-color)' }}
+                        >
+                            Confirmar
+                        </Button>
+                    }
+                </DialogActions>
+            </Dialog>
+            <ConfirmDeleteModalVaccine
+                open={stateModalConfirm}
+                onClose={() => setStateModalConfirm(false)}
+                onConfirm={handleOnConfirm}
+                vaccine={vaccine}
+                title={title}
+            />
+        </>
     )
 }
