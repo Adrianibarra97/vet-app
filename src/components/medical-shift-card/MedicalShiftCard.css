@@ -27,6 +27,13 @@
     height: 33%;
 }
 
+.content__height{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+}
+
 .content__item--data {
     display: flex;
     flex-direction: column;
