@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react"
-import { MedicalShiftGrid } from "../../components/medical-shift-grid/MedicalShiftGrid"
-import { TurnFilter } from "../../components/turn-filter/TurnFilter"
-import { FilterTurn } from "../../domain/Filterturn"
-import { MedicalShift } from "../../domain/MedicalShift"
-import MedicalShiftServiceManager from "../../services/medical-shift-service/MedicalShiftServiceManager"
-import { Filter } from "../../domain/Filter"
-import { useNotificationsData } from "../../components/notification/NotificationsPage";
+import { useState, useEffect } from 'react'
+import { MedicalShiftGrid } from '../../components/medical-shift-grid/MedicalShiftGrid'
+import { TurnFilter } from '../../components/turn-filter/TurnFilter'
+import { FilterTurn } from '../../domain/Filterturn'
+import { MedicalShift } from '../../domain/MedicalShift'
+import MedicalShiftServiceManager from '../../services/medical-shift-service/MedicalShiftServiceManager'
+import { Filter } from '../../domain/Filter'
+import { useNotificationsData } from '../../components/notification/NotificationsPage'
 
 import './MedicalShiftPage.css'
 
@@ -19,40 +19,46 @@ const filterValues = new Filter(
 )
 
 export const MedicalShiftPage = () => {
-
-  const[medicalShifts, setMedicalShifts] = useState(new Array<MedicalShift>())
-  const [filter, setFilter] = useState<FilterTurn>(new FilterTurn('', false, false))
-const { refresh: refreshNotifications } = useNotificationsData();
+  const [medicalShifts, setMedicalShifts] = useState(new Array<MedicalShift>())
+  const [filter, setFilter] = useState<FilterTurn>(
+    new FilterTurn('', false, false),
+  )
+  const { refresh: refreshNotifications } = useNotificationsData()
 
   const handleChangesFilter = (filter: FilterTurn) => {
     setFilter(filter)
   }
 
   const getAllMedicalShiftsByFilter = async (filter: FilterTurn) => {
-    const shifts = await MedicalShiftServiceManager.getInstance().getAllByFilter(filter)
+    const shifts =
+      await MedicalShiftServiceManager.getInstance().getAllByFilter(filter)
     setMedicalShifts(shifts)
   }
 
   const handleMedicalShiftCancel = async (idMedicalShift: number) => {
     MedicalShiftServiceManager.getInstance().cancelMedicalShift(idMedicalShift)
-    const shifts = await MedicalShiftServiceManager.getInstance().getAllByFilter(filter)
+    const shifts =
+      await MedicalShiftServiceManager.getInstance().getAllByFilter(filter)
     setMedicalShifts(shifts)
+    getAllMedicalShiftsByFilter(filter)
     await refreshNotifications()
   }
-
-  const handleEditOrCreateMedicalShift = async (medicalShift: MedicalShift, idMedicalShift: number) => {
-    if(idMedicalShift > -1) {
+  const handleEditOrCreateMedicalShift = async (
+    medicalShift: MedicalShift,
+    idMedicalShift: number,
+  ) => {
+    if (idMedicalShift > -1) {
       medicalShift.id = idMedicalShift
-      MedicalShiftServiceManager
-        .getInstance()
-        .editExistMedicalShift(medicalShift)
-      getAllMedicalShiftsByFilter(filter)
+      await MedicalShiftServiceManager.getInstance().editExistMedicalShift(
+        medicalShift,
+      )
+    } else {
+      await MedicalShiftServiceManager.getInstance().createNewMedicalShift(
+        medicalShift,
+      )
     }
-    else{
-      MedicalShiftServiceManager.getInstance().createNewMedicalShift(medicalShift)
-      getAllMedicalShiftsByFilter(filter)
-      await refreshNotifications()
-    }
+    await getAllMedicalShiftsByFilter(filter)
+    await refreshNotifications()
   }
 
   useEffect(() => {
@@ -64,10 +70,14 @@ const { refresh: refreshNotifications } = useNotificationsData();
       <h2 className="main__title">Turnos</h2>
       <div className="main__content">
         <div className="main__content--filter">
-          <TurnFilter filter={filterValues} filterFunction={handleChangesFilter} />
+          <TurnFilter
+            filter={filterValues}
+            filterFunction={handleChangesFilter}
+          />
         </div>
         <div className="main__content--data">
-          <MedicalShiftGrid medicalShifts={ medicalShifts }
+          <MedicalShiftGrid
+            medicalShifts={medicalShifts}
             onClickCancel={handleMedicalShiftCancel}
             onEditOrCreateMedicalShift={handleEditOrCreateMedicalShift}
           />

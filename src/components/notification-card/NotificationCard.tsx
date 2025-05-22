@@ -80,7 +80,7 @@ export const NotificationCard: React.FC<Props> = ({
   const emailToShow = vetEmail || ''
   const phoneToShow = vetPhone || ''
 
-  //if (isVet && !isCancelByOwner && type !== 'system') return null
+  if (isVet && !isCancelByOwner && type !== 'system') return null
 
   if (type === 'system') {
     return (

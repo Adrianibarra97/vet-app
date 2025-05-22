@@ -8,3 +8,5 @@ export const VET_SERVICE_USE_STUB: boolean = true
 export const PET_OWNER_SERVICE_USE_STUB: boolean = true
 export const MEDICAL_SHIFT_SERVICE_USE_STUB: boolean = true
 export const PET_SERVICE_USE_STUB: boolean = true
+export const NOTIFICATION_SERVICE_USE_STUB: boolean = true
+

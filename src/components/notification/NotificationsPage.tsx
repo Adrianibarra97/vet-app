@@ -28,27 +28,24 @@ const notificationPriority: Record<string, number> = {
   appointment: 6,
   info: 7,
 }
-
 export const useNotificationsData = () => {
   const [notificationList, setNotificationList] = useState<NotificationModel[]>(
     [],
   )
   const [vetData, setVetData] = useState<Vet | null>(null)
-  const refresh = async () => await loadData()
 
   const isVet = AuthServiceManager.getIntance().isVet()
   const service = isVet
     ? VetServiceManager.getInstance()
     : PetOwnerServiceManager.getInstance()
+
   const loadData = useCallback(async () => {
     const id = getUserID()
     let notes: NotificationModel[] = []
 
     if (isVet) {
       const vetService = service as VetServiceInter
-
       notes = await vetService.getNotificationsByVetId(id)
-
     } else {
       const petOwnerService = service as PetOwnerServiceInter
       notes = await petOwnerService.getNotificationsByPetOwnerId(id)
@@ -73,6 +70,8 @@ export const useNotificationsData = () => {
   useEffect(() => {
     loadData()
   }, [loadData])
+
+  const refresh = async () => await loadData()
 
   return { notifications: notificationList, vetData, isVet, refresh }
 }

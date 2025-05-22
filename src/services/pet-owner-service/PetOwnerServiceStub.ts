@@ -1,8 +1,8 @@
 import { NotificationModel } from '../../domain/Notification'
 import { PetOwner } from '../../domain/PetOwner'
-import { sharedMockNotifications } from '../vet-service/VetServiceStub'
 import { PetOwnerServiceInter } from './PetOwnerServiceInter'
 import { USER_ID_TOKEN } from '../config'
+import NotificationServiceManager from '../notification-service/NotificationServiceManager'
 
 const petOwnerMockNotifications: NotificationModel[] = [
   // eze
@@ -285,17 +285,18 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
   async delete(id: number): Promise<void> {
     this.petOwners = this.petOwners.filter((p) => p.id !== id)
   }
-
   async getNotificationsByPetOwnerId(): Promise<NotificationModel[]> {
     const current = this.getCurrentUser()
+    const dynamic =
+      await NotificationServiceManager.getInstance().getAllNotifications()
 
-    const personal = petOwnerMockNotifications.filter(
-      (n) => n.petOwnerName === current.name,
+    const staticList = petOwnerMockNotifications.filter(
+      (n) => n.petOwnerName?.toLowerCase() === current.name.toLowerCase(),
     )
-    const extra = sharedMockNotifications.filter(
-      (n) => n.petOwnerName === current.name && n.type !== 'SHIFT_DELETE',
+    const filtered = dynamic.filter(
+      (n) => n.petOwnerName?.toLowerCase() === current.name.toLowerCase(),
     )
 
-    return [...personal, ...extra]
+    return [...staticList, ...filtered]
   }
 }

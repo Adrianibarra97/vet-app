@@ -2,6 +2,7 @@ import { NotificationModel } from '../../domain/Notification'
 import { Vet } from '../../domain/Vet'
 import { VetServiceInter } from './VetServiceInter'
 import { USER_ID_TOKEN } from '../config'
+import NotificationServiceManager from '../notification-service/NotificationServiceManager'
 
 export const sharedMockNotifications: NotificationModel[] = [
   new NotificationModel(
@@ -106,18 +107,26 @@ export class VetServiceStub implements VetServiceInter {
     this.vets = this.vets.filter((v) => v.id !== id)
   }
 
-  async getNotificationsByVetId(): Promise<NotificationModel[]> {
-    const currentVet = this.getCurrentVet()
-    const fullName = `${currentVet.name} ${currentVet.surname}`
+async getNotificationsByVetId(): Promise<NotificationModel[]> {
+  const currentVet = this.getCurrentVet()
+  const fullName = `${currentVet.name} ${currentVet.surname}`.toLowerCase()
 
-    return sharedMockNotifications.filter(
-      (n) =>
-        n.vetName === fullName &&
-        ['SHIFT_TODAY', 'SHIFT_DELETE', 'SHIFT_UPDATE'].includes(n.type),
-    )
-  }
+  const allDynamic = await NotificationServiceManager.getInstance().getAllNotifications()
 
-  addMockNotification(notification: NotificationModel): void {
-    sharedMockNotifications.push(notification)
-  }
+  const dynamic = allDynamic.filter(
+    (n) =>
+      n.vetName?.toLowerCase() === fullName &&
+      ['SHIFT_DELETE', 'SHIFT_UPDATE', 'SHIFT_TODAY'].includes(n.type)
+  )
+
+  const staticList = sharedMockNotifications.filter(
+    (n) =>
+      n.vetName?.toLowerCase() === fullName &&
+      ['SHIFT_DELETE', 'SHIFT_UPDATE', 'SHIFT_TODAY'].includes(n.type)
+  )
+
+  return [...staticList, ...dynamic]
+}
+
+
 }
