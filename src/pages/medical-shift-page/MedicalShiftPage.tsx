@@ -33,7 +33,7 @@ export const MedicalShiftPage = () => {
   }
 
   const handleMedicalShiftCancel = async (idMedicalShift: number) => {
-    MedicalShiftServiceManager.getInstance().cancelMedicalShift(idMedicalShift)
+    await MedicalShiftServiceManager.getInstance().cancelMedicalShift(idMedicalShift)
     const shifts = await MedicalShiftServiceManager.getInstance().getAllByFilter(filter)
     setMedicalShifts(shifts)
     SnackbarUtilities.succes(`Se cancelo con exito el medical shift.`)
@@ -42,14 +42,14 @@ export const MedicalShiftPage = () => {
   const handleEditOrCreateMedicalShift = async(medicalShift: MedicalShift, idMedicalShift: number) => {
     if(idMedicalShift > -1) {
       medicalShift.id = idMedicalShift
-      MedicalShiftServiceManager
+      await MedicalShiftServiceManager
         .getInstance()
         .editExistMedicalShift(medicalShift)
       await getAllMedicalShiftsByFilter(filter)
       SnackbarUtilities.succes(`Se edito con exito el medical shift de ${medicalShift.petMedicalShift.name}.` )
     }
     else{
-      MedicalShiftServiceManager.getInstance().createNewMedicalShift(medicalShift)
+      await MedicalShiftServiceManager.getInstance().createNewMedicalShift(medicalShift)
       await getAllMedicalShiftsByFilter(filter)
       SnackbarUtilities.succes(`Se creo con exito el medical shift de ${medicalShift.petMedicalShift.name}.`)
     }

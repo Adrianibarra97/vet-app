@@ -10,6 +10,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Textarea from "@mui/joy/Textarea";
 import { RECIPE_SERVICE_USE_STUB } from "../../services/config";
+import { ConfirmDeleteModalRecipe } from "../confirm-delete-modal-recipe/ConfirmDeleteModalRecipe";
 
 interface RecipeModalProps{
     recipe?:Recipe
@@ -25,6 +26,8 @@ export function RecipeModal({recipe:initialRecipe, open, onClose, onConfirm, idR
     const [fromTouched,setFromTouched] = useState<boolean>(false)
     const [recipeDate, setRecipeDate] = useState<Dayjs|null>(initialRecipe?.dateRecipe ? dayjs(initialRecipe.dateRecipe) : null)
     const [errorDate, setErrorDate ] = useState<string|null>(null)
+    const [stateModalConfirm,setStateModalConfirm] = useState<boolean>(false)
+    const [title, setTitle] = useState<string>('')
 
     dayjs.extend(customParseFormat)
 
@@ -33,9 +36,11 @@ export function RecipeModal({recipe:initialRecipe, open, onClose, onConfirm, idR
         if(initialRecipe){
             setRecipe(Object.assign(new Recipe(), initialRecipe))
             setRecipeDate(initialRecipe.dateRecipe ? dayjs(initialRecipe.dateRecipe, "YYYY-MM-DD") : null)
+            setTitle('¿Estas seguro de que quieres editar esta receta?')
         }else if(idRecipe === -1){
             setRecipe(new Recipe())
             setRecipeDate(null)
+            setTitle('¿Estas seguro de que quieres crear esta receta?')
         }
     },[initialRecipe,idRecipe])
     
@@ -67,7 +72,7 @@ export function RecipeModal({recipe:initialRecipe, open, onClose, onConfirm, idR
         setRecipe(newRecipe)
     }
 
-    const handleOnConfirm = () => {
+    const handleOnClickConfirm = () => {
         if (viewMode) {
             onClose();
             return;
@@ -78,6 +83,11 @@ export function RecipeModal({recipe:initialRecipe, open, onClose, onConfirm, idR
             SnackbarUtilities.error('Campos incompletos')
             return
         }
+
+        setStateModalConfirm(true)
+    }
+
+    const handleOnConfirm = () => {
         onConfirm(recipe)
         cleanStates()
         onClose()
@@ -112,89 +122,98 @@ export function RecipeModal({recipe:initialRecipe, open, onClose, onConfirm, idR
     }
 
     return(
-        <Dialog onClose={handleCancel} open={open} fullWidth sx={{maxHeight:'90vh', overflow:'auto'}}>
-            <DialogTitle component="div">
-                <Typography variant="h6" sx={{color:'var(--footer-color)', fontWeight:'bold'}}>
-                    {getTitle()}
-                </Typography>
-            </DialogTitle>
-            <DialogContent>
-                <Box component='form' sx={formContainer}>
-                    {RECIPE_SERVICE_USE_STUB && idRecipe === -1 && (
-                        <TextField
-                        label="Nombre de Veterinario"
-                        fullWidth
-                        margin="normal"
-                        color="primary"
-                        required
-                        value={recipe.nameVet}
-                        onChange={(event) =>
-                            handleRecipeCreationOrEdition('nameVet', event.target.value)
-                        }
-                        error={fromTouched && !recipe.nameVet}
-                        helperText={
-                            fromTouched && !recipe.nameVet ? (
-                            <Box display="flex" alignItems="center" gap={1}>
-                                <Typography color="red">
-                                El veterinario es obligatorio
-                                </Typography>
-                            </Box>
-                            ) : (
-                            ''
-                            )
-                        }
-                        sx={{overflow:'visible'}}
-                        />
-                    )}
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            value={recipeDate}
-                            label="Fecha"
-                            format="DD/MM/YYYY"
-                            minDate={dayjs()}
-                            onChange={handleRecipeDateChange}
-                            disabled={viewMode}
-                            slotProps={{
-                                textField: {
-                                    error: !!errorDate,
-                                    helperText: errorDate,
-                                    margin:'normal',
-                                    required: true,
-                                    fullWidth:true
-                                },
-                            }}
+        <>
+            <Dialog onClose={handleCancel} open={open} fullWidth sx={{maxHeight:'90vh', overflow:'auto'}}>
+                <DialogTitle component="div">
+                    <Typography variant="h6" sx={{color:'var(--footer-color)', fontWeight:'bold'}}>
+                        {getTitle()}
+                    </Typography>
+                </DialogTitle>
+                <DialogContent>
+                    <Box component='form' sx={formContainer}>
+                        {RECIPE_SERVICE_USE_STUB && idRecipe === -1 && (
+                            <TextField
+                            label="Nombre de Veterinario"
+                            fullWidth
+                            margin="normal"
+                            color="primary"
+                            required
+                            value={recipe.nameVet}
+                            onChange={(event) =>
+                                handleRecipeCreationOrEdition('nameVet', event.target.value)
+                            }
+                            error={fromTouched && !recipe.nameVet}
+                            helperText={
+                                fromTouched && !recipe.nameVet ? (
+                                <Box display="flex" alignItems="center" gap={1}>
+                                    <Typography color="red">
+                                    El veterinario es obligatorio
+                                    </Typography>
+                                </Box>
+                                ) : (
+                                ''
+                                )
+                            }
                             sx={{overflow:'visible'}}
+                            />
+                        )}
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                value={recipeDate}
+                                label="Fecha"
+                                format="DD/MM/YYYY"
+                                minDate={dayjs()}
+                                onChange={handleRecipeDateChange}
+                                disabled={viewMode}
+                                slotProps={{
+                                    textField: {
+                                        error: !!errorDate,
+                                        helperText: errorDate,
+                                        margin:'normal',
+                                        required: true,
+                                        fullWidth:true
+                                    },
+                                }}
+                                sx={{overflow:'visible'}}
+                            />
+                        </LocalizationProvider>
+                        <Textarea 
+                            placeholder="Escribe tu descripcion aca..."
+                            minRows={4}
+                            value={recipe.description}
+                            onChange={event => handleRecipeCreationOrEdition('description',event.target.value)}
+                            sx={{mt:2}}
+                            variant="outlined"
+                            disabled={viewMode}
                         />
-                    </LocalizationProvider>
-                    <Textarea 
-                        placeholder="Escribe tu descripcion aca..."
-                        minRows={4}
-                        value={recipe.description}
-                        onChange={event => handleRecipeCreationOrEdition('description',event.target.value)}
-                        sx={{mt:2}}
-                        variant="outlined"
-                        disabled={viewMode}
-                    />
-                </Box>
-            </DialogContent>
-            <DialogActions sx={{width:'100%', display:'flex',justifyContent:'space-around',alignItems:'center'}}>
-                <Button
-                    variant="contained"
-                    onClick={handleCancel}
-                    sx={{ backgroundColor: 'var(--primary-color)' }}
-                >
-                    {viewMode ? 'Cerrar':'Cancelar'}
-                </Button>
-                {!viewMode &&
+                    </Box>
+                </DialogContent>
+                <DialogActions sx={{width:'100%', display:'flex',justifyContent:'space-around',alignItems:'center'}}>
                     <Button
                         variant="contained"
-                        onClick={handleOnConfirm}
-                        sx={{ backgroundColor: 'var(--footer-color)' }}
+                        onClick={handleCancel}
+                        sx={{ backgroundColor: 'var(--primary-color)' }}
                     >
-                        Confirmar
+                        {viewMode ? 'Cerrar':'Cancelar'}
                     </Button>
-                }
-            </DialogActions>
-        </Dialog>
+                    {!viewMode &&
+                        <Button
+                            variant="contained"
+                            onClick={handleOnClickConfirm}
+                            sx={{ backgroundColor: 'var(--footer-color)' }}
+                        >
+                            Confirmar
+                        </Button>
+                    }
+                </DialogActions>
+            </Dialog>
+            <ConfirmDeleteModalRecipe
+                open={stateModalConfirm}
+                onClose={() => setStateModalConfirm(false)}
+                onConfirm={handleOnConfirm}
+                recipe={recipe}
+                title={title}
+            />
+        </>
     )
 }

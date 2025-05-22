@@ -4,7 +4,8 @@ export type VaccineJSON = {
 	description: string,
 	batchNumber: number,
 	expirationDate: string,
-	applicationDate: string
+	applicationDate: string,
+	completed:boolean,
 	medicalHistoryId?: number//Solo lo utilizo para el stub
 }
 
@@ -16,6 +17,7 @@ export class Vaccine {
 		public batchNumber: number = -1,
 		public expirationDate: string = '',
 		public applicationDate: string = '',
+		public completed:boolean = false,
 		public medicalHistoryId?:number//Solo lo utilizo para el stub
 	) {}
 
@@ -27,6 +29,7 @@ export class Vaccine {
 			vaccineJSON.batchNumber,
 			vaccineJSON.expirationDate,
 			vaccineJSON.applicationDate,
+			vaccineJSON.completed,
 			vaccineJSON.medicalHistoryId
 		)
 	}
@@ -39,6 +42,7 @@ export class Vaccine {
 			batchNumber: this.batchNumber,
 			expirationDate: this.expirationDate,
 			applicationDate: this.applicationDate,
+			completed:this.completed,
 			medicalHistoryId: this.medicalHistoryId
 		} 
 	}
