@@ -19,7 +19,11 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "DOG",
 			"birth": "2025-04-25",
-			"idMedicalHistory": 0
+			"idMedicalHistory": 0,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 1,
@@ -32,7 +36,11 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "DOG",
 			"birth": "2025-04-25",
-			"idMedicalHistory": 1
+			"idMedicalHistory": 1,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 2,
@@ -45,7 +53,11 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "DOG",
 			"birth": "2025-04-25",
-			"idMedicalHistory": 2
+			"idMedicalHistory": 2,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 3,
@@ -58,7 +70,11 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": false,
 			"specie": "DOG",
 			"birth": "2025-04-25",
-			"idMedicalHistory": 3
+			"idMedicalHistory": 3,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 4,
@@ -71,7 +87,11 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": false,
 			"specie": "BIRD",
 			"birth": "2025-04-25",
-			"idMedicalHistory": 4
+			"idMedicalHistory": 4,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 5,
@@ -84,7 +104,11 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "DOG",
 			"birth": "2025-04-25",
-			"idMedicalHistory": 5
+			"idMedicalHistory": 5,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 6,
@@ -97,7 +121,11 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "CAT",
 			"birth": "2025-04-25",
-			"idMedicalHistory": 6
+			"idMedicalHistory": 6,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 7,
@@ -110,7 +138,11 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "CAT",
 			"birth": "2025-04-25",
-			"idMedicalHistory": 7
+			"idMedicalHistory": 7,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 8,
@@ -123,7 +155,11 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "DOG",
 			"birth": "2025-04-25",
-			"idMedicalHistory":8
+			"idMedicalHistory":8,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 9,
@@ -136,7 +172,11 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "CAT",
 			"birth": "2025-04-25",
-			"idMedicalHistory": 9
+			"idMedicalHistory": 9,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		},
 		{
 			"id": 10,
@@ -149,7 +189,11 @@ export class PetServiceStub implements PetServiceInter {
 			"sterilized": true,
 			"specie": "CAT",
 			"birth": "2025-04-25",
-			"idMedicalHistory": 10
+			"idMedicalHistory": 10,
+			"summary": '...',
+			"createdAt": '2025-04-25',
+			"updatedAt": '2025-04-25',
+			"petOwnerId": 0
 		}
 	]
 	
