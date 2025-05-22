@@ -1,17 +1,21 @@
-import { Dialog, DialogTitle, Button, DialogActions, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogTitle, Typography } from "@mui/material"
 
-interface CancelModalMedicalShiftProps {
-    open: boolean;
-    onClose: () => void;
-    onConfirm: () => void;
+interface DeleteModalElementProps {
+    open:boolean
+    onClose:() => void
+    onConfirm:() => void
+    element:string
 }
 
-export function CancelModalMedicalShift({ open, onClose, onConfirm }: CancelModalMedicalShiftProps) {
-    return (
+export function DeleteModalElement({open, onClose, onConfirm, element}:DeleteModalElementProps){
+    return(
         <Dialog open={open} onClose={onClose} maxWidth="sm">
-            <DialogTitle>
+            <DialogTitle sx={{display:'flex', flexDirection:'column'}}>
                 <Typography sx={{ color: "black", fontWeight: "bold", display:'flex', justifyContent:'center' }}>
-                    ¿Estás seguro que quieres cancelar este turno?
+                    ¿Estás seguro que quieres eliminar este elemento?
+                </Typography>
+                <Typography sx={{color:"black", display:'flex', justifyContent:'center'}}>
+                    {element}
                 </Typography>
             </DialogTitle>
             <DialogActions sx={{display:'flex', justifyContent:'space-around'}}>
@@ -31,8 +35,8 @@ export function CancelModalMedicalShift({ open, onClose, onConfirm }: CancelModa
                 </Button>
                 <Button
                     onClick={() => {
-                    onConfirm(); 
-                    onClose(); 
+                    onConfirm() 
+                    onClose()
                     }}
                     sx={{
                         color: "var(--header-color)",
@@ -48,7 +52,5 @@ export function CancelModalMedicalShift({ open, onClose, onConfirm }: CancelModa
                 </Button>
             </DialogActions>
         </Dialog>
-    );
+    )
 }
-
-export default CancelModalMedicalShift
