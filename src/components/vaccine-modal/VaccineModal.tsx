@@ -3,7 +3,7 @@ import { convertTypeOfVaccineToASpanishString, Vaccine, vaccineOptions } from ".
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { SnackbarUtilities } from "../../util/snackbar/SnackbarManager";
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField, Typography } from "@mui/material";
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField, Typography } from "@mui/material";
 import { formContainer } from "../medical-shift-modal/MedicalShiftModalStyle";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -44,9 +44,9 @@ export function VaccineModal({vaccine:initialVaccine,open,onClose,onConfirm,idVa
         }
     },[initialVaccine,idVaccine])
 
-    const handleVaccineCreationOrEdition = (name: keyof Vaccine, value:string | undefined): void => {
+    const handleVaccineCreationOrEdition = (name: keyof Vaccine, value:string | boolean | undefined): void => {
         if (viewMode) return
-        (vaccine as unknown as Record<keyof Vaccine, string | undefined>)[name] = value
+        (vaccine as unknown as Record<keyof Vaccine, string | boolean | undefined>)[name] = value
         generateNewVaccine(vaccine)
     }
 
@@ -226,6 +226,16 @@ export function VaccineModal({vaccine:initialVaccine,open,onClose,onConfirm,idVa
                             sx={{overflow:'visible'}}
                         />
                     </LocalizationProvider>
+                    {idVaccine  !== -1 && 
+                        <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
+                            <Typography>Esta completada</Typography>
+                            <Checkbox
+                                checked={vaccine.completed}
+                                onChange={event => handleVaccineCreationOrEdition('completed', event.target.checked)}
+                                disabled={viewMode}
+                            />
+                        </Box>
+                    }
                     <Textarea 
                         placeholder="Escribe tu descripcion aca..."
                         minRows={4}

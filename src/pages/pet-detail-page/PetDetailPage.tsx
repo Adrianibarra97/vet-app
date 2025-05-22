@@ -42,21 +42,25 @@ export function PetDetail(){
     })
 
     const getRecipesPet = async() => {
+        setRecipesPet([])
         const recipes = await RecipeServiceManager.getInstance().getRecipesByMedicalHistoryId(pet.idMedicalHistory)
         setRecipesPet(recipes)
     }
 
     const getVaccinesPet = async() => {
+        setVaccinesPet([])
         const vaccines = await VaccineServiceManager.getInstance().getVaccineByMedicalHistoryId(pet.idMedicalHistory)
         setVaccinesPet(vaccines)
     }
 
     const getDiseasesPet = async() => {
+        setDiseasePet([])
         const diseases = await DiseaseServiceManager.getInstance().getDiseasesByMedicalHistoryId(pet.idMedicalHistory)
         setDiseasePet(diseases)
     }
 
     const getStudysPet = async() => {
+        setStudyResultsPet([])
         const studys = await StudyResultServiceManager.getInstace().getStudyResultByMedicalHistoryId(pet.idMedicalHistory)
         setStudyResultsPet(studys)
     }
@@ -73,72 +77,72 @@ export function PetDetail(){
 
     const handleEditOrCreateDisease = async (disease:Disease) => {
         if (disease.id > -1) {
-            DiseaseServiceManager.getInstance().editExistDisease(disease,pet.idMedicalHistory)
+            await DiseaseServiceManager.getInstance().editExistDisease(disease,pet.idMedicalHistory)
             await getDiseasesPet()
             SnackbarUtilities.succes(`Se edito con exito la enfermedad.`)
         }else{
-            DiseaseServiceManager.getInstance().createNewDisease(disease,pet.idMedicalHistory)
+            await DiseaseServiceManager.getInstance().createNewDisease(disease,pet.idMedicalHistory)
             await getDiseasesPet()
             SnackbarUtilities.succes(`Se creo con exito la enfermedad.`)
         }
     }
 
     const handleDiseaseDelete = async (idDisease:number) => {
-        DiseaseServiceManager.getInstance().deleteExistDiseaseById(idDisease)
+        await DiseaseServiceManager.getInstance().deleteExistDiseaseById(idDisease)
         await getDiseasesPet()
         SnackbarUtilities.succes(`Se elimino con exito la enfermedad.`)
     }
 
     const handleEditOrCreateRecipe = async (recipe:Recipe) => {
         if(recipe.id > -1) {
-            RecipeServiceManager.getInstance().editExistRecipe(recipe,pet.idMedicalHistory)
+            await RecipeServiceManager.getInstance().editExistRecipe(recipe,pet.idMedicalHistory)
             await getRecipesPet()
             SnackbarUtilities.succes(`Se edito con exito la receta.`)
         }else{
-            RecipeServiceManager.getInstance().createNewRecipe(recipe,pet.idMedicalHistory)
+            await RecipeServiceManager.getInstance().createNewRecipe(recipe,pet.idMedicalHistory)
             await getRecipesPet()
             SnackbarUtilities.succes(`Se creo con exito la receta.`)
         }
     }
 
     const handleRecipeDelete = async (idRecipe:number) => {
-        RecipeServiceManager.getInstance().deleteExistRecipe(idRecipe)
+        await RecipeServiceManager.getInstance().deleteExistRecipe(idRecipe)
         await getRecipesPet()
         SnackbarUtilities.succes(`Se elimino con exito la receta.`)
     }
 
     const handleEditOrCreateStudy = async(study:Study) => {
         if(study.id > -1){
-            StudyResultServiceManager.getInstace().editExistStudyResult(study,pet.idMedicalHistory)
+            await StudyResultServiceManager.getInstace().editExistStudyResult(study,pet.idMedicalHistory)
             await getStudysPet()
             SnackbarUtilities.succes(`Se edito con exito el resultado de estudio.`)
         }else{
-            StudyResultServiceManager.getInstace().createNewStudyResult(study, pet.idMedicalHistory)
+            await StudyResultServiceManager.getInstace().createNewStudyResult(study, pet.idMedicalHistory)
             await getStudysPet()
             SnackbarUtilities.succes(`Se creo con exito el resultado de estudio.`)
         }
     }
 
     const handleStudyDelete = async(idStudy:number) => {
-        StudyResultServiceManager.getInstace().deleteExistStudyResult(idStudy)
+        await StudyResultServiceManager.getInstace().deleteExistStudyResult(idStudy)
         await getStudysPet()
         SnackbarUtilities.succes(`Se elimino con exito el resultado de estudio.`)
     }
 
     const handleEditOrCreateVaccine = async(vaccine:Vaccine) => {
         if(vaccine.id > -1){
-            VaccineServiceManager.getInstance().editExistVaccine(vaccine, pet.idMedicalHistory)
+            await VaccineServiceManager.getInstance().editExistVaccine(vaccine, pet.idMedicalHistory)
             await getVaccinesPet()
             SnackbarUtilities.succes(`Se edito con exito la vacuna.`)
         }else{
-            VaccineServiceManager.getInstance().createNewVaccine(vaccine, pet.idMedicalHistory)
+            await VaccineServiceManager.getInstance().createNewVaccine(vaccine, pet.idMedicalHistory)
             await getVaccinesPet()
             SnackbarUtilities.succes(`Se creo con exito la vacuna.`)
         }
     }
 
     const handleVaccineDelete = async(idVaccine:number) => {
-        VaccineServiceManager.getInstance().deleteExistVaccine(idVaccine)
+        await VaccineServiceManager.getInstance().deleteExistVaccine(idVaccine)
         await getVaccinesPet()
         SnackbarUtilities.succes(`Se elimino con exito la vacuna.`)
     }
