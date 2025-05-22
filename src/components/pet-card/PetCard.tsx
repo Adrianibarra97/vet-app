@@ -6,9 +6,9 @@ import './PetCard.css'
 import { useNavigate } from 'react-router-dom'
 
 interface PropPetCard {
-  pet: Pet,
-  startUpdate(id: number): void,
-  handleDelete(): void
+  pet: Pet
+  startUpdate(id: number): void
+  handleDelete(id: number): void
 }
 
 export const PetCard = (propPet: PropPetCard) => {
@@ -16,9 +16,9 @@ export const PetCard = (propPet: PropPetCard) => {
   const [openConfirm, setOpenConfirm] = useState(false)
   const navigate = useNavigate()
 
-  const handleDelete = async () => {
+  const handleDeletePet = async () => {
     PetServiceManager.getIntance().delete(propPet.pet.id)
-    propPet.handleDelete()
+    propPet.handleDelete(propPet.pet.id)
     setOpenConfirm(false)
   }
 
@@ -64,7 +64,7 @@ export const PetCard = (propPet: PropPetCard) => {
     <ConfirmModal 
       open={ openConfirm } text={ 'Seguro que desea eliminar?' }
       onClose={ () => setOpenConfirm(false) }
-      handleDelete={ handleDelete } 
+      handleDelete={ handleDeletePet }
     />
   </>
   )

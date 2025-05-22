@@ -32,6 +32,16 @@ export const PetModal = (petModalProp: PetModalProps) => {
     'Id', 'Nombre', 'Raza', 'Edad', 'Peso',
     'Castrado', 'Image', 'Sexo', 'Nacimiento', 'Especie'
   ]
+  const speciesMap: Map<string, string> = new Map<string, string>()
+  speciesMap.set('Gato', 'CAT')
+  speciesMap.set('Perro', 'DOG')
+  speciesMap.set('Ave', 'BIRD')
+  speciesMap.set('Pez', 'FISH')
+  speciesMap.set('Granja', 'FARM')
+  speciesMap.set('Caballo', 'HORSE')
+  speciesMap.set('Roedor', 'RODENT')
+  speciesMap.set('Reptil', 'REPTILE')
+  
   const [pet, setPet] = useState(petModalProp.pet)
   const [errorActive, setErrorActive] = useState(false)
 
@@ -76,6 +86,8 @@ export const PetModal = (petModalProp: PetModalProps) => {
   const handleInputChanges = (key: keyof Pet, value: string | number) => {
     if(sterilizedOptions.some((OldValue: string) => OldValue == value)) {
       (pet as unknown as Record<keyof Pet, boolean>)[key] = value === sterilizedOptions[0]
+    } else if(optionsSpecieValue().some((OldValue: string) => OldValue === value)) {
+      (pet as unknown as Record<keyof Pet, string | undefined>)[key] = speciesMap.get(value.toString())
     } else if(sexOptions.some((OldValue: string) => OldValue === value)) {
       (pet as unknown as Record<keyof Pet, string>)[key] = value.toString()
     } else {
@@ -95,6 +107,15 @@ export const PetModal = (petModalProp: PetModalProps) => {
       'photo', 'birth', 'specie'
     ]
     return requiredFields.some((field) => !pet[field])
+  }
+
+  const defaultSpecieValue = (): string => {
+    const value: string | undefined = speciesMap.get(pet.specie)
+    return value != undefined ? value : '' 
+  }
+
+  const optionsSpecieValue = (): string[] => {
+    return Array.from(speciesMap.keys())
   }
 
   useEffect(() => {
@@ -125,9 +146,9 @@ export const PetModal = (petModalProp: PetModalProps) => {
         </Box>
         <Box sx={ modalItems }>
           <Box sx={ modalItem }>
-            <FormControlModal
-              type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.specie }
-              isActive={ true } label={ fieldKyes[9] } labelColor={ handleLabelColor(petKeys[9]) }
+            <FormControlModalSelect
+              defaultValue={ defaultSpecieValue() } options={ optionsSpecieValue() } isActive={ true }
+              label={ fieldKyes[9] } labelColor={ handleLabelColor(petKeys[9]) }
               handleInputChanges={ (value) => handleInputChanges(petKeys[9], value) }
             />
           </Box>
