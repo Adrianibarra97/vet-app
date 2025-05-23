@@ -38,7 +38,17 @@ export const ValidateFormByFields = yup.object().shape({
     .email('Ingresá un email válido')
     .required('El email es obligatorio'),
   address: yup.string().required('La dirección es obligatoria'),
-  locality: yup.string().required('La localidad es obligatoria'),
+locality: yup
+  .string()
+  .required('La localidad es obligatoria')
+  .test(
+    'locality-in-list',
+    'Debés seleccionar una localidad válida de la lista',
+    function (value) {
+      const { localities } = this.options.context || {}
+      return !value || (Array.isArray(localities) && localities.includes(value))
+    }
+  ),
   postalCode: yup
     .string()
     .matches(/^\d{4,5}$/, 'El código postal debe tener 4 o 5 dígitos')

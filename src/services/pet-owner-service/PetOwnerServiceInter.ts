@@ -1,3 +1,4 @@
+import { NotificationModel } from '../../domain/Notification'
 import { PetOwner } from '../../domain/PetOwner'
 
 export interface PetOwnerServiceInter {
@@ -5,4 +6,6 @@ export interface PetOwnerServiceInter {
   getOneById(id: number): Promise<PetOwner>
   update(user: PetOwner): Promise<void>
   delete(id: number): Promise<void>
+  getNotificationsByPetOwnerId(id: number): Promise<NotificationModel[]>
+
 }

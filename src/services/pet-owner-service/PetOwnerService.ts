@@ -2,6 +2,7 @@ import axios from "axios"
 import { PetOwner } from "../../domain/PetOwner"
 import { URL_BE } from "../config"
 import { PetOwnerServiceInter } from "./PetOwnerServiceInter"
+import { NotificationResponseDTO, NotificationModel } from "../../domain/Notification"
 
 export class PetOwnerService implements PetOwnerServiceInter {
   async getAll(): Promise<PetOwner[]> {
@@ -28,4 +29,11 @@ export class PetOwnerService implements PetOwnerServiceInter {
       params: { idPetOwner: id }
     })
   }
+async getNotificationsByPetOwnerId(id: number): Promise<NotificationModel[]> {
+  const res = await axios.get<NotificationResponseDTO[]>(`${URL_BE}/pet-owner/get-all-notifications`, {
+    params: { idPetOwner: id }
+  })
+  return res.data.map(NotificationModel.fromJSON)
+}
+
 }
