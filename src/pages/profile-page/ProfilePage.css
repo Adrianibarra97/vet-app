@@ -1,0 +1,44 @@
+.main {
+  padding: 40px 20px;
+}
+
+.main__content {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.main__content--filter {
+  flex: 0 0 16rem; 
+  min-width: 12rem; 
+  max-width: 18rem;  
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+.profile__form-wrapper {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.main__data-wrapper {
+  flex: 1; 
+  display: flex;
+  justify-content: center; 
+  padding: 0 1rem; 
+}
+.main__content--data > *:not(.profile__form-wrapper):not(.notifications-content) {
+  width: 100%;
+  max-width: 1000px;
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
