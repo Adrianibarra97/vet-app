@@ -24,10 +24,11 @@ export const ProfilePage = () => {
       sx={{
         width: '100%',
         px: 3,
-        py: 2,
-        backgroundColor: 'white',
+        backgroundColor: 'var(--main-color)',
         borderRadius: 2,
         boxShadow: 1,
+        display:'flex',
+        justifyContent:'center'
       }}
     >
       <ProfileForm
