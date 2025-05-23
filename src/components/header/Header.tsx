@@ -4,17 +4,17 @@ import { Link, useNavigate } from 'react-router-dom'
 import './Header.css'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import { useEffect, useState } from 'react'
-// import { User } from '../../domain/User'
-// import VetServiceManager from '../../services/vet-service/VetServiceManager'
-// import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
-// import { getUserID } from '../../services/auth-service/AuthService'
-import { useUser } from '../../context/UserContext'
+import { User } from '../../domain/User'
+import VetServiceManager from '../../services/vet-service/VetServiceManager'
+import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
+import { getUserID } from '../../services/auth-service/AuthService'
+// import { useUser } from '../../context/UserContext'
 
 export const Header = () => {
 
-  const { user } = useUser()
+  // const { user } = useUser()
 
-  // const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>(null)
   const[openMenu, setOpenMenu] = useState(false)
   const navigate = useNavigate()
 
@@ -28,14 +28,14 @@ export const Header = () => {
   }
 
   useEffect(() => {
-    // const fetchProfileData = async () => {
-    //   const fetchedUser: User = AuthServiceManager.getIntance().isVet()
-    //     ? await VetServiceManager.getInstance().getOneById(getUserID())
-    //     : await PetOwnerServiceManager.getInstance().getOneById(getUserID())
-    //   setUser(fetchedUser)
-    // }
+    const fetchProfileData = async () => {
+      const fetchedUser: User = AuthServiceManager.getIntance().isVet()
+        ? await VetServiceManager.getInstance().getOneById(getUserID())
+        : await PetOwnerServiceManager.getInstance().getOneById(getUserID())
+      setUser(fetchedUser)
+    }
 
-    // fetchProfileData()
+    fetchProfileData()
   }, [])
 
   return (
