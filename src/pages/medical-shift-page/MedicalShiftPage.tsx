@@ -100,11 +100,9 @@ export const MedicalShiftPage = () => {
       )
     }
 
-    await MedicalShiftServiceManager.getInstance().cancelMedicalShift(
-      idMedicalShift,
-    )
-    const shifts =
-      await MedicalShiftServiceManager.getInstance().getAllByFilter(filter)
+
+    await MedicalShiftServiceManager.getInstance().cancelMedicalShift(idMedicalShift)
+    const shifts = await MedicalShiftServiceManager.getInstance().getAllByFilter(filter)
     setMedicalShifts(shifts)
     SnackbarUtilities.succes(`Se canceló con éxito el turno.`)
   }
@@ -141,6 +139,7 @@ export const MedicalShiftPage = () => {
       SnackbarUtilities.succes(
         `Se creó con éxito el turno de ${medicalShift.petMedicalShift.name}.`,
       )
+
     }
 
     await getAllMedicalShiftsByFilter(filter)

@@ -31,13 +31,12 @@ export class Pet {
 		public sex: string = 'Macho',
 		public birth: string = '',
 		public specie: string = 'CAT',
-
 		//Medical History
-    public idMedicalHistory: number = -1,
-    public summary: string = '',
-    public createdAt: string = '',
-    public updatedAt: string = '',
-    public petOwnerId: number = -1
+		public idMedicalHistory: number = -1,
+		public summary: string = '',
+		public createdAt: string = '',
+		public updatedAt: string = '',
+		public petOwnerId: number = -1
 	) {}
 
 	static fromJSON(petJSON: PetJSON): Pet {

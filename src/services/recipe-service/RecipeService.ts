@@ -24,7 +24,7 @@ export class RecipeService implements RecipeServiceInter{
         const newRecipeDTO = {
             vetId:getUserID(),
             description:recipe.description,
-            date:new Date().toISOString().split('T')[0],
+            date:recipe.dateRecipe,
             medicalHistoryId:idMedicalHistory
         }
         await axios.post(`${URL_BE}/recipe/create`,newRecipeDTO)
@@ -35,7 +35,7 @@ export class RecipeService implements RecipeServiceInter{
             id:recipe.id,
             vetId:getUserID(),
             description:recipe.description,
-            date:new Date().toISOString().split('T')[0],//Consultar si cuando se edita una receta tambien se tendria que editar la fecha en la que se hizo esta misma
+            date:recipe.dateRecipe,
             medicalHistoryId:idMedicalHistory
         }
         await axios.put(`${URL_BE}/recipe/update`,newRecipeDTO)

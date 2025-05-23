@@ -10,6 +10,7 @@ export class VaccineServiceStub implements VaccineServiceInter{
             "batchNumber":152345,
             "applicationDate":"2025-05-01",
             "expirationDate":"2026-05-01",
+            "completed":false,
             "medicalHistoryId":0
         },
         {
@@ -19,6 +20,7 @@ export class VaccineServiceStub implements VaccineServiceInter{
             "batchNumber":2123123,
             "applicationDate":"2025-04-25",
             "expirationDate":"2026-04-25",
+            "completed":false,
             "medicalHistoryId":1
         }
     ]
