@@ -1,4 +1,9 @@
-import { User } from './User'
+import { User, UserJSON } from "./User";
+
+export type PetOwnerJSON = UserJSON & {
+  emergencyContactName: string;
+  emergencyContactPhone: string;
+};
 
 export class PetOwner extends User {
   constructor(
@@ -18,7 +23,7 @@ export class PetOwner extends User {
     country: string,
     idAuthCredentials: number,
     public emergencyContactName: string,
-    public emergencyContactPhone: string,
+    public emergencyContactPhone: string
   ) {
     super(
       id,
@@ -36,20 +41,19 @@ export class PetOwner extends User {
       province,
       country,
       'petOwner',
-      idAuthCredentials,
-    )
+      idAuthCredentials
+    );
   }
 
-  toJSON() {
+  toJSON(): PetOwnerJSON {
     return {
       ...super.toJSON(),
-
       emergencyContactName: this.emergencyContactName,
       emergencyContactPhone: this.emergencyContactPhone,
-    }
+    };
   }
 
-  static fromJSON(json: any): PetOwner {
+  static fromJSON(json: PetOwnerJSON): PetOwner {
     return new PetOwner(
       json.id,
       json.username,
@@ -67,7 +71,7 @@ export class PetOwner extends User {
       json.country,
       json.idAuthCredentials,
       json.emergencyContactName,
-      json.emergencyContactPhone,
-    )
+      json.emergencyContactPhone
+    );
   }
 }

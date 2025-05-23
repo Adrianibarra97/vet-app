@@ -1,4 +1,15 @@
-import { User } from "./User";
+import { User, UserJSON } from './User';
+
+export type VetJSON = UserJSON & {
+  licence: string;
+  speciality: string;
+  businessHours: string;
+  professionalEmail: string;
+  professionalTelephone: string;
+  professionalAddress: string;
+  professionalLocality: string;
+  professionalPostalCode: string;
+};
 
 export class Vet extends User {
   constructor(
@@ -26,12 +37,27 @@ export class Vet extends User {
     public professionalLocality: string,
     public professionalPostalCode: string
   ) {
-
-    super(id, username, password, name, surname, dni, email, telephone, photo, 
-          address, postalCode, locality, province, country, 'vet', idAuthCredentials);
+    super(
+      id,
+      username,
+      password,
+      name,
+      surname,
+      dni,
+      email,
+      telephone,
+      photo,
+      address,
+      postalCode,
+      locality,
+      province,
+      country,
+      'vet',
+      idAuthCredentials
+    );
   }
 
-  toJSON() {
+  toJSON(): VetJSON {
     return {
       ...super.toJSON(),
       licence: this.licence,
@@ -42,10 +68,10 @@ export class Vet extends User {
       professionalAddress: this.professionalAddress,
       professionalLocality: this.professionalLocality,
       professionalPostalCode: this.professionalPostalCode
-    }
+    };
   }
 
-  static fromJSON(json: any): Vet {
+  static fromJSON(json: VetJSON): Vet {
     return new Vet(
       json.id,
       json.username,

@@ -1,14 +1,14 @@
 import { PetServiceInter } from './PetServiceInter'
 import { PetService } from './PetService'
 import { PetServiceStub } from './PetServiceStub'
+import { PET_SERVICE_USE_STUB } from '../config'
 
 class PetServiceManager {
   private static instance: PetServiceInter
-  private static useStub: boolean = true
 
   public static getIntance(): PetServiceInter {
     if (!PetServiceManager.instance) {
-      PetServiceManager.instance = this.useStub
+      PetServiceManager.instance = PET_SERVICE_USE_STUB
         ? new PetServiceStub()
         : new PetService()
     }

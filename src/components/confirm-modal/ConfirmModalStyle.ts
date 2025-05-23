@@ -23,18 +23,8 @@ export const textContainer = {
   alignItems: 'center'
 }
 
-export const buttonContainer = { 
-  display: 'flex',
-  height: '40%',
-  width: '100%',
-  justifyContent: 'space-around',
-  alignItems: 'center'
-}
-
-export const BkgCancelButton = {
-  backgroundColor: 'var(--primary-color)'
-}
-
-export const BkgConfirmButton = {
-  backgroundColor: 'var(--footer-color)'
+export const buttonContent = { 
+  width: '90%',
+  height: '4em',
+  margin: 'auto'
 }

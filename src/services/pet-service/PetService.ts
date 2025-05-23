@@ -5,6 +5,7 @@ import { Pet, PetJSON } from '../../domain/Pet'
 import axios from 'axios'
 import { URL_BE } from '../config'
 import AuthServiceManager from '../auth-service/AuthServiceManager';
+import dayjs from 'dayjs';
 
 export class PetService implements PetServiceInter {
 
@@ -17,16 +18,14 @@ export class PetService implements PetServiceInter {
 
 	async getAllByFilter(petFilter: PetFilterValues): Promise<Pet[]> {
 		if(AuthServiceManager.getIntance().isVet()) {
-			const response = await axios.post(URL_BE + `/vet/get-all-pets-by-filter?idVet=${getUserID()}`, petFilter.toJSON());
-			const promise: PetJSON[] = response.data; // Extraemos solo los datos
-			return promise.map((petDTO: PetJSON) => Pet.fromJSON(petDTO));
-
+			const response = await axios.post(URL_BE + `/vet/get-all-pets-by-filter?idVet=${getUserID()}`, petFilter.toJSON())
+			const promise: PetJSON[] = response.data
+			return promise.map((petDTO: PetJSON) => Pet.fromJSON(petDTO))
 		} else {
 			const response = await axios.post(URL_BE + `/pet-owner/get-all-pets-by-filter?idPetOwner=${getUserID()}`, petFilter.toJSON())
-			const promise: PetJSON[] = response.data; // Extraemos solo los datos
-			return promise.map((petDTO: PetJSON) => Pet.fromJSON(petDTO));
+			const promise: PetJSON[] = response.data
+			return promise.map((petDTO: PetJSON) => Pet.fromJSON(petDTO))
 		}
-			
 	}
 
 	async getPetById(id: number): Promise<Pet> {
@@ -35,14 +34,26 @@ export class PetService implements PetServiceInter {
 	}
 
 	async create(pet: Pet): Promise<void> {
-		await axios.post(URL_BE + '/pet/create/', pet.toJSON())
+		const date: Date = new Date()
+
+		pet.petOwnerId = getUserID()
+		pet.updatedAt = dayjs(date).format('YYYY-MM-DD')
+
+		if(pet.id < 0) {
+			pet.createdAt = dayjs(date).format('YYYY-MM-DD')
+		}
+
+		console.log(pet.toJSON())
+		await axios.post(`${URL_BE}/pet/create`, pet.toJSON())
 	}
 
 	async update(pet: Pet): Promise<void> {
-		await axios.put(URL_BE + '/pet/update/', pet.toJSON())
+		if(pet.id > 0) {
+			await axios.put(`${URL_BE}/pet/update`, pet.toJSON())
+		}
 	}
 
 	async delete(id: number): Promise<void> {
-		await axios.delete(URL_BE + '/pet/delete/' + id.toString())
+		await axios.delete(`${URL_BE}/pet/delete?idPet=${id}`)
 	}
 }
