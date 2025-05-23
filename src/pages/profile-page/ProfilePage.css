@@ -34,6 +34,12 @@
   justify-content: center; 
   padding: 0 1rem; 
 }
+
+.main__content--data {
+        width: 80%;
+        height: 100%;
+}
+
 .main__content--data > *:not(.profile__form-wrapper):not(.notifications-content) {
   width: 100%;
   max-width: 1000px;
