@@ -10,6 +10,7 @@ import PetServiceManager from '../../services/pet-service/PetServiceManager'
 interface PropPets {
   pets: Array<Pet>,
   cleanFilter(): void
+  handleDeletePet(id: number): void
 }
 
 export const PetGrid = (propPets: PropPets) => {
@@ -33,7 +34,7 @@ export const PetGrid = (propPets: PropPets) => {
 
   return (
     <>
-      <div id="content" className="content">
+      <div key={ propPets.pets.length } id="content" className="content">
         <div className={ showNewPet() } onClick={ () => handleAction(-1) }>
           <p className='card__content--add'>+ Nueva Mascota</p>
         </div>
@@ -41,7 +42,7 @@ export const PetGrid = (propPets: PropPets) => {
           propPets.pets.length > 0
           ? propPets.pets.map((pet: Pet) => {
             return (<PetCard key={ pet.id.toString() }
-              pet={ pet } handleDelete={ propPets.cleanFilter }
+              pet={ pet } handleDelete={ propPets.handleDeletePet }
               startUpdate={ (id) => handleAction(id) }
             />)
           })

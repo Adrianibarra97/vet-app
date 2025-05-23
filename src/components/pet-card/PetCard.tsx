@@ -3,21 +3,32 @@ import { ConfirmModal } from '../confirm-modal/ConfirmModal'
 import PetServiceManager from '../../services/pet-service/PetServiceManager'
 import { Pet } from '../../domain/Pet'
 import './PetCard.css'
+import { useNavigate } from 'react-router-dom'
+import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 
 interface PropPetCard {
-  pet: Pet,
-  startUpdate(id: number): void,
-  handleDelete(): void
+  pet: Pet
+  startUpdate(id: number): void
+  handleDelete(id: number): void
 }
 
 export const PetCard = (propPet: PropPetCard) => {
 
   const [openConfirm, setOpenConfirm] = useState(false)
+  const navigate = useNavigate()
 
-  const handleDelete = async () => {
+  const handleDeletePet = async () => {
     PetServiceManager.getIntance().delete(propPet.pet.id)
-    propPet.handleDelete()
+    propPet.handleDelete(propPet.pet.id)
     setOpenConfirm(false)
+  }
+
+  const goToPetDetail = () => {
+    navigate(`/pet-detail/${propPet.pet.id}`)
+  }
+
+  const buttonsClassStyle = (): string => {
+    return AuthServiceManager.getIntance().isVet() ? 'button__none' : 'button__icon'
   }
 
   return (
@@ -41,11 +52,15 @@ export const PetCard = (propPet: PropPetCard) => {
         </div>
         <div className="card__item card__item--button">
           <button
-            className="fa-solid fa-pen button__icon"
+            className={ "fa-solid fa-pen " + buttonsClassStyle() }
             onClick={ () => propPet.startUpdate(propPet.pet.id) }
           ></button>
+          <button
+            className="fa-solid fa-paw button__icon"
+            onClick={goToPetDetail}
+          ></button>
           <button 
-            className="fa-solid fa-trash button__icon"
+            className={ "fa-solid fa-trash " + buttonsClassStyle() }
             onClick={ () => setOpenConfirm(true) }
           ></button>
         </div>
@@ -54,7 +69,7 @@ export const PetCard = (propPet: PropPetCard) => {
     <ConfirmModal 
       open={ openConfirm } text={ 'Seguro que desea eliminar?' }
       onClose={ () => setOpenConfirm(false) }
-      handleDelete={ handleDelete } 
+      handleDelete={ handleDeletePet }
     />
   </>
   )
