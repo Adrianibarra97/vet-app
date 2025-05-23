@@ -83,6 +83,10 @@
     color: var(--primary-color);
 }
 
+.button__none {
+    display: none;
+}
+
 @media screen and (min-width: 768px) {
     .card__image {
         padding: 0.5em;
