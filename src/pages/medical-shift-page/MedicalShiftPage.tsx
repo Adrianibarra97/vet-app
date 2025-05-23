@@ -10,6 +10,9 @@ import './MedicalShiftPage.css'
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 import { NotificationModel } from '../../domain/Notification'
 import NotificationServiceManager from '../../services/notification-service/NotificationServiceManager'
+import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
+import VetServiceManager from '../../services/vet-service/VetServiceManager'
+import { USER_ID_TOKEN } from '../../services/config'
 
 const filterValues = new Filter(
   'Por fecha',
@@ -40,8 +43,10 @@ export const MedicalShiftPage = () => {
     message: string,
     shift: MedicalShift,
   ) => {
-    const petOwner = await PetOwnerServiceManager.getInstance().getOneById()
-    const vet = await VetServiceManager.getInstance().getOneById()
+    const userId = parseInt(localStorage.getItem(USER_ID_TOKEN) || '-1')
+    const petOwner =
+      await PetOwnerServiceManager.getInstance().getOneById(userId)
+    const vet = await VetServiceManager.getInstance().getOneById(userId)
 
     const baseNotificationData = {
       id: Date.now(),
