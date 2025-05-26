@@ -28,8 +28,8 @@ export const ProfileLayout = () => {
 
       const fetched = await service.getOneById(id)
       fetched.typeOfUser = AuthServiceManager.getIntance().isVet()
-        ? 'vet'
-        : 'petOwner'
+        ? 'VET'
+        : 'PETOWNER'
       setUser(fetched)
     }
     fetchUser()
