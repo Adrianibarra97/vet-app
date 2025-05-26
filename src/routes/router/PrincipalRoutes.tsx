@@ -24,7 +24,7 @@ export const PrincipalRoutes = () => {
           <Route path = "reset-password" element = { <ResetPasswordPage /> }/>
           <Route path = "valid-change" element = { <ValidChangePage/> }/>
           <Route path = "change-password" element = { <ChangePasswordPage /> }/>
-          <Route path = "create-user" element = { <CreateUserPage /> }/>
+          {/* <Route path = "create-user" element = { <CreateUserPage /> }/> */}
         </Route>
         <Route element = { <ProtectedRoutes /> }>
           <Route path = "/" element = { <MainLayout /> } >

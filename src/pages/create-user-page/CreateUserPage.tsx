@@ -1,25 +1,24 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Box, Typography } from '@mui/material'
-import { Dayjs } from 'dayjs'
 import { FormControlModalSelect } from '../../components/form-control-modal-select/FormControlModalSelect'
-import { FormControlModalImage } from '../../components/form-control-modal-image/FormControlModalImage'
 import { FormControlModal } from '../../components/form-control-modal/FormControlModal'
+import { ButtonsModal } from '../../components/buttons-modal/ButtonsModal'
 import { Vet } from '../../domain/Vet'
 import { PetOwner } from '../../domain/PetOwner'
-import { Pet } from '../../domain/Pet'
+import { User } from '../../domain/User'
 import {
-  formContainer, formItem, formItemNone, formItemTitle, sectionItem, sectionItemImage, sectionItems, sectionMainTitle, sectionTitle,
-  sectionType
+  formContainer, formItem, formItemNone, formItemTitle, sectionItem,
+  sectionItems, sectionMainTitle, sectionTitle, sectionType
 } from './CreateUserPageStyle'
 import './CreateUserPage.css'
-import { User } from '../../domain/User'
-import { ButtonsModal } from '../../components/buttons-modal/ButtonsModal'
-import { useNavigate } from 'react-router-dom'
 
 export const CreateUserPage = () => {
 
+  const typeUserMap: Map<string, string> = new Map<string, string>()
+  typeUserMap.set('Veterinario', 'VET')
+  typeUserMap.set('Dueño de Mascota', 'PETOWNER')
   const textFieldTypes: ['text', 'number'] = ['text', 'number']
-  const userTypes: ['VET', 'PETOWNER'] = ['VET', 'PETOWNER']
   const userKeys: (keyof User)[] = [
     'id', 'username', 'password', 'name', 'surname',
     'dni', 'email', 'telephone', 'photo', 'address',
@@ -46,24 +45,31 @@ export const CreateUserPage = () => {
   ]
   const navigate = useNavigate()
   const [errorActive, setErrorActive] = useState(false)
-  const [user, setUser] = useState<Vet | PetOwner | null>(
-    new Vet(-1, '', '', '', '', -1, '', '', '', '', '', '', '', '', -1, '', '', '', '', '', '', '', '')
-  )
-  const [pet, setPet] = useState(new Pet())
+  const [vet, setVet] = useState<Vet | null>(new Vet(-1, '', '', '', '', -1, '', '', '', '', '', '', '', '', -1, '', '', '', '', '', '', '', ''))
+  const [petOwner, setPetOwner] = useState<PetOwner | null>(null)
 
   const handleUserLabelColor = (key: keyof User): 'success' | 'error' => {
-    console.log(key)
-    return user ? 'success' : 'error'
+    if(vet != null) {
+      return !vet[key] ? 'success' : 'error'
+    }
+    if(petOwner != null) {
+      return !petOwner[key] ? 'success' : 'error'
+    }
+    return 'error'
   }
 
   const handleVetLabelColor = (key: keyof Vet): 'success' | 'error' => {
-    console.log(key)
-    return user ? 'success' : 'error'
+    if(vet != null) {
+      return !vet[key] ? 'success' : 'error'
+    }
+    return 'error'
   }
 
-  const handlePetOwnerLabelColor = (key: keyof PetOwner): 'success' | 'error' => {
-    console.log(key)
-    return user ? 'success' : 'error'
+  const handlePetOwnerLabelColor = (key: keyof Vet): 'success' | 'error' => {
+    if(petOwner != null) {
+      return !petOwner[key] ? 'success' : 'error'
+    }
+    return 'error'
   }
   
   const handleInputUserChanges = (key: keyof User, value: string | number) => {
@@ -79,13 +85,13 @@ export const CreateUserPage = () => {
   }
 
   const handleSelectChanges = (value: string) => {
-    const vet: Vet = new Vet(-1, '', '', '', '', -1, '', '', '', '', '', '', '', '', -1, '', '', '', '', '', '', '', '')
+    const  : Vet = new Vet(-1, '', '', '', '', -1, '', '', '', '', '', '', '', '', -1, '', '', '', '', '', '', '', '')
     const petOwner: PetOwner = new PetOwner(-1, '', '', '', '', -1, '', '', '', '', '', '', '', '', -1, '', '')
     
     if(value === 'VET') {
-      setUser(vet)
+      setVet(vet)
     } else {
-      setUser(petOwner)
+      setPetOwner(petOwner)
     }
   }
 
@@ -105,6 +111,15 @@ export const CreateUserPage = () => {
     navigate('/auth/login')
   }
 
+  const defaultTypeValue = (): string => {
+    const value: string | undefined = typeUserMap.keys().next().value
+    return value != undefined ? value : '' 
+  }
+
+  const optionsTypeValue = (): string[] => {
+    return Array.from(typeUserMap.keys())
+  }
+
   return (
     <main className="auth__main--create">
       <Box sx={ formContainer }>
@@ -112,7 +127,7 @@ export const CreateUserPage = () => {
           <Typography variant="h6" sx={ sectionMainTitle }>Tipo de usuario</Typography>
           <Box sx={ sectionType }>
             <FormControlModalSelect isActive={ true } label={ 'tipo de usuario' }
-              options={ userTypes } defaultValue={ userTypes[0] } labelColor={ 'success' }
+              options={ optionsTypeValue() } defaultValue={ defaultTypeValue() } labelColor={ 'success' }
               handleInputChanges={ (value) => handleSelectChanges(value) }            
             />
           </Box>
@@ -122,14 +137,14 @@ export const CreateUserPage = () => {
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldKyes[3] } labelColor={ handleUserLabelColor(userKeys[3]) }
                 handleInputChanges={ (value) => handleInputUserChanges(userKeys[3], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldKyes[4] } labelColor={ handleUserLabelColor(userKeys[4]) }
                 handleInputChanges={ (value) => handleInputUserChanges(userKeys[4], value) }
               />
@@ -138,14 +153,14 @@ export const CreateUserPage = () => {
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldKyes[1] } labelColor={ handleUserLabelColor(userKeys[1]) }
                 handleInputChanges={ (value) => handleInputUserChanges(userKeys[1], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldKyes[2] } labelColor={ handleUserLabelColor(userKeys[2]) }
                 handleInputChanges={ (value) => handleInputUserChanges(userKeys[2], value) }
               />
@@ -154,14 +169,14 @@ export const CreateUserPage = () => {
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldKyes[5] } labelColor={ handleUserLabelColor(userKeys[5]) }
                 handleInputChanges={ (value) => handleInputUserChanges(userKeys[5], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldKyes[6] } labelColor={ handleUserLabelColor(userKeys[6]) }
                 handleInputChanges={ (value) => handleInputUserChanges(userKeys[6], value) }
               />
@@ -170,14 +185,14 @@ export const CreateUserPage = () => {
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldKyes[7] } labelColor={ handleUserLabelColor(userKeys[7]) }
                 handleInputChanges={ (value) => handleInputUserChanges(userKeys[7], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldKyes[10] } labelColor={ handleUserLabelColor(userKeys[10]) }
                 handleInputChanges={ (value) => handleInputUserChanges(userKeys[10], value) }
               />
@@ -186,14 +201,14 @@ export const CreateUserPage = () => {
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldKyes[9] } labelColor={ handleUserLabelColor(userKeys[9]) }
                 handleInputChanges={ (value) => handleInputUserChanges(userKeys[9], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldKyes[11] } labelColor={ handleUserLabelColor(userKeys[11]) }
                 handleInputChanges={ (value) => handleInputUserChanges(userKeys[11], value) }
               />
@@ -202,60 +217,60 @@ export const CreateUserPage = () => {
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldKyes[12] } labelColor={ handleUserLabelColor(userKeys[12]) }
                 handleInputChanges={ (value) => handleInputUserChanges(userKeys[12], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldKyes[13] } labelColor={ handleUserLabelColor(userKeys[13]) }
                 handleInputChanges={ (value) => handleInputUserChanges(userKeys[13], value) }
               />
             </Box>
           </Box>
           <Box sx={ sectionItems }>
-            <Box sx={ sectionItemImage }>
+            {/* <Box sx={ sectionItemImage }>
               <FormControlModalImage
                 isActive={ true } pet={ pet }
                 onPhotoChange={ (value) => handlePhotoChange(value) }
               />
-            </Box>
+            </Box> */}
           </Box>
         </Box>
-        <Box sx={ user?.typeOfUser === 'petOwner' ? formItem : formItemNone }>
+        <Box sx={ user?.typeOfUser === 'PETOWNER' ? formItem : formItemNone }>
           <Typography variant="h6" sx={ sectionTitle }>Dueño de Mascota</Typography>
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldPetOwnerKeys[1] } labelColor={ handlePetOwnerLabelColor(userPetOwnerKeys[1]) }
                 handleInputChanges={ (value) => handleInputPetOwnerChanges(userPetOwnerKeys[1], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldPetOwnerKeys[0] } labelColor={ handlePetOwnerLabelColor(userPetOwnerKeys[0]) }
                 handleInputChanges={ (value) => handleInputPetOwnerChanges(userPetOwnerKeys[0], value) }
               />
             </Box>
           </Box>
         </Box>
-        <Box sx={ user?.typeOfUser === 'vet' ? formItem : formItemNone }>
+        <Box sx={ user?.typeOfUser === 'VET' ? formItem : formItemNone }>
           <Typography variant="h6" sx={ sectionTitle }>Veterinario</Typography>
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldVetKyes[0] } labelColor={ handleVetLabelColor(userVetKeys[0]) }
                 handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[0], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldVetKyes[1] } labelColor={ handleVetLabelColor(userVetKeys[1]) }
                 handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[1], value) }
               />
@@ -264,14 +279,14 @@ export const CreateUserPage = () => {
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldVetKyes[2] } labelColor={ handleVetLabelColor(userVetKeys[2]) }
                 handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[2], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldVetKyes[3] } labelColor={ handleVetLabelColor(userVetKeys[3]) }
                 handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[3], value) }
               />
@@ -280,14 +295,14 @@ export const CreateUserPage = () => {
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldVetKyes[5] } labelColor={ handleVetLabelColor(userVetKeys[5]) }
                 handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[5], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldVetKyes[7] } labelColor={ handleVetLabelColor(userVetKeys[7]) }
                 handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[7], value) }
               />
@@ -296,14 +311,14 @@ export const CreateUserPage = () => {
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldVetKyes[6] } labelColor={ handleVetLabelColor(userVetKeys[6]) }
                 handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[6], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ user.name }
                 isActive={ true } label={ fieldVetKyes[4] } labelColor={ handleVetLabelColor(userVetKeys[4]) }
                 handleInputChanges={ (value) => handleInputVetChanges(userVetKeys[4], value) }
               />

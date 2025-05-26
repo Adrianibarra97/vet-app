@@ -40,7 +40,7 @@ export class PetOwner extends User {
       locality,
       province,
       country,
-      'petOwner',
+      'PETOWNER',
       idAuthCredentials
     );
   }

@@ -52,7 +52,7 @@ export class Vet extends User {
       locality,
       province,
       country,
-      'vet',
+      'VET',
       idAuthCredentials
     );
   }
