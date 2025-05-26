@@ -1,20 +1,13 @@
 
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
-import './Header.css'
+import { useUser } from '../../context/UserContext'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
-import { useEffect, useState } from 'react'
-import { User } from '../../domain/User'
-import VetServiceManager from '../../services/vet-service/VetServiceManager'
-import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
-import { getUserID } from '../../services/auth-service/AuthService'
-// import { useUser } from '../../context/UserContext'
+import './Header.css'
 
 export const Header = () => {
 
-  // const { user } = useUser()
-
-  const [user, setUser] = useState<User | null>(null)
+  const { user } = useUser()
   const[openMenu, setOpenMenu] = useState(false)
   const navigate = useNavigate()
 
@@ -26,17 +19,6 @@ export const Header = () => {
   const handleTitlePet = () => {
     return AuthServiceManager.getIntance().isVet() ? 'Pacientes' : 'Mascotas'
   }
-
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      const fetchedUser: User = AuthServiceManager.getIntance().isVet()
-        ? await VetServiceManager.getInstance().getOneById(getUserID())
-        : await PetOwnerServiceManager.getInstance().getOneById(getUserID())
-      setUser(fetchedUser)
-    }
-
-    fetchProfileData()
-  }, [])
 
   return (
     <header className="header">

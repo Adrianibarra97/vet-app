@@ -1,13 +1,16 @@
-import { SnackbarProvider } from "notistack"
-import { PrincipalRoutes } from "./routes/router/PrincipalRoutes"
-import { SnackbarUtilitiesConfigurator } from "./util/snackbar/SnackbarManager"
+import { SnackbarProvider } from 'notistack'
+import { PrincipalRoutes } from './routes/router/PrincipalRoutes'
+import { SnackbarUtilitiesConfigurator } from './util/snackbar/SnackbarManager'
+import { UserProvider } from './context/UserContext'
 
 function App() {
 
   return (
     <SnackbarProvider>
       <SnackbarUtilitiesConfigurator />
-      <PrincipalRoutes />
+      <UserProvider>
+        <PrincipalRoutes />
+      </UserProvider>
     </SnackbarProvider>
   )
 }
