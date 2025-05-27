@@ -15,9 +15,6 @@ export class AuthService extends AuthServiceInter {
 		localStorage.setItem(USER_TYPE_TOKEN, response.data.typeOfUser)
 		this.userType = localStorage.getItem(USER_TYPE_TOKEN)!
 	}
-
-	
-
 }
 
 export const getUserID = () => {
