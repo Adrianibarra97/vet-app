@@ -29,6 +29,10 @@ export class AuthServiceStub extends AuthServiceInter {
 		}
 	}
 
+	override addSystemUser(systemUser: [AuthCredentialsLoginDTO, AuthCredentialsResponseDTO]): void {
+		this.systemUsers.push(systemUser)
+	}
+
 	override searchUserWithLogin(authCredentialsLoginDTO: AuthCredentialsLoginDTO): AuthCredentialsResponseDTO | null {
 		const user: [AuthCredentialsLoginDTO, AuthCredentialsResponseDTO] = (this.systemUsers.filter((user): boolean =>
 			user[0].username == authCredentialsLoginDTO.username &&

@@ -17,6 +17,11 @@ export class PetOwnerService implements PetOwnerServiceInter {
     return PetOwner.fromJSON(res.data)
   }
 
+  async create(petOwner: PetOwner): Promise<void> {
+    const payload = petOwner.toJSON()
+    await axios.post(`${URL_BE}/pet-owner/create`, payload)
+  }
+
   async update(petOwner: PetOwner): Promise<void> {
     const payload = petOwner.toJSON()
     console.log('Payload limpio:', payload);

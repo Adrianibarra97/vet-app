@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Typography } from '@mui/material'
 import { FormControlModal } from '../form-control-modal/FormControlModal'
 import { FormControlModalImagePetOwner } from '../form-control-modal-image-petowner/FormControlModalImagePetOwner'
 import { ButtonsModal } from '../buttons-modal/ButtonsModal'
+import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
+import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
 import { PetOwner } from '../../domain/PetOwner'
 import {
   formContainerInternOwner, formItem, sectionItem, sectionItemImage, sectionItems, sectionTitle
@@ -30,10 +32,16 @@ export const CreatePetOwnerForm = () => {
   const [errorActive, setErrorActive] = useState(false)
   const [petOwner, setPetOwner] = useState<PetOwner>(new PetOwner())
 
-  const handleLabelColor = (key: keyof PetOwner): 'success' | 'error' => !petOwner[key] ? 'success' : 'error'
+  const handleLabelColor = (key: keyof PetOwner): 'success' | 'error' => petOwner[key] ? 'success' : 'error'
+
+  const newStatusPetOwner = (updatedVet: PetOwner) => {
+    const newPetOwner = Object.assign(new PetOwner(), updatedVet)
+    setPetOwner(newPetOwner)
+  }
   
   const handleInputChanges = (key: keyof PetOwner, value: string | number) => {
-    console.log(key, value)
+    (petOwner as unknown as Record<keyof PetOwner, string | number>)[key] = value
+    newStatusPetOwner(petOwner)
   }
 
   const handlePhotoChange = (newPhoto: string) => {
@@ -41,16 +49,46 @@ export const CreatePetOwnerForm = () => {
     Object.create(Object.getPrototypeOf(petOwner)),
       { ...petOwner, photo: newPhoto },
     )
-    setPetOwner(updated)
+    newStatusPetOwner(updated)
+  }
+
+  const hasRequiredFields = (): boolean => {
+    const requiredFields: (keyof PetOwner)[] = [
+      'username', 'password', 'name', 'surname',
+      'dni', 'email', 'telephone', 'photo', 'address',
+      'postalCode', 'locality', 'province', 'country',
+      'emergencyContactName', 'emergencyContactPhone'
+    ]
+    return requiredFields.some((field) => !petOwner[field])
   }
 
   const handleConfirm = () => {
+    if(hasRequiredFields()) {
+      setErrorActive(true)
+    } else {
+      setErrorActive(false)
+      confirm()
+    }
+  }
+
+  const confirm = async () => {
+    console.log(petOwner)
     alert('Creo un nuevo usuario')
+    const msg: string = `Ha creado el su usuario con éxito!`
+    await PetOwnerServiceManager.getInstance().create(petOwner)
+    SnackbarUtilities.succes(msg)
+    navigate('/auth/login')
   }
 
   const handleCancel = () => {
+    setErrorActive(false)
+    setPetOwner(new PetOwner())
     navigate('/auth/login')
   }
+
+  useEffect(() => {
+    setPetOwner(new PetOwner())
+  }, [])
 
   return (
     <main className="auth__main--create">

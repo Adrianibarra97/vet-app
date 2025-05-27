@@ -83,6 +83,7 @@ export const CreateVetForm = () => {
     const msg: string = `Ha creado el su usuario con éxito!`
     await VetServiceManager.getInstance().create(vet)
     SnackbarUtilities.succes(msg)
+    navigate('/auth/login')
   }
 
   const handleCancel = () => {
