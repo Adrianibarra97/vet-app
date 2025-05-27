@@ -17,7 +17,8 @@ export const CreateUserPage = () => {
   const [typeOfUser, setTypeOfUser] = useState<string>('VET')
 
   const handleSelectChanges = (value: string) => {
-    setTypeOfUser(value)
+    const realValue: string = typeUserMap.get(value)!
+    setTypeOfUser(realValue)
   }
 
   const defaultTypeValue = (): string => {
@@ -39,10 +40,10 @@ export const CreateUserPage = () => {
             />
           </Box>
         </Box>
-        <Box sx={ typeOfUser == 'PETOWNER' ? formItem : formItemNone }>
+        <Box sx={ typeOfUser === 'PETOWNER' ? formItem : formItemNone }>
           <CreatePetOwnerForm />
         </Box>
-        <Box sx={ typeOfUser == 'VET' ? formItem : formItemNone }>
+        <Box sx={ typeOfUser === 'VET' ? formItem : formItemNone }>
           <CreateVetForm />
         </Box>
       </Box>

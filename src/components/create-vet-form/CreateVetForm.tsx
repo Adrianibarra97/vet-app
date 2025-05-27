@@ -5,7 +5,7 @@ import { FormControlModal } from '../form-control-modal/FormControlModal'
 import { ButtonsModal } from '../buttons-modal/ButtonsModal'
 import { Vet } from '../../domain/Vet'
 import {
-  formContainer, formItem, sectionItem, sectionItemImage,
+  formContainerIntern, formItem, sectionItem, sectionItemImage,
   sectionItems, sectionTitle
 } from './CreateVetFormStyle'
 import './CreateVetForm.css'
@@ -56,189 +56,187 @@ export const CreateVetForm = () => {
   }
 
   return (
-    <main className="auth__main--create">
-      <Box sx={ formContainer }>
-        <Box sx={ formItem }>
-          <Typography variant="h6" sx={ sectionTitle }>Datos generales</Typography>
-          <Box sx={ sectionItems }>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
+    <Box sx={ formContainerIntern }>
+      <Box sx={ formItem }>
+        <Typography variant="h6" sx={ sectionTitle }>Datos generales</Typography>
+        <Box sx={ sectionItems }>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
           </Box>
-          <Box sx={ sectionItems }>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-          </Box>
-          <Box sx={ sectionItems }>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-          </Box>
-          <Box sx={ sectionItems }>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-          </Box>
-          <Box sx={ sectionItems }>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-          </Box>
-          <Box sx={ sectionItems }>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-          </Box>
-          <Box sx={ sectionItems }>
-            <Box sx={ sectionItemImage }>
-              {/* <FormControlModalImage
-                isActive={ true } pet={ vet }
-                onPhotoChange={ (value) => handlePhotoChange(value) }
-              /> */}
-            </Box>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
           </Box>
         </Box>
-        <Box sx={ formItem }>
-          <Typography variant="h6" sx={ sectionTitle }>Veterinario</Typography>
-          <Box sx={ sectionItems }>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
+        <Box sx={ sectionItems }>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
           </Box>
-          <Box sx={ sectionItems }>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-          </Box>
-          <Box sx={ sectionItems }>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-          </Box>
-          <Box sx={ sectionItems }>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
-            <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
-                defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
-                handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
-              />
-            </Box>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
           </Box>
         </Box>
-        <Box sx={ formItem }>
-          <ButtonsModal
-            confirLabel={ 'Crear' } cancelLabel={ 'Cancelar' }
-            confirm={ () => handleConfirm() } cancel={ () => handleCancel() }
-          />
+        <Box sx={ sectionItems }>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+        </Box>
+        <Box sx={ sectionItems }>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+        </Box>
+        <Box sx={ sectionItems }>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+        </Box>
+        <Box sx={ sectionItems }>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+        </Box>
+        <Box sx={ sectionItems }>
+          <Box sx={ sectionItemImage }>
+            {/* <FormControlModalImage
+              isActive={ true } pet={ vet }
+              onPhotoChange={ (value) => handlePhotoChange(value) }
+            /> */}
+          </Box>
         </Box>
       </Box>
-    </main>
+      <Box sx={ formItem }>
+        <Typography variant="h6" sx={ sectionTitle }>Veterinario</Typography>
+        <Box sx={ sectionItems }>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+        </Box>
+        <Box sx={ sectionItems }>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+        </Box>
+        <Box sx={ sectionItems }>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+        </Box>
+        <Box sx={ sectionItems }>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+          <Box sx={ sectionItem }>
+            <FormControlModal
+              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              defaultValue={ vet.name } label={ fieldVetKyes[3] } labelColor={ handleLabelColor(userVetKeys[3]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[3], value) }
+            />
+          </Box>
+        </Box>
+      </Box>
+      <Box sx={ formItem }>
+        <ButtonsModal
+          confirLabel={ 'Crear' } cancelLabel={ 'Cancelar' }
+          confirm={ () => handleConfirm() } cancel={ () => handleCancel() }
+        />
+      </Box>
+    </Box>
   )
 }

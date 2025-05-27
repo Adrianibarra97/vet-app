@@ -5,7 +5,7 @@ import { FormControlModal } from '../form-control-modal/FormControlModal'
 import { ButtonsModal } from '../buttons-modal/ButtonsModal'
 import { PetOwner } from '../../domain/PetOwner'
 import {
-  formContainer, formItem, sectionItem, sectionItems, sectionTitle
+  formContainerInternOwner, formItem, sectionItem, sectionItems, sectionTitle
 } from './CreatePetOwnerFormStyle'
 import './CreatePetOwnerForm.css'
 
@@ -53,7 +53,7 @@ export const CreatePetOwnerForm = () => {
 
   return (
     <main className="auth__main--create">
-      <Box sx={ formContainer }>
+      <Box sx={ formContainerInternOwner }>
         <Box sx={ formItem }>
           <Typography variant="h6" sx={ sectionTitle }>Datos generales</Typography>
           <Box sx={ sectionItems }>
