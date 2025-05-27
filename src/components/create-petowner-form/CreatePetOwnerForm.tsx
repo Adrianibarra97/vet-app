@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Typography } from '@mui/material'
 import { FormControlModal } from '../form-control-modal/FormControlModal'
+import { FormControlModalImagePetOwner } from '../form-control-modal-image-petowner/FormControlModalImagePetOwner'
 import { ButtonsModal } from '../buttons-modal/ButtonsModal'
 import { PetOwner } from '../../domain/PetOwner'
 import {
-  formContainerInternOwner, formItem, sectionItem, sectionItems, sectionTitle
+  formContainerInternOwner, formItem, sectionItem, sectionItemImage, sectionItems, sectionTitle
 } from './CreatePetOwnerFormStyle'
 import './CreatePetOwnerForm.css'
 
@@ -35,13 +36,13 @@ export const CreatePetOwnerForm = () => {
     console.log(key, value)
   }
 
-  // const handlePhotoChange = (newPhoto: string) => {
-  //   const updated = Object.assign(
-  //   Object.create(Object.getPrototypeOf(petOwner)),
-  //     { ...petOwner, photo: newPhoto },
-  //   )
-  //   setPetOwner(updated)
-  // }
+  const handlePhotoChange = (newPhoto: string) => {
+    const updated = Object.assign(
+    Object.create(Object.getPrototypeOf(petOwner)),
+      { ...petOwner, photo: newPhoto },
+    )
+    setPetOwner(updated)
+  }
 
   const handleConfirm = () => {
     alert('Creo un nuevo usuario')
@@ -153,12 +154,12 @@ export const CreatePetOwnerForm = () => {
             </Box>
           </Box>
           <Box sx={ sectionItems }>
-            {/* <Box sx={ sectionItemImage }>
-              <FormControlModalImage
-                isActive={ true } pet={ pet }
+            <Box sx={ sectionItemImage }>
+              <FormControlModalImagePetOwner
+                isActive={ true } petOwner={ petOwner }
                 onPhotoChange={ (value) => handlePhotoChange(value) }
               />
-            </Box> */}
+            </Box>
           </Box>
         </Box>
         <Box sx={ formItem }>
