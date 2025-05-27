@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Typography } from '@mui/material'
 import { FormControlModal } from '../form-control-modal/FormControlModal'
+import { FormControlModalImageVet } from '../form-control-modal-image-vet/FormControlModalImageVet'
 import { ButtonsModal } from '../buttons-modal/ButtonsModal'
 import { Vet } from '../../domain/Vet'
 import {
@@ -39,13 +40,13 @@ export const CreateVetForm = () => {
     console.log(key, value)
   }
 
-  // const handlePhotoChange = (newPhoto: string) => {
-  //   const updated = Object.assign(
-  //   Object.create(Object.getPrototypeOf(vet)),
-  //     { ...vet, photo: newPhoto },
-  //   )
-  //   setVet(updated)
-  // }
+  const handlePhotoChange = (newPhoto: string) => {
+    const updated = Object.assign(
+    Object.create(Object.getPrototypeOf(vet)),
+      { ...vet, photo: newPhoto },
+    )
+    setVet(updated)
+  }
 
   const handleConfirm = () => {
     alert('Creo un nuevo usuario')
@@ -155,10 +156,10 @@ export const CreateVetForm = () => {
         </Box>
         <Box sx={ sectionItems }>
           <Box sx={ sectionItemImage }>
-            {/* <FormControlModalImage
-              isActive={ true } pet={ vet }
+            <FormControlModalImageVet
+              isActive={ true } vet={ vet }
               onPhotoChange={ (value) => handlePhotoChange(value) }
-            /> */}
+            />
           </Box>
         </Box>
       </Box>
