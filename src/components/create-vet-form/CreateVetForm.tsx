@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Typography } from '@mui/material'
 import { FormControlModal } from '../form-control-modal/FormControlModal'
@@ -10,6 +10,8 @@ import {
   sectionItems, sectionTitle
 } from './CreateVetFormStyle'
 import './CreateVetForm.css'
+import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
+import VetServiceManager from '../../services/vet-service/VetServiceManager'
 
 export const CreateVetForm = () => {
 
@@ -34,10 +36,16 @@ export const CreateVetForm = () => {
   const [errorActive, setErrorActive] = useState(false)
   const [vet, setVet] = useState<Vet>(new Vet())
 
-  const handleLabelColor = (key: keyof Vet): 'success' | 'error' => !vet[key] ? 'success' : 'error'
+  const handleLabelColor = (key: keyof Vet): 'success' | 'error' => vet[key] ? 'success' : 'error'
+
+  const newStatusVet = (updatedVet: Vet) => {
+    const newVet = Object.assign(new Vet(), updatedVet)
+    setVet(newVet)
+  }
   
   const handleInputChanges = (key: keyof Vet, value: string | number) => {
-    console.log(key, value)
+    (vet as unknown as Record<keyof Vet, string | number>)[key] = value
+    newStatusVet(vet)
   }
 
   const handlePhotoChange = (newPhoto: string) => {
@@ -45,14 +53,47 @@ export const CreateVetForm = () => {
     Object.create(Object.getPrototypeOf(vet)),
       { ...vet, photo: newPhoto },
     )
-    setVet(updated)
+    newStatusVet(updated)
+  }
+
+  const hasRequiredFields = (): boolean => {
+    const requiredFields: (keyof Vet)[] = [
+      'username', 'password', 'name', 'surname',
+      'dni', 'email', 'telephone', 'photo', 'address',
+      'postalCode', 'locality', 'province', 'country',
+      'licence', 'speciality', 'businessHours', 'professionalEmail',
+      'professionalTelephone', 'professionalAddress', 'professionalLocality',
+      'professionalPostalCode'
+    ]
+    return requiredFields.some((field) => !vet[field])
   }
 
   const handleConfirm = () => {
-    alert('Creo un nuevo usuario')
+    if(hasRequiredFields()) {
+      setErrorActive(true)
+    } else {
+      setErrorActive(false)
+      confirm()
+    }
   }
 
-  const handleCancel = () => navigate('/auth/login')
+  const confirm = async () => {
+    console.log(vet)
+    alert('Creo un nuevo usuario')
+    const msg: string = `Ha creado el su usuario con éxito!`
+    await VetServiceManager.getInstance().create(vet)
+    SnackbarUtilities.succes(msg)
+  }
+
+  const handleCancel = () => {
+    setErrorActive(false)
+    setVet(new Vet())
+    navigate('/auth/login')
+  }
+
+  useEffect(() => {
+    setVet(new Vet())
+  }, [])
 
   return (
     <Box sx={ formContainerIntern }>

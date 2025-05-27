@@ -98,6 +98,10 @@ export class VetServiceStub implements VetServiceInter {
     return this.getCurrentVet()
   }
 
+  async create(vet: Vet): Promise<void> {
+    this.vets.push(vet)
+  }
+
   async update(vet: Vet): Promise<void> {
     const index = this.vets.findIndex((v) => v.id === vet.id)
     if (index !== -1) this.vets[index] = vet
