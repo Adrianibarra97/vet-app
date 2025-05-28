@@ -78,8 +78,6 @@ export const CreateVetForm = () => {
   }
 
   const confirm = async () => {
-    console.log(vet)
-    alert('Creo un nuevo usuario')
     const msg: string = `Ha creado el su usuario con éxito!`
     await VetServiceManager.getInstance().create(vet)
     SnackbarUtilities.succes(msg)

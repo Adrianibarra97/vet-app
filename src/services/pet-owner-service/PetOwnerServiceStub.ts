@@ -287,6 +287,7 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
       { authCredentialsID: petOwner.idAuthCredentials, typeOfUser: 'VET' }
     ]
     AuthServiceManager.getIntance().addSystemUser(loginUser)
+    console.log(petOwner.toJSON())
   }
 
   async update(petOwner: PetOwner): Promise<void> {

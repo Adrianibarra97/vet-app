@@ -1,6 +1,17 @@
-import { User, UserJSON } from './User';
+import { CreateUserJSON, User, UserJSON } from './User';
 
 export type VetJSON = UserJSON & {
+  licence: string;
+  speciality: string;
+  businessHours: string;
+  professionalEmail: string;
+  professionalTelephone: string;
+  professionalAddress: string;
+  professionalLocality: string;
+  professionalPostalCode: string;
+};
+
+export type CreateVetJSON = CreateUserJSON & {
   licence: string;
   speciality: string;
   businessHours: string;
@@ -60,6 +71,20 @@ export class Vet extends User {
   toJSON(): VetJSON {
     return {
       ...super.toJSON(),
+      licence: this.licence,
+      speciality: this.speciality,
+      businessHours: this.businessHours,
+      professionalEmail: this.professionalEmail,
+      professionalTelephone: this.professionalTelephone,
+      professionalAddress: this.professionalAddress,
+      professionalLocality: this.professionalLocality,
+      professionalPostalCode: this.professionalPostalCode
+    };
+  }
+
+  toCreateJSON(): CreateVetJSON {
+    return {
+      ...super.toCreateJSON(),
       licence: this.licence,
       speciality: this.speciality,
       businessHours: this.businessHours,
