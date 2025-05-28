@@ -8,6 +8,10 @@ export abstract class AuthServiceInter {
 		console.log(authCredentialsLoginDTO)
 	}
 
+	addSystemUser(systemUser: [AuthCredentialsLoginDTO, AuthCredentialsResponseDTO]) {
+		console.log(systemUser)
+	}
+
 	logout(): void {
 		localStorage.clear()
 	}

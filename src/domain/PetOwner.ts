@@ -7,23 +7,23 @@ export type PetOwnerJSON = UserJSON & {
 
 export class PetOwner extends User {
   constructor(
-    id: number,
-    username: string,
-    password: string,
-    name: string,
-    surname: string,
-    dni: number,
-    email: string,
-    telephone: string,
-    photo: string,
-    address: string,
-    postalCode: string,
-    locality: string,
-    province: string,
-    country: string,
-    idAuthCredentials: number,
-    public emergencyContactName: string,
-    public emergencyContactPhone: string
+    id: number = -1,
+    username: string = '',
+    password: string = '',
+    name: string = '',
+    surname: string = '',
+    dni: number = -1,
+    email: string = '',
+    telephone: string = '',
+    photo: string = '',
+    address: string = '',
+    postalCode: string = '',
+    locality: string = '',
+    province: string = '',
+    country: string = '',
+    idAuthCredentials: number = -1,
+    public emergencyContactName: string = '',
+    public emergencyContactPhone: string = ''
   ) {
     super(
       id,

@@ -3,6 +3,8 @@ import { PetOwner } from '../../domain/PetOwner'
 import { PetOwnerServiceInter } from './PetOwnerServiceInter'
 import { USER_ID_TOKEN } from '../config'
 import NotificationServiceManager from '../notification-service/NotificationServiceManager'
+import { AuthCredentialsLoginDTO, AuthCredentialsResponseDTO } from '../../domain/User'
+import AuthServiceManager from '../auth-service/AuthServiceManager'
 
 const petOwnerMockNotifications: NotificationModel[] = [
   // eze
@@ -275,6 +277,16 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
 
   async getOneById(): Promise<PetOwner> {
     return this.getCurrentUser()
+  }
+
+  async create(petOwner: PetOwner): Promise<void> {
+    petOwner.idAuthCredentials = this.petOwners.length + 1
+    this.petOwners.push(petOwner)
+    const loginUser: [AuthCredentialsLoginDTO, AuthCredentialsResponseDTO] = [
+      { username: petOwner.username, password: petOwner.password },
+      { authCredentialsID: petOwner.idAuthCredentials, typeOfUser: 'VET' }
+    ]
+    AuthServiceManager.getIntance().addSystemUser(loginUser)
   }
 
   async update(petOwner: PetOwner): Promise<void> {
