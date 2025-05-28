@@ -25,6 +25,7 @@ export type UserJSON = {
   country: string;
   typeOfUser: string;
   idAuthCredentials: number;
+  idInfoLocation:number;
 };
 
 export type CreateUserJSON = {
@@ -62,7 +63,8 @@ export class User {
     public province: string,
     public country: string,
     public typeOfUser: string,
-    public idAuthCredentials: number
+    public idAuthCredentials: number,
+    public idInfoLocation:number
   ) {}
 
   toJSON(): UserJSON {
@@ -82,7 +84,8 @@ export class User {
       province: this.province,
       country: this.country,
       typeOfUser: this.typeOfUser,
-      idAuthCredentials: this.idAuthCredentials
+      idAuthCredentials: this.idAuthCredentials,
+      idInfoLocation:this.idInfoLocation
     };
   }
 

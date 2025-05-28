@@ -39,6 +39,7 @@ export class Vet extends User {
     province: string = '',
     country: string = '',
     idAuthCredentials: number = -1,
+    idInfoLocation:number = -1,
     public licence: string = '',
     public speciality: string = '',
     public businessHours: string = '',
@@ -64,7 +65,8 @@ export class Vet extends User {
       province,
       country,
       'VET',
-      idAuthCredentials
+      idAuthCredentials,
+      idInfoLocation
     );
   }
 
@@ -113,6 +115,7 @@ export class Vet extends User {
       json.province,
       json.country,
       json.idAuthCredentials,
+      json.idInfoLocation,
       json.licence,
       json.speciality,
       json.businessHours,
