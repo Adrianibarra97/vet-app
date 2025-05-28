@@ -35,7 +35,7 @@ export abstract class AuthServiceInter {
 		return { authCredentialsID: -1, typeOfUser: '' }
 	}
 
-	existUser(authCredentialsLoginDTO: AuthCredentialsLoginDTO): boolean {
+	async existUser(authCredentialsLoginDTO: AuthCredentialsLoginDTO): Promise<boolean> {
 		console.log(authCredentialsLoginDTO)
 		return false
 	}

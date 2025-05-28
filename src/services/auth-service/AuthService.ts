@@ -14,6 +14,14 @@ export class AuthService extends AuthServiceInter {
 		localStorage.setItem(USER_ID_TOKEN, response.data.authCredentialsID.toString())
 		localStorage.setItem(USER_TYPE_TOKEN, response.data.typeOfUser)
 	}
+
+	override async existUser(authCredentialsLoginDTO: AuthCredentialsLoginDTO) {
+		const code = await axios.post<string>(`${URL_BE}/auth-credentials/reset-password`, authCredentialsLoginDTO)
+		console.log('Parece que no se ejecutó2')
+		localStorage.setItem('user__name', authCredentialsLoginDTO.username)
+		localStorage.setItem('valid__code', code.toString())
+		return code.toString() !== ''
+	}
 }
 
 export const getUserID = () => {

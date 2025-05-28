@@ -40,7 +40,7 @@ export class AuthServiceStub extends AuthServiceInter {
 		return user ? user[1] : null
 	}
 
-	override existUser(authCredentialsLoginDTO: AuthCredentialsLoginDTO): boolean {
+	override async existUser(authCredentialsLoginDTO: AuthCredentialsLoginDTO) {
 		localStorage.setItem('user__name', authCredentialsLoginDTO.username)
 		localStorage.setItem('valid__code', '231231asdadsaDDSSS')
 		return this.systemUsers.some(user => user[0].username === authCredentialsLoginDTO.username)
