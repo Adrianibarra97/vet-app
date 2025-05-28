@@ -21,8 +21,7 @@ export class VetService implements VetServiceInter {
   }
 
   async create(vet: Vet): Promise<void> {
-    const payload = vet.toJSON()
-    await axios.post(`${URL_BE}/vet/create`, payload)
+    await axios.post(`${URL_BE}/vet/create`, vet.toCreateJSON())
   }
 
   async update(vet: Vet): Promise<void> {

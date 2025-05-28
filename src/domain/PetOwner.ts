@@ -1,6 +1,11 @@
-import { User, UserJSON } from "./User";
+import { CreateUserJSON, User, UserJSON } from "./User";
 
 export type PetOwnerJSON = UserJSON & {
+  emergencyContactName: string;
+  emergencyContactPhone: string;
+};
+
+export type CreatePetOwnerJSON = CreateUserJSON & {
   emergencyContactName: string;
   emergencyContactPhone: string;
 };
@@ -48,6 +53,14 @@ export class PetOwner extends User {
   toJSON(): PetOwnerJSON {
     return {
       ...super.toJSON(),
+      emergencyContactName: this.emergencyContactName,
+      emergencyContactPhone: this.emergencyContactPhone,
+    };
+  }
+
+  toCreateJSON(): CreatePetOwnerJSON {
+    return {
+      ...super.toCreateJSON(),
       emergencyContactName: this.emergencyContactName,
       emergencyContactPhone: this.emergencyContactPhone,
     };

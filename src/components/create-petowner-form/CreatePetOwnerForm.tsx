@@ -72,8 +72,6 @@ export const CreatePetOwnerForm = () => {
   }
 
   const confirm = async () => {
-    console.log(petOwner)
-    alert('Creo un nuevo usuario')
     const msg: string = `Ha creado el su usuario con éxito!`
     await PetOwnerServiceManager.getInstance().create(petOwner)
     SnackbarUtilities.succes(msg)

@@ -18,8 +18,7 @@ export class PetOwnerService implements PetOwnerServiceInter {
   }
 
   async create(petOwner: PetOwner): Promise<void> {
-    const payload = petOwner.toJSON()
-    await axios.post(`${URL_BE}/pet-owner/create`, payload)
+    await axios.post(`${URL_BE}/pet-owner/create`, petOwner.toCreateJSON())
   }
 
   async update(petOwner: PetOwner): Promise<void> {
