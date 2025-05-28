@@ -21,7 +21,6 @@ export class AuthServiceStub extends AuthServiceInter {
 		const authCredentialsResponse: AuthCredentialsResponseDTO | null = this.searchUserWithLogin(authCredentialsLoginDTO)
 
 		if(authCredentialsResponse) {
-			this.userType = authCredentialsResponse.typeOfUser
 			localStorage.setItem(USER_TYPE_TOKEN, authCredentialsResponse.typeOfUser)
 			localStorage.setItem(USER_ID_TOKEN, authCredentialsResponse.authCredentialsID.toString())
 		} else {
