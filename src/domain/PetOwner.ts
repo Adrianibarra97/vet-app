@@ -27,6 +27,7 @@ export class PetOwner extends User {
     province: string = '',
     country: string = '',
     idAuthCredentials: number = -1,
+    idInfoLocation: number = -1,
     public emergencyContactName: string = '',
     public emergencyContactPhone: string = ''
   ) {
@@ -46,7 +47,8 @@ export class PetOwner extends User {
       province,
       country,
       'PETOWNER',
-      idAuthCredentials
+      idAuthCredentials,
+      idInfoLocation
     );
   }
 
@@ -83,6 +85,7 @@ export class PetOwner extends User {
       json.province,
       json.country,
       json.idAuthCredentials,
+      json.idInfoLocation,
       json.emergencyContactName,
       json.emergencyContactPhone
     );
