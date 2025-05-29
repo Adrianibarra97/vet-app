@@ -41,8 +41,8 @@ export abstract class AuthServiceInter {
 	}
 
 	async validCode(code: string): Promise<boolean> {
-		console.log(code)
-		return false
+		const validCode: string | null = localStorage.getItem('valid__code')
+		return code === validCode
 	}
 
 	validNewPassword(password: string, confirmPassword: string): boolean {

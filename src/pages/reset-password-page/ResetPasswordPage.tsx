@@ -24,8 +24,8 @@ export const ResetPasswordPage = () => {
     setUserLogin(authCredentialsLoginDTO)
   }
 
-  const handleErrorReset = () => {
-    const exisUser: boolean = AuthServiceManager.getIntance().existUser(userLogin)
+  const handleErrorReset = async () => {
+    const exisUser: boolean = await AuthServiceManager.getIntance().existUser(userLogin)
     if(exisUser) {
       navigate('/auth/valid-change')
     } else {

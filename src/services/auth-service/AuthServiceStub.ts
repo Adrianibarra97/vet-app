@@ -46,11 +46,6 @@ export class AuthServiceStub extends AuthServiceInter {
 		return this.systemUsers.some(user => user[0].username === authCredentialsLoginDTO.username)
 	}
 
-	override async validCode(code: string): Promise<boolean> {
-		const validCode: string | null = localStorage.getItem('valid__code')
-		return code.toString() === validCode
-	}
-
 	override async changePassword(password: string): Promise<void> {
 		let flag: boolean = false
 		const username: string | null = localStorage.getItem('user__name')
