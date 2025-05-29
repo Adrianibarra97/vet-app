@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { AuthCredentialsLoginDTO, AuthCredentialsResponseDTO } from '../../domain/User'
+import { AuthCredentialsLoginDTO, AuthCredentialsResponseDTO, ValidAuthCredentialsDTO } from '../../domain/User'
 import { AuthServiceInter } from './AuthServiceInter'
 import { URL_BE, USER_ID_TOKEN, USER_TYPE_TOKEN } from '../config';
 
@@ -16,10 +16,11 @@ export class AuthService extends AuthServiceInter {
 	}
 
 	override async existUser(authCredentialsLoginDTO: AuthCredentialsLoginDTO) {
-		const code = await axios.post(`${URL_BE}/auth-credentials/reset-password?username=${authCredentialsLoginDTO.username}`)
+		const validAuthCreditialDTO = await axios.post<ValidAuthCredentialsDTO>(`${URL_BE}/auth-credentials/reset-password?username=${authCredentialsLoginDTO.username}`)
 		localStorage.setItem('user__name', authCredentialsLoginDTO.username)
-		localStorage.setItem('valid__code', code.data)
-		return code.data !== ''
+		localStorage.setItem(USER_ID_TOKEN, validAuthCreditialDTO.data.id.toString())
+		localStorage.setItem('valid__code', validAuthCreditialDTO.data.validCode)
+		return validAuthCreditialDTO.data.validCode !== ''
 	}
 
 	override async changePassword(password: string): Promise<void> {

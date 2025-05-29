@@ -1,15 +1,21 @@
+import { useEffect, useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 
-const isAuthorizedFetch = () => {
-  const value = AuthServiceManager.getIntance().isAuthorized()
-  return value
-}
-
 export const ProtectedRoutes = () => {
-  const value: boolean = isAuthorizedFetch()
-  if(value) {
-    return <Outlet />
-  }
-  return <Navigate to = {'/auth/login'} />
+
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(false)
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const value = await AuthServiceManager.getIntance().isAuthorized()
+      setIsAuthorized(value)
+    }
+
+    setTimeout(() => {
+      checkAuth()
+    }, 100)
+  }, [])
+  
+  return isAuthorized ? <Outlet /> : <Navigate to = {'/auth/login'} />
 }
