@@ -4,18 +4,19 @@ import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 
 export const ProtectedRoutes = () => {
 
-  const [isAuthorized, setIsAuthorized] = useState<boolean>(false)
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
-      const value = await AuthServiceManager.getIntance().isAuthorized()
+      const value = await AuthServiceManager.getIntance().isAuthorized() === true
       setIsAuthorized(value)
     }
-
-    setTimeout(() => {
-      checkAuth()
-    }, 100)
+    window.addEventListener('storage', checkAuth)
+    checkAuth()
+    return () => {
+      window.removeEventListener('storage', checkAuth)
+    }
   }, [])
-  
-  return isAuthorized ? <Outlet /> : <Navigate to = {'/auth/login'} />
+
+  return isAuthorized ? <Outlet /> : <Navigate to="/auth/login" />
 }
