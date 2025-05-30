@@ -43,6 +43,10 @@ export const LoginPage = () => {
     }
   }
 
+  useEffect(() => {
+    localStorage.clear()
+  },[])
+
   return (
     <main className="auth__main">
       <div className="login">
