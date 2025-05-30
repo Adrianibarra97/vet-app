@@ -11,6 +11,7 @@ import {
   formContainerInternOwner, formItem, sectionItem, sectionItemImage, sectionItems, sectionTitle
 } from './CreatePetOwnerFormStyle'
 import './CreatePetOwnerForm.css'
+import { FormControlModalSelect } from '../form-control-modal-select/FormControlModalSelect'
 
 export const CreatePetOwnerForm = () => {
 
@@ -31,6 +32,9 @@ export const CreatePetOwnerForm = () => {
   const navigate = useNavigate()
   const [errorActive, setErrorActive] = useState(false)
   const [petOwner, setPetOwner] = useState<PetOwner>(new PetOwner())
+  const [provinces, setProvinces] = useState<string[]>([])
+  const [localities, setLocalities] = useState<string[]>([])
+  const [countries, setCountries] = useState<string[]>([])
 
   const handleLabelColor = (key: keyof PetOwner): 'success' | 'error' => petOwner[key] ? 'success' : 'error'
 
@@ -85,6 +89,30 @@ export const CreatePetOwnerForm = () => {
   }
 
   useEffect(() => {
+    setCountries(['Argentina'])
+  }, [])
+
+  useEffect(() => {
+    fetch('https://apis.datos.gob.ar/georef/api/provincias')
+      .then((res) => res.json())
+      .then((data) => setProvinces(data.provincias.map((p: any) => p.nombre)))
+      .catch((err) => console.error(err))
+  }, [])
+
+  useEffect(() => {
+    if (petOwner.province) {
+      fetch(
+        `https://apis.datos.gob.ar/georef/api/localidades?provincia=${petOwner.province}&max=1500`,
+      )
+        .then((res) => res.json())
+        .then((data) =>
+          setLocalities(data.localidades.map((l: any) => l.nombre)),
+        )
+        .catch((err) => console.error(err))
+    }
+  }, [petOwner.province])
+
+  useEffect(() => {
     setPetOwner(new PetOwner())
   }, [])
 
@@ -103,7 +131,7 @@ export const CreatePetOwnerForm = () => {
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.surname }
                 isActive={ true } label={ fieldPetOwnerKeys[4] } labelColor={ handleLabelColor(userPetOwnerKeys[4]) }
                 handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[4], value) }
               />
@@ -112,14 +140,14 @@ export const CreatePetOwnerForm = () => {
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.email }
                 isActive={ true } label={ fieldPetOwnerKeys[6] } labelColor={ handleLabelColor(userPetOwnerKeys[6]) }
                 handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[6], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.username }
                 isActive={ true } label={ fieldPetOwnerKeys[1] } labelColor={ handleLabelColor(userPetOwnerKeys[1]) }
                 handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[1], value) }
               />
@@ -128,14 +156,14 @@ export const CreatePetOwnerForm = () => {
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.dni }
                 isActive={ true } label={ fieldPetOwnerKeys[5] } labelColor={ handleLabelColor(userPetOwnerKeys[5]) }
                 handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[5], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.telephone }
                 isActive={ true } label={ fieldPetOwnerKeys[7] } labelColor={ handleLabelColor(userPetOwnerKeys[7]) }
                 handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[7], value) }
               />
@@ -144,14 +172,14 @@ export const CreatePetOwnerForm = () => {
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.address }
                 isActive={ true } label={ fieldPetOwnerKeys[9] } labelColor={ handleLabelColor(userPetOwnerKeys[9]) }
                 handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[9], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.postalCode }
                 isActive={ true } label={ fieldPetOwnerKeys[10] } labelColor={ handleLabelColor(userPetOwnerKeys[10]) }
                 handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[10], value) }
               />
@@ -159,31 +187,28 @@ export const CreatePetOwnerForm = () => {
           </Box>
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.name }
-                isActive={ true } label={ fieldPetOwnerKeys[11] } labelColor={ handleLabelColor(userPetOwnerKeys[11]) }
-                handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[11], value) }
-              />
+              <FormControlModalSelect
+                isActive={ true } label={ fieldPetOwnerKeys[11] } defaultValue={ petOwner.locality }
+                options={ localities } labelColor={ handleLabelColor(userPetOwnerKeys[11]) }
+                handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[11], value) } />
             </Box>
             <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.name }
-                isActive={ true } label={ fieldPetOwnerKeys[12] } labelColor={ handleLabelColor(userPetOwnerKeys[12]) }
-                handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[12], value) }
-              />
+              <FormControlModalSelect
+                isActive={ true } label={ fieldPetOwnerKeys[12] } defaultValue={ petOwner.province }
+                options={ provinces } labelColor={ handleLabelColor(userPetOwnerKeys[12]) }
+                handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[12], value) } />
             </Box>
           </Box>
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
-              <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.name }
-                isActive={ true } label={ fieldPetOwnerKeys[13] } labelColor={ handleLabelColor(userPetOwnerKeys[13]) }
-                handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[13], value) }
-              />
+              <FormControlModalSelect
+                isActive={ true } label={ fieldPetOwnerKeys[13] } defaultValue={ petOwner.country }
+                options={ countries } labelColor={ handleLabelColor(userPetOwnerKeys[13]) }
+                handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[13], value) } />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.password }
                 isActive={ true } label={ fieldPetOwnerKeys[2] } labelColor={ handleLabelColor(userPetOwnerKeys[2]) }
                 handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[2], value) }
               />
@@ -203,14 +228,14 @@ export const CreatePetOwnerForm = () => {
           <Box sx={ sectionItems }>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.emergencyContactName }
                 isActive={ true } label={ fieldPetOwnerKeys[14] } labelColor={ handleLabelColor(userPetOwnerKeys[14]) }
                 handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[14], value) }
               />
             </Box>
             <Box sx={ sectionItem }>
               <FormControlModal
-                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.name }
+                type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ petOwner.emergencyContactPhone }
                 isActive={ true } label={ fieldPetOwnerKeys[15] } labelColor={ handleLabelColor(userPetOwnerKeys[15]) }
                 handleInputChanges={ (value) => handleInputChanges(userPetOwnerKeys[15], value) }
               />

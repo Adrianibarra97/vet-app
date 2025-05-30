@@ -29,7 +29,7 @@ export class Vet extends User {
     password: string = '',
     name: string = '',
     surname: string = '',
-    dni: number = -1,
+    dni: number = 0,
     email: string = '',
     telephone: string = '',
     photo: string = '',
