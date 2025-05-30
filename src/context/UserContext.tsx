@@ -19,12 +19,13 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const fetchedUser: User = AuthServiceManager.getIntance().isVet()
+      if(getUserID() > 0) {
+        const fetchedUser: User = AuthServiceManager.getIntance().isVet()
         ? await VetServiceManager.getInstance().getOneById(getUserID())
         : await PetOwnerServiceManager.getInstance().getOneById(getUserID())
-      setUser(fetchedUser)
+        setUser(fetchedUser)
+      }
     }
-
     fetchUser()
   }, [])
 

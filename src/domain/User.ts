@@ -8,6 +8,11 @@ export type AuthCredentialsResponseDTO = {
 	typeOfUser: string
 }
 
+export type ValidAuthCredentialsDTO = {
+	id: number,
+	validCode: string
+}
+
 export type UserJSON = {
   id: number;
   username: string;

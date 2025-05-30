@@ -21,7 +21,6 @@ export class AuthServiceStub extends AuthServiceInter {
 		const authCredentialsResponse: AuthCredentialsResponseDTO | null = this.searchUserWithLogin(authCredentialsLoginDTO)
 
 		if(authCredentialsResponse) {
-			this.userType = authCredentialsResponse.typeOfUser
 			localStorage.setItem(USER_TYPE_TOKEN, authCredentialsResponse.typeOfUser)
 			localStorage.setItem(USER_ID_TOKEN, authCredentialsResponse.authCredentialsID.toString())
 		} else {
@@ -41,15 +40,10 @@ export class AuthServiceStub extends AuthServiceInter {
 		return user ? user[1] : null
 	}
 
-	override existUser(authCredentialsLoginDTO: AuthCredentialsLoginDTO): boolean {
+	override async existUser(authCredentialsLoginDTO: AuthCredentialsLoginDTO) {
 		localStorage.setItem('user__name', authCredentialsLoginDTO.username)
 		localStorage.setItem('valid__code', '231231asdadsaDDSSS')
 		return this.systemUsers.some(user => user[0].username === authCredentialsLoginDTO.username)
-	}
-
-	override async validCode(code: string): Promise<boolean> {
-		const validCode: string | null = localStorage.getItem('valid__code')
-		return code.toString() === validCode
 	}
 
 	override async changePassword(password: string): Promise<void> {
