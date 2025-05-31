@@ -1,5 +1,56 @@
-describe('Pet Page', () => {
-    it('App smoke pet page', () => {
-        // render(<PetPage />)
-    })
+import { render, screen } from '@testing-library/react'
+import { describe, it, vi } from 'vitest'
+import { PetPage } from './PetPage'
+import PetServiceManager from '../../services/pet-service/PetServiceManager'
+import { AuthServiceStub } from '../../services/auth-service/AuthServiceStub'
+import { AuthCredentialsLoginDTO } from '../../domain/User'
+import { PetServiceStub } from '../../services/pet-service/PetServiceStub'
+import { PetFilterValues } from '../../domain/PetFilterValues'
+import { Pet } from '../../domain/Pet'
+
+// Users
+const petOwner: AuthCredentialsLoginDTO = { username: 'Eche', password: '1234' }
+const vet: AuthCredentialsLoginDTO = { username: 'Adrian', password: '123' }
+
+// Filters
+const petFilter: PetFilterValues = new PetFilterValues('', false, false)
+
+// Services
+const authService: AuthServiceStub = new AuthServiceStub()
+const petService: PetServiceStub = new PetServiceStub()
+
+// Pets
+const petsToPetOwner: Pet[] = await petService.getAllByFilter(petFilter)
+
+// Mockear el servicio de mascotas
+vi.spyOn(PetServiceManager.getIntance(), 'getAllByFilter').mockResolvedValue(petsToPetOwner)
+
+describe('Test Pet Page Pet Owner Flow', () => {
+	authService.login(petOwner)
+
+  it('renders the title correctly', () => {
+    render(<PetPage />)
+    expect(screen.getByText(/Mascotas|Pacientes/i)).toBe('Mascotas')
+  })
+
+  it('displays pet data when filter is applied', async () => {
+    render(<PetPage />)
+    expect(await screen.findByText('Nala')).toBe(petsToPetOwner[0])
+    expect(await screen.findByText('Owie')).toBe(petsToPetOwner[2])
+  })
+})
+
+describe('Test Pet Page Vet Flow', () => {
+	authService.login(vet)
+
+  it('renders the title correctly', () => {
+    render(<PetPage />)
+    expect(screen.getByText(/Mascotas|Pacientes/i)).toBe('Pacientes')
+  })
+
+  it('displays pet data when filter is applied', async () => {
+    render(<PetPage />)
+    expect(await screen.findByText('Nala')).toBe(petsToPetOwner[0])
+    expect(await screen.findByText('Owie')).toBe(petsToPetOwner[2])
+  })
 })
