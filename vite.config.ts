@@ -17,7 +17,11 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     coverage: {
+      enabled: true,
+      provider: 'v8',
       reporter: ['lcov', 'json', 'html', 'json-summary'],
     },
+    ui: true
   }
+  
 })
