@@ -21,7 +21,5 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['lcov', 'json', 'html', 'json-summary'],
     },
-    ui: true
   }
-  
 })
