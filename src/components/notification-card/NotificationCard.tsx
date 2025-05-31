@@ -64,12 +64,9 @@ export const NotificationCard: React.FC<Props> = ({
   vetEmail,
   vetPhone,
 }) => {
-  const { message, date, petName, vetName, appointmentDate, type } =
-    notification
+  const { date, petName, vetName, type } = notification
 
   const isVet = AuthServiceManager.getIntance().isVet()
-  const msg = message.toLowerCase()
-  const isCancelByOwner = msg.includes('cancelado') && msg.includes('dueño')
   const navigate = useNavigate()
 
   const { icon, color } = getIconAndColorByType(type) as {
@@ -80,7 +77,15 @@ export const NotificationCard: React.FC<Props> = ({
   const emailToShow = vetEmail || ''
   const phoneToShow = vetPhone || ''
 
-if (isVet && type !== 'system') return null
+  const allowedVetTypes = [
+    'SHIFT_TODAY',
+    'SHIFT_DELETE',
+    'SHIFT_UPDATE',
+    'SHIFT_CREATE',
+    'SHIFT_REMINDER',
+    'system',
+  ]
+  if (isVet && !allowedVetTypes.includes(type)) return null
 
   if (type === 'system') {
     return (
@@ -139,11 +144,16 @@ if (isVet && type !== 'system') return null
           <Typography variant="body2" color="textSecondary">
             <strong>Fecha:</strong> {new Date(date).toLocaleDateString()}
           </Typography>
-          {appointmentDate && (
+          {notification.date && notification.hour && (
             <Typography variant="body2" color="textSecondary">
               <strong>Turno:</strong>{' '}
-              {new Date(appointmentDate).toLocaleDateString()} a las{' '}
-              {new Date(appointmentDate).toLocaleTimeString([], {
+              {new Date(
+                `${notification.date}T${notification.hour}`,
+              ).toLocaleDateString()}{' '}
+              a las{' '}
+              {new Date(
+                `${notification.date}T${notification.hour}`,
+              ).toLocaleTimeString([], {
                 hour: '2-digit',
                 minute: '2-digit',
               })}

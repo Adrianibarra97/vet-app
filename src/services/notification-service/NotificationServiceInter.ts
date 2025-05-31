@@ -7,5 +7,9 @@ export interface NotificationServiceInter {
   getNotificationsByPetOwnerName(
     petOwnerName: string,
   ): Promise<NotificationModel[]>
+  getNotificationsByVetId(id: number): Promise<NotificationModel[]>
+  getNotificationsByPetOwnerId(id: number): Promise<NotificationModel[]>
+  getTodaysNotifications(): Promise<NotificationModel[]>
+  getUpcomingVaccineNotifications(): Promise<NotificationModel[]>
   clearAll(): Promise<void>
 }

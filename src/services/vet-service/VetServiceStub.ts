@@ -2,32 +2,11 @@ import { NotificationModel } from '../../domain/Notification'
 import { Vet } from '../../domain/Vet'
 import { VetServiceInter } from './VetServiceInter'
 import { USER_ID_TOKEN } from '../config'
-import NotificationServiceManager from '../notification-service/NotificationServiceManager'
+import { mockNotifications } from '../notification-service/NotificationServiceStub'
 
-export const sharedMockNotifications: NotificationModel[] = [
-  new NotificationModel(
-    1,
-    'SHIFT_DELETE',
-    'Turno cancelado por el dueño',
-    new Date().toISOString(),
-    true,
-    'Rocky',
-    'Ezequiel Iozzia',
-    'Lucas Cejas',
-    '2024-05-21T15:00:00Z',
-  ),
-  new NotificationModel(
-    3,
-    'SHIFT_DELETE',
-    'Turno cancelado por el dueño',
-    new Date().toISOString(),
-    true,
-    'Mileva',
-    'Caroline Coronel',
-    'Adrián Ibarra',
-    '2024-05-21T15:00:00Z',
-  ),
-]
+import { NotificationServiceManager } from '../notification-service/NotificationServiceManager'
+
+
 
 export class VetServiceStub implements VetServiceInter {
   private vets: Vet[] = [
@@ -117,22 +96,24 @@ async getNotificationsByVetId(): Promise<NotificationModel[]> {
   const currentVet = this.getCurrentVet()
   const fullName = `${currentVet.name} ${currentVet.surname}`.toLowerCase()
 
-  const allDynamic = await NotificationServiceManager.getInstance().getAllNotifications()
+  const dynamic =
+    await NotificationServiceManager.getInstance().getNotificationService().getAllNotifications()
 
-  const dynamic = allDynamic.filter(
+  const staticList = mockNotifications.filter(
     (n) =>
       n.vetName?.toLowerCase() === fullName &&
       ['SHIFT_DELETE', 'SHIFT_UPDATE', 'SHIFT_TODAY'].includes(n.type)
   )
 
-  const staticList = sharedMockNotifications.filter(
+  const filtered = dynamic.filter(
     (n) =>
       n.vetName?.toLowerCase() === fullName &&
       ['SHIFT_DELETE', 'SHIFT_UPDATE', 'SHIFT_TODAY'].includes(n.type)
   )
 
-  return [...staticList, ...dynamic]
+  return [...staticList, ...filtered]
 }
+
 
 
 }
