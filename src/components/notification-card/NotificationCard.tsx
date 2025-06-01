@@ -65,7 +65,7 @@ export const NotificationCard: React.FC<Props> = ({
   vetEmail,
   vetPhone,
 }) => {
-  const { date, petName, vetName, type } = notification
+  const { petName, vetName, type } = notification
 
   const isVet = AuthServiceManager.getIntance().isVet()
   const navigate = useNavigate()
