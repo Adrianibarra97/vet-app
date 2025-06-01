@@ -128,7 +128,7 @@ export const NotificationCard: React.FC<Props> = ({
           <IconBox color={color}>{iconMap[icon] ?? <Info />}</IconBox>
           <MessageTypography variant="subtitle1" fontWeight="bold">
             {typeLabels[type.toUpperCase()] ?? 'Notificación'}
-            para {petName}
+            para  {petName}
           </MessageTypography>
         </StackGrow>
 

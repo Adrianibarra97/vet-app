@@ -113,7 +113,7 @@ export const typeLabels: Record<string, string> = {
   SHIFT_TODAY: 'Tenés un turno hoy ',
   SHIFT_UPDATE: 'Turno modificado ',
   SHIFT_DELETE: 'Turno cancelado ',
-  SHIFT_CREATE: 'Turno asignado',
+  SHIFT_CREATE: 'Turno asignado ',
   SHIFT_REMINDER: 'Recordatorio de turno ',
   appointment: 'Nuevo turno ',
   vaccine: 'Vacuna próxima a vencer ',
