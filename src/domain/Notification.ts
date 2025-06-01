@@ -1,7 +1,7 @@
-export type NotificationType = 
-  | 'SHIFT_DELETE'   
-  | 'SHIFT_UPDATE'   
-  | 'SHIFT_CREATE'   
+export type NotificationType =
+  | 'SHIFT_DELETE'
+  | 'SHIFT_UPDATE'
+  | 'SHIFT_CREATE'
   | 'SHIFT_REMINDER'
   | 'SHIFT_TODAY'
   | 'appointment'
@@ -19,6 +19,8 @@ export interface NotificationResponseDTO {
   type: NotificationType
   subject: string
   message: string
+  professionalEmail?: string
+  professionalTelephone?: string
 }
 
 export class NotificationModel {
@@ -33,7 +35,9 @@ export class NotificationModel {
     public vetName: string,
     public date: string,
     public hour: string,
-    public subject: string
+    public subject: string,
+    public professionalEmail?: string,
+    public professionalTelephone?: string,
   ) {}
 
   static fromJSON(json: NotificationResponseDTO): NotificationModel {
@@ -50,7 +54,9 @@ export class NotificationModel {
       json.nameVet,
       json.date,
       json.hour,
-      json.subject
+      json.subject,
+      json.professionalEmail ?? '',
+      json.professionalTelephone ?? '',
     )
   }
 
@@ -65,7 +71,9 @@ export class NotificationModel {
       hour: this.hour,
       notificationDate: this.notificationDate,
       subject: this.subject,
-      message: this.message
+      message: this.message,
+      professionalEmail: this.professionalEmail,
+      professionalTelephone: this.professionalTelephone,
     }
   }
 }

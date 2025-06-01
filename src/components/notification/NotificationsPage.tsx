@@ -58,6 +58,8 @@ export const NotificationsPage = () => {
               onToggleExpand={() =>
                 handleToggleExpand(notification.id.toString())
               }
+              vetEmail={notification.professionalEmail}
+              vetPhone={notification.professionalTelephone}
             />
           ))
         )}
