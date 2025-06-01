@@ -40,6 +40,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
+import dayjs from 'dayjs'
 
 interface Props {
   notification: NotificationModel
@@ -68,6 +69,8 @@ export const NotificationCard: React.FC<Props> = ({
 
   const isVet = AuthServiceManager.getIntance().isVet()
   const navigate = useNavigate()
+
+  const dateNotification = dayjs(notification.notificationDate).format('DD/MM/YYYY')
 
   const { icon, color } = getIconAndColorByType(notification.type)
 
@@ -140,7 +143,7 @@ export const NotificationCard: React.FC<Props> = ({
         <Divider sx={{ my: 1 }} />
         <Stack spacing={0.5} px={2}>
           <Typography variant="body2" color="textSecondary">
-            <strong>Fecha:</strong> {new Date(date).toLocaleDateString()}
+            <strong>Fecha:</strong> {dateNotification}
           </Typography>
           {notification.date && notification.hour ? (
             (() => {
