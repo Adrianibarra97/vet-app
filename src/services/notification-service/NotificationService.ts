@@ -7,23 +7,7 @@ import { NotificationServiceInter } from './NotificationServiceInter'
 import { URL_BE } from '../config'
 
 export class NotificationService implements NotificationServiceInter {
-  async getAllNotifications(): Promise<NotificationModel[]> {
-    return []
-  }
-
-  async addNotification(notification: NotificationModel): Promise<void> {
-    console.log('Adding notification not implemented in backend:', notification)
-  }
-
-  async getNotificationsByVetName(_: string): Promise<NotificationModel[]> {
-    return []
-  }
-
-  async getNotificationsByPetOwnerName(
-    _: string,
-  ): Promise<NotificationModel[]> {
-    return []
-  }
+ 
 
   async getNotificationsByVetId(id: number): Promise<NotificationModel[]> {
     console.log('Fetching notifications for vet ID:', id)
@@ -53,15 +37,4 @@ export class NotificationService implements NotificationServiceInter {
     return response.data.map(NotificationModel.fromJSON)
   }
 
-  async getTodaysNotifications(): Promise<NotificationModel[]> {
-    return []
-  }
-
-  async getUpcomingVaccineNotifications(): Promise<NotificationModel[]> {
-    return []
-  }
-
-  async clearAll(): Promise<void> {
-    console.log('Clear all notifications not implemented in backend')
-  }
 }

@@ -111,29 +111,7 @@ export const mockNotifications: NotificationModel[] = [
 export class NotificationServiceStub implements NotificationServiceInter {
   private notifications: NotificationModel[] = mockNotifications
 
-  async getAllNotifications(): Promise<NotificationModel[]> {
-    return this.notifications
-  }
-
-  async addNotification(notification: NotificationModel): Promise<void> {
-    this.notifications.push(notification)
-  }
-
-  async getNotificationsByVetName(
-    vetName: string,
-  ): Promise<NotificationModel[]> {
-    return this.notifications.filter(
-      (n) => n.vetName.toLowerCase() === vetName.toLowerCase(),
-    )
-  }
-
-  async getNotificationsByPetOwnerName(
-    petOwnerName: string,
-  ): Promise<NotificationModel[]> {
-    return this.notifications.filter(
-      (n) => n.petOwnerName.toLowerCase() === petOwnerName.toLowerCase(),
-    )
-  }
+ 
 
   async getNotificationsByVetId(id: number): Promise<NotificationModel[]> {
     const vetName = id === 1 ? 'Adrián Ibarra' : 'Lucas Cejas'
@@ -158,18 +136,4 @@ export class NotificationServiceStub implements NotificationServiceInter {
     )
   }
 
-  async getTodaysNotifications(): Promise<NotificationModel[]> {
-    const today = new Date().toISOString().split('T')[0]
-    return this.notifications.filter(
-      (n) => n.date === today && n.type === 'SHIFT_REMINDER',
-    )
-  }
-
-  async getUpcomingVaccineNotifications(): Promise<NotificationModel[]> {
-    return []
-  }
-
-  async clearAll(): Promise<void> {
-    this.notifications = []
-  }
 }
