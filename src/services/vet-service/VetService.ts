@@ -21,8 +21,9 @@ export class VetService implements VetServiceInter {
   }
 
   async update(vet: Vet): Promise<void> {
-    const payload = vet.toJSON()
-    await axios.put(`${URL_BE}/vet/update`, payload)
+    if(vet.id > 0) {
+      await axios.put(`${URL_BE}/vet/update`, vet.toJSON())
+    }
   }
 
   async delete(id: number): Promise<void> {
