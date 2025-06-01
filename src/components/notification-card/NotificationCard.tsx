@@ -69,13 +69,10 @@ export const NotificationCard: React.FC<Props> = ({
   const isVet = AuthServiceManager.getIntance().isVet()
   const navigate = useNavigate()
 
-  const { icon, color } = getIconAndColorByType(type) as {
-    icon: keyof typeof iconMap
-    color: string
-  }
+  const { icon, color } = getIconAndColorByType(notification.type)
 
-  const emailToShow = vetEmail || ''
-  const phoneToShow = vetPhone || ''
+  const emailToShow = vetEmail || 'sin-email@vetapp.com'
+  const phoneToShow = vetPhone || '0000000000'
 
   const allowedVetTypes = [
     'SHIFT_TODAY',
@@ -125,9 +122,10 @@ export const NotificationCard: React.FC<Props> = ({
     <StyledPaper elevation={3} style={{ borderLeft: `6px solid ${color}` }}>
       <RowBetween>
         <StackGrow direction="row" spacing={1} alignItems="center">
-          <IconBox color={color}>{iconMap[icon]}</IconBox>
+          <IconBox color={color}>{iconMap[icon] ?? <Info />}</IconBox>
           <MessageTypography variant="subtitle1" fontWeight="bold">
-            {typeLabels[type] ?? 'Notificación'} para {petName}
+            {typeLabels[type.toUpperCase()] ?? 'Notificación'}
+            para {petName}
           </MessageTypography>
         </StackGrow>
 
@@ -144,19 +142,25 @@ export const NotificationCard: React.FC<Props> = ({
           <Typography variant="body2" color="textSecondary">
             <strong>Fecha:</strong> {new Date(date).toLocaleDateString()}
           </Typography>
-          {notification.date && notification.hour && (
+          {notification.date && notification.hour ? (
+            (() => {
+              const appointmentDate = new Date(
+                `${notification.date}T${notification.hour}`,
+              )
+              return (
+                <Typography variant="body2" color="textSecondary">
+                  <strong>Turno:</strong> {appointmentDate.toLocaleDateString()}{' '}
+                  a las{' '}
+                  {appointmentDate.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </Typography>
+              )
+            })()
+          ) : (
             <Typography variant="body2" color="textSecondary">
-              <strong>Turno:</strong>{' '}
-              {new Date(
-                `${notification.date}T${notification.hour}`,
-              ).toLocaleDateString()}{' '}
-              a las{' '}
-              {new Date(
-                `${notification.date}T${notification.hour}`,
-              ).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
+              <strong>Turno:</strong> Sin horario definido
             </Typography>
           )}
 

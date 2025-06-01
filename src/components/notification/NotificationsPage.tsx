@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react'
 import { NotificationModel } from '../../domain/Notification'
-import VetServiceManager from '../../services/vet-service/VetServiceManager'
-import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
-import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import { useOutletContext } from 'react-router-dom'
 import {
   NotificationsWrapper,
@@ -11,33 +8,41 @@ import {
 } from './NotificationsPAgeStyle'
 import { PetOwner } from '../../domain/PetOwner'
 import { Vet } from '../../domain/Vet'
+import { NotificationCard } from '../notification-card/NotificationCard'
+import { NotificationServiceManager } from '../../services/notification-service/NotificationServiceManager'
 export const NotificationsPage = () => {
   const [notifications, setNotifications] = useState<NotificationModel[]>([])
   const user = useOutletContext<Vet | PetOwner>()
+  const [expandedId, setExpandedId] = useState<string | null>(null)
 
+  const [hasFetched, setHasFetched] = useState(false)
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        if (!user) return
+      if (!user || hasFetched) return
 
-        let fetchedNotifications: NotificationModel[] = []
+      const notificationService =
+        NotificationServiceManager.getInstance().getNotificationService()
 
-        if (user instanceof PetOwner) {
-          const petOwnerService = PetOwnerServiceManager.getInstance()
-          fetchedNotifications = await petOwnerService.getNotificationsByPetOwnerId(user.id)
-        } else {
-          const vetService = VetServiceManager.getInstance()
-          fetchedNotifications = await vetService.getNotificationsByVetId(user.id)
-        }
+      let fetchedNotifications: NotificationModel[] = []
 
-        setNotifications(fetchedNotifications)
-      } catch (error) {
-        console.error('Error fetching notifications:', error)
+      if (user instanceof PetOwner) {
+        fetchedNotifications =
+          await notificationService.getNotificationsByPetOwnerId(user.id)
+      } else {
+        fetchedNotifications =
+          await notificationService.getNotificationsByVetId(user.id)
       }
+
+      setNotifications(fetchedNotifications)
+      setHasFetched(true)
     }
 
     fetchData()
-  }, [user])
+  }, [user, hasFetched])
+
+  const handleToggleExpand = (id: string) => {
+    setExpandedId((prev: string | null) => (prev === id ? null : id))
+  }
 
   return (
     <NotificationsWrapper>
@@ -46,28 +51,14 @@ export const NotificationsPage = () => {
           <ContactText>No hay notificaciones</ContactText>
         ) : (
           notifications.map((notification) => (
-            <div key={notification.id} style={{
-              background: '#f8f8f8',
-              borderRadius: '8px',
-              padding: '1rem',
-              marginBottom: '1rem',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
-            }}>
-              <ContactText>
-                {notification.type === 'SHIFT_DELETE' && 'Appointment cancelled'}
-                {notification.type === 'SHIFT_UPDATE' && 'Appointment updated'}
-                {notification.type === 'SHIFT_CREATE' && 'New appointment created'}
-                {notification.type === 'SHIFT_REMINDER' && 'Appointment reminder'}
-              </ContactText>
-              <ContactText>
-                {AuthServiceManager.getIntance().isVet()
-                  ? `Pet Owner: ${notification.petOwnerName}`
-                  : `Vet: ${notification.vetName}`}
-              </ContactText>
-              <ContactText>
-                Date: {new Date(notification.date).toLocaleDateString()}
-              </ContactText>
-            </div>
+            <NotificationCard
+              key={notification.id}
+              notification={notification}
+              expanded={expandedId === notification.id.toString()}
+              onToggleExpand={() =>
+                handleToggleExpand(notification.id.toString())
+              }
+            />
           ))
         )}
       </NotificationsContent>

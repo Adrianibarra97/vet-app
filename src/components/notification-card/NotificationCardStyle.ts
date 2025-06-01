@@ -89,33 +89,33 @@ export const WhatsAppButton = styled(Button)({
   },
 }) as typeof Button
 
-export const getIconAndColorByType = (type: string) => {
-  const map: Record<
-  string,
-  { icon: 'cancel' | 'new' | 'edit' | 'vacuna' | 'info'; color: string }
-> = {
-  SHIFT_TODAY: { icon: 'info', color: '#4caf50' },
-  SHIFT_UPDATE: { icon: 'edit', color: '#ffa726' },
-  SHIFT_DELETE: { icon: 'cancel', color: '#ef5350' },
-  SHIFT_CREATE: { icon: 'new', color: '#66bb6a' },
-  SHIFT_REMINDER: { icon: 'info', color: '#43a047' },
-  appointment: { icon: 'new', color: '#66bb6a' },
-  vaccine: { icon: 'vacuna', color: '#42a5f5' },
-  system: { icon: 'info', color: '#9e9e9e' },
-}
+export const getIconAndColorByType = (rawType: string) => {
+  const type = rawType.toUpperCase() 
 
+  const map: Record<
+    string,
+    { icon: 'cancel' | 'new' | 'edit' | 'vacuna' | 'info'; color: string }
+  > = {
+    SHIFT_TODAY: { icon: 'info', color: '#4caf50' },
+    SHIFT_UPDATE: { icon: 'edit', color: '#ffa726' },
+    SHIFT_DELETE: { icon: 'cancel', color: '#ef5350' },
+    SHIFT_CREATE: { icon: 'new', color: '#66bb6a' },
+    SHIFT_REMINDER: { icon: 'info', color: '#43a047' },
+    APPOINTMENT: { icon: 'new', color: '#66bb6a' },
+    VACCINE: { icon: 'vacuna', color: '#42a5f5' },
+    SYSTEM: { icon: 'info', color: '#9e9e9e' },
+  }
 
   return map[type] || { icon: 'info', color: '#9e9e9e' }
 }
 
 export const typeLabels: Record<string, string> = {
-  SHIFT_TODAY: 'Tenés un turno hoy',
-  SHIFT_UPDATE: 'Turno modificado',
-  SHIFT_DELETE: 'Turno cancelado',
+  SHIFT_TODAY: 'Tenés un turno hoy ',
+  SHIFT_UPDATE: 'Turno modificado ',
+  SHIFT_DELETE: 'Turno cancelado ',
   SHIFT_CREATE: 'Turno asignado',
-  SHIFT_REMINDER: 'Recordatorio de turno',
-  appointment: 'Nuevo turno',
-  vaccine: 'Vacuna próxima a vencer',
-  system: 'Recordatorio del sistema',
+  SHIFT_REMINDER: 'Recordatorio de turno ',
+  appointment: 'Nuevo turno ',
+  vaccine: 'Vacuna próxima a vencer ',
+  system: 'Recordatorio del sistema ',
 }
-

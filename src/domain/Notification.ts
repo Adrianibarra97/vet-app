@@ -2,7 +2,10 @@ export type NotificationType =
   | 'SHIFT_DELETE'   
   | 'SHIFT_UPDATE'   
   | 'SHIFT_CREATE'   
-  | 'SHIFT_REMINDER' 
+  | 'SHIFT_REMINDER'
+  | 'SHIFT_TODAY'
+  | 'appointment'
+  | 'vaccine'
   | 'system'
 
 export interface NotificationResponseDTO {

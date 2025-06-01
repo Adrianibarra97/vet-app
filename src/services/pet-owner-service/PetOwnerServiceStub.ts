@@ -1,11 +1,8 @@
-import { NotificationModel } from '../../domain/Notification'
 import { PetOwner } from '../../domain/PetOwner'
 import { PetOwnerServiceInter } from './PetOwnerServiceInter'
 import { USER_ID_TOKEN } from '../config'
 import { AuthCredentialsLoginDTO, AuthCredentialsResponseDTO } from '../../domain/User'
 import AuthServiceManager from '../auth-service/AuthServiceManager'
-import { NotificationServiceManager } from '../notification-service/NotificationServiceManager'
-import { mockNotifications } from '../notification-service/NotificationServiceStub'
 
 
 export class PetOwnerServiceStub implements PetOwnerServiceInter {
@@ -125,21 +122,6 @@ export class PetOwnerServiceStub implements PetOwnerServiceInter {
   async delete(id: number): Promise<void> {
     this.petOwners = this.petOwners.filter((p) => p.id !== id)
   }
-async getNotificationsByPetOwnerId(): Promise<NotificationModel[]> {
-  const current = this.getCurrentUser()
 
-  const dynamic = await NotificationServiceManager.getInstance()
-    .getNotificationService()
-    .getAllNotifications()
-
-  const staticList = mockNotifications.filter(
-    (n: NotificationModel) => n.petOwnerName?.toLowerCase() === current.name.toLowerCase()
-  )
-  const filtered = dynamic.filter(
-    (n: NotificationModel) => n.petOwnerName?.toLowerCase() === current.name.toLowerCase()
-  )
-
-  return [...staticList, ...filtered]
-}
 
 }

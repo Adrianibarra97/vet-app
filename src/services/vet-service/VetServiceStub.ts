@@ -1,11 +1,6 @@
-import { NotificationModel } from '../../domain/Notification'
 import { Vet } from '../../domain/Vet'
 import { VetServiceInter } from './VetServiceInter'
 import { USER_ID_TOKEN } from '../config'
-import { mockNotifications } from '../notification-service/NotificationServiceStub'
-
-import { NotificationServiceManager } from '../notification-service/NotificationServiceManager'
-
 
 
 export class VetServiceStub implements VetServiceInter {
@@ -91,28 +86,6 @@ export class VetServiceStub implements VetServiceInter {
   async delete(id: number): Promise<void> {
     this.vets = this.vets.filter((v) => v.id !== id)
   }
-
-async getNotificationsByVetId(): Promise<NotificationModel[]> {
-  const currentVet = this.getCurrentVet()
-  const fullName = `${currentVet.name} ${currentVet.surname}`.toLowerCase()
-
-  const dynamic =
-    await NotificationServiceManager.getInstance().getNotificationService().getAllNotifications()
-
-  const staticList = mockNotifications.filter(
-    (n) =>
-      n.vetName?.toLowerCase() === fullName &&
-      ['SHIFT_DELETE', 'SHIFT_UPDATE', 'SHIFT_TODAY'].includes(n.type)
-  )
-
-  const filtered = dynamic.filter(
-    (n) =>
-      n.vetName?.toLowerCase() === fullName &&
-      ['SHIFT_DELETE', 'SHIFT_UPDATE', 'SHIFT_TODAY'].includes(n.type)
-  )
-
-  return [...staticList, ...filtered]
-}
 
 
 

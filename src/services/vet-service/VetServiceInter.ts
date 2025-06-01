@@ -1,4 +1,3 @@
-import { NotificationModel } from "../../domain/Notification"
 import { Vet } from "../../domain/Vet"
 
 export interface VetServiceInter {
@@ -7,5 +6,4 @@ export interface VetServiceInter {
   create(vet: Vet): Promise<void>
   update(vet: Vet): Promise<void>
   delete(id: number): Promise<void>
-  getNotificationsByVetId(id: number): Promise<NotificationModel[]> 
 }
