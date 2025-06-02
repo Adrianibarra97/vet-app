@@ -1,12 +1,14 @@
 import { render, screen } from '@testing-library/react'
-import { describe, it, vi } from 'vitest'
+import { describe, test, vi } from 'vitest'
+import '@testing-library/jest-dom'
 import { PetPage } from './PetPage'
 import PetServiceManager from '../../services/pet-service/PetServiceManager'
 import { AuthServiceStub } from '../../services/auth-service/AuthServiceStub'
-import { AuthCredentialsLoginDTO } from '../../domain/User'
 import { PetServiceStub } from '../../services/pet-service/PetServiceStub'
 import { PetFilterValues } from '../../domain/PetFilterValues'
 import { Pet } from '../../domain/Pet'
+import { AuthCredentialsLoginDTO } from '../../domain/User'
+
 
 // Users
 const petOwner: AuthCredentialsLoginDTO = { username: 'Eche', password: '1234' }
@@ -28,12 +30,12 @@ vi.spyOn(PetServiceManager.getIntance(), 'getAllByFilter').mockResolvedValue(pet
 describe('Test Pet Page Pet Owner Flow', () => {
 	authService.login(petOwner)
 
-  it('renders the title correctly', () => {
+  test('renders the title correctly', () => {
     render(<PetPage />)
     expect(screen.getByText(/Mascotas|Pacientes/i)).toBe('Mascotas')
   })
 
-  it('displays pet data when filter is applied', async () => {
+  test('displays pet data when filter is applied', async () => {
     render(<PetPage />)
     expect(await screen.findByText('Nala')).toBe(petsToPetOwner[0])
     expect(await screen.findByText('Owie')).toBe(petsToPetOwner[2])
@@ -43,12 +45,12 @@ describe('Test Pet Page Pet Owner Flow', () => {
 describe('Test Pet Page Vet Flow', () => {
 	authService.login(vet)
 
-  it('renders the title correctly', () => {
+  test('renders the title correctly', () => {
     render(<PetPage />)
     expect(screen.getByText(/Mascotas|Pacientes/i)).toBe('Pacientes')
   })
 
-  it('displays pet data when filter is applied', async () => {
+  test('displays pet data when filter is applied', async () => {
     render(<PetPage />)
     expect(await screen.findByText('Nala')).toBe(petsToPetOwner[0])
     expect(await screen.findByText('Owie')).toBe(petsToPetOwner[2])
