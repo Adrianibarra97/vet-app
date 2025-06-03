@@ -27,13 +27,13 @@ describe('Medical Shift Service', () => {
 		const today = dayjs().format('YYYY-MM-DD')
 
 		const resultMedicalShift = await service.getAllByFilter(new FilterTurn("",true,false))
-		expect(resultMedicalShift.length).toBe(1)
+		expect(resultMedicalShift.length).toBe(2)
 		expect(resultMedicalShift[0].date).toBe(today)
 	})
 
 	it("You must filter this week's medical shifts if the filter is active.",async()=>{
 		const resultMedicalShift = await service.getAllByFilter(new FilterTurn('',false,true))
-		expect(resultMedicalShift.length).toBe(2)
+		expect(resultMedicalShift.length).toBe(1)
 	})
 
 	it("It should return medical shifts if all 3 filter fields are active.", async()=>{
@@ -52,7 +52,7 @@ describe('Medical Shift Service', () => {
 		const today = dayjs().format("YYYY-MM-DD")
 
 		const resultMedicalShift = await service.getAllByFilter(new FilterTurn(today,true,false))
-		expect(resultMedicalShift.length).toBe(1)
+		expect(resultMedicalShift.length).toBe(2)
 	})
 
 	it("It should return shifts if the specific day and this week filter is active",async()=>{

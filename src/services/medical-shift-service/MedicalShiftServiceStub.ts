@@ -34,7 +34,7 @@ export class MedicalShiftServiceStub implements MedicalShiftServiceInter {
         "id":3,
         "name":"Oli"
       },
-      "date": "2025-06-03",
+      "date": "2025-05-03",
       "hour": "15:45"
     },
     {
@@ -44,7 +44,7 @@ export class MedicalShiftServiceStub implements MedicalShiftServiceInter {
         "id":4,
         "name":"Pipi"
       },
-      "date": dayjs().subtract(2, 'day').format('YYYY-MM-DD'),
+      "date": dayjs().format('YYYY-MM-DD'),
       "hour":"10:15"
     },
     {
