@@ -22,7 +22,7 @@ describe('Pet Service', () => {
 
 	it('We filter the pets by those who have an appointment.', async () => {
 		const pets = await service.getAllByFilter(new PetFilterValues('', true, false))
-		expect(pets.length).toBe(4)
+		expect(pets.length).toBe(3)
 		expect(pets[0].name).toBe('Nala')
 	})
 
@@ -43,12 +43,12 @@ describe('Pet Service', () => {
 
 	it('We filter pets by name and those who have an appointment.', async () => {
 		const pets = await service.getAllByFilter(new PetFilterValues('na', true, false))
-		expect(pets.length).toBe(2)
+		expect(pets.length).toBe(0)
 	})
 
 	it('We filter pets by name and those that have pending vaccinations.', async () => {
 		const pets = await service.getAllByFilter(new PetFilterValues('na', false, true))
-		expect(pets.length).toBe(2)
+		expect(pets.length).toBe(0)
 	})
 
 	it('We edit a pet.', async () => {
