@@ -1,5 +1,5 @@
-describe('Pet Page', () => {
-    it('App smoke pet page', () => {
-        // render(<PetPage />)
-    })
+describe('Test Pet Page Pet Owner Flow', () => {
+  it('renders the title correctly', () => {
+    // render(<PetPage />)
+  })
 })
