@@ -28,8 +28,7 @@ export const Header = () => {
   return (
     <header className="header">
       <figure className="logo">
-        <i className="fa-solid fa-paw logo__image"></i>
-        <label className="logo__label">VetApp</label>
+        <img className="logo__image" src="../../src/assets/logo-vet-app-horinzotal-2.png" />
       </figure>
       <figure className="button__content--menu" onClick={ () => setOpenMenu(true) }>
         {

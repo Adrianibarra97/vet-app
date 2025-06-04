@@ -77,7 +77,10 @@ export const LoginPage = () => {
   return (
     <main className="auth__main">
       <div className="login">
-        <h1 className="title__login">VetApp <i className="fa-solid fa-paw logo__login"></i></h1>
+        {/* <h1 className="title__login">VetApp <i className="fa-solid fa-paw logo__login"></i></h1> */}
+        <figure className="title__login">
+          <img className="logo__image" src="../../src/assets/logo-vet-app-horizontal.png" />
+        </figure>
         <form className="login__form">
           <Box sx={ modalItem }>
             <FormControlModal
