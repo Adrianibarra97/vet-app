@@ -1,22 +1,12 @@
-import { useEffect, useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
+import { useAuth } from '../../context/AuthContext'
 
 export const ProtectedRoutes = () => {
 
-  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(true);
+  const { isAuthorized } = useAuth()
 
-  // useEffect(() => {
-  //   const checkAuth = async () => {
-  //     const value = await AuthServiceManager.getIntance().isAuthorized() === true
-  //     setIsAuthorized(value)
-  //   }
-  //   window.addEventListener('storage', checkAuth)
-  //   checkAuth()
-  //   return () => {
-  //     window.removeEventListener('storage', checkAuth)
-  //   }
-  // }, [])
-
-  return isAuthorized ? <Outlet /> : <Navigate to="/auth/login" />
+  if(isAuthorized) {
+    return <Outlet />
+  }
+  return <Navigate to="/auth/login" />
 }
