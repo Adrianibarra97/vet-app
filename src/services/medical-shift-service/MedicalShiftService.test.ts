@@ -4,7 +4,7 @@ import { MedicalShiftServiceStub } from "./MedicalShiftServiceStub"
 import { PetMedicalShiftDTO } from "../../domain/Pet"
 import { MedicalShift } from "../../domain/MedicalShift"
 
-describe('Medical Shift Service', () => {
+describe('Medical Shift Stub Service', () => {
 	let service: MedicalShiftServiceStub
 
 	beforeEach(()=> {
@@ -91,7 +91,7 @@ describe('Medical Shift Service', () => {
 			"20:00"
 		)
 
-		await expect(service.editExistMedicalShift(nonExistentMedicalShift)).rejects.toThrowError(`No se encontró un turno con el ID ${nonExistentMedicalShift.id}`)
+		await expect(service.editExistMedicalShift(nonExistentMedicalShift)).rejects.toThrow(`No se encontró un turno con el ID ${nonExistentMedicalShift.id}`)
 	})
 
 	it("I should create a new medical shift.", async()=>{
