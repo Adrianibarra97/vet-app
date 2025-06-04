@@ -16,14 +16,15 @@ vi.mock('../../services/auth-service/AuthServiceManager', () => ({
 }))
 
 vi.mock('../profile-photo-modal/ProfilePhotoModal', () => ({
-  ProfilePhotoModal: ({ open, onClose, onPhotoChange }: any) => (
+  ProfilePhotoModal: ({ open, onClose, onPhotoChange }: any) =>
     open ? (
       <div role="dialog">
-        <button onClick={() => onPhotoChange('new-photo.jpg')}>Cambiar foto</button>
+        <button onClick={() => onPhotoChange('new-photo.jpg')}>
+          Cambiar foto
+        </button>
         <button onClick={onClose}>Cerrar</button>
       </div>
-    ) : null
-  )
+    ) : null,
 }))
 
 vi.mock('react-router-dom', async () => {
@@ -39,22 +40,22 @@ vi.mock('react-router-dom', async () => {
 describe('ProfileMenu', () => {
   const mockUser = new User(
     1,
-    'testuser', 
-    'password123', 
-    'Test', 
-    'User', 
-    12345678, 
-    'test@example.com', 
-    '1234567890', 
-    'test-photo.jpg', 
-    'Test Address', 
-    '1234', 
-    'Test City', 
-    'Test Province', 
-    'Test Country', 
-    'PETOWNER', 
-    1, 
-    1 
+    'testuser',
+    'password123',
+    'Test',
+    'User',
+    12345678,
+    'test@example.com',
+    '1234567890',
+    'test-photo.jpg',
+    'Test Address',
+    '1234',
+    'Test City',
+    'Test Province',
+    'Test Country',
+    'PETOWNER',
+    1,
+    1,
   )
 
   const mockOnPhotoChange = vi.fn()
@@ -68,7 +69,7 @@ describe('ProfileMenu', () => {
     render(
       <MemoryRouter>
         <ProfileMenu user={mockUser} onPhotoChange={mockOnPhotoChange} />
-      </MemoryRouter>
+      </MemoryRouter>,
     )
 
     const avatar = screen.getByAltText('Foto de perfil')
@@ -80,7 +81,7 @@ describe('ProfileMenu', () => {
     render(
       <MemoryRouter>
         <ProfileMenu user={mockUser} onPhotoChange={mockOnPhotoChange} />
-      </MemoryRouter>
+      </MemoryRouter>,
     )
 
     const photoButton = screen.getByRole('button')
@@ -91,7 +92,7 @@ describe('ProfileMenu', () => {
     render(
       <MemoryRouter>
         <ProfileMenu user={mockUser} onPhotoChange={mockOnPhotoChange} />
-      </MemoryRouter>
+      </MemoryRouter>,
     )
 
     expect(screen.getByText('Perfil')).toBeInTheDocument()
@@ -102,7 +103,7 @@ describe('ProfileMenu', () => {
     render(
       <MemoryRouter>
         <ProfileMenu user={mockUser} onPhotoChange={mockOnPhotoChange} />
-      </MemoryRouter>
+      </MemoryRouter>,
     )
 
     const photoButton = screen.getByRole('button')
@@ -115,7 +116,7 @@ describe('ProfileMenu', () => {
     render(
       <MemoryRouter>
         <ProfileMenu user={mockUser} onPhotoChange={mockOnPhotoChange} />
-      </MemoryRouter>
+      </MemoryRouter>,
     )
 
     const photoButton = screen.getByRole('button')
@@ -131,7 +132,7 @@ describe('ProfileMenu', () => {
     render(
       <MemoryRouter>
         <ProfileMenu user={mockUser} onPhotoChange={mockOnPhotoChange} />
-      </MemoryRouter>
+      </MemoryRouter>,
     )
 
     const photoButton = screen.getByRole('button')
@@ -149,7 +150,7 @@ describe('ProfileMenu', () => {
     render(
       <MemoryRouter>
         <ProfileMenu user={mockUser} onPhotoChange={mockOnPhotoChange} />
-      </MemoryRouter>
+      </MemoryRouter>,
     )
 
     const profileLink = screen.getByText('Perfil')
@@ -158,4 +159,4 @@ describe('ProfileMenu', () => {
     expect(profileLink).toHaveAttribute('href', '/profile')
     expect(notificationsLink).toHaveAttribute('href', '/profile/notifications')
   })
-})   
+})
