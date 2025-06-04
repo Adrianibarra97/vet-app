@@ -7,13 +7,23 @@ import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import { AuthCredentialsLoginDTO } from '../../domain/User'
 import { modalItem, buttonContent, passButton } from './LoginPageStyle'
 import './LoginPage.css'
+import { useAuth } from '../../context/AuthContext'
+import { getUserID } from '../../services/auth-service/AuthService'
+import { useUser } from '../../context/UserContext'
+import VetServiceManager from '../../services/vet-service/VetServiceManager'
+import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
+import { Vet } from '../../domain/Vet'
+import { PetOwner } from '../../domain/PetOwner'
 
 
 export const LoginPage = () => {
 
   const navigate = useNavigate()
+  const { updateIsAuthorized } = useAuth()
+  const { updateUser } = useUser()
   const [userLogin, setUserLogin] = useState({ username: '', password: '' })
   const [errorActive, setErrorActive] = useState(false)
+  
 
   const hasRequiredFields = (): boolean => userLogin.username != '' && userLogin.password != ''
 
@@ -33,11 +43,28 @@ export const LoginPage = () => {
     setUserLogin(authCredentialsLoginDTO)
   }
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if(hasRequiredFields()) {
       setErrorActive(false)
       AuthServiceManager.getIntance().login(userLogin)
-      navigate('/pets')
+      setTimeout(async () => {
+        const userId: number = getUserID()
+        if(userId >= 0) {
+          if(AuthServiceManager.getIntance().isVet()) {
+            const user: Vet = await VetServiceManager.getInstance().getOneById(userId)
+            updateUser(user)
+          } else {
+            const user: PetOwner = await PetOwnerServiceManager.getInstance().getOneById(userId)
+            updateUser(user)
+          }
+          updateIsAuthorized(true)
+        } else {
+          updateIsAuthorized(false)
+        }
+      }, 100)
+      setTimeout(async () => {
+        navigate('/pets')
+      }, 100)
     } else {
       setErrorActive(true)
     }

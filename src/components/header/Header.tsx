@@ -1,16 +1,19 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useUser } from '../../context/UserContext'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import './Header.css'
+import { useAuth } from '../../context/AuthContext'
 
 export const Header = () => {
 
   const { user } = useUser()
-  const[openMenu, setOpenMenu] = useState(false)
+  const { isAuthorized } = useAuth()
   const navigate = useNavigate()
-
+  const [openMenu, setOpenMenu] = useState(false)
+  const [interUser, setInterUser] = useState(user)
+  
   const logoutApp = () => {
     AuthServiceManager.getIntance().logout()
 		navigate('/auth/login')
@@ -20,6 +23,10 @@ export const Header = () => {
     return AuthServiceManager.getIntance().isVet() ? 'Pacientes' : 'Mascotas'
   }
 
+  useEffect(() => {
+    setInterUser(user)
+  }, [user])
+
   return (
     <header className="header">
       <figure className="logo">
@@ -28,8 +35,8 @@ export const Header = () => {
       </figure>
       <figure className="button__content--menu" onClick={ () => setOpenMenu(true) }>
         {
-          AuthServiceManager.getIntance().isAuthorized()
-          ? <img className="user__image" src={ user?.photo }/>
+          isAuthorized && interUser?.photo
+          ? <img className="user__image" src={ interUser?.photo }/>
           : <i className="fa-solid fa-circle-user header__button--menu"></i>
         }
       </figure>
