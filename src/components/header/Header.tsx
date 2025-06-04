@@ -4,12 +4,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useUser } from '../../context/UserContext'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import './Header.css'
-import { useAuth } from '../../context/AuthContext'
 
 export const Header = () => {
 
   const { user } = useUser()
-  const { isAuthorized } = useAuth()
   const navigate = useNavigate()
   const [openMenu, setOpenMenu] = useState(false)
   const [interUser, setInterUser] = useState(user)
@@ -35,7 +33,7 @@ export const Header = () => {
       </figure>
       <figure className="button__content--menu" onClick={ () => setOpenMenu(true) }>
         {
-          isAuthorized && interUser?.photo
+          AuthServiceManager.getIntance().isAuthorized() && interUser?.photo
           ? <img className="user__image" src={ interUser?.photo }/>
           : <i className="fa-solid fa-circle-user header__button--menu"></i>
         }
