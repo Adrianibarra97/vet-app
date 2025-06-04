@@ -64,7 +64,7 @@ export const LoginPage = () => {
       }, 100)
       setTimeout(async () => {
         navigate('/pets')
-      }, 100)
+      }, 500)
     } else {
       setErrorActive(true)
     }
