@@ -89,8 +89,16 @@ export const WhatsAppButton = styled(Button)({
   },
 }) as typeof Button
 
+export const LogoFooterBox = styled(Box)({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 8,
+})
+
 export const getIconAndColorByType = (rawType: string) => {
-  const type = rawType.toUpperCase() 
+  const type = rawType.toUpperCase()
 
   const map: Record<
     string,

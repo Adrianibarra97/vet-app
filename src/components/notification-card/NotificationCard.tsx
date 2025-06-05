@@ -29,6 +29,7 @@ import {
   GreenButton,
   WhatsAppButton,
   typeLabels,
+  LogoFooterBox,
 } from './NotificationCardStyle'
 import { getIconAndColorByType } from './NotificationCardStyle'
 
@@ -70,7 +71,9 @@ export const NotificationCard: React.FC<Props> = ({
   const isVet = AuthServiceManager.getIntance().isVet()
   const navigate = useNavigate()
 
-  const dateNotification = dayjs(notification.notificationDate).format('DD/MM/YYYY')
+  const dateNotification = dayjs(notification.notificationDate).format(
+    'DD/MM/YYYY',
+  )
 
   const { icon, color } = getIconAndColorByType(notification.type)
 
@@ -128,7 +131,7 @@ export const NotificationCard: React.FC<Props> = ({
           <IconBox color={color}>{iconMap[icon] ?? <Info />}</IconBox>
           <MessageTypography variant="subtitle1" fontWeight="bold">
             {typeLabels[type.toUpperCase()] ?? 'Notificación'}
-            para  {petName}
+            para {petName}
           </MessageTypography>
         </StackGrow>
 
@@ -208,13 +211,13 @@ export const NotificationCard: React.FC<Props> = ({
             </Stack>
           </ContactBox>
         )}
-
-        <FooterStack direction="row" spacing={1}>
-          <Pets sx={{ fontSize: 18, color: '#888' }} />
-          <Typography variant="caption" color="#888" fontWeight="bold">
-            VetApp
-          </Typography>
-        </FooterStack>
+        <LogoFooterBox>
+          <img
+            src="../../src/assets/logo-vet-app-horizontal.png"
+            alt="VetApp logo"
+            style={{ height: 25, width: 'auto' }}
+          />
+        </LogoFooterBox>
       </Collapse>
     </StyledPaper>
   )
