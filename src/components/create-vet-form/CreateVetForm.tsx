@@ -16,7 +16,7 @@ import { FormControlModalSelect } from '../form-control-modal-select/FormControl
 
 export const CreateVetForm = () => {
 
-  const textFieldTypes: ['text', 'number'] = ['text', 'number']
+  const textFieldTypes: ['text', 'number', 'password', 'email'] = ['text', 'number', 'password', 'email']
   const userVetKeys: (keyof Vet)[] = [
     'id', 'username', 'password', 'name', 'surname',
     'dni', 'email', 'telephone', 'photo', 'address',
@@ -145,7 +145,7 @@ export const CreateVetForm = () => {
         <Box sx={ sectionItems }>
           <Box sx={ sectionItem }>
             <FormControlModal
-              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              type={ textFieldTypes[3] } errorActive={ errorActive } isActive={ true }
               defaultValue={ vet.email } label={ fieldVetKyes[6] } labelColor={ handleLabelColor(userVetKeys[6]) }
               handleInputChanges={ (value) => handleInputChanges(userVetKeys[6], value) }
             />
@@ -161,14 +161,14 @@ export const CreateVetForm = () => {
         <Box sx={ sectionItems }>
           <Box sx={ sectionItem }>
             <FormControlModal
-              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              type={ textFieldTypes[1] } errorActive={ errorActive } isActive={ true }
               defaultValue={ vet.dni } label={ fieldVetKyes[5] } labelColor={ handleLabelColor(userVetKeys[5]) }
               handleInputChanges={ (value) => handleInputChanges(userVetKeys[5], value) }
             />
           </Box>
           <Box sx={ sectionItem }>
             <FormControlModal
-              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              type={ textFieldTypes[1] } errorActive={ errorActive } isActive={ true }
               defaultValue={ vet.telephone } label={ fieldVetKyes[7] } labelColor={ handleLabelColor(userVetKeys[7]) }
               handleInputChanges={ (value) => handleInputChanges(userVetKeys[7], value) }
             />
@@ -191,20 +191,6 @@ export const CreateVetForm = () => {
           </Box>
         </Box>
         <Box sx={ sectionItems }>
-        <Box sx={ sectionItem }>
-          <FormControlModalSelect
-            isActive={ true } label={ fieldVetKyes[11] } defaultValue={ vet.locality }
-            options={ localities } labelColor={ handleLabelColor(userVetKeys[11]) }
-            handleInputChanges={ (value) => handleInputChanges(userVetKeys[11], value) } />
-        </Box>
-        <Box sx={ sectionItem }>
-          <FormControlModalSelect
-            isActive={ true } label={ fieldVetKyes[12] } defaultValue={ vet.province }
-            options={ provinces } labelColor={ handleLabelColor(userVetKeys[12]) }
-            handleInputChanges={ (value) => handleInputChanges(userVetKeys[12], value) } />
-        </Box>
-      </Box>
-        <Box sx={ sectionItems }>
           <Box sx={ sectionItem }>
             <FormControlModalSelect
               isActive={ true } label={ fieldVetKyes[13] } defaultValue={ vet.country }
@@ -213,10 +199,24 @@ export const CreateVetForm = () => {
           </Box>
           <Box sx={ sectionItem }>
             <FormControlModal
-              type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ vet.password }
+              type={ textFieldTypes[2] } errorActive={ errorActive } defaultValue={ vet.password }
               isActive={ true } label={ fieldVetKyes[2] } labelColor={ handleLabelColor(userVetKeys[2]) }
               handleInputChanges={ (value) => handleInputChanges(userVetKeys[2], value) }
             />
+          </Box>
+        </Box>
+        <Box sx={ sectionItems }>
+          <Box sx={ sectionItem }>
+            <FormControlModalSelect
+              isActive={ true } label={ fieldVetKyes[12] } defaultValue={ vet.province }
+              options={ provinces } labelColor={ handleLabelColor(userVetKeys[12]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[12], value) } />
+          </Box>
+          <Box sx={ sectionItem }>
+            <FormControlModalSelect
+              isActive={ true } label={ fieldVetKyes[11] } defaultValue={ vet.locality }
+              options={ localities } labelColor={ handleLabelColor(userVetKeys[11]) }
+              handleInputChanges={ (value) => handleInputChanges(userVetKeys[11], value) } />
           </Box>
         </Box>
         <Box sx={ sectionItems }>
@@ -249,7 +249,7 @@ export const CreateVetForm = () => {
         <Box sx={ sectionItems }>
           <Box sx={ sectionItem }>
             <FormControlModal
-              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              type={ textFieldTypes[3] } errorActive={ errorActive } isActive={ true }
               defaultValue={ vet.professionalEmail } label={ fieldVetKyes[17] } labelColor={ handleLabelColor(userVetKeys[17]) }
               handleInputChanges={ (value) => handleInputChanges(userVetKeys[17], value) }
             />
@@ -265,7 +265,7 @@ export const CreateVetForm = () => {
         <Box sx={ sectionItems }>
           <Box sx={ sectionItem }>
             <FormControlModal
-              type={ textFieldTypes[0] } errorActive={ errorActive } isActive={ true }
+              type={ textFieldTypes[1] } errorActive={ errorActive } isActive={ true }
               defaultValue={ vet.professionalTelephone } label={ fieldVetKyes[18] } labelColor={ handleLabelColor(userVetKeys[18]) }
               handleInputChanges={ (value) => handleInputChanges(userVetKeys[18], value) }
             />
