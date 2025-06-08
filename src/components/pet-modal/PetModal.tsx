@@ -10,6 +10,7 @@ import PetServiceManager from '../../services/pet-service/PetServiceManager'
 import { Pet } from '../../domain/Pet'
 import dayjs, { Dayjs } from 'dayjs'
 import { formContainer, modal, modalItems, modalTitle, modalItem, buttonContent } from './PetModalStyle'
+import { PetSchema } from '../../util/ValidateFormByFields'
 
 interface PetModalProps {
   open: boolean
@@ -43,6 +44,9 @@ export const PetModal = (petModalProp: PetModalProps) => {
   
   const [pet, setPet] = useState(petModalProp.pet)
   const [errorActive, setErrorActive] = useState(false)
+  const [errors, setErrors] = useState<{
+    [key: string]: string
+  }>({})
 
   const handleLabelColor = (key: keyof Pet): 'success' | 'error' => pet[key] ? 'success' : 'error'
 
@@ -58,10 +62,27 @@ export const PetModal = (petModalProp: PetModalProps) => {
   const confirm = async () => {
     const action: string = petModalProp.pet.id >= 0 ? 'actualizado' : 'creado'
     const msg: string = `Ha ${action} el perfil de su mascota con éxito!`
-    await handleAction()
-    petModalProp.onClose()
-    petModalProp.cleanFilter()
-    SnackbarUtilities.succes(msg)
+    try {
+      await PetSchema.validate(pet, {
+        abortEarly: false,
+      })
+      setErrors({})
+      await handleAction()
+      petModalProp.onClose()
+      petModalProp.cleanFilter()
+      SnackbarUtilities.succes(msg)
+    } catch (error: any) {
+      const errors: { [key: string]: string } = {}
+      if (error.inner) {
+        error.inner.forEach((err: any) => {
+          errors[err.path] = err.message
+        })
+      } else {
+        errors.general = error.message
+      }
+      setErrors(errors)
+    }
+    console.log(errors)
   }
 
   const handleAction = async () => {

@@ -13,6 +13,7 @@ import './CreateVetForm.css'
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 import VetServiceManager from '../../services/vet-service/VetServiceManager'
 import { FormControlModalSelect } from '../form-control-modal-select/FormControlModalSelect'
+import { VetSchema } from '../../util/ValidateFormByFields'
 
 export const CreateVetForm = () => {
 
@@ -39,6 +40,9 @@ export const CreateVetForm = () => {
   const [provinces, setProvinces] = useState<string[]>([])
   const [localities, setLocalities] = useState<string[]>([])
   const [countries, setCountries] = useState<string[]>([])
+  const [errors, setErrors] = useState<{
+    [key: string]: string
+  }>({})
 
   const handleLabelColor = (key: keyof Vet): 'success' | 'error' => vet[key] ? 'success' : 'error'
 
@@ -83,9 +87,27 @@ export const CreateVetForm = () => {
 
   const confirm = async () => {
     const msg: string = `Ha creado el su usuario con éxito!`
-    await VetServiceManager.getInstance().create(vet)
-    SnackbarUtilities.succes(msg)
-    navigate('/auth/login')
+    try {
+      await VetSchema.validate(vet, {
+        abortEarly: false,
+        context: { localities },
+      })
+      setErrors({})
+      await VetServiceManager.getInstance().create(vet)
+      SnackbarUtilities.succes(msg)
+      navigate('/auth/login')
+    } catch (error: any) {
+      const errors: { [key: string]: string } = {}
+      if (error.inner) {
+        error.inner.forEach((err: any) => {
+          errors[err.path] = err.message
+        })
+      } else {
+        errors.general = error.message
+      }
+      setErrors(errors)
+    }
+    console.log(errors)
   }
 
   const handleCancel = () => {

@@ -12,6 +12,7 @@ import {
 } from './CreatePetOwnerFormStyle'
 import './CreatePetOwnerForm.css'
 import { FormControlModalSelect } from '../form-control-modal-select/FormControlModalSelect'
+import { PetOwnerSchema } from '../../util/ValidateFormByFields'
 
 export const CreatePetOwnerForm = () => {
 
@@ -35,6 +36,9 @@ export const CreatePetOwnerForm = () => {
   const [provinces, setProvinces] = useState<string[]>([])
   const [localities, setLocalities] = useState<string[]>([])
   const [countries, setCountries] = useState<string[]>([])
+  const [errors, setErrors] = useState<{
+    [key: string]: string
+  }>({})
 
   const handleLabelColor = (key: keyof PetOwner): 'success' | 'error' => petOwner[key] ? 'success' : 'error'
 
@@ -77,9 +81,27 @@ export const CreatePetOwnerForm = () => {
 
   const confirm = async () => {
     const msg: string = `Ha creado el su usuario con éxito!`
-    await PetOwnerServiceManager.getInstance().create(petOwner)
-    SnackbarUtilities.succes(msg)
-    navigate('/auth/login')
+    try {
+      await PetOwnerSchema.validate(petOwner, {
+        abortEarly: false,
+        context: { localities },
+      })
+      setErrors({})
+      await PetOwnerServiceManager.getInstance().create(petOwner)
+      SnackbarUtilities.succes(msg)
+      navigate('/auth/login')
+    } catch (error: any) {
+      const errors: { [key: string]: string } = {}
+      if (error.inner) {
+        error.inner.forEach((err: any) => {
+          errors[err.path] = err.message
+        })
+      } else {
+        errors.general = error.message
+      }
+      setErrors(errors)
+    }
+    console.log(errors)
   }
 
   const handleCancel = () => {
