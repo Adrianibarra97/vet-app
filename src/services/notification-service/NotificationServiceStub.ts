@@ -134,6 +134,10 @@ export class NotificationServiceStub implements NotificationServiceInter {
     )
   }
 
+  async update(notification: NotificationModel): Promise<void> {
+    console.log(notification)
+  }
+
   async getNotificationsCountByUser(id: number, typeOfUser: string | undefined): Promise<number> {
     console.log(id, typeOfUser)
     return 0

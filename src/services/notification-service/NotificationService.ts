@@ -28,14 +28,18 @@ export class NotificationService implements NotificationServiceInter {
     return response.data.map(NotificationModel.fromJSON)
   }
 
+  async update(notification: NotificationModel): Promise<void> {
+    await axios.put(`${URL_BE}/notification/update`, notification.toJSON())
+  }
+
   async getNotificationsCountByUser(id: number, typeOfUser: string | undefined): Promise<number> {
     let response: NotificationModel[] = []
     if(typeOfUser === PETOWNER_TYPE && id > -1) {
-      response = await this.getNotificationsByPetOwnerId(id)
+      response = (await this.getNotificationsByPetOwnerId(id))
     }
     if(typeOfUser === VET_TYPE && id > -1) {
       response = await this.getNotificationsByVetId(id)
     }
-    return response.length
+    return response.filter(noti => { return !noti.wasRead }).length
   }
 }

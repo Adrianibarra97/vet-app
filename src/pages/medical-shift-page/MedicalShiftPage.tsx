@@ -8,6 +8,7 @@ import { Filter } from '../../domain/Filter'
 
 import './MedicalShiftPage.css'
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
+import { useUser } from '../../context/UserContext'
 
 const filterValues = new Filter(
   'Por fecha',
@@ -19,6 +20,8 @@ const filterValues = new Filter(
 )
 
 export const MedicalShiftPage = () => {
+
+  const { refreshUser } = useUser()
   const [medicalShifts, setMedicalShifts] = useState(new Array<MedicalShift>())
   const [filter, setFilter] = useState<FilterTurn>(
     new FilterTurn('', false, false),
@@ -42,6 +45,7 @@ export const MedicalShiftPage = () => {
       await MedicalShiftServiceManager.getInstance().getAllByFilter(filter)
     setMedicalShifts(shifts)
     SnackbarUtilities.succes(`Se cancelo con exito el medical shift.`)
+    await refreshUser()
   }
 
   const handleEditOrCreateMedicalShift = async (
@@ -66,6 +70,7 @@ export const MedicalShiftPage = () => {
         `Se creo con exito el medical shift de ${medicalShift.petMedicalShift.name}.`,
       )
     }
+    await refreshUser()
   }
 
   useEffect(() => {

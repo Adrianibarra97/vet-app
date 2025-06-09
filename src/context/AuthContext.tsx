@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const updateIsAuthorized = (value: boolean) => {
     setIsAuthorized(value)
-    console.log(value)
   }
 
   return (
