@@ -107,7 +107,6 @@ export const CreateVetForm = () => {
       }
       setErrors(errors)
     }
-    console.log(errors)
   }
 
   const handleCancel = () => {

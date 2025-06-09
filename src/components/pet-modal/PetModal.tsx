@@ -82,7 +82,6 @@ export const PetModal = (petModalProp: PetModalProps) => {
       }
       setErrors(errors)
     }
-    console.log(errors[petKeys[1]])
   }
 
   const handleAction = async () => {

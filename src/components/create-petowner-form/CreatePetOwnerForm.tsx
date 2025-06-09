@@ -101,7 +101,6 @@ export const CreatePetOwnerForm = () => {
       }
       setErrors(errors)
     }
-    console.log(errors)
   }
 
   const handleCancel = () => {
