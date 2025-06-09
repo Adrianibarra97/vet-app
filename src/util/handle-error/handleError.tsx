@@ -6,6 +6,6 @@ export const handleError = (errorCode: string) => {
     ERR_NETWORK: 'Falla en la red!',
     ERROR: 'Ocurrió un error inesperado!'
   }
-
+  
   return codeMatcher[errorCode]
 }

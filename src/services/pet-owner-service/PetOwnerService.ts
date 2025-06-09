@@ -16,11 +16,14 @@ export class PetOwnerService implements PetOwnerServiceInter {
     return PetOwner.fromJSON(res.data)
   }
 
-  async update(petOwner: PetOwner): Promise<void> {
-    const payload = petOwner.toJSON()
-    console.log('Payload limpio:', payload);
+  async create(petOwner: PetOwner): Promise<void> {
+    await axios.post(`${URL_BE}/pet-owner/create`, petOwner.toCreateJSON())
+  }
 
-    await axios.put(`${URL_BE}/pet-owner/update`, payload)
+  async update(petOwner: PetOwner): Promise<void> {
+    if(petOwner.id > 0) {
+      await axios.put(`${URL_BE}/pet-owner/update`, petOwner.toJSON())
+    }
   }
 
   async delete(id: number): Promise<void> {
@@ -28,4 +31,5 @@ export class PetOwnerService implements PetOwnerServiceInter {
       params: { idPetOwner: id }
     })
   }
+
 }

@@ -32,11 +32,9 @@ export const ProfileMenu = ({ user, onPhotoChange }: Props) => {
         <Link className="menu__ul--link" to="/profile">
           Perfil
         </Link>
-        <Link className="menu__ul--link" to="/pets">
-          {user.typeOfUser === 'petOwner' ? 'Mis mascotas' : 'Mis pacientes'}
-        </Link>
-        <Link className="menu__ul--link" to="/medical-shift">
-          Turnos
+
+        <Link className="menu__ul--link" to="/profile/notifications">
+          Notificaciones
         </Link>
       </ul>
 

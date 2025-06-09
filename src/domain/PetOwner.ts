@@ -1,24 +1,35 @@
-import { User } from './User'
+import { CreateUserJSON, User, UserJSON } from "./User";
+
+export type PetOwnerJSON = UserJSON & {
+  emergencyContactName: string;
+  emergencyContactPhone: string;
+};
+
+export type CreatePetOwnerJSON = CreateUserJSON & {
+  emergencyContactName: string;
+  emergencyContactPhone: string;
+};
 
 export class PetOwner extends User {
   constructor(
-    id: number,
-    username: string,
-    password: string,
-    name: string,
-    surname: string,
-    dni: number,
-    email: string,
-    telephone: string,
-    photo: string,
-    address: string,
-    postalCode: string,
-    locality: string,
-    province: string,
-    country: string,
-    idAuthCredentials: number,
-    public emergencyContactName: string,
-    public emergencyContactPhone: string,
+    id: number = -1,
+    username: string = '',
+    password: string = '',
+    name: string = '',
+    surname: string = '',
+    dni: number = 0,
+    email: string = '',
+    telephone: string = '',
+    photo: string = '',
+    address: string = '',
+    postalCode: string = '',
+    locality: string = '',
+    province: string = '',
+    country: string = '',
+    idAuthCredentials: number = -1,
+    idInfoLocation: number = -1,
+    public emergencyContactName: string = '',
+    public emergencyContactPhone: string = ''
   ) {
     super(
       id,
@@ -35,21 +46,29 @@ export class PetOwner extends User {
       locality,
       province,
       country,
-      'petOwner',
+      'PETOWNER',
       idAuthCredentials,
-    )
+      idInfoLocation
+    );
   }
 
-  toJSON() {
+  toJSON(): PetOwnerJSON {
     return {
       ...super.toJSON(),
-
       emergencyContactName: this.emergencyContactName,
       emergencyContactPhone: this.emergencyContactPhone,
-    }
+    };
   }
 
-  static fromJSON(json: any): PetOwner {
+  toCreateJSON(): CreatePetOwnerJSON {
+    return {
+      ...super.toCreateJSON(),
+      emergencyContactName: this.emergencyContactName,
+      emergencyContactPhone: this.emergencyContactPhone,
+    };
+  }
+
+  static fromJSON(json: PetOwnerJSON): PetOwner {
     return new PetOwner(
       json.id,
       json.username,
@@ -66,8 +85,9 @@ export class PetOwner extends User {
       json.province,
       json.country,
       json.idAuthCredentials,
+      json.idInfoLocation,
       json.emergencyContactName,
-      json.emergencyContactPhone,
-    )
+      json.emergencyContactPhone
+    );
   }
 }

@@ -1,0 +1,9 @@
+.auth__main--create {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--secondary-color);
+  width: 100%;
+  min-height: 94vh;
+  align-items: center;
+  justify-content: center;
+}

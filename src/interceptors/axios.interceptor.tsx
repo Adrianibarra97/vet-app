@@ -4,20 +4,6 @@ import { SnackbarUtilities } from '../util/snackbar/SnackbarManager'
 
 export const AxiosInterceptor = () => {
 
-  // const updateheader = (request: AxiosRequestConfig) => {
-  //   const token = '11218683284682134682341823648123'
-  //   const newheaders = {
-  //     Authorization: token,
-  //     'Content-type': 'Application/json'
-  //   }
-  //   request.headers = newheaders
-  //   return request
-  // }
-
-  // axios.interceptors.request.use((request: AxiosRequestConfig) => {
-  //   return updateheader(request)
-  // })
-
   axios.interceptors.response.use(
     (response) => {
       return response

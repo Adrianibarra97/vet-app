@@ -6,10 +6,7 @@ import { PetFilterValues } from '../../domain/PetFilterValues'
 import { Filter } from '../../domain/Filter'
 import { Pet } from '../../domain/Pet'
 import './PetPage.css'
-
-interface TitleProp {
-  name: string
-}
+import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 
 const filterValues = new Filter(
   'Nombre',
@@ -20,7 +17,7 @@ const filterValues = new Filter(
   'checkbox',
 )
 
-export const PetPage = (titleProp: TitleProp) => {
+export const PetPage = () => {
 
   const [pets, setPets] = useState(new Array<Pet>())
   const [filter, setFilter] = useState(new PetFilterValues('', false, false))
@@ -30,19 +27,27 @@ export const PetPage = (titleProp: TitleProp) => {
     setPets(pets)
   }
 
+  const handleTitlePet = () => {
+    return AuthServiceManager.getIntance().isVet() ? 'Pacientes' : 'Mascotas'
+  }
+
   useEffect(() => {
-    getAllPetsByFilter(filter)
+    setTimeout(() => { getAllPetsByFilter(filter) }, 100)
   }, [filter])
 
   return (
     <main className="main">
-      <h1 className="main__title">{ titleProp.name }</h1>
+      <h1 className="main__title">{ handleTitlePet() }</h1>
       <div className="main__content">
         <div className="main__content--filter">
           <PetFilter filter={ filterValues } filterFunction={ setFilter }/>
         </div>
         <div className="main__content--data">
-          <PetGrid pets={ pets } cleanFilter={ () => setFilter(new PetFilterValues('', false, false)) }/>
+          <PetGrid
+            pets={ pets }
+            cleanFilter={ () => setFilter(new PetFilterValues('', false, false)) }
+            handleDeletePet={ () => setFilter(new PetFilterValues('', false, false)) }
+          />
         </div>
       </div>
     </main>

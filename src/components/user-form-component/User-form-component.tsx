@@ -8,6 +8,7 @@ import {
 } from '@mui/material'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { Autocomplete } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { FaPen } from 'react-icons/fa'
 import './User-form-component.css'
@@ -16,8 +17,8 @@ import {
   professionalSchema,
 } from '../../util/ValidateFormByFields'
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
-import { Vet } from '../../domain/Vet'
-import { PetOwner } from '../../domain/PetOwner'
+import { Vet, VetJSON } from '../../domain/Vet'
+import { PetOwner, PetOwnerJSON } from '../../domain/PetOwner'
 import { User } from '../../domain/User'
 import {
   buttonContained,
@@ -107,7 +108,7 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
   useEffect(() => {
     if (personalForm.province) {
       fetch(
-        `https://apis.datos.gob.ar/georef/api/localidades?provincia=${personalForm.province}&max=100`,
+        `https://apis.datos.gob.ar/georef/api/localidades?provincia=${personalForm.province}&max=1500`,
       )
         .then((res) => res.json())
         .then((data) =>
@@ -136,19 +137,29 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
   const handleSave = async (section: 'personal' | 'professional') => {
     try {
       if (section === 'personal') {
-        await ValidateFormByFields.validate(personalForm, { abortEarly: false })
-        setPersonalErrors({})
+        await ValidateFormByFields.validate(personalForm, {
+          abortEarly: false,
+          context: { localities },
+        }),
+          setPersonalErrors({})
+
         if (user instanceof Vet) {
-          const vetData = {
+          const fullVetForm: VetJSON = {
+            ...user.toJSON(),
             ...personalForm,
             ...(editProfessional ? professionalForm : {}),
-            typeOfUser: 'vet',
+            typeOfUser: 'VET',
           }
-          await onSave(Vet.fromJSON(vetData))
-        } else {
-          const petOwnerData = { ...personalForm, typeOfUser: 'petOwner' }
-          await onSave(PetOwner.fromJSON(petOwnerData))
+          await onSave(Vet.fromJSON(fullVetForm))
+        } else if (user instanceof PetOwner) {
+          const fullPetOwnerForm: PetOwnerJSON = {
+            ...user.toJSON(),
+            ...personalForm,
+            typeOfUser: 'PETOWNER',
+          }
+          await onSave(PetOwner.fromJSON(fullPetOwnerForm))
         }
+
         setEditPersonal(false)
         SnackbarUtilities.succes(
           'Información personal actualizada correctamente',
@@ -158,12 +169,15 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
           abortEarly: false,
         })
         setProfessionalErrors({})
-        const vetData = {
+
+        const updatedVetForm: VetJSON = {
+          ...user.toJSON(),
           ...personalForm,
           ...professionalForm,
-          typeOfUser: 'vet',
+          typeOfUser: 'VET',
         }
-        await onSave(Vet.fromJSON(vetData))
+
+        await onSave(Vet.fromJSON(updatedVetForm))
         setEditProfessional(false)
         SnackbarUtilities.succes(
           'Información profesional actualizada correctamente',
@@ -181,6 +195,7 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
       section === 'personal'
         ? setPersonalErrors(errors)
         : setProfessionalErrors(errors)
+
       SnackbarUtilities.error(
         'Por favor completá todos los campos obligatorios correctamente.',
       )
@@ -218,16 +233,6 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
             : key
         const isPasswordField = realKey === 'password'
 
-        const isGeorefField = ['country', 'province', 'locality'].includes(
-          realKey,
-        )
-        const options =
-          realKey === 'province'
-            ? provinces
-            : realKey === 'locality'
-              ? localities
-              : []
-
         return (
           <div className="data__item" key={realKey}>
             <label className="data__item--label">{label}</label>
@@ -240,7 +245,30 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
                 value="Argentina"
                 disabled
               />
-            ) : isGeorefField ? (
+            ) : realKey === 'locality' ? (
+              <Autocomplete
+                options={localities}
+                value={form[realKey] ?? ''}
+                onChange={(_, newValue) => {
+                  if (typeof newValue === 'string') {
+                    handleChange(section, realKey, newValue)
+                  }
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    variant="outlined"
+                    size="small"
+                    className="data__item--input"
+                    disabled={!edit}
+                    error={!!errors[realKey]}
+                    helperText={errors[realKey]}
+                  />
+                )}
+                disabled={!edit}
+              />
+            ) : realKey === 'province' ? (
               <TextField
                 select
                 fullWidth
@@ -254,9 +282,8 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
                 helperText={errors[realKey]}
                 SelectProps={{ native: true }}
               >
-                <option value="">Seleccione una opción</option>
-                {options.map((opt) => (
-                  <option key={opt} value={opt}>
+                {provinces.map((opt, index) => (
+                  <option key={`${opt}-${index}`} value={opt}>
                     {opt}
                   </option>
                 ))}

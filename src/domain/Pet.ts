@@ -8,7 +8,14 @@ export type PetJSON = {
 	photo: string,
 	sex: string,
 	birth: string,
-	specie: string
+	specie: string,
+
+	//Medical History
+  idMedicalHistory: number,
+  summary: string,
+  createdAt: string,
+  updatedAt: string,
+  petOwnerId: number
 }
 
 export class Pet {
@@ -23,14 +30,23 @@ export class Pet {
 		public photo: string = '',
 		public sex: string = 'Macho',
 		public birth: string = '',
-		public specie: string = ''
+		public specie: string = 'CAT',
+		//Medical History
+		public idMedicalHistory: number = -1,
+		public summary: string = '',
+		public createdAt: string = '',
+		public updatedAt: string = '',
+		public petOwnerId: number = -1
 	) {}
 
 	static fromJSON(petJSON: PetJSON): Pet {
 		return new Pet(
 			petJSON.id, petJSON.name, petJSON.breed, petJSON.age,
 			petJSON.weight, petJSON.sterilized, petJSON.photo, petJSON.sex,
-			petJSON.birth, petJSON.specie
+			petJSON.birth, petJSON.specie,
+
+			petJSON.idMedicalHistory, petJSON.summary, petJSON.createdAt,
+			petJSON.updatedAt, petJSON.petOwnerId
 		)
 	}
 
@@ -46,6 +62,12 @@ export class Pet {
 			sex: this.sex,
 			birth: this.birth,
 			specie: this.specie,
+
+			idMedicalHistory: this.idMedicalHistory,
+			summary: this.summary,
+			createdAt: this.createdAt,
+			updatedAt: this.updatedAt,
+			petOwnerId: this.petOwnerId
 		}
 	}
 }
@@ -75,3 +97,41 @@ export type PetMedicalShiftJSON = {
 	id:number,
 	name:string
 }
+
+//Enum de especies que esta en el back
+enum TypeOfPet {
+	CAT = "CAT",
+	DOG = "DOG", 
+	BIRD = "BIRD", 
+	FISH = "FISH", 
+	FARM = "FARM", 
+	RODENT = "RODENT", 
+	REPTILE = "REPTILE", 
+	HORSE = "HORSE"
+}
+
+//Funcion que nos sirve para traducir el tipo de especie que nos viene del back al español a traves de un map.
+export function convertTypeOfPetToASpanishString(typeOfPet: TypeOfPet | string): string{
+    const typeOfPetStrMap: { [key: string]: string } = {
+		"CAT": 'Gato',
+		"DOG": 'Perro',
+		"BIRD": 'Ave',	
+		"FISH": 'Pez',
+		"FARM": 'Granja',
+		"RODENT": 'Roedor',
+		"REPTILE": 'Reptil',
+		"HORSE": 'Caballo'
+    }
+
+    return typeOfPetStrMap[typeOfPet.toString()] 
+}
+
+//Constante que va a tener todos las especies que hay dentro del TypeOfPet
+export const petOptions = Object.values(TypeOfPet) as TypeOfPet[]
+
+//Ejemplo de uso dentro de un select
+// {petOptions.map(petOption => (
+// 	<MenuItem value={petOption} key={petOption}>
+// 		{convertTypeOfPetToASpanishString(petOption)}
+// 	</MenuItem>
+// ))}

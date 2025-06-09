@@ -1,48 +1,92 @@
 import { Vet } from '../../domain/Vet'
 import { VetServiceInter } from './VetServiceInter'
+import { USER_ID_TOKEN } from '../config'
+
 
 export class VetServiceStub implements VetServiceInter {
-  private user = new Vet(
-    1,
-    'mgomez',
-    'Contraseña123',
-    'María',
-    'Gómez',
-    30456789,
-    'maria.gomez@gmail.com',
-    '1144556677',
-    'https://thumbs.dreamstime.com/z/mujer-veterinaria-con-el--de-aguas-39766136.jpg',
-    'Av. Balbin 456',
-    '1428',
-    'Belgrano',
-    'Ciudad Autónoma de Buenos Aires',
-    'Argentina',
-    1,
-    '12345',
-    'Cardiología',
-    'Lunes a Viernes, 08:00 - 16:00',
-    'maria.prof@hospital.com',
-    '1133224455',
-    'Hospital Central 1000',
-    'Belgrano',
-    '1428',
-  )
+  private vets: Vet[] = [
+    new Vet(
+      6,
+      'LuckC',
+      '123',
+      'Lucas',
+      'Cejas',
+      12345678,
+      'lucas.cejas@gmail.com',
+      '1122334455',
+      'src/assets/vet.jfif',
+      'Av. Mitre 123',
+      '1870',
+      'Avellaneda',
+      'Buenos Aires',
+      'Argentina',
+      6,
+      6,
+      'MP101',
+      'Clínico general',
+      'Lunes a viernes 9 a 17',
+      'lucas.vet@gmail.com',
+      '1155667788',
+      'Centro Vet Avellaneda',
+      'Avellaneda',
+      '1870',
+    ),
+    new Vet(
+      5,
+      'Adrian',
+      '123',
+      'Adrián',
+      'Ibarra',
+      87654321,
+      'adrian.ibarra@gmail.com',
+      '1199887766',
+      'src/assets/adri.jfif',
+      'Las Heras 555',
+      '1642',
+      'San Isidro',
+      'Buenos Aires',
+      'Argentina',
+      5,
+      5,
+      'MP102',
+      'Traumatología',
+      'Lunes a viernes 10 a 18',
+      'adrian.vet@gmail.com',
+      '1144778899',
+      'San Isidro Vet',
+      'San Isidro',
+      '1642',
+    ),
+  ]
+
+  private getCurrentVet(): Vet {
+    const id = parseInt(localStorage.getItem(USER_ID_TOKEN) || '-1')
+    const vet = this.vets.find((v) => v.id === id)
+    if (!vet) throw new Error('Vet not found in stub')
+    return vet
+  }
 
   async getAll(): Promise<Vet[]> {
-    return [this.user]
+    return this.vets
   }
 
   async getOneById(): Promise<Vet> {
-    return this.user
+    return this.getCurrentVet()
+  }
+
+  async create(vet: Vet): Promise<void> {
+    this.vets.push(vet)
   }
 
   async update(vet: Vet): Promise<void> {
-    console.log('Stub: actualizando datos...')
-    this.user = vet
-    console.log('Nuevo estado:', this.user)
+    const index = this.vets.findIndex((v) => v.id === vet.id)
+    if (index !== -1) this.vets[index] = vet
   }
 
   async delete(id: number): Promise<void> {
-    console.log(`Stub: usuario con ID ${id} eliminado`)
+    this.vets = this.vets.filter((v) => v.id !== id)
   }
+
+
+
 }

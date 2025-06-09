@@ -15,10 +15,11 @@ import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
 import VetServiceManager from '../../services/vet-service/VetServiceManager'
 import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
+import { useUser } from '../../context/UserContext'
 import {
   avatarStyle,
   modalStyle,
-  modalTitle,
+  
   previewImage,
   inputButtonStyle,
   buttonGroup,
@@ -34,6 +35,8 @@ interface Props {
 }
 
 export const ProfilePhotoModal = ({ user, open, onClose, onPhotoChange }: Props) => {
+
+  const { updateUser } = useUser()
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [isUploading, setIsUploading] = useState(false)
@@ -56,6 +59,7 @@ export const ProfilePhotoModal = ({ user, open, onClose, onPhotoChange }: Props)
         Object.create(Object.getPrototypeOf(user)),
         { ...user, photo: newPhotoUrl }
       )
+      updateUser(updatedUser) // Updates the context user
       if (AuthServiceManager.getIntance().isVet()) {
         await VetServiceManager.getInstance().update(updatedUser as Vet)
       } else {

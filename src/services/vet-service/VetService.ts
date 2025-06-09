@@ -16,13 +16,22 @@ export class VetService implements VetServiceInter {
     return Vet.fromJSON(res.data)
   }
 
+  async create(vet: Vet): Promise<void> {
+    await axios.post(`${URL_BE}/vet/create`, vet.toCreateJSON())
+  }
+
   async update(vet: Vet): Promise<void> {
-    const payload = vet.toJSON()
-    await axios.put(`${URL_BE}/vet/update`, payload)
+    if(vet.id > 0) {
+      await axios.put(`${URL_BE}/vet/update`, vet.toJSON())
+    }
   }
 
   async delete(id: number): Promise<void> {
-    await axios.delete(`${URL_BE}/vet/delete-vet`, { params: { id } })
+    await axios.delete(`${URL_BE}/vet/delete-vet`, {
+      params: { id },
+    })
   }
-}
 
+
+
+}

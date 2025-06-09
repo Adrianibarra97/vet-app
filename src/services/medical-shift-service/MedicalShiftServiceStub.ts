@@ -24,7 +24,7 @@ export class MedicalShiftServiceStub implements MedicalShiftServiceInter {
         "id":2,
         "name":"Morena"
       },
-      "date": "2025-04-23",
+      "date": dayjs().format('YYYY-MM-DD'),
       "hour": "13:00"
     },
     {
@@ -34,7 +34,7 @@ export class MedicalShiftServiceStub implements MedicalShiftServiceInter {
         "id":3,
         "name":"Oli"
       },
-      "date": "2025-06-03",
+      "date": "2025-05-03",
       "hour": "15:45"
     },
     {
@@ -44,7 +44,7 @@ export class MedicalShiftServiceStub implements MedicalShiftServiceInter {
         "id":4,
         "name":"Pipi"
       },
-      "date": "2025-06-04",
+      "date": dayjs().format('YYYY-MM-DD'),
       "hour":"10:15"
     },
     {

@@ -1,7 +1,6 @@
 .auth__main {
   display: flex;
-  flex-direction: column;
-  background-color: var(--main-color);
+  background-color: var(--secondary-color);
   width: 100%;
   min-height: 94vh;
   align-items: center;
@@ -11,22 +10,34 @@
 .login {
   display: flex;
   flex-direction: column;
-  width: 90%;
-  height: auto;
+  width: 19em;
+  height: 25em;
+  border-radius: 0.5em;
+  background-color: var(--header-color);
+  border: 1px solid var(--footer-color);
+  box-shadow: 1px 1px 5px var(--footer-color);
 }
 
 .login__form {
   display: flex;
-  height: 15em;
   flex-direction: column;
+  height: 80%;
+  width: 100%;
   align-items: center;
   justify-content: space-around;
 }
 
-.login__item {
+.title__login {
   display: flex;
-  flex-direction: column;
+  width: 100%;
+  height: 30%;
+  padding: 1em;
+  justify-content: center;
   align-items: center;
-  font-weight: bold;
-  font-size: 1.3em;
+}
+
+.logo__image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
