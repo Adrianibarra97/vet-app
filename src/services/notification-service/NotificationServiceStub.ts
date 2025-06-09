@@ -111,8 +111,6 @@ export const mockNotifications: NotificationModel[] = [
 export class NotificationServiceStub implements NotificationServiceInter {
   private notifications: NotificationModel[] = mockNotifications
 
- 
-
   async getNotificationsByVetId(id: number): Promise<NotificationModel[]> {
     const vetName = id === 1 ? 'Adrián Ibarra' : 'Lucas Cejas'
     return this.notifications.filter(
@@ -136,4 +134,8 @@ export class NotificationServiceStub implements NotificationServiceInter {
     )
   }
 
+  async getNotificationsCountByUser(id: number, typeOfUser: string | undefined): Promise<number> {
+    console.log(id, typeOfUser)
+    return 0
+  }
 }
