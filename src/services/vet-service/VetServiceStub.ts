@@ -1,33 +1,7 @@
-import { NotificationModel } from '../../domain/Notification'
 import { Vet } from '../../domain/Vet'
 import { VetServiceInter } from './VetServiceInter'
 import { USER_ID_TOKEN } from '../config'
-import NotificationServiceManager from '../notification-service/NotificationServiceManager'
 
-export const sharedMockNotifications: NotificationModel[] = [
-  new NotificationModel(
-    1,
-    'SHIFT_DELETE',
-    'Turno cancelado por el dueño',
-    new Date().toISOString(),
-    true,
-    'Rocky',
-    'Ezequiel Iozzia',
-    'Lucas Cejas',
-    '2024-05-21T15:00:00Z',
-  ),
-  new NotificationModel(
-    3,
-    'SHIFT_DELETE',
-    'Turno cancelado por el dueño',
-    new Date().toISOString(),
-    true,
-    'Mileva',
-    'Caroline Coronel',
-    'Adrián Ibarra',
-    '2024-05-21T15:00:00Z',
-  ),
-]
 
 export class VetServiceStub implements VetServiceInter {
   private vets: Vet[] = [
@@ -46,7 +20,8 @@ export class VetServiceStub implements VetServiceInter {
       'Avellaneda',
       'Buenos Aires',
       'Argentina',
-      1,
+      6,
+      6,
       'MP101',
       'Clínico general',
       'Lunes a viernes 9 a 17',
@@ -71,7 +46,8 @@ export class VetServiceStub implements VetServiceInter {
       'San Isidro',
       'Buenos Aires',
       'Argentina',
-      2,
+      5,
+      5,
       'MP102',
       'Traumatología',
       'Lunes a viernes 10 a 18',
@@ -98,6 +74,10 @@ export class VetServiceStub implements VetServiceInter {
     return this.getCurrentVet()
   }
 
+  async create(vet: Vet): Promise<void> {
+    this.vets.push(vet)
+  }
+
   async update(vet: Vet): Promise<void> {
     const index = this.vets.findIndex((v) => v.id === vet.id)
     if (index !== -1) this.vets[index] = vet
@@ -107,26 +87,6 @@ export class VetServiceStub implements VetServiceInter {
     this.vets = this.vets.filter((v) => v.id !== id)
   }
 
-async getNotificationsByVetId(): Promise<NotificationModel[]> {
-  const currentVet = this.getCurrentVet()
-  const fullName = `${currentVet.name} ${currentVet.surname}`.toLowerCase()
-
-  const allDynamic = await NotificationServiceManager.getInstance().getAllNotifications()
-
-  const dynamic = allDynamic.filter(
-    (n) =>
-      n.vetName?.toLowerCase() === fullName &&
-      ['SHIFT_DELETE', 'SHIFT_UPDATE', 'SHIFT_TODAY'].includes(n.type)
-  )
-
-  const staticList = sharedMockNotifications.filter(
-    (n) =>
-      n.vetName?.toLowerCase() === fullName &&
-      ['SHIFT_DELETE', 'SHIFT_UPDATE', 'SHIFT_TODAY'].includes(n.type)
-  )
-
-  return [...staticList, ...dynamic]
-}
 
 
 }

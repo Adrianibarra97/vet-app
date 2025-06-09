@@ -24,8 +24,9 @@ export const ResetPasswordPage = () => {
     setUserLogin(authCredentialsLoginDTO)
   }
 
-  const handleErrorReset = () => {
-    if(AuthServiceManager.getIntance().existUser(userLogin)) {
+  const handleErrorReset = async () => {
+    const exisUser: boolean = await AuthServiceManager.getIntance().existUser(userLogin)
+    if(exisUser) {
       navigate('/auth/valid-change')
     } else {
       SnackbarUtilities.error('El usuario ingresado no existe!')

@@ -1,20 +1,26 @@
-
 import { NotificationServiceInter } from './NotificationServiceInter'
-import { NotificationServiceStub } from './NotificationServiceStub'
 import { NotificationService } from './NotificationService'
+import { NotificationServiceStub } from './NotificationServiceStub'
 import { NOTIFICATION_SERVICE_USE_STUB } from '../config'
 
-class NotificationServiceManager {
-  private static instance: NotificationServiceInter
+export class NotificationServiceManager {
+  private static instance: NotificationServiceManager
+  private notificationService: NotificationServiceInter
 
-  public static getInstance(): NotificationServiceInter {
+  private constructor() {
+    this.notificationService = NOTIFICATION_SERVICE_USE_STUB 
+      ? new NotificationServiceStub() 
+      : new NotificationService()
+  }
+
+  public static getInstance(): NotificationServiceManager {
     if (!NotificationServiceManager.instance) {
-      NotificationServiceManager.instance = NOTIFICATION_SERVICE_USE_STUB
-        ? new NotificationServiceStub()
-        : new NotificationService()
+      NotificationServiceManager.instance = new NotificationServiceManager()
     }
     return NotificationServiceManager.instance
   }
-}
 
-export default NotificationServiceManager
+  public getNotificationService(): NotificationServiceInter {
+    return this.notificationService
+  }
+}

@@ -10,27 +10,17 @@
 
 .logo {
     display: flex;
-    width:  10em;
-    height: 90%;
-    padding: 0;
+    width:  13em;
+    height: 7.5vh;
     margin: 0;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
 .logo__image {
-    display: flex;
-    width: 30%;
-    height: auto;
-    font-size: 2.7em;
-    color: var(--main-color);
-    justify-content: center;
-}
-
-.logo__label {
-    font-size: 1.8em;
-    font-weight: bolder;
-    color: var(--main-color);
+    display: block;
+    object-fit: cover;
+    overflow: hidden;
 }
 
 .button__content--menu {
@@ -165,5 +155,9 @@
     .nav {
         left: 80%;
         width: 20%;
+    }
+
+    .logo {
+        width:  auto;
     }
 }

@@ -2,7 +2,6 @@ import axios from "axios"
 import { PetOwner } from "../../domain/PetOwner"
 import { URL_BE } from "../config"
 import { PetOwnerServiceInter } from "./PetOwnerServiceInter"
-import { NotificationResponseDTO, NotificationModel } from "../../domain/Notification"
 
 export class PetOwnerService implements PetOwnerServiceInter {
   async getAll(): Promise<PetOwner[]> {
@@ -17,11 +16,14 @@ export class PetOwnerService implements PetOwnerServiceInter {
     return PetOwner.fromJSON(res.data)
   }
 
-  async update(petOwner: PetOwner): Promise<void> {
-    const payload = petOwner.toJSON()
-    console.log('Payload limpio:', payload);
+  async create(petOwner: PetOwner): Promise<void> {
+    await axios.post(`${URL_BE}/pet-owner/create`, petOwner.toCreateJSON())
+  }
 
-    await axios.put(`${URL_BE}/pet-owner/update`, payload)
+  async update(petOwner: PetOwner): Promise<void> {
+    if(petOwner.id > 0) {
+      await axios.put(`${URL_BE}/pet-owner/update`, petOwner.toJSON())
+    }
   }
 
   async delete(id: number): Promise<void> {
@@ -29,11 +31,5 @@ export class PetOwnerService implements PetOwnerServiceInter {
       params: { idPetOwner: id }
     })
   }
-async getNotificationsByPetOwnerId(id: number): Promise<NotificationModel[]> {
-  const res = await axios.get<NotificationResponseDTO[]>(`${URL_BE}/pet-owner/get-all-notifications`, {
-    params: { idPetOwner: id }
-  })
-  return res.data.map(NotificationModel.fromJSON)
-}
 
 }

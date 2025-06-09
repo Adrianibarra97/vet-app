@@ -29,6 +29,7 @@ import {
   GreenButton,
   WhatsAppButton,
   typeLabels,
+  LogoFooterBox,
 } from './NotificationCardStyle'
 import { getIconAndColorByType } from './NotificationCardStyle'
 
@@ -40,6 +41,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
+import dayjs from 'dayjs'
 
 interface Props {
   notification: NotificationModel
@@ -64,23 +66,29 @@ export const NotificationCard: React.FC<Props> = ({
   vetEmail,
   vetPhone,
 }) => {
-  const { message, date, petName, vetName, appointmentDate, type } =
-    notification
+  const { petName, vetName, type } = notification
 
   const isVet = AuthServiceManager.getIntance().isVet()
-  const msg = message.toLowerCase()
-  const isCancelByOwner = msg.includes('cancelado') && msg.includes('dueño')
   const navigate = useNavigate()
 
-  const { icon, color } = getIconAndColorByType(type) as {
-    icon: keyof typeof iconMap
-    color: string
-  }
+  const dateNotification = dayjs(notification.notificationDate).format(
+    'DD/MM/YYYY',
+  )
 
-  const emailToShow = vetEmail || ''
-  const phoneToShow = vetPhone || ''
+  const { icon, color } = getIconAndColorByType(notification.type)
 
-  if (isVet && !isCancelByOwner && type !== 'system') return null
+  const emailToShow = vetEmail || 'sin-email@vetapp.com'
+  const phoneToShow = vetPhone || '0000000000'
+
+  const allowedVetTypes = [
+    'SHIFT_TODAY',
+    'SHIFT_DELETE',
+    'SHIFT_UPDATE',
+    'SHIFT_CREATE',
+    'SHIFT_REMINDER',
+    'system',
+  ]
+  if (isVet && !allowedVetTypes.includes(type)) return null
 
   if (type === 'system') {
     return (
@@ -120,9 +128,10 @@ export const NotificationCard: React.FC<Props> = ({
     <StyledPaper elevation={3} style={{ borderLeft: `6px solid ${color}` }}>
       <RowBetween>
         <StackGrow direction="row" spacing={1} alignItems="center">
-          <IconBox color={color}>{iconMap[icon]}</IconBox>
+          <IconBox color={color}>{iconMap[icon] ?? <Info />}</IconBox>
           <MessageTypography variant="subtitle1" fontWeight="bold">
-            {typeLabels[type] ?? 'Notificación'} para {petName}
+            {typeLabels[type.toUpperCase()] ?? 'Notificación'}
+            para {petName}
           </MessageTypography>
         </StackGrow>
 
@@ -137,16 +146,27 @@ export const NotificationCard: React.FC<Props> = ({
         <Divider sx={{ my: 1 }} />
         <Stack spacing={0.5} px={2}>
           <Typography variant="body2" color="textSecondary">
-            <strong>Fecha:</strong> {new Date(date).toLocaleDateString()}
+            <strong>Fecha:</strong> {dateNotification}
           </Typography>
-          {appointmentDate && (
+          {notification.date && notification.hour ? (
+            (() => {
+              const appointmentDate = new Date(
+                `${notification.date}T${notification.hour}`,
+              )
+              return (
+                <Typography variant="body2" color="textSecondary">
+                  <strong>Turno:</strong> {appointmentDate.toLocaleDateString()}{' '}
+                  a las{' '}
+                  {appointmentDate.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </Typography>
+              )
+            })()
+          ) : (
             <Typography variant="body2" color="textSecondary">
-              <strong>Turno:</strong>{' '}
-              {new Date(appointmentDate).toLocaleDateString()} a las{' '}
-              {new Date(appointmentDate).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
+              <strong>Turno:</strong> Sin horario definido
             </Typography>
           )}
 
@@ -191,13 +211,13 @@ export const NotificationCard: React.FC<Props> = ({
             </Stack>
           </ContactBox>
         )}
-
-        <FooterStack direction="row" spacing={1}>
-          <Pets sx={{ fontSize: 18, color: '#888' }} />
-          <Typography variant="caption" color="#888" fontWeight="bold">
-            VetApp
-          </Typography>
-        </FooterStack>
+        <LogoFooterBox>
+          <img
+            src="../../src/assets/logo-vet-app-horizontal.png"
+            alt="VetApp logo"
+            style={{ height: 25, width: 'auto' }}
+          />
+        </LogoFooterBox>
       </Collapse>
     </StyledPaper>
   )

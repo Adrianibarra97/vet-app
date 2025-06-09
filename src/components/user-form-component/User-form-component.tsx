@@ -148,14 +148,14 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
             ...user.toJSON(),
             ...personalForm,
             ...(editProfessional ? professionalForm : {}),
-            typeOfUser: 'vet',
+            typeOfUser: 'VET',
           }
           await onSave(Vet.fromJSON(fullVetForm))
         } else if (user instanceof PetOwner) {
           const fullPetOwnerForm: PetOwnerJSON = {
             ...user.toJSON(),
             ...personalForm,
-            typeOfUser: 'petOwner',
+            typeOfUser: 'PETOWNER',
           }
           await onSave(PetOwner.fromJSON(fullPetOwnerForm))
         }
@@ -174,7 +174,7 @@ export const ProfileForm = ({ user, onSave, showProfessionalInfo }: Props) => {
           ...user.toJSON(),
           ...personalForm,
           ...professionalForm,
-          typeOfUser: 'vet',
+          typeOfUser: 'VET',
         }
 
         await onSave(Vet.fromJSON(updatedVetForm))
