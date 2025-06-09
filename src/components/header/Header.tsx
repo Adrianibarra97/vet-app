@@ -11,6 +11,7 @@ export const Header = () => {
   const navigate = useNavigate()
   const [openMenu, setOpenMenu] = useState(false)
   const [interUser, setInterUser] = useState(user)
+  const [notiCounter, setNotiCounter] = useState(0)
   
   const logoutApp = () => {
     AuthServiceManager.getIntance().logout()
@@ -21,7 +22,12 @@ export const Header = () => {
     return AuthServiceManager.getIntance().isVet() ? 'Pacientes' : 'Mascotas'
   }
 
+  const handleNavNotification = () => {
+    navigate('/profile/notifications')
+  }
+
   useEffect(() => {
+    
     setInterUser(user)
   }, [user])
 
@@ -30,13 +36,24 @@ export const Header = () => {
       <figure className="logo">
         <img className="logo__image" src="../../src/assets/logo-vet-app-horinzotal-2.png" />
       </figure>
-      <figure className="button__content--menu" onClick={ () => setOpenMenu(true) }>
-        {
-          AuthServiceManager.getIntance().isAuthorized() && interUser?.photo
-          ? <img className="user__image" src={ interUser?.photo }/>
-          : <i className="fa-solid fa-circle-user header__button--menu"></i>
-        }
-      </figure>
+      <div className="menu__content">
+        <figure className="button__content--noti" onClick={ () => handleNavNotification() }>
+          <i className="fa-solid fa-bell header__button--noti">
+            {
+              notiCounter > 0
+              ? <p className="noti__count">{ notiCounter }</p>
+              : ''
+            }
+          </i>
+        </figure>
+        <figure className="button__content--menu" onClick={ () => setOpenMenu(true) }>
+          {
+            AuthServiceManager.getIntance().isAuthorized() && interUser?.photo
+            ? <img className="user__image" src={ interUser?.photo }/>
+            : <i className="fa-solid fa-circle-user header__button--menu"></i>
+          }
+        </figure>
+      </div>
       <nav className={ openMenu ? "nav" : "nav nav__none" }>
         <div className="nav__button">
           <button className="fa-solid fa-xmark nav__button--close" onClick={ () => setOpenMenu(false) }></button>
