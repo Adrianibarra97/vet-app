@@ -10,6 +10,7 @@ import PetServiceManager from '../../services/pet-service/PetServiceManager'
 import { Pet } from '../../domain/Pet'
 import dayjs, { Dayjs } from 'dayjs'
 import { formContainer, modal, modalItems, modalTitle, modalItem, buttonContent } from './PetModalStyle'
+import { PetSchema } from '../../util/ValidateFormByFields'
 
 interface PetModalProps {
   open: boolean
@@ -43,6 +44,9 @@ export const PetModal = (petModalProp: PetModalProps) => {
   
   const [pet, setPet] = useState(petModalProp.pet)
   const [errorActive, setErrorActive] = useState(false)
+  const [errors, setErrors] = useState<{
+    [key: string]: string
+  }>({})
 
   const handleLabelColor = (key: keyof Pet): 'success' | 'error' => pet[key] ? 'success' : 'error'
 
@@ -58,10 +62,26 @@ export const PetModal = (petModalProp: PetModalProps) => {
   const confirm = async () => {
     const action: string = petModalProp.pet.id >= 0 ? 'actualizado' : 'creado'
     const msg: string = `Ha ${action} el perfil de su mascota con éxito!`
-    await handleAction()
-    petModalProp.onClose()
-    petModalProp.cleanFilter()
-    SnackbarUtilities.succes(msg)
+    try {
+      await PetSchema.validate(pet, {
+        abortEarly: false,
+      })
+      setErrors({})
+      await handleAction()
+      petModalProp.onClose()
+      petModalProp.cleanFilter()
+      SnackbarUtilities.succes(msg)
+    } catch (error: any) {
+      const errors: { [key: string]: string } = {}
+      if (error.inner) {
+        error.inner.forEach((err: any) => {
+          errors[err.path] = err.message
+        })
+      } else {
+        errors.general = error.message
+      }
+      setErrors(errors)
+    }
   }
 
   const handleAction = async () => {
@@ -129,14 +149,14 @@ export const PetModal = (petModalProp: PetModalProps) => {
         </Typography>
         <Box sx={ modalItems }>
           <Box sx={ modalItem }>
-            <FormControlModal
+            <FormControlModal errorHelper={ errors[petKeys[1]] }
               type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
               isActive={ true } label={ fieldKyes[1] } labelColor={ handleLabelColor(petKeys[1]) }
               handleInputChanges={ (value) => handleInputChanges(petKeys[1], value) }
             />
           </Box>
           <Box sx={ modalItem }>
-            <FormControlModal
+            <FormControlModal errorHelper={ errors[petKeys[1]] }
               type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.name }
               isActive={ false } label={ fieldKyes[1] } labelColor={ handleLabelColor(petKeys[1]) }
               handleInputChanges={ (value) => handleInputChanges(petKeys[1], value) }
@@ -152,7 +172,7 @@ export const PetModal = (petModalProp: PetModalProps) => {
             />
           </Box>
           <Box sx={ modalItem }>
-            <FormControlModal
+            <FormControlModal errorHelper={ errors[petKeys[2]] }
               type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.breed }
               isActive={ true } label={ fieldKyes[2] } labelColor={ handleLabelColor(petKeys[2]) }
               handleInputChanges={ (value) => handleInputChanges(petKeys[2], value) }
@@ -161,14 +181,14 @@ export const PetModal = (petModalProp: PetModalProps) => {
         </Box>
         <Box sx={ modalItems }>
           <Box sx={ modalItem }>
-            <FormControlModal
+            <FormControlModal errorHelper={ errors[petKeys[3]] }
               type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.age }
               isActive={ true } label={ fieldKyes[3] } labelColor={ handleLabelColor(petKeys[3]) }
               handleInputChanges={ (value) => handleInputChanges(petKeys[3], value) }
             />
           </Box>
           <Box sx={ modalItem }>
-            <FormControlModal
+            <FormControlModal errorHelper={ errors[petKeys[4]] }
               type={ textFieldTypes[0] } errorActive={ errorActive } defaultValue={ pet.weight }
               isActive={ true } label={ fieldKyes[4] } labelColor={ handleLabelColor(petKeys[4]) }
               handleInputChanges={ (value) => handleInputChanges(petKeys[4], value) }

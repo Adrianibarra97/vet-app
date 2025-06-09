@@ -83,13 +83,13 @@ export const LoginPage = () => {
         </figure>
         <form className="login__form">
           <Box sx={ modalItem }>
-            <FormControlModal
+            <FormControlModal errorHelper=''
               isActive={ true } errorActive={ errorActive } label={ 'Usuario' } type={ 'text' }
               defaultValue={ userLogin.username } labelColor={ 'success' } handleInputChanges={ handleUsername }
             />
           </Box>
           <Box sx={ modalItem }>
-            <FormControlModal
+            <FormControlModal errorHelper=''
               isActive={ true } errorActive={ errorActive } label={ 'Contraseña' } type={ 'password' }
               defaultValue={ userLogin.password } labelColor={ 'success' } handleInputChanges={ handlePassword }
             />
