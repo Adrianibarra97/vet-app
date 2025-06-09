@@ -54,7 +54,7 @@ export const ResetPasswordPage = () => {
         <form className="login__form--reset">
           <label className="auth__text--reset">Ingrese su nombre de usuario para continuar.</label>
           <Box sx={ modalItem }>
-            <FormControlModal
+            <FormControlModal errorHelper=''
               isActive={ true } errorActive={ errorActive } label={ 'Usuario' }
               type={ 'text' } defaultValue={ '' } labelColor={ 'success' }
               handleInputChanges={ (e) => handleUsername(e.toString()) }

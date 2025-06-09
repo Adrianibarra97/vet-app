@@ -43,7 +43,7 @@ export const ValidChangePage = () => {
         <form className="login__form--valid">
           <label className="auth__text--valid">Ingrese el código que le enviamos por correo para continuar.</label>
           <Box sx={ modalItem }>
-            <FormControlModal
+            <FormControlModal errorHelper=''
               isActive={ true } errorActive={ errorActive } label={ 'Código de validación' }
               type={ 'text' } defaultValue={ '' } labelColor={ 'success' }
               handleInputChanges={ (e) => setCode(e.toString()) }

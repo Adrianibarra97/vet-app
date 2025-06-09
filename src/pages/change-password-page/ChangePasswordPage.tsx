@@ -49,14 +49,14 @@ export const ChangePasswordPage = () => {
             <label className={ errorActive ? 'auth__text--change' : 'auth__text--none' }>Las contraseñas no coninciden!</label>
           </Box>
           <Box sx={ modalItem }>
-            <FormControlModal
+            <FormControlModal errorHelper=''
               isActive={ true } errorActive={ errorActive } label={ 'Nueva Contraseña' }
               type={ 'password' } defaultValue={ '' } labelColor={ 'success' }
               handleInputChanges={ (e) => setPassword(e.toString()) }
             />
           </Box>
           <Box sx={ modalItem }>
-            <FormControlModal
+            <FormControlModal errorHelper=''
               isActive={ true } errorActive={ errorActive } label={ 'Confirmar Contraseña' }
               type={ 'password' } defaultValue={ '' } labelColor={ 'success' }
               handleInputChanges={ (e) => setConfirmPassword(e.toString()) }
