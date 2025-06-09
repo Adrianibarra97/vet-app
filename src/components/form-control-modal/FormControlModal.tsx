@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { FormControl, Box, Typography, TextField, IconButton } from '@mui/material'
 import { formControl, formControlNone, helpText, textField } from './FormControlModalStyle'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
@@ -7,6 +7,7 @@ interface FromControlModalProps {
   isActive: boolean
   errorActive: boolean
   label: string
+  errorHelper: string
   defaultValue: string | number
   type: 'text' | 'number' | 'password' | 'email'
   labelColor: 'success' | 'error'
@@ -27,8 +28,14 @@ export const FormControlModal = (formControlProps: FromControlModalProps) => {
   const formHelperText = () => {
     return !value && formControlProps.errorActive
       ? (<Box sx={ helpText }><Typography color="red">Campo obligatorio</Typography></Box>)
-      : ('')
+      : formControlProps.errorHelper != ''
+        ? (<Box sx={ helpText }><Typography color="red">{ formControlProps.errorHelper }</Typography></Box>)
+        : ''
   }
+
+  useEffect(() => {
+
+  }, [formControlProps.errorHelper])
 
   return (
     <FormControl sx={ formControlProps.isActive ? formControl : formControlNone }>
@@ -39,17 +46,13 @@ export const FormControlModal = (formControlProps: FromControlModalProps) => {
         onChange={ (e) => handleChange(e) } helperText={ formHelperText() }
         InputProps={
           formControlProps.type == 'password'
-            ? { endAdornment: (
-                <IconButton
-                  edge="end" size="small"
-                  onClick={ () => setShowPassword(!showPassword) }
-                >{ showPassword ? <VisibilityOff /> : <Visibility />}</IconButton>),
-              }
-            : formControlProps.type == 'number'
-            ? {
-                
-              }
-            : {}
+          ? { endAdornment: (
+              <IconButton
+                edge="end" size="small"
+                onClick={ () => setShowPassword(!showPassword) }
+              >{ showPassword ? <VisibilityOff /> : <Visibility />}</IconButton>),
+            }
+          : {}
         }
       />
     </FormControl>
