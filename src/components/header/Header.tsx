@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useUser } from '../../context/UserContext'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import './Header.css'
+import { NotificationServiceManager } from '../../services/notification-service/NotificationServiceManager'
 
 export const Header = () => {
 
@@ -26,9 +27,18 @@ export const Header = () => {
     navigate('/profile/notifications')
   }
 
+  const getNotificationCountByUser = async () => {
+    const userId: number = interUser?.id ? interUser?.id : -1
+    const counter: number = await NotificationServiceManager
+      .getInstance()
+      .getNotificationService()
+      .getNotificationsCountByUser(userId, interUser?.typeOfUser)
+    setNotiCounter(counter)
+  }
+
   useEffect(() => {
-    
     setInterUser(user)
+    getNotificationCountByUser()
   }, [user])
 
   return (

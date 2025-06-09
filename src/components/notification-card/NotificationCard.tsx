@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Email,
   WhatsApp,
@@ -42,6 +42,8 @@ import {
   Typography,
 } from '@mui/material'
 import dayjs from 'dayjs'
+import { NotificationServiceManager } from '../../services/notification-service/NotificationServiceManager'
+import { useUser } from '../../context/UserContext'
 
 interface Props {
   notification: NotificationModel
@@ -66,10 +68,12 @@ export const NotificationCard: React.FC<Props> = ({
   vetEmail,
   vetPhone,
 }) => {
+  
   const { petName, vetName, type } = notification
 
   const isVet = AuthServiceManager.getIntance().isVet()
   const navigate = useNavigate()
+  const { refreshUser } = useUser()
 
   const dateNotification = dayjs(notification.notificationDate).format(
     'DD/MM/YYYY',
@@ -88,6 +92,16 @@ export const NotificationCard: React.FC<Props> = ({
     'SHIFT_REMINDER',
     'system',
   ]
+
+  const setWasReadNofitication = async () => {
+    if(!notification.wasRead) {
+      const updatedNotificacion: NotificationModel = notification
+      updatedNotificacion.wasRead = true
+      await NotificationServiceManager.getInstance().getNotificationService().update(updatedNotificacion)
+      await refreshUser()
+    }
+  }
+
   if (isVet && !allowedVetTypes.includes(type)) return null
 
   if (type === 'system') {
@@ -136,7 +150,14 @@ export const NotificationCard: React.FC<Props> = ({
         </StackGrow>
 
         {onToggleExpand && (
-          <IconButton onClick={onToggleExpand} size="small">
+          <IconButton
+            onClick={ () => { 
+                onToggleExpand()
+                setWasReadNofitication()
+              }
+            } 
+            size="small"
+          >
             {expanded ? <ExpandLess /> : <ExpandMore />}
           </IconButton>
         )}

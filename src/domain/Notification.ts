@@ -21,6 +21,7 @@ export interface NotificationResponseDTO {
   message: string
   professionalEmail?: string
   professionalTelephone?: string
+  wasRead: boolean
 }
 
 export class NotificationModel {
@@ -38,6 +39,7 @@ export class NotificationModel {
     public subject: string,
     public professionalEmail?: string,
     public professionalTelephone?: string,
+    public wasRead: boolean = false
   ) {}
 
   static fromJSON(json: NotificationResponseDTO): NotificationModel {
@@ -57,6 +59,7 @@ export class NotificationModel {
       json.subject,
       json.professionalEmail ?? '',
       json.professionalTelephone ?? '',
+      json.wasRead
     )
   }
 
@@ -74,6 +77,7 @@ export class NotificationModel {
       message: this.message,
       professionalEmail: this.professionalEmail,
       professionalTelephone: this.professionalTelephone,
+      wasRead: this.wasRead
     }
   }
 }
