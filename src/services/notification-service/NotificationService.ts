@@ -1,33 +1,40 @@
 import axios from 'axios'
-import { NotificationModel, NotificationResponseDTO } from '../../domain/Notification'
+import {
+  NotificationModel,
+  NotificationResponseDTO,
+} from '../../domain/Notification'
 import { NotificationServiceInter } from './NotificationServiceInter'
 import { URL_BE } from '../config'
 
 export class NotificationService implements NotificationServiceInter {
-    
-  async getAllNotifications(): Promise<NotificationModel[]> {
-    const response = await axios.get<NotificationResponseDTO[]>(`${URL_BE}/notification/get-all`)
-    return response.data.map(NotificationModel.fromJSON)
-  }
-  async addNotification(notification: NotificationModel): Promise<void> {
-    await axios.post(`${URL_BE}/notification`, notification.toJSON())
-  }
+ 
 
-  async getNotificationsByVetName(vetName: string): Promise<NotificationModel[]> {
-    const response = await axios.get(`${URL_BE}/notification/by-vet`, {
-      params: { vetName }
-    })
-    return response.data.map(NotificationModel.fromJSON)
-  }
-
-  async getNotificationsByPetOwnerName(petOwnerName: string): Promise<NotificationModel[]> {
-    const response = await axios.get(`${URL_BE}/notification/by-owner`, {
-      params: { petOwnerName }
-    })
+  async getNotificationsByVetId(id: number): Promise<NotificationModel[]> {
+    console.log('Fetching notifications for vet ID:', id)
+    const response = await axios.get<NotificationResponseDTO[]>(
+      `${URL_BE}/vet/get-all-notifications`,
+      {
+        params: { idVet: id },
+      },
+    )
+    console.log('Vet ID notifications response:', response.data)
     return response.data.map(NotificationModel.fromJSON)
   }
 
-  async clearAll(): Promise<void> {
-    await axios.delete(`${URL_BE}/notification/clear-all`)
+  async getNotificationsByPetOwnerId(id: number): Promise<NotificationModel[]> {
+    console.log('Fetching notifications for pet owner ID:', id)
+
+    const response = await axios.get<NotificationResponseDTO[]>(
+      `${URL_BE}/pet-owner/get-all-notifications`,
+      {
+        params: { idPetOwner: id },
+      },
+    )
+
+    console.log('Response completa:', response)
+    console.log('Data que llega:', response.data)
+
+    return response.data.map(NotificationModel.fromJSON)
   }
+
 }

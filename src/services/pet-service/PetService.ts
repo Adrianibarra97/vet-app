@@ -21,11 +21,13 @@ export class PetService implements PetServiceInter {
 			const response = await axios.post(URL_BE + `/vet/get-all-pets-by-filter?idVet=${getUserID()}`, petFilter.toJSON())
 			const promise: PetJSON[] = response.data
 			return promise.map((petDTO: PetJSON) => Pet.fromJSON(petDTO))
-		} else {
+		}
+		if(AuthServiceManager.getIntance().isOwner()) {
 			const response = await axios.post(URL_BE + `/pet-owner/get-all-pets-by-filter?idPetOwner=${getUserID()}`, petFilter.toJSON())
 			const promise: PetJSON[] = response.data
 			return promise.map((petDTO: PetJSON) => Pet.fromJSON(petDTO))
 		}
+		throw console.error('Está intentando traer la petición con un id de usuario no válido.')
 	}
 
 	async getPetById(id: number): Promise<Pet> {

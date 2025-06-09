@@ -1,23 +1,17 @@
 
-import { Link, useNavigate } from 'react-router-dom'
-
-import './Header.css'
-import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
 import { useEffect, useState } from 'react'
-import { User } from '../../domain/User'
-import VetServiceManager from '../../services/vet-service/VetServiceManager'
-import PetOwnerServiceManager from '../../services/pet-owner-service/PetOwnerServiceManager'
-import { getUserID } from '../../services/auth-service/AuthService'
-// import { useUser } from '../../context/UserContext'
+import { Link, useNavigate } from 'react-router-dom'
+import { useUser } from '../../context/UserContext'
+import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
+import './Header.css'
 
 export const Header = () => {
 
-  // const { user } = useUser()
-
-  const [user, setUser] = useState<User | null>(null)
-  const[openMenu, setOpenMenu] = useState(false)
+  const { user } = useUser()
   const navigate = useNavigate()
-
+  const [openMenu, setOpenMenu] = useState(false)
+  const [interUser, setInterUser] = useState(user)
+  
   const logoutApp = () => {
     AuthServiceManager.getIntance().logout()
 		navigate('/auth/login')
@@ -28,26 +22,18 @@ export const Header = () => {
   }
 
   useEffect(() => {
-    const fetchProfileData = async () => {
-      const fetchedUser: User = AuthServiceManager.getIntance().isVet()
-        ? await VetServiceManager.getInstance().getOneById(getUserID())
-        : await PetOwnerServiceManager.getInstance().getOneById(getUserID())
-      setUser(fetchedUser)
-    }
-
-    fetchProfileData()
-  }, [])
+    setInterUser(user)
+  }, [user])
 
   return (
     <header className="header">
       <figure className="logo">
-        <i className="fa-solid fa-paw logo__image"></i>
-        <label className="logo__label">VetApp</label>
+        <img className="logo__image" src="../../src/assets/logo-vet-app-horinzotal-2.png" />
       </figure>
       <figure className="button__content--menu" onClick={ () => setOpenMenu(true) }>
         {
-          AuthServiceManager.getIntance().isAuthorized()
-          ? <img className="user__image" src={ user?.photo }/>
+          AuthServiceManager.getIntance().isAuthorized() && interUser?.photo
+          ? <img className="user__image" src={ interUser?.photo }/>
           : <i className="fa-solid fa-circle-user header__button--menu"></i>
         }
       </figure>

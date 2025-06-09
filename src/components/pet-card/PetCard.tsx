@@ -52,6 +52,7 @@ export const PetCard = (propPet: PropPetCard) => {
         </div>
         <div className="card__item card__item--button">
           <button
+            data-testid="update"
             className={ "fa-solid fa-pen " + buttonsClassStyle() }
             onClick={ () => propPet.startUpdate(propPet.pet.id) }
           ></button>

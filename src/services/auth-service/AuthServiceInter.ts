@@ -1,19 +1,23 @@
 import { AuthCredentialsLoginDTO, AuthCredentialsResponseDTO } from '../../domain/User'
-import { PETOWNER_TYPE, USER_ID_TOKEN, USER_TYPE_TOKEN, VET_TYPE } from '../config'
+import { PETOWNER_TYPE, USER_TYPE_TOKEN, VET_TYPE } from '../config'
+import { getUserID } from './AuthService'
 export abstract class AuthServiceInter {
-
-	public userType: string = ''
 	
 	login(authCredentialsLoginDTO: AuthCredentialsLoginDTO): void {
 		console.log(authCredentialsLoginDTO)
+	}
+
+	addSystemUser(systemUser: [AuthCredentialsLoginDTO, AuthCredentialsResponseDTO]) {
+		console.log(systemUser)
 	}
 
 	logout(): void {
 		localStorage.clear()
 	}
 
-	isAuthorized(): boolean {
-		return localStorage.getItem(USER_ID_TOKEN) !== null
+	isAuthorized() {
+		const userId: number = getUserID()
+		return  userId !== -1
 	}
 
 	isVet(): boolean {
@@ -31,14 +35,14 @@ export abstract class AuthServiceInter {
 		return { authCredentialsID: -1, typeOfUser: '' }
 	}
 
-	existUser(authCredentialsLoginDTO: AuthCredentialsLoginDTO): boolean {
+	async existUser(authCredentialsLoginDTO: AuthCredentialsLoginDTO): Promise<boolean> {
 		console.log(authCredentialsLoginDTO)
 		return false
 	}
 
 	async validCode(code: string): Promise<boolean> {
-		console.log(code)
-		return false
+		const validCode: string | null = localStorage.getItem('valid__code')
+		return code === validCode
 	}
 
 	validNewPassword(password: string, confirmPassword: string): boolean {

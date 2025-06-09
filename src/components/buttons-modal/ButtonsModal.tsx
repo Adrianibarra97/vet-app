@@ -12,6 +12,7 @@ export const ButtonsModal = (buttonsProp: ButtonsModalProps) => {
   return (
     <Box sx={ buttonContainer }>
       <Button
+        data-testid="cancel"
         variant="contained" sx={ BkgButton }
         onClick={ (e) => buttonsProp.cancel(e) }
       >{ buttonsProp.cancelLabel }</Button>
