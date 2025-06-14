@@ -5,6 +5,7 @@ import { Pet } from '../../domain/Pet'
 import './PetCard.css'
 import { useNavigate } from 'react-router-dom'
 import AuthServiceManager from '../../services/auth-service/AuthServiceManager'
+import { SnackbarUtilities } from '../../util/snackbar/SnackbarManager'
 
 interface PropPetCard {
   pet: Pet
@@ -21,6 +22,7 @@ export const PetCard = (propPet: PropPetCard) => {
     PetServiceManager.getIntance().delete(propPet.pet.id)
     propPet.handleDelete(propPet.pet.id)
     setOpenConfirm(false)
+    SnackbarUtilities.succes('Se elimminó la mascota con éxito')
   }
 
   const goToPetDetail = () => {
