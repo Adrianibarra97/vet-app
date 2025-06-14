@@ -22,6 +22,7 @@ const filterValues = new Filter(
 export const MedicalShiftPage = () => {
 
   const { refreshUser } = useUser()
+  const [loading, setLoading] = useState(false)
   const [medicalShifts, setMedicalShifts] = useState(new Array<MedicalShift>())
   const [filter, setFilter] = useState<FilterTurn>(
     new FilterTurn('', false, false),
@@ -38,6 +39,7 @@ export const MedicalShiftPage = () => {
   }
 
   const handleMedicalShiftCancel = async (idMedicalShift: number) => {
+    setLoading(true)
     await MedicalShiftServiceManager.getInstance().cancelMedicalShift(
       idMedicalShift,
     )
@@ -46,12 +48,14 @@ export const MedicalShiftPage = () => {
     setMedicalShifts(shifts)
     SnackbarUtilities.succes(`Se cancelo con exito el medical shift.`)
     await refreshUser()
+    setLoading(false)
   }
 
   const handleEditOrCreateMedicalShift = async (
     medicalShift: MedicalShift,
     idMedicalShift: number,
   ) => {
+    setLoading(true)
     if (idMedicalShift > -1) {
       medicalShift.id = idMedicalShift
       await MedicalShiftServiceManager.getInstance().editExistMedicalShift(
@@ -71,6 +75,7 @@ export const MedicalShiftPage = () => {
       )
     }
     await refreshUser()
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -89,6 +94,7 @@ export const MedicalShiftPage = () => {
         </div>
         <div className="main__content--data">
           <MedicalShiftGrid
+            loading={ loading }
             medicalShifts={medicalShifts}
             onClickCancel={handleMedicalShiftCancel}
             onEditOrCreateMedicalShift={handleEditOrCreateMedicalShift}

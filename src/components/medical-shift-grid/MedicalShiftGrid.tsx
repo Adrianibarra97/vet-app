@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MedicalShift } from "../../domain/MedicalShift"
 import { ErrorMessage } from "../error-message/ErrorMessage"
 import MedicalShiftCard from "../medical-shift-card/MedicalShiftCard"
@@ -6,14 +6,18 @@ import { MedicalShiftModal } from "../medical-shift-modal/MedicalShiftModal"
 
 import './MedicalShiftGrid.css'
 import AuthServiceManager from "../../services/auth-service/AuthServiceManager"
+import { Box, CircularProgress } from "@mui/material"
 
 interface PropMedicalShifts {
+  loading: boolean
   medicalShifts: Array<MedicalShift>
   onClickCancel: (idMedicalShift: number) => void
   onEditOrCreateMedicalShift:(medicalShift: MedicalShift, idMedicalShift: number) => void
 }
   
 export const MedicalShiftGrid = (propMedicalShifts: PropMedicalShifts) => {
+
+  const [internLoading, setInternLoading] = useState(false)
   const [modalCreateMedicalShiftOpen,setModalCreateMedicalShiftOpen]= useState(false)
 
   const showNewMedicalShiftButton = () => {
@@ -26,27 +30,44 @@ export const MedicalShiftGrid = (propMedicalShifts: PropMedicalShifts) => {
     propMedicalShifts.onEditOrCreateMedicalShift(medicalShift, idMedicalShift)
   }
 
+  useEffect(() => {
+    setInternLoading(propMedicalShifts.loading)
+  }, [propMedicalShifts.loading])
+
   return (
-    <div id="content" className='content'>
-      <div className={showNewMedicalShiftButton()}
-        onClick={()=>setModalCreateMedicalShiftOpen(true)}>
-        <h3 className="content__items--add">+ Nueva Consulta</h3>
-      </div>
+    <>
       {
-        propMedicalShifts.medicalShifts.length > 0 ?
-          propMedicalShifts.medicalShifts.map((medicalShift: MedicalShift) => {
-            return (<MedicalShiftCard key={ medicalShift.id.toString() } 
-              medicalShift={ medicalShift } onClickCancel={ propMedicalShifts.onClickCancel}
-              onClickEdit={propMedicalShifts.onEditOrCreateMedicalShift}/>)
-            })
-        : <ErrorMessage errorMessage="No hay información para mostrar!" />
+        internLoading 
+        ?
+          <Box className='content loading'>
+            <CircularProgress 
+              sx={ { color: 'var(--footer-color)' } }
+              size={ 100 }
+            />
+          </Box>
+        :
+          <div id="content" className='content'>
+            <div className={showNewMedicalShiftButton()}
+              onClick={()=>setModalCreateMedicalShiftOpen(true)}>
+              <h3 className="content__items--add">+ Nueva Consulta</h3>
+            </div>
+            {
+              propMedicalShifts.medicalShifts.length > 0 ?
+                propMedicalShifts.medicalShifts.map((medicalShift: MedicalShift) => {
+                  return (<MedicalShiftCard key={ medicalShift.id.toString() } 
+                    medicalShift={ medicalShift } onClickCancel={ propMedicalShifts.onClickCancel}
+                    onClickEdit={propMedicalShifts.onEditOrCreateMedicalShift}/>)
+                  })
+              : <ErrorMessage errorMessage="No hay información para mostrar!" />
+            }
+            <MedicalShiftModal
+              open={modalCreateMedicalShiftOpen}
+              onClose={() => setModalCreateMedicalShiftOpen(false)}
+              onConfirm={handleOnCreate}
+              idMedicalShift={ -1 }
+            />
+          </div>
       }
-      <MedicalShiftModal
-        open={modalCreateMedicalShiftOpen}
-        onClose={() => setModalCreateMedicalShiftOpen(false)}
-        onConfirm={handleOnCreate}
-        idMedicalShift={ -1 }
-      />
-    </div>
+    </>
   )
 }  
